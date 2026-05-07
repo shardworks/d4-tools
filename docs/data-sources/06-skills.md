@@ -1,12 +1,12 @@
 # 06 — Skill Data
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers sources for D4 skill data: skill definitions, ranks, upgrades (Enhanced /
 Ultimate / etc.), damage coefficients, resource costs, cooldowns, scaling tags, and passive nodes.
-All ten classes are in scope, including Season 13's Paladin and Warlock.
+All eight classes are in scope, including Season 13's Paladin and Warlock.
 
 ---
 
@@ -30,12 +30,12 @@ Skill data is stored as **Power** definitions in the game files (internal name `
 The primary source for skill data. All skills are stored as Power definitions.
 
 - URL: `https://github.com/DiabloTools/d4data`
-- Data browser: `https://blizzhackers.dev`
+- Data browser: `https://blizzhackers.dev` (timed out at access date — see Open Items)
 - Accessed: 2026-05-07
-- Patch: Season 13 / 3.0.1c (verify last-commit date; Paladin/Warlock data was extracted
-  ahead of the April 2026 launch)
+- Patch: Season 13 (patch number unconfirmed; verify last-commit date; Paladin/Warlock data was
+  reportedly extracted ahead of the Lord of Hatred expansion launch)
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; repo confirmed live at access date)
 
 **CASC path:**
 
@@ -80,7 +80,7 @@ Skill display text and upgrade descriptions are in the `StringList` / `enUS_Text
 - URL: `https://github.com/DiabloTools/d4data` (same repo, `enUS_Text/` path)
 - Accessed: 2026-05-07
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (repo confirmed live at access date)
 
 Display strings for skill descriptions contain the same `{VALUE:1}` interpolation tokens as
 affix strings (see `03-affixes.md §3`). Skill descriptions also use rank-specific value ranges:
@@ -98,9 +98,9 @@ skill tree configurations, skill rankings, and notation of which upgrades are ch
 
 - URL: `https://maxroll.gg/d4`
 - Accessed: 2026-05-07
-- Patch: Season 13 / May 6, 2026 (Hotfix 6 coverage)
+- Patch: Season 13 (Maxroll coverage dated May 6, 2026 confirmed)
 - provenance: `theorycraft`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200 confirmed at access date)
 
 Maxroll's planner at `https://maxroll.gg/d4/planner/` allows encoding a full skill tree in a
 shareable URL. The URL encodes skill selections as query parameters; the schema can be inferred
@@ -119,7 +119,7 @@ skill priority tiers in the S13 Cheat Sheet.
 - Accessed: 2026-05-07
 - Patch: Season 13 (confirmed current)
 - provenance: `theorycraft, planner`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; S13 content confirmed at access date)
 
 **ToS:** D4Builds.gg ToS prohibit scraping. Read-only reference.
 
@@ -132,9 +132,9 @@ Paladin and Warlock.
 
 - URL: `https://mobalytics.gg/diablo-4/mekuna`
 - Accessed: 2026-05-07
-- Patch: Season 13 (May 7, 2026 updates confirmed)
+- Patch: Season 13 (builds dated May 1–6, 2026 confirmed present at access date)
 - provenance: `theorycraft`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; Season 13 builds and Warlock content confirmed at access date)
 
 **ToS:** Mobalytics ToS. Read-only reference.
 
@@ -146,7 +146,7 @@ Paladin and Warlock.
 - Accessed: 2026-05-07
 - Patch: Season 13
 - provenance: `wiki`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; "Diablo 4 Best Builds, Guides, and News - Icy Veins" confirmed at access date)
 
 **ToS:** Read-only reference.
 
@@ -169,23 +169,25 @@ definition.
 
 ## 5. Season 13 New Classes — Paladin and Warlock
 
-Lord of Hatred (Season 13, April 2026) introduced two new classes:
+Lord of Hatred (Season 13, late April 2026 — exact launch date unconfirmed) introduced two new
+classes. Their presence in Season 13 content is confirmed by live planner sites; class-specific
+details below are from community references and have not been verified against the datamine.
 
 **Paladin:**
-- Resource system: Faith (verify name)
+- Resource system: Faith ⚠️ `unverified name — confirm in DiabloTools/d4data Power/ path`
 - Skill tree: includes Shield skills, Holy damage, Aura passives (based on community references
   and Icy Veins launch guides)
-- datamine status: Paladin data was extracted ahead of the expansion launch
+- datamine status: unconfirmed; reportedly extracted ahead of the expansion launch
 - verification: `unverified — confirm in DiabloTools/d4data Power/ path`
 
 **Warlock:**
-- Resource system: Corruption (verify name)
+- Resource system: Corruption ⚠️ `unverified name — confirm in DiabloTools/d4data Power/ path`
 - Skill tree: Curses, Shadow/Chaos damage (based on Mekuna's Season 13 Warlock guide on
   Mobalytics and Icy Veins launch coverage)
-- datamine status: Warlock data was extracted ahead of the expansion launch
+- datamine status: unconfirmed; reportedly extracted ahead of the expansion launch
 - verification: `unverified — confirm in DiabloTools/d4data Power/ path`
 
-- provenance: `datamined` (for raw definitions); `theorycraft` (for resource system names)
+- provenance: `datamined` (for raw definitions); `theorycraft` (for resource system names and skill tree details)
 - Sources:
   - Mekuna Warlock guide: `https://mobalytics.gg/diablo-4/mekuna`
   - Icy Veins D4: `https://www.icy-veins.com/d4`

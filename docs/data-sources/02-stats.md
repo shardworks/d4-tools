@@ -1,7 +1,7 @@
 # 02 — Game Stats Catalog
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers sources for the D4 game-stats catalog: primary and secondary stat definitions,
@@ -133,7 +133,7 @@ attribute definitions in `DiabloTools/d4data`.
 - Source: `DiabloTools/d4data`
   - URL: `https://github.com/DiabloTools/d4data`
   - Accessed: 2026-05-07
-  - verification: `verified working`
+  - verification: `verified working` (repo confirmed live at access date)
 
 ---
 
@@ -165,9 +165,9 @@ d4data/extracted/base/meta/
 
 - URL: `https://github.com/DiabloTools/d4data`
 - Accessed: 2026-05-07
-- Patch: Season 13 (verify last-commit date)
+- Patch: Season 13 (verify last-commit date for current patch coverage)
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; repo confirmed live with 33 stars, 863+ commits at access date)
 
 **ToS:** See `08-datamine-extracts.md §2.1`.
 
@@ -180,16 +180,16 @@ Maxroll.gg hosts authoritative mechanic explanations that describe how stats int
 - **In-Depth Damage Guide** — covers how all damage stats combine:
   `https://maxroll.gg/d4/resources/in-depth-damage-guide`
   - Accessed: 2026-05-07
-  - Patch: last updated June 29, 2025 (Season 9); not yet updated for Season 13
+  - Patch: last updated June 29, 2025 (Season 9); not yet updated for Season 13 (confirmed from page)
   - provenance: `theorycraft`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200; page title "In-Depth Damage Guide in Diablo 4 - Maxroll.gg D4" confirmed at access date)
 
 - **Attack Speed Mechanics** — attack-speed stat, breakpoints, frame data:
   `https://maxroll.gg/d4/resources/attack-speed-mechanics`
   - Accessed: 2026-05-07
-  - Patch: last updated January 7, 2026 (Season 11); not yet updated for Season 13
+  - Patch: last updated January 7, 2026 (Season 11); not yet updated for Season 13 (confirmed from page)
   - provenance: `theorycraft`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200; page title "Attack Speed Mechanics in Diablo 4 - Maxroll.gg D4" confirmed at access date)
 
 **ToS (Maxroll):** Maxroll ToS prohibit scraping. Read these as reference; do not automate
 fetching of their guide content.

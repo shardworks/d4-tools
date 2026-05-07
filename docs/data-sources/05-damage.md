@@ -1,7 +1,7 @@
 # 05 — Damage / DPS Formula
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers sources for D4's damage formula and the multiplicative damage-bucket model.
@@ -45,8 +45,8 @@ and how they interact.
 - Accessed: 2026-05-07
 - Patch: last updated **June 29, 2025 (Season 9)** — not yet updated for Season 13
 - provenance: `theorycraft`
-- verification: `verified working`
-- Authors: Avarilyn, reviewed by Northwar (Maxroll.gg contributor credits)
+- verification: `verified working` (HTTP 200; page title "In-Depth Damage Guide in Diablo 4 - Maxroll.gg D4", last-updated date June 29, 2025 confirmed at access date)
+- Authors: Avarilyn (written), Icytroll (maintained), Northwar (reviewed) — confirmed from page credits
 
 **Key claims (as of Season 9; verify for Season 13):**
 - Damage buckets are multiplicative with each other; stats within a bucket add together
@@ -68,8 +68,8 @@ actual Attacks per Second values per class.
 - Accessed: 2026-05-07
 - Patch: last updated **January 7, 2026 (Season 11)** — not yet updated for Season 13 / Paladin / Warlock
 - provenance: `theorycraft`
-- verification: `verified working`
-- Authors: Avarilyn, reviewed by Northwar
+- verification: `verified working` (HTTP 200; page title "Attack Speed Mechanics in Diablo 4 - Maxroll.gg D4", last-updated January 7, 2026 confirmed at access date)
+- Authors: Avarilyn (written), Icytroll (maintained), Northwar (reviewed) — confirmed from page credits
 
 **Key claims (as of Season 11):**
 - D4 uses frame-based animation; attack speed stat increases frames-per-animation
@@ -89,7 +89,7 @@ advice including damage-priority rankings.
 - Accessed: 2026-05-07
 - Patch: Season 13 (confirmed current)
 - provenance: `theorycraft`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; page title "Rob2628's Diablo 4 S13 Cheat Sheet · D4 Builds" confirmed at access date)
 
 The cheat sheet summarizes which damage buckets matter most for each class and build archetype.
 It is practically oriented (which affixes to prioritize) rather than mechanically exhaustive.
@@ -105,9 +105,9 @@ Season 13 content includes Warlock and Sorcerer guides.
 
 - URL: `https://mobalytics.gg/diablo-4/mekuna`
 - Accessed: 2026-05-07
-- Patch: Season 13 (May 7, 2026 updates confirmed)
+- Patch: Season 13 (builds dated May 1–6, 2026 confirmed present at access date)
 - provenance: `theorycraft`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; Season 13 builds and Warlock content confirmed at access date)
 
 Mekuna is described as "World Top Sorcerer" and provides damage priority rankings in build guides.
 No standalone spreadsheet or formula document was found — damage analysis is embedded in build
@@ -147,8 +147,7 @@ Some community members report the baseline Vulnerable multiplier was adjusted in
 post-Vessel of Hatred. The exact current value should be confirmed from Season 13 patch notes
 or current theorycraft.
 
-⚠️ community-disputed — verify from Season 13 patch notes at
-`https://diablo4.blizzard.com/en-us/news/patch-notes` or current theorycraft.
+⚠️ community-disputed — verify from Season 13 patch notes (note: `https://diablo4.blizzard.com/en-us/news/patch-notes` returned HTTP 404 at access date; locate working URL — see Open Items) or current theorycraft.
 
 ---
 
@@ -173,9 +172,9 @@ theorycraft to verify bucket assignments.
 
 - URL: `https://github.com/DiabloTools/d4data`
 - Accessed: 2026-05-07
-- Patch: Season 13 (verify last-commit date)
+- Patch: Season 13 (patch number unconfirmed; verify last-commit date)
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; repo confirmed live at access date)
 
 Relevant data paths:
 ```
@@ -200,7 +199,7 @@ Blizzard does not publish the internal damage formula. The closest official sour
   modifiers, Vulnerable, and Overpower are called out in patch notes when adjusted
   - Accessed: 2026-05-07
   - provenance: `official`
-  - verification: `verified working` (site accessible)
+  - verification: `broken / stale` (HTTP 404 at access date; URL does not resolve — see Open Items for alternative)
 - In-game tooltip text — affixes say "×" or "+" but the bucket categorization is not disclosed
 
 **ToS:** Official Blizzard site; personal reference use is unrestricted.
@@ -209,7 +208,11 @@ Blizzard does not publish the internal damage formula. The closest official sour
 
 ## Open Items
 
-- Verify current Vulnerable Damage baseline multiplier for Season 13 / patch 3.0.1c — the Season 9
+- Find the working Blizzard patch notes URL — `https://diablo4.blizzard.com/en-us/news/patch-notes`
+  returned HTTP 404 at access date. Locate the current patch-notes path on the Blizzard site.
+- Determine the current Season 13 patch version string (e.g. `3.x.x`) from the game client or
+  community Discord; needed to anchor the version stamp.
+- Verify current Vulnerable Damage baseline multiplier for Season 13 — the Season 9
   value (×1.20) may have been adjusted.
 - Determine whether the Season 13 damage guide from Maxroll or Mobalytics has been published
   (both the In-Depth Damage Guide and Attack Speed guide predate Season 13).
@@ -219,5 +222,6 @@ Blizzard does not publish the internal damage formula. The closest official sour
   (no standalone document found during research; may be embedded in build guides).
 - Confirm Overpower formula for Season 13 — any patch notes changes after Season 9?
 - Determine damage formula changes for Paladin and Warlock classes (Season 13 new classes);
-  their resource systems (Faith, Corruption?) may introduce new bucket types.
+  their resource system names (community references suggest "Faith" and "Corruption" respectively —
+  unverified; confirm in DiabloTools/d4data) may introduce new bucket types.
 - Check whether a `DamageFormula/` path exists in `DiabloTools/d4data`.

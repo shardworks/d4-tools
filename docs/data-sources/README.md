@@ -1,7 +1,7 @@
 # Data Sources — D4 Build Tools
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This directory catalogs all data sources that future implementers will use to power the D4 build
@@ -149,10 +149,13 @@ per gap. Do not silently omit a lead because it wasn't verified; put it in Open 
 
 ## Open Items
 
-- Current patch number and season number for the version stamp — needs confirmation against live
-  patch notes at `https://diablo4.blizzard.com/en-us/news/patch-notes`.
+- **Patch number for the version stamp** — season name (Season of Reckoning) and season number
+  (13) are confirmed from live planner sites and Blizzard marketing. The specific patch version
+  string (e.g. `3.0.1c`) has not been verified; the patch notes URL
+  `https://diablo4.blizzard.com/en-us/news/patch-notes` returned HTTP 404 at access date.
+  Obtain the current patch string from the game client or community Discord.
 - Whether Blizzard has published a `data.diablo4` namespace in the Game Data API — not confirmed.
-- Whether any datamine repo is actively tracking the post-Season-8 patch cycle — repo freshness
+- Whether any datamine repo is actively tracking the current Season 13 patch cycle — repo freshness
   to be verified per `08-datamine-extracts.md`.
 - Additional theorycraft authorities beyond Wudijo / Mekuna / RobBic / Northwar — needs community
   survey.

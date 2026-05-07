@@ -1,7 +1,7 @@
 # 09 — Visual Assets
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document catalogs sources for all game-asset imagery required by the D4 build tool's visual
@@ -59,7 +59,7 @@ may not be exact:
 - Maxroll.gg site CSS — inspect computed styles on item cards for the CSS color values they use
   - URL: `https://maxroll.gg/d4`
   - provenance: `planner`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200 confirmed at access date)
 
 **ToS:** Screenshot sampling is unambiguously personal use. CASC extraction carries the ToS caveats
 described in `08-datamine-extracts.md §1.1`. Maxroll CSS inspection is reading publicly served CSS;
@@ -122,7 +122,7 @@ path.
 
 ## 4. Class Icons
 
-Ten playable classes in Season 13 / Lord of Hatred era:
+Eight playable classes in Season 13 / Lord of Hatred era (confirmed from live planner sites):
 
 | Class | Notes |
 |-------|-------|
@@ -132,8 +132,8 @@ Ten playable classes in Season 13 / Lord of Hatred era:
 | Rogue | Base game |
 | Sorcerer | Base game |
 | Spiritborn | Vessel of Hatred expansion class (Oct 2024) |
-| Paladin | Lord of Hatred expansion class (Apr 2026); verify icon availability |
-| Warlock | Lord of Hatred expansion class (Apr 2026); verify icon availability |
+| Paladin | Lord of Hatred expansion class (late April 2026); verify icon availability |
+| Warlock | Lord of Hatred expansion class (late April 2026); verify icon availability |
 
 Class-icon assets are stored in the CASC archives under `Textures/UI/CharacterSelect/` or similar.
 Exact paths require CascExplorer inspection.
@@ -211,7 +211,7 @@ These are usable for development/prototyping by inspecting image URLs.
 - Accessed: 2026-05-07
 - Patch: wiki pages note update dates; freshness varies per article
 - provenance: `wiki`
-- verification: `verified working`
+- verification: `unverified — see Open Items` (root domain returned HTTP 401 at access date; specific wiki sub-paths may still load — not individually verified)
 
 **Representative example — skill icon URL pattern (observed):**
 ```
@@ -232,7 +232,7 @@ are observable via browser devtools network tab.
 - URL: `https://d4builds.gg`
 - Accessed: 2026-05-07
 - provenance: `planner`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; S13 content confirmed at access date)
 
 **ToS:** D4Builds.gg Terms of Service prohibit scraping. Network inspection for personal reference
 is not scraping, but automated fetching of their asset CDN is outside their ToS.

@@ -1,7 +1,7 @@
 # 07 — Breakpoints / Diminishing Returns
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers sources for D4's breakpoint mechanics — the discrete jump points in
@@ -36,10 +36,10 @@ frame tables.
 - URL: `https://maxroll.gg/d4/resources/attack-speed-mechanics`
 - Accessed: 2026-05-07
 - Patch: last updated **January 7, 2026 (Season 11)** — **not yet updated for Season 13 /
-  Paladin / Warlock** (two new classes added April 2026)
+  Paladin / Warlock** (two new classes added late April 2026; exact launch date unconfirmed)
 - provenance: `theorycraft`
-- verification: `verified working`
-- Authors: Avarilyn, reviewed by Northwar
+- verification: `verified working` (HTTP 200; page title "Attack Speed Mechanics in Diablo 4 - Maxroll.gg D4", last-updated January 7, 2026 confirmed at access date)
+- Authors: Avarilyn (written), Icytroll (maintained), Northwar (reviewed) — confirmed from page credits
 
 **Key claims (as of Season 11; verify for Season 13):**
 
@@ -94,23 +94,24 @@ This is a hyperbolic curve: 50% raw CDR → 33% effective CDR; 100% raw CDR → 
 The diminishing-returns formula was adjusted at some point post-VoH; the hyperbolic curve may
 have parameters different from the above.
 
-⚠️ community-disputed — verify the current CDR formula from Season 13 patch notes at
-`https://diablo4.blizzard.com/en-us/news/patch-notes` or Season 13 theorycraft.
+⚠️ community-disputed — verify the current CDR formula from Season 13 patch notes (note:
+`https://diablo4.blizzard.com/en-us/news/patch-notes` returned HTTP 404 at access date; see
+Open Items for finding the working URL) or current Season 13 theorycraft.
 
 **Sources:**
 - Maxroll In-Depth Damage Guide (§2.1 of `05-damage.md`): covers CDR interaction with damage
   formulas as of Season 9
   - URL: `https://maxroll.gg/d4/resources/in-depth-damage-guide`
   - Accessed: 2026-05-07
-  - Patch: Season 9 (June 29, 2025)
+  - Patch: Season 9 (last updated June 29, 2025 — confirmed from page)
   - provenance: `theorycraft`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200; page title and date confirmed at access date)
 
 **ToS:** Read-only reference. Maxroll ToS prohibit scraping.
 
 - Blizzard patch notes: `https://diablo4.blizzard.com/en-us/news/patch-notes`
   - provenance: `official`
-  - verification: `verified working`
+  - verification: `broken / stale` (HTTP 404 at access date — see Open Items for finding working URL)
 
 **ToS (Blizzard patch notes):** Official Blizzard content; personal reference use is unrestricted.
 
@@ -199,6 +200,9 @@ exceed 70% via resistance-cap-increasing affixes in endgame content.
 
 ## Open Items
 
+- Find the working Blizzard patch notes URL — `https://diablo4.blizzard.com/en-us/news/patch-notes`
+  returned HTTP 404 at access date. Locate the current patch-notes path on the Blizzard site to
+  verify CDR and other DR formula changes for Season 13.
 - Obtain Season 13 / Paladin / Warlock attack-speed breakpoint tables — the Maxroll article
   predates their release (last updated Season 11). Check for an updated article or community
   posts on r/Diablo4Builds.

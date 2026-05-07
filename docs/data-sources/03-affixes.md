@@ -1,7 +1,7 @@
 # 03 — Affix Data
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers sources for item affix data: definitions, ID catalogs, slot pools, value
@@ -40,11 +40,11 @@ Affixes have:
 The authoritative source for affix IDs and definitions.
 
 - URL: `https://github.com/DiabloTools/d4data`
-- Data browser: `https://blizzhackers.dev`
+- Data browser: `https://blizzhackers.dev` (timed out at access date — see Open Items)
 - Accessed: 2026-05-07
-- Patch: Season 13 / 3.0.1c (verify last-commit date)
+- Patch: Season 13 (patch number unconfirmed; verify last-commit date)
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; repo confirmed live at access date)
 
 **CASC path (observed):**
 
@@ -89,7 +89,7 @@ Affix display strings are in the `StringList` / `enUS_Text` exports.
 - URL: `https://github.com/DiabloTools/d4data` (same repo, `enUS_Text/` path)
 - Accessed: 2026-05-07
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (repo confirmed live at access date)
 
 **Observed shape:**
 
@@ -118,7 +118,7 @@ Produces `affix_map.json` — a processed, more human-readable affix catalog scr
 - Accessed: 2026-05-07
 - Patch: Season 13 coverage unknown (verify commit history)
 - provenance: `planner` (scrapes Maxroll, which consumes datamine data)
-- verification: `verified working` (GitHub repo is live)
+- verification: `verified working` (HTTP 200; repo confirmed live with ~7 stars, 90 commits at access date; Season 13 coverage unconfirmed)
 
 **Observed shape of `affix_map.json` (community-referenced, not canonical):**
 
@@ -147,9 +147,9 @@ Maxroll provides an affix browser at `https://maxroll.gg/d4/affixes` (path may v
 
 - URL: `https://maxroll.gg/d4`
 - Accessed: 2026-05-07
-- Patch: Season 13 / May 6, 2026 (Hotfix 6 coverage)
+- Patch: Season 13 (Maxroll coverage dated May 6, 2026 confirmed)
 - provenance: `planner`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200 confirmed at access date; exact affix-browser sub-path unverified — see Open Items)
 
 Human-readable; not a queryable API. Content is rendered HTML; affix tables can be read for
 reference and spot-checking against the datamine data.

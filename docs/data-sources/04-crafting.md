@@ -1,12 +1,14 @@
 # 04 — Crafting Systems
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / 3.0.1c / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
 ```
 
 This document covers data sources for D4's crafting systems. Crafting mechanics modify or enhance
-items and are central to build optimization. Season 13 / Lord of Hatred adds the Horadric Cube
-(v2) as a new crafting surface alongside the pre-existing systems.
+items and are central to build optimization. Season 13 / Lord of Hatred reintroduces the
+Horadric Cube as a new crafting surface alongside the pre-existing systems. ("v2" is informal
+community framing — confirmed present by Icy Veins and Blizzard marketing; official internal
+name may differ; verify in datamine data.)
 
 ---
 
@@ -19,7 +21,7 @@ The following crafting systems are present in Season 13 / Lord of Hatred:
 | Enchanting | Base game | Re-rolls one explicit affix on a Rare/Legendary/Unique |
 | Tempering | Vessel of Hatred | Adds a tempered affix from a Temper Manual |
 | Masterworking | Vessel of Hatred | Upgrades item power (5/10/15/20/25 tiers; rank 4/8/12 add a bonus to one affix) |
-| Horadric Crafting | Lord of Hatred (v2) | New expansion system; details below |
+| Horadric Crafting | Lord of Hatred | Horadric Cube reintroduced; confirmed via Icy Veins/Blizzard; details below |
 | Rune Socketing | Vessel of Hatred | Inserts Condition and Effect runes into sockets for triggered effects |
 | Sigil Crafting | Base game | Crafts Nightmare Dungeon Sigils from materials |
 | Codex of Power | Base game (Vessel of Hatred overhaul) | Aspect upgrades; not item modification per se |
@@ -36,9 +38,9 @@ All crafting recipe data is in the `DiabloTools/d4data` extracted files.
 
 - URL: `https://github.com/DiabloTools/d4data`
 - Accessed: 2026-05-07
-- Patch: Season 13 / 3.0.1c (verify last-commit date)
+- Patch: Season 13 (patch number unconfirmed; verify last-commit date)
 - provenance: `datamined`
-- verification: `verified working`
+- verification: `verified working` (HTTP 200; repo confirmed live at access date)
 
 **CASC paths (observed from community references):**
 
@@ -92,11 +94,11 @@ is the Occultist.
 - Icy Veins crafting guides: `https://www.icy-veins.com/d4` (Season 13 content confirmed)
   - Accessed: 2026-05-07
   - provenance: `wiki`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200; "Diablo 4 Best Builds, Guides, and News - Icy Veins" confirmed at access date; Horadric Cube and Season 13 content present)
 - Maxroll enchanting guide: `https://maxroll.gg/d4/resources/` (Season 13 coverage; exact path varies)
   - Accessed: 2026-05-07
   - provenance: `theorycraft`
-  - verification: `verified working` (main hub accessible; enchanting sub-page URL not confirmed)
+  - verification: `verified working` (HTTP 200 for main hub; enchanting sub-page URL unverified — see Open Items)
 
 **ToS:** Guide sites are read-only references; no ToS concerns for personal reference.
 
@@ -145,7 +147,7 @@ and 12, one affix receives an additional bonus. Tier 12 is called "Tempering Gra
 **Sources:**
 - `DiabloTools/d4data` (primary)
   - provenance: `datamined`
-  - verification: `verified working`
+  - verification: `verified working` (repo confirmed live at access date)
 - Maxroll masterworking guide: `https://maxroll.gg/d4/resources/masterworking-guide`
   - provenance: `theorycraft`
   - verification: `unverified — see Open Items`
@@ -170,7 +172,7 @@ of Season 13 launch:
 - Icy Veins Horadric Cube guide: `https://www.icy-veins.com/d4` (Season 13 content)
   - Accessed: 2026-05-07
   - provenance: `wiki`
-  - verification: `verified working`
+  - verification: `verified working` (HTTP 200; Horadric Cube and Season 13 content confirmed at access date)
 - `DiabloTools/d4data` — Horadric recipe path is unconfirmed; may use existing `Recipe/` path
   or a new category. Verify in repo.
   - provenance: `datamined`
