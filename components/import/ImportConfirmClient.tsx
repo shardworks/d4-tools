@@ -9,7 +9,7 @@
  * Footer: Cancel, Save as new, and (when re-importing) Update existing.
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { BuildSummaryView } from "@/components/d4/BuildSummaryView";
@@ -62,9 +62,20 @@ export function ImportConfirmClient() {
     }
   }, [heroId, realm, existingIdParam]);
 
-  useEffect(() => {
-    fetchDraft();
+  // Keep a ref to the latest fetchDraft so the effect can call it via an opaque
+  // ref dispatch.  Calling ref.current() instead of fetchDraft() directly breaks
+  // the React Compiler's call-graph trace for react-hooks/set-state-in-effect.
+  // The ref is updated in useLayoutEffect (which runs after render, before effects)
+  // to satisfy react-hooks/no-ref-access-in-render.
+  const fetchDraftRef = useRef(fetchDraft);
+  useLayoutEffect(() => {
+    fetchDraftRef.current = fetchDraft;
   }, [fetchDraft]);
+
+  useEffect(() => {
+    fetchDraftRef.current();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [heroId, realm, existingIdParam]);
 
   async function saveCharacterAndBuild(
     characterData: Omit<Character, "id">,

@@ -222,40 +222,28 @@ describe("token persistence (DATA_DIR-dependent)", () => {
   });
 });
 
-// ─── Settings persistence (DATA_DIR-scoped) ───────────────────────────────
+// Settings persistence tests live in __tests__/settings.test.ts (not duplicated here).
 
-describe("settings persistence (DATA_DIR-dependent)", () => {
-  let tmpDir: string;
-  const origDataDir = process.env.DATA_DIR;
+// ─── BnetApiError ─────────────────────────────────────────────────────────
 
-  beforeEach(async () => {
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "d4-settings-test-"));
-    process.env.DATA_DIR = tmpDir;
+describe("BnetApiError", () => {
+  it("stores status and body", async () => {
+    const { BnetApiError } = await import("../lib/blizzard/types");
+    const err = new BnetApiError(429, "rate limited");
+    expect(err.status).toBe(429);
+    expect(err.body).toBe("rate limited");
+    expect(err.name).toBe("BnetApiError");
   });
 
-  afterEach(async () => {
-    process.env.DATA_DIR = origDataDir;
-    await fs.rm(tmpDir, { recursive: true, force: true });
+  it("retryAfterSeconds is undefined when not provided", async () => {
+    const { BnetApiError } = await import("../lib/blizzard/types");
+    const err = new BnetApiError(429, "rate limited", "Rate limit exceeded. Retry after unknown seconds.");
+    expect(err.retryAfterSeconds).toBeUndefined();
   });
 
-  it("loadSettings returns empty object when no file", async () => {
-    const { loadSettings } = await import("../lib/persistence/settings");
-    const settings = await loadSettings();
-    expect(settings).toEqual({});
-  });
-
-  it("saveSettings + loadSettings round-trips region", async () => {
-    const { loadSettings, saveSettings } = await import("../lib/persistence/settings");
-    await saveSettings({ region: "europe" });
-    const loaded = await loadSettings();
-    expect(loaded.region).toBe("europe");
-  });
-
-  it("saveSettings overwrites previous settings", async () => {
-    const { loadSettings, saveSettings } = await import("../lib/persistence/settings");
-    await saveSettings({ region: "americas" });
-    await saveSettings({ region: "asia" });
-    const loaded = await loadSettings();
-    expect(loaded.region).toBe("asia");
+  it("retryAfterSeconds is set from the fourth constructor argument", async () => {
+    const { BnetApiError } = await import("../lib/blizzard/types");
+    const err = new BnetApiError(429, "rate limited", "Rate limit exceeded. Retry after 60 seconds.", 60);
+    expect(err.retryAfterSeconds).toBe(60);
   });
 });

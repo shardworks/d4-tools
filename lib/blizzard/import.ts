@@ -254,7 +254,7 @@ export function convertBnetHero(
     class: characterClass,
     level: Math.min(Math.max(hero.level, 1), 100),
     paragonAllocation: {
-      paragonLevel: Math.min(hero.paragonLevel ?? 0, 300),
+      paragonLevel: Math.min(Math.max(hero.paragonLevel ?? 0, 0), 300),
       boards: [],
     },
     skillSelections,

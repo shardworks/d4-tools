@@ -21,11 +21,17 @@ export default async function SettingsPage() {
 
   const isConnected = tokens !== null;
   const currentRegion = (settings as { region?: "americas" | "europe" | "asia" }).region ?? null;
+  // Check server-side so the banner reflects the actual env state rather than a
+  // client-side NEXT_PUBLIC_ var that is never set (would always evaluate falsy).
+  const isBnetConfigured = !!(
+    process.env.BLIZZARD_CLIENT_ID && process.env.BLIZZARD_CLIENT_SECRET
+  );
 
   return (
     <SettingsPageClient
       initialRegion={currentRegion}
       initialIsConnected={isConnected}
+      isBnetConfigured={isBnetConfigured}
     />
   );
 }

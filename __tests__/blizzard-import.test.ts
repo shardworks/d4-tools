@@ -76,9 +76,14 @@ describe("convertBnetHero — basic character fields", () => {
     expect(character.level).toBe(100);
   });
 
-  it("clamps paragonLevel to [0, 300]", () => {
+  it("clamps paragonLevel to [0, 300] — upper bound", () => {
     const { character } = convertBnetHero({ ...baseHero, paragonLevel: 999 }, baseItems, "americas", resolvers, "13");
     expect(character.paragonAllocation.paragonLevel).toBe(300);
+  });
+
+  it("clamps paragonLevel to [0, 300] — lower bound (defence-in-depth against negative values)", () => {
+    const { character } = convertBnetHero({ ...baseHero, paragonLevel: -5 }, baseItems, "americas", resolvers, "13");
+    expect(character.paragonAllocation.paragonLevel).toBe(0);
   });
 
   it("populates the import provenance block (D12)", () => {
@@ -189,18 +194,37 @@ describe("convertBnetHero — unresolved IDs (D14)", () => {
   });
 });
 
-describe("convertBnetHero — Paladin/Warlock (D15)", () => {
-  it("imports a Paladin character with class warning when class is resolved", () => {
+describe("convertBnetHero — Paladin/Warlock class handling (D15)", () => {
+  it("resolves 'crusader' bnetClassName to the Paladin catalog class (no class warning)", () => {
     const paladinHero: BnetHero = {
       ...baseHero,
       class: "crusader",
       name: "Holy Paladin",
     };
     const { character, warnings } = convertBnetHero(paladinHero, baseItems, "americas", resolvers, "13");
-    // Class resolves to Paladin (it's in our mock class list)
+    // Class resolves to Paladin (it's in our mock class list via bnetClassName: "crusader")
     expect(character.class).toBe("Paladin");
-    // Skill warnings are not generated when skills array is empty
+    // No class warning — the class was successfully resolved
     expect(warnings.filter((w) => w.type === "class")).toHaveLength(0);
+  });
+
+  it("accumulates unresolved-skill warnings for Paladin when skills are present (D15 skills path)", () => {
+    const paladinWithSkills: BnetHero = {
+      ...baseHero,
+      class: "crusader",
+      name: "Holy Paladin",
+      skills: {
+        active: [{ id: 99901, name: "Smite" }],
+        passive: [{ id: 99902, name: "Faith" }],
+      },
+    };
+    const { character, warnings } = convertBnetHero(paladinWithSkills, baseItems, "americas", resolvers, "13");
+    expect(character.class).toBe("Paladin");
+    // Skills can't be resolved (empty skill catalog for Paladin in mock) — each generates a warning
+    const skillWarnings = warnings.filter((w) => w.type === "skill");
+    expect(skillWarnings).toHaveLength(2);
+    expect(skillWarnings[0].storedAs).toBe("unresolved:99901");
+    expect(skillWarnings[1].storedAs).toBe("unresolved:99902");
   });
 
   it("accumulates class warning for truly unknown class", () => {

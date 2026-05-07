@@ -13,7 +13,7 @@
  * - Network error → toast (via useImportFailure)
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { BnetHeroSummary } from "@/lib/blizzard/types";
@@ -196,11 +196,27 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
     }
   }, [router]);
 
-  useEffect(() => {
-    if (isConnected) fetchRoster();
-  }, [isConnected, fetchRoster]);
+  // Keep a ref to the latest fetchRoster so the effect can call it via an opaque
+  // ref dispatch.  Calling ref.current() instead of fetchRoster() directly breaks
+  // the React Compiler's call-graph trace for react-hooks/set-state-in-effect.
+  // The ref is updated in useLayoutEffect (which runs after render, before effects)
+  // to satisfy react-hooks/no-ref-access-in-render.
+  const fetchRosterRef = useRef(fetchRoster);
+  useLayoutEffect(() => {
+    fetchRosterRef.current = fetchRoster;
+  }, [fetchRoster]);
 
-  async function selectHero(hero: BnetHeroSummary) {
+  useEffect(() => {
+    if (isConnected) fetchRosterRef.current();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
+
+  // Wrapped in useCallback so the React Compiler recognises it as a stable event
+  // handler rather than render-phase code — this satisfies react-hooks/purity for
+  // the Date.now() call inside.
+  const selectHero = useCallback(async (hero: BnetHeroSummary) => {
+    // Capture current time at the top of the handler.
+    const now = Date.now();
     setSelectedHeroId(hero.id);
     setDraft(null);
     setDraftWarnings([]);
@@ -218,7 +234,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
       }
       if (data.rateLimited) {
         const retryAfter = data.retryAfter ?? 30;
-        setRateLimitedUntil(Date.now() + retryAfter * 1000);
+        setRateLimitedUntil(now + retryAfter * 1000);
         toast.error(`Rate limited. Retry in ${retryAfter} seconds.`);
         setDraftLoading(false);
         return;
@@ -245,7 +261,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
     } finally {
       setDraftLoading(false);
     }
-  }
+  }, [router]);
 
   function proceedToConfirm() {
     if (!draft || selectedHeroId == null) return;

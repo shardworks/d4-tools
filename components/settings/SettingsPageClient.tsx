@@ -18,6 +18,8 @@ type Region = "americas" | "europe" | "asia";
 interface SettingsPageClientProps {
   initialRegion: Region | null;
   initialIsConnected: boolean;
+  /** True when BLIZZARD_CLIENT_ID and BLIZZARD_CLIENT_SECRET are set server-side. */
+  isBnetConfigured: boolean;
 }
 
 const REGION_OPTIONS: { value: Region; label: string; description: string }[] = [
@@ -78,7 +80,7 @@ const statusBadgeStyle = (connected: boolean): React.CSSProperties => ({
   border: `1px solid ${connected ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
 });
 
-export function SettingsPageClient({ initialRegion, initialIsConnected }: SettingsPageClientProps) {
+export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetConfigured }: SettingsPageClientProps) {
   const [region, setRegion] = useState<Region | null>(initialRegion);
   const [isConnected, setIsConnected] = useState(initialIsConnected);
   const [saving, setSaving] = useState(false);
@@ -314,7 +316,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected }: Settin
           )}
         </div>
 
-        {!process.env.NEXT_PUBLIC_BNET_CONFIGURED && (
+        {!isBnetConfigured && (
           <div
             style={{
               marginTop: "16px",

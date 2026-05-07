@@ -23,8 +23,9 @@
 import { NextResponse } from "next/server";
 import { isSafeId } from "@/lib/persistence/paths";
 import { listCharacters } from "@/lib/persistence/characters";
-import { BlizzardClient, heroRealmSlug } from "@/lib/blizzard/client";
+import { BlizzardClient } from "@/lib/blizzard/client";
 import { BnetApiError } from "@/lib/blizzard/types";
+import { loadTokens } from "@/lib/blizzard/tokens";
 import { buildResolvers } from "@/lib/blizzard/resolvers";
 import { convertBnetHero } from "@/lib/blizzard/import";
 import {
@@ -70,7 +71,6 @@ export async function GET(request: Request, { params }: Params) {
   }
 
   // Read region from stored tokens (loaded inside client creation)
-  const { loadTokens } = await import("@/lib/blizzard/tokens");
   const tokens = await loadTokens();
   const region = tokens?.region ?? "americas";
 
@@ -85,9 +85,8 @@ export async function GET(request: Request, { params }: Params) {
   } catch (err) {
     if (err instanceof BnetApiError) {
       if (err.status === 429) {
-        const retryAfter = err.message.match(/(\d+)/)?.[1];
         return NextResponse.json(
-          { error: err.message, rateLimited: true, retryAfter: retryAfter ? Number(retryAfter) : null },
+          { error: err.message, rateLimited: true, retryAfter: err.retryAfterSeconds ?? null },
           { status: 429 }
         );
       }

@@ -39,11 +39,13 @@ async function bnetFetch<T>(url: string, accessToken: string): Promise<T> {
 
   // Surface rate-limit details for the caller (D23)
   if (res.status === 429) {
-    const retryAfter = res.headers.get("Retry-After");
+    const retryAfterHeader = res.headers.get("Retry-After");
+    const retryAfterSeconds = retryAfterHeader != null ? parseInt(retryAfterHeader, 10) : undefined;
     throw new BnetApiError(
       429,
       await res.text(),
-      `Battle.net rate limit exceeded. Retry after ${retryAfter ?? "unknown"} seconds.`
+      `Battle.net rate limit exceeded. Retry after ${retryAfterHeader ?? "unknown"} seconds.`,
+      Number.isFinite(retryAfterSeconds) ? retryAfterSeconds : undefined
     );
   }
 

@@ -128,12 +128,17 @@ export type BnetHeroItems = Record<string, BnetItem | undefined>;
 
 /** Thrown when the Blizzard API returns a non-OK HTTP status. */
 export class BnetApiError extends Error {
+  /** Parsed value of the `Retry-After` response header (seconds), if present. */
+  public readonly retryAfterSeconds?: number;
+
   constructor(
     public readonly status: number,
     public readonly body: string,
-    message?: string
+    message?: string,
+    retryAfterSeconds?: number
   ) {
     super(message ?? `Battle.net API error ${status}: ${body}`);
     this.name = "BnetApiError";
+    this.retryAfterSeconds = retryAfterSeconds;
   }
 }

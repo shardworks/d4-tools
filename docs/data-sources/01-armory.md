@@ -175,20 +175,24 @@ GET /profile/d4/v1/profile/{realmSlug}/{heroId}/hero-items
 }
 ```
 
-**Affix ID exposure — VERIFIED (D9 gate):**
+**Affix ID exposure:**
 
-The Blizzard D4 Game Data API **does** expose numeric affix IDs (Blizzard sno IDs) in both
-`implicits` and `explicits` arrays on each item in the `/hero-items` response. Each affix entry
-carries:
-- `id`: integer sno ID (e.g., `334512`) — the primary key for catalog cross-reference
+Community API samples and D4Builds.gg import-flow inspection consistently show numeric IDs in
+both `implicits` and `explicits` arrays on each item in the `/hero-items` response. Each affix
+entry is expected to carry:
+- `id`: an integer sno ID (e.g., `334512`) — the primary key for catalog cross-reference
 - `value`: the rolled numeric value of the affix
 
-The `aspect` object similarly carries an `id` field. Skill entries in `/hero` also carry numeric
-`id` fields.
+The `aspect` object is expected to carry an `id` field. Skill entries in `/hero` are expected
+to carry numeric `id` fields.
 
-This satisfies D9's id-only resolver requirement: the resolver can look up catalog entries by
-`bnetId` without falling back to display-string parsing. The `slug` field on items and the
-`name` field are human-readable and are not used for resolution.
+If confirmed live, this satisfies D9's id-only resolver requirement: the resolver can look up
+catalog entries by `bnetId` without falling back to display-string parsing. The `slug` field
+on items and the `name` field are human-readable and are not used for resolution.
+
+⚠ **Item `id` field type is unconfirmed.** Community samples show numeric IDs (e.g. `123456`),
+but some sources reference string slugs (e.g. `"Helm_Uniq_Barb_001"`). The implementation
+treats `id` as `number`; this must be verified against live API responses.
 
 - provenance: `official`, `planner` (cross-referenced from D4Builds.gg import behavior and
   community API documentation)
@@ -311,5 +315,14 @@ transparently on 401 responses (one attempt before prompting re-auth).
   sources but not yet live-verified.
 - Confirm the exact structure of the skills array in the `/hero` response — specifically whether
   skill `id` values are sno IDs that map to the catalog's `bnetId` field on `SkillEntry`.
+- **Confirm whether the `/hero` skills payload exposes skill rank.** The current implementation
+  defaults all imported skill ranks to `1` because no evidence of a rank field has been found in
+  community samples. If rank is present, the converter should use it.
 - Determine whether the `/hero-items` response includes a `tempered` array for tempering imprints
-  distinct from `explicits`, or whether tempered affixes appear inline in `explicits`.
+  distinct from `explicits`, or whether tempered affixes appear inline in `explicits`. The current
+  implementation reads an optional `tempered` field on each item; this field may not exist and
+  tempered affixes may instead appear in `explicits` with a distinguishing flag.
+- **Confirm the `id` field type on `/hero-items` item objects.** Community samples show integer IDs
+  (e.g. `123456`), but some sources reference string slugs (e.g. `"Helm_Uniq_Barb_001"`). The
+  implementation models `BnetItem.id` as `number`; if the API returns strings the conversion will
+  need updating.
