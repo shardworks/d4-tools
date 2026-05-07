@@ -44,11 +44,11 @@ interface CommandEntry {
  *
  * Export/import round-trips the persisted build+character shape (D28).
  */
-export function CommandPaletteStub() {
+export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [builds, setBuilds] = useState<Build[]>([]);
-  const [mode, setMode] = useState<"root" | "nav-char" | "nav-build" | "new-build">("root");
+  const [mode, setMode] = useState<"root" | "nav-char" | "nav-build">("root");
   const router = useRouter();
 
   // Open/close
@@ -97,10 +97,7 @@ export function CommandPaletteStub() {
 
   // Export build: downloads JSON file containing build + character
   async function exportBuild(buildId: string) {
-    const [buildRes, buildsData] = await Promise.all([
-      fetch(`/api/builds/${buildId}`).then((r) => r.json()),
-      Promise.resolve(builds),
-    ]);
+    const buildRes = await fetch(`/api/builds/${buildId}`).then((r) => r.json());
     const build = buildRes as Build;
     const char = characters.find((c) => c.id === build.characterId);
     const exportPayload = { build, character: char ?? null };

@@ -47,49 +47,6 @@ const RARITY_LABELS: Record<string, string> = {
 };
 
 /**
- * AffixRow — a single affix entry within the item editor.
- * Shows: combobox picker + value input + out-of-range indicator.
- */
-function AffixRow({
-  fieldIndex,
-  fieldPath,
-  slotId,
-  characterClass,
-  remove,
-}: {
-  fieldIndex: number;
-  fieldPath: "implicits" | "explicits" | "tempered";
-  slotId: string;
-  characterClass: string;
-  remove: (index: number) => void;
-}) {
-  const { watch, setValue } = useForm<ItemInput>();
-  // We're inside a FormProvider; use separate value tracking via parent context
-
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-      {/* Affix combobox injected from parent — this row is actually rendered inline */}
-      <span style={{ fontSize: "12px", color: "var(--stone-600)" }}>{fieldIndex + 1}.</span>
-      <button
-        type="button"
-        onClick={() => remove(fieldIndex)}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          color: "var(--stone-600)",
-          padding: "2px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Trash2 size={12} />
-      </button>
-    </div>
-  );
-}
-
-/**
  * InlineAffixList — renders a list of AffixInstance fields with combobox + value input.
  * Validates each value against catalog min/max (D8, Greater Affix derivation).
  */
@@ -303,8 +260,6 @@ export function GearSlotEditor({
 
   const { register, handleSubmit, watch, setValue, control, formState: { errors } } = form;
 
-  const rarity = watch("rarity") as string;
-  const isAncestral = watch("isAncestral") as boolean;
   const aspectId = (watch("aspect.aspectId") ?? "") as string;
 
   async function onSubmit(data: Item) {

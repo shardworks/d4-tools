@@ -3,7 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { SidebarNav } from "@/components/layout/SidebarNav";
 import { HeaderBar } from "@/components/layout/HeaderBar";
-import { CommandPaletteStub } from "@/components/layout/CommandPaletteStub";
+import { CommandPalette } from "@/components/layout/CommandPalette";
 import { SoftGate } from "@/components/layout/SoftGate";
 
 const inter = Inter({
@@ -37,7 +37,7 @@ export default function RootLayout({
             <main className="flex-1 overflow-auto p-4">{children}</main>
           </div>
         </div>
-        <CommandPaletteStub />
+        <CommandPalette />
       </body>
     </html>
   );
