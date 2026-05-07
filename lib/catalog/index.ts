@@ -43,6 +43,10 @@ export interface ClassEntry {
   primaryStat: string;
   supported: boolean;
   unsupportedReason?: string;
+  /** Blizzard API class identifier string (e.g. "sorcerer", "barbarian") — D26/D28 */
+  bnetClassName?: string;
+  /** Blizzard API numeric class sno ID — D26/D28 */
+  bnetClassId?: number;
 }
 
 export interface SlotEntry {
@@ -51,6 +55,8 @@ export interface SlotEntry {
   cluster: "armor" | "jewelry" | "weapon";
   classSpecific?: string[];
   excludedClasses?: string[];
+  /** Blizzard API slot key (e.g. "head", "torso") — D28 */
+  bnetSlotKey?: string;
 }
 
 export interface AffixEntry {
@@ -62,6 +68,10 @@ export interface AffixEntry {
   isPercent: boolean;
   slotRestrictions: string[];
   classRestrictions: string[];
+  /** Blizzard API numeric sno ID for this affix — D28 */
+  bnetId?: number;
+  /** Blizzard API fileName string for this affix — D28 */
+  bnetFileName?: string;
 }
 
 export interface AspectEntry {
@@ -74,6 +84,10 @@ export interface AspectEntry {
   slotRestrictions: string[];
   classRestrictions: string[];
   source: "legendary" | "codex";
+  /** Blizzard API numeric sno ID for this aspect — D28 */
+  bnetId?: number;
+  /** Blizzard API fileName string for this aspect — D28 */
+  bnetFileName?: string;
 }
 
 export interface SkillEntry {
@@ -81,17 +95,29 @@ export interface SkillEntry {
   label: string;
   category: string;
   maxRank: number;
+  /** Blizzard API numeric sno ID for this skill — D28 */
+  bnetId?: number;
+  /** Blizzard API fileName string for this skill — D28 */
+  bnetFileName?: string;
 }
 
 export interface ParagonBoardEntry {
   id: string;
   label: string;
   isStarterBoard?: boolean;
+  /** Blizzard API numeric sno ID for this board — D28 */
+  bnetId?: number;
+  /** Blizzard API fileName string for this board — D28 */
+  bnetFileName?: string;
 }
 
 export interface ParagonGlyphEntry {
   id: string;
   label: string;
+  /** Blizzard API numeric sno ID for this glyph — D28 */
+  bnetId?: number;
+  /** Blizzard API fileName string for this glyph — D28 */
+  bnetFileName?: string;
 }
 
 // ─── Exported catalog data ─────────────────────────────────────────────────

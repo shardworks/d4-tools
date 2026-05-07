@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sword, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sword, User, ChevronLeft, ChevronRight, CloudDownload, Settings } from "lucide-react";
 
 const NAV_ITEMS = [
   {
@@ -15,6 +15,16 @@ const NAV_ITEMS = [
     href: "/characters/new",
     label: "New Character",
     icon: User,
+  },
+  {
+    href: "/import",
+    label: "Import from Battle.net",
+    icon: CloudDownload,
+  },
+  {
+    href: "/settings",
+    label: "Settings",
+    icon: Settings,
   },
 ];
 

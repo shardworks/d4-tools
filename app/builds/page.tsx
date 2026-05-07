@@ -3,7 +3,7 @@ import { listBuilds } from "@/lib/persistence/builds";
 import { listCharacters } from "@/lib/persistence/characters";
 import type { Build, Character } from "@/lib/schema";
 import { Button } from "@/components/ui/button";
-import { Plus, PenSquare } from "lucide-react";
+import { Plus, PenSquare, CloudDownload } from "lucide-react";
 
 export const metadata = { title: "Builds — D4 Tools" };
 
@@ -43,12 +43,20 @@ export default async function BuildsListPage() {
         >
           Builds
         </h1>
-        <Link href="/characters/new">
-          <Button style={{ gap: "6px" }}>
-            <Plus size={14} />
-            New Character
-          </Button>
-        </Link>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <Link href="/import">
+            <Button variant="outline" style={{ gap: "6px" }}>
+              <CloudDownload size={14} />
+              Import from Battle.net
+            </Button>
+          </Link>
+          <Link href="/characters/new">
+            <Button style={{ gap: "6px" }}>
+              <Plus size={14} />
+              New Character
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Error display */}

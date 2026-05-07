@@ -10,51 +10,67 @@
       "id": "Barbarian",
       "label": "Barbarian",
       "primaryStat": "Strength",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "barbarian",
+      "bnetClassId": 4
     },
     {
       "id": "Druid",
       "label": "Druid",
       "primaryStat": "Willpower",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "druid",
+      "bnetClassId": 2
     },
     {
       "id": "Necromancer",
       "label": "Necromancer",
       "primaryStat": "Intelligence",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "necromancer",
+      "bnetClassId": 3
     },
     {
       "id": "Rogue",
       "label": "Rogue",
       "primaryStat": "Dexterity",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "rogue",
+      "bnetClassId": 5
     },
     {
       "id": "Sorcerer",
       "label": "Sorcerer",
       "primaryStat": "Intelligence",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "sorcerer",
+      "bnetClassId": 1
     },
     {
       "id": "Spiritborn",
       "label": "Spiritborn",
       "primaryStat": "Willpower",
-      "supported": true
+      "supported": true,
+      "bnetClassName": "spiritborn",
+      "bnetClassId": 6
     },
     {
       "id": "Paladin",
       "label": "Paladin",
       "primaryStat": "Strength",
       "supported": false,
-      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)"
+      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)",
+      "bnetClassName": "crusader",
+      "bnetClassId": 7
     },
     {
       "id": "Warlock",
       "label": "Warlock",
       "primaryStat": "Intelligence",
       "supported": false,
-      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)"
+      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)",
+      "bnetClassName": "witch",
+      "bnetClassId": 8
     }
   ]
 }

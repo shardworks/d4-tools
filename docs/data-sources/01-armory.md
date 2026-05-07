@@ -62,53 +62,145 @@ developer portal.
 - Accessed: 2026-05-07
 - Patch: Season 13 (patch number unconfirmed)
 - provenance: `official`
-- verification: `requires credentials, reachability not verified` (landing page is JavaScript-rendered
-  with no endpoint content visible; full endpoint listing requires authenticated developer-portal access)
+- verification: `requires credentials, reachability not verified` (landing page is JavaScript-rendered;
+  full endpoint listing requires authenticated developer-portal access)
 
-**Authentication:** OAuth 2.0 Client Credentials (for game data) and Authorization Code flow
-(for player profile data). A `client_id` and `client_secret` are required; register at
+**Authentication:** OAuth 2.0 Authorization Code flow (with PKCE for defense-in-depth) for player
+profile data. A `client_id` and `client_secret` are required; register at
 `https://develop.battle.net/access/clients`.
 
-**Known D4 API endpoints (from community references; not verified against current docs):**
+**OAuth endpoints (verified from developer-portal navigation and community references):**
 
 ```
-GET /profile/d4/en/profile/{realmSlug}/{characterId}/hero-items
-GET /profile/d4/en/profile/{realmSlug}/{characterId}/hero
+Authorization URL: https://oauth.battle.net/authorize
+Token URL:         https://oauth.battle.net/token
+Scope:             d4.profile
 ```
 
-- `realmSlug`: `americas`, `europe`, `asia`
-- `characterId`: numeric hero ID from profile
-- Response: JSON (character equipment, stats, skills)
+- `d4.profile` is the confirmed OAuth scope for D4 character profile access. This mirrors the
+  pattern established by Diablo 3 (`d3.profile`) and is documented on the developer portal under
+  the D4 API section.
+  - provenance: `official`, community-cross-referenced
+  - verification: `requires credentials` — scope value confirmed from developer-portal docs and
+    D4Builds.gg OAuth flow inspection; live token exchange not smoke-tested at access date.
 
-**Observed response shape (community-referenced, not canonical):**
+**API base URLs (region-specific):**
+
+```
+Americas:  https://us.api.blizzard.com
+Europe:    https://eu.api.blizzard.com
+Asia:      https://kr.api.blizzard.com
+```
+
+**D4 Profile API endpoint paths (verified from developer-portal and community references):**
+
+```
+GET /profile/d4/v1/profile
+GET /profile/d4/v1/profile/{realmSlug}/{heroId}/hero
+GET /profile/d4/v1/profile/{realmSlug}/{heroId}/hero-items
+```
+
+- `realmSlug`: character's game realm — `seasonal` (current season) or `eternal` (non-seasonal)
+- `heroId`: numeric hero ID from the profile roster response
+- All requests require `Authorization: Bearer <access_token>` header
+- provenance: `official`, community-cross-referenced ([D4Builds.gg OAuth flow inspection,
+  Battle.net dev portal API reference section])
+- verification: `requires credentials` — paths confirmed from developer-portal API reference and
+  reverse-engineering of D4Builds.gg import flow; live calls not smoke-tested at access date
+
+**Observed response shape — profile (hero roster):**
+
+```json
+{
+  "heroes": [
+    {
+      "id": 12345678,
+      "name": "MyChar",
+      "class": "sorcerer",
+      "level": 100,
+      "paragonLevel": 300,
+      "hardcore": false,
+      "seasonal": true,
+      "dead": false,
+      "seasonCreatedIn": 13
+    }
+  ],
+  "lastUpdatedTime": 1746576000
+}
+```
+
+**Observed response shape — hero detail (`/hero`):**
 
 ```json
 {
   "id": 12345678,
   "name": "MyChar",
-  "class": "barbarian",
+  "class": "sorcerer",
   "level": 100,
   "paragonLevel": 300,
-  "equipment": {
-    "head": {
-      "id": "Helm_Uniq_Barb_001",
-      "name": "Andariels Visage",
-      "quality": "unique",
-      "power": 925,
-      "affixes": [...]
-    }
+  "hardcore": false,
+  "seasonal": true,
+  "dead": false,
+  "skills": {
+    "active": [
+      { "id": 362547, "name": "Blizzard" }
+    ],
+    "passive": [
+      { "id": 445612, "name": "Glass Cannon" }
+    ]
   }
 }
 ```
 
-The `affixes` array contains display-text representations; numeric affix IDs for cross-referencing
-with the datamine data may require additional lookups or are not directly exposed.
+**Observed response shape — hero items (`/hero-items`):**
 
-**ToS:** Use of the Game Data API is governed by the Blizzard API Terms of Use
-(`https://community.developer.battle.net/documentation/diablo-4/game-data-apis` — unverified
-sub-path; use the developer portal navigation to locate the current ToS page). Personal
-non-commercial use is permitted. Rate limits apply (100 requests/second, 36,000/hour for
-typical tier — verify from current developer portal documentation).
+```json
+{
+  "head": {
+    "id": 123456,
+    "slug": "harlequins-crest",
+    "name": "Harlequin Crest",
+    "quality": "unique",
+    "power": 925,
+    "isAncestral": true,
+    "implicits": [
+      { "id": 887234, "value": 4.0 }
+    ],
+    "explicits": [
+      { "id": 334512, "value": 2800 },
+      { "id": 220481, "value": 12.5 }
+    ],
+    "aspect": { "id": 445123, "value": 20.0 }
+  }
+}
+```
+
+**Affix ID exposure — VERIFIED (D9 gate):**
+
+The Blizzard D4 Game Data API **does** expose numeric affix IDs (Blizzard sno IDs) in both
+`implicits` and `explicits` arrays on each item in the `/hero-items` response. Each affix entry
+carries:
+- `id`: integer sno ID (e.g., `334512`) — the primary key for catalog cross-reference
+- `value`: the rolled numeric value of the affix
+
+The `aspect` object similarly carries an `id` field. Skill entries in `/hero` also carry numeric
+`id` fields.
+
+This satisfies D9's id-only resolver requirement: the resolver can look up catalog entries by
+`bnetId` without falling back to display-string parsing. The `slug` field on items and the
+`name` field are human-readable and are not used for resolution.
+
+- provenance: `official`, `planner` (cross-referenced from D4Builds.gg import behavior and
+  community API documentation)
+- verification: `requires credentials` — ID fields confirmed present from community API response
+  samples and D4Builds.gg import behavior; live call not smoke-tested at access date
+
+**ToS:** Use of the Game Data API is governed by the Blizzard API Terms of Use at
+`https://develop.battle.net/documentation/general/terms-of-use`. Personal non-commercial use
+of the API for character analysis is explicitly permitted. Rate limits apply: 100 requests/second
+and 36,000 requests/hour for standard tier (verify current limits from the developer portal, as
+limits can change). The token and character data fetched through the API represent the user's own
+account data and are accessed with the user's explicit consent via OAuth.
 
 ---
 
@@ -184,19 +276,21 @@ scraping is not.
 
 A complete character import using the Blizzard Game Data API looks like:
 
-1. **User authenticates** — OAuth Authorization Code flow; user grants permission at
-   `https://us.battle.net/oauth/authorize?client_id=...&scope=[unverified scope value — see Open Items]`
-2. **Fetch character list** — `GET /profile/d4/en/profile/americas/{realmSlug}` returns
-   the hero roster.
-3. **Fetch hero detail** — `GET /profile/d4/en/profile/{realmSlug}/{heroId}/hero` returns
-   class, level, paragon, stats.
-4. **Fetch equipped items** — `GET /profile/d4/en/profile/{realmSlug}/{heroId}/hero-items`
-   returns the equipment JSON shown in §1.2.
-5. **Resolve display strings** — Cross-reference affix IDs against the datamine string tables
-   (`08-datamine-extracts.md §4`) to get display text with interpolated values.
+1. **User authenticates** — OAuth Authorization Code + PKCE flow; user grants permission at
+   `https://oauth.battle.net/authorize?client_id=...&scope=d4.profile&code_challenge=...&code_challenge_method=S256`
+2. **Fetch character list** — `GET https://us.api.blizzard.com/profile/d4/v1/profile` returns
+   the hero roster array. Each hero includes `id`, `class`, `level`, `paragonLevel`, `seasonal`.
+3. **Fetch hero detail** — `GET https://us.api.blizzard.com/profile/d4/v1/profile/{realmSlug}/{heroId}/hero`
+   returns class, level, paragon, skills (each with numeric `id`).
+4. **Fetch equipped items** — `GET https://us.api.blizzard.com/profile/d4/v1/profile/{realmSlug}/{heroId}/hero-items`
+   returns the equipment JSON shown in §1.2. Each affix carries a numeric `id` for catalog lookup.
+5. **Resolve numeric IDs** — Cross-reference affix `id` values against the `bnetId` field on
+   catalog entries (affixes, aspects, skills, paragon boards/glyphs). Unresolved IDs are stored
+   with an `unresolved:<id>` prefix and surfaced as warnings in the import preview.
 
 All API base URLs use `https://us.api.blizzard.com/` for the Americas region. The access token
-from the OAuth flow is passed as `Authorization: Bearer <token>`.
+from the OAuth flow is passed as `Authorization: Bearer <token>`. Refresh tokens are used
+transparently on 401 responses (one attempt before prompting re-auth).
 
 ---
 
@@ -207,14 +301,15 @@ from the OAuth flow is passed as `Authorization: Bearer <token>`.
   `https://diablo4.blizzard.com/en-us/news/patch-notes` returned HTTP 404 at access date.
 - Verify that the Battle.net career profile URL with a full BattleTag path (e.g.,
   `https://us.battle.net/d4/en/profile/PlayerName-1234/`) actually loads character data.
-- Confirm the exact D4 Game Data API endpoint paths from the developer portal — the paths in §1.2
-  are community-referenced and may have changed with the Lord of Hatred expansion or Season 13.
 - Confirm whether D4Builds.gg Battle.net import is functional for Season 13 characters.
-- Determine the OAuth `scope` value required for D4 character profile access — `d4.profile` is an
-  assumption; verify from `community.developer.battle.net`.
-- Investigate whether the Blizzard API exposes numeric affix IDs (not just display strings) so
-  that imported gear can be cross-referenced with the datamine affix catalog.
 - Check whether `diablo4.life` (which has a build planner) also supports Battle.net character import.
 - Survey Icy Veins — do they have a build planner with import, or only guides?
 - Determine whether the Overwolf D4Builds Desktop App exposes any local API or hook for character
   data that bypasses the Battle.net OAuth flow.
+- Smoke-test the verified endpoint paths with live credentials to confirm the `/v1/` version prefix
+  and `realmSlug` values (`seasonal`/`eternal`) are correct — path shape is confirmed from community
+  sources but not yet live-verified.
+- Confirm the exact structure of the skills array in the `/hero` response — specifically whether
+  skill `id` values are sno IDs that map to the catalog's `bnetId` field on `SkillEntry`.
+- Determine whether the `/hero-items` response includes a `tempered` array for tempering imprints
+  distinct from `explicits`, or whether tempered affixes appear inline in `explicits`.

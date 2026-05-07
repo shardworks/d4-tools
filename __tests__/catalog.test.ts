@@ -202,3 +202,56 @@ describe("game-math helpers", () => {
     expect(getParagonPointsAvailable(200)).toBe(800);
   });
 });
+
+describe("bnetId / bnetFileName / bnetClassId fields (D26 / D28)", () => {
+  it("every ClassEntry that has bnetClassName has it as a lowercase string", () => {
+    for (const cls of classes) {
+      if (cls.bnetClassName !== undefined) {
+        expect(typeof cls.bnetClassName).toBe("string");
+        expect(cls.bnetClassName).toBe(cls.bnetClassName.toLowerCase());
+      }
+    }
+  });
+
+  it("every ClassEntry that has bnetClassId has it as a positive integer", () => {
+    for (const cls of classes) {
+      if (cls.bnetClassId !== undefined) {
+        expect(typeof cls.bnetClassId).toBe("number");
+        expect(Number.isInteger(cls.bnetClassId)).toBe(true);
+        expect(cls.bnetClassId).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("all supported classes have bnetClassName populated", () => {
+    for (const cls of supportedClasses) {
+      expect(cls.bnetClassName).toBeTruthy();
+    }
+  });
+
+  it("optional bnetId on affixes is numeric when present", () => {
+    for (const affix of affixes) {
+      if (affix.bnetId !== undefined) {
+        expect(typeof affix.bnetId).toBe("number");
+        expect(Number.isInteger(affix.bnetId)).toBe(true);
+      }
+    }
+  });
+
+  it("optional bnetFileName on affixes is a string when present", () => {
+    for (const affix of affixes) {
+      if (affix.bnetFileName !== undefined) {
+        expect(typeof affix.bnetFileName).toBe("string");
+        expect(affix.bnetFileName.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("optional bnetId on aspects is numeric when present", () => {
+    for (const aspect of aspects) {
+      if (aspect.bnetId !== undefined) {
+        expect(typeof aspect.bnetId).toBe("number");
+      }
+    }
+  });
+});

@@ -22,6 +22,7 @@ import {
   Plus,
   Upload,
   Download,
+  CloudDownload,
 } from "lucide-react";
 
 interface CommandEntry {
@@ -233,6 +234,17 @@ export function CommandPalette() {
       icon: Download,
       group: "File",
       run: () => setMode("nav-build"),
+    },
+    {
+      id: "import-from-battlenet",
+      label: "Import character from Battle.net",
+      description: "Sign in with Battle.net and import your D4 hero",
+      icon: CloudDownload,
+      group: "Create",
+      run: () => {
+        handleOpenChange(false);
+        router.push("/import");
+      },
     },
   ], [triggerFileInput, handleOpenChange, router, importBuildFromFile]);
 
