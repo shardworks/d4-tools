@@ -1,0 +1,37 @@
+{
+  "class": "Necromancer",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "necro_bone_splinters", "label": "Bone Splinters", "category": "basic", "maxRank": 5 },
+    { "id": "necro_decompose", "label": "Decompose", "category": "basic", "maxRank": 5 },
+    { "id": "necro_hemorrhage", "label": "Hemorrhage", "category": "basic", "maxRank": 5 },
+    { "id": "necro_reap", "label": "Reap", "category": "basic", "maxRank": 5 },
+    { "id": "necro_bone_spear", "label": "Bone Spear", "category": "core", "maxRank": 5 },
+    { "id": "necro_blood_lance", "label": "Blood Lance", "category": "core", "maxRank": 5 },
+    { "id": "necro_blood_surge", "label": "Blood Surge", "category": "core", "maxRank": 5 },
+    { "id": "necro_sever", "label": "Sever", "category": "core", "maxRank": 5 },
+    { "id": "necro_bone_spirit", "label": "Bone Spirit", "category": "macabre", "maxRank": 5 },
+    { "id": "necro_corpse_explosion", "label": "Corpse Explosion", "category": "macabre", "maxRank": 5 },
+    { "id": "necro_blood_mist", "label": "Blood Mist", "category": "defensive", "maxRank": 5 },
+    { "id": "necro_bone_prison", "label": "Bone Prison", "category": "defensive", "maxRank": 5 },
+    { "id": "necro_corpse_tendrils", "label": "Corpse Tendrils", "category": "defensive", "maxRank": 5 },
+    { "id": "necro_decrepify", "label": "Decrepify", "category": "defensive", "maxRank": 5 },
+    { "id": "necro_iron_maiden", "label": "Iron Maiden", "category": "defensive", "maxRank": 5 },
+    { "id": "necro_skeletal_warriors", "label": "Skeletal Warriors (Passive)", "category": "summoning", "maxRank": 5 },
+    { "id": "necro_skeletal_mages", "label": "Skeletal Mages (Passive)", "category": "summoning", "maxRank": 5 },
+    { "id": "necro_golem", "label": "Golem (Passive)", "category": "summoning", "maxRank": 1 },
+    { "id": "necro_army_of_the_dead", "label": "Army of the Dead", "category": "ultimate", "maxRank": 1 },
+    { "id": "necro_blood_wave", "label": "Blood Wave", "category": "ultimate", "maxRank": 1 },
+    { "id": "necro_bone_storm", "label": "Bone Storm", "category": "ultimate", "maxRank": 1 },
+    { "id": "necro_stand_alone", "label": "Stand Alone", "category": "key-passive", "maxRank": 1 },
+    { "id": "necro_ossified_essence", "label": "Ossified Essence", "category": "key-passive", "maxRank": 1 },
+    { "id": "necro_rathmas_vigor", "label": "Rathma's Vigor", "category": "key-passive", "maxRank": 1 },
+    { "id": "necro_serration", "label": "Serration", "category": "key-passive", "maxRank": 1 },
+    { "id": "necro_death_trio", "label": "Death Trio", "category": "key-passive", "maxRank": 1 }
+  ]
+}

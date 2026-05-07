@@ -1,0 +1,27 @@
+{
+  "class": "Druid",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "druid_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "druid_thunderstruck", "label": "Thunderstruck" },
+    { "id": "druid_ancestral_guidance", "label": "Ancestral Guidance" },
+    { "id": "druid_lust_for_carnage", "label": "Lust for Carnage" },
+    { "id": "druid_constricting_tendrils", "label": "Constricting Tendrils" },
+    { "id": "druid_wild_strikes", "label": "Wild Strikes" },
+    { "id": "druid_the_animal_spirit", "label": "The Animal Spirit" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_nature_magic", "label": "Nature Magic" },
+    { "id": "glyph_fang_claw", "label": "Fang and Claw" },
+    { "id": "glyph_territorial", "label": "Territorial" },
+    { "id": "glyph_earth_and_sky", "label": "Earth and Sky" },
+    { "id": "glyph_control", "label": "Control" }
+  ]
+}

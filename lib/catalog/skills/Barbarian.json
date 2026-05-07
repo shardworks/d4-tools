@@ -1,0 +1,39 @@
+{
+  "class": "Barbarian",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "barb_bash", "label": "Bash", "category": "basic", "maxRank": 5 },
+    { "id": "barb_flay", "label": "Flay", "category": "basic", "maxRank": 5 },
+    { "id": "barb_frenzy", "label": "Frenzy", "category": "basic", "maxRank": 5 },
+    { "id": "barb_lunging_strike", "label": "Lunging Strike", "category": "basic", "maxRank": 5 },
+    { "id": "barb_double_swing", "label": "Double Swing", "category": "core", "maxRank": 5 },
+    { "id": "barb_hammer_of_ancients", "label": "Hammer of the Ancients", "category": "core", "maxRank": 5 },
+    { "id": "barb_rend", "label": "Rend", "category": "core", "maxRank": 5 },
+    { "id": "barb_upheaval", "label": "Upheaval", "category": "core", "maxRank": 5 },
+    { "id": "barb_whirlwind", "label": "Whirlwind", "category": "core", "maxRank": 5 },
+    { "id": "barb_leap", "label": "Leap", "category": "defensive", "maxRank": 5 },
+    { "id": "barb_ground_stomp", "label": "Ground Stomp", "category": "defensive", "maxRank": 5 },
+    { "id": "barb_rallying_cry", "label": "Rallying Cry", "category": "defensive", "maxRank": 5 },
+    { "id": "barb_challenging_shout", "label": "Challenging Shout", "category": "defensive", "maxRank": 5 },
+    { "id": "barb_iron_skin", "label": "Iron Skin", "category": "defensive", "maxRank": 5 },
+    { "id": "barb_charge", "label": "Charge", "category": "brawling", "maxRank": 5 },
+    { "id": "barb_kick", "label": "Kick", "category": "brawling", "maxRank": 5 },
+    { "id": "barb_war_cry", "label": "War Cry", "category": "brawling", "maxRank": 5 },
+    { "id": "barb_steel_grasp", "label": "Steel Grasp", "category": "brawling", "maxRank": 5 },
+    { "id": "barb_death_blow", "label": "Death Blow", "category": "weapon-mastery", "maxRank": 5 },
+    { "id": "barb_rupture", "label": "Rupture", "category": "weapon-mastery", "maxRank": 5 },
+    { "id": "barb_seismic_slam", "label": "Seismic Slam", "category": "weapon-mastery", "maxRank": 5 },
+    { "id": "barb_call_of_ancients", "label": "Call of the Ancients", "category": "ultimate", "maxRank": 1 },
+    { "id": "barb_iron_maelstrom", "label": "Iron Maelstrom", "category": "ultimate", "maxRank": 1 },
+    { "id": "barb_wrath_of_berserker", "label": "Wrath of the Berserker", "category": "ultimate", "maxRank": 1 },
+    { "id": "barb_unbridled_rage", "label": "Unbridled Rage", "category": "key-passive", "maxRank": 1 },
+    { "id": "barb_gushing_wounds", "label": "Gushing Wounds", "category": "key-passive", "maxRank": 1 },
+    { "id": "barb_walking_arsenal", "label": "Walking Arsenal", "category": "key-passive", "maxRank": 1 },
+    { "id": "barb_unconstrained", "label": "Unconstrained", "category": "key-passive", "maxRank": 1 }
+  ]
+}

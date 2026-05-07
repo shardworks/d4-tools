@@ -1,0 +1,210 @@
+{
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "aspects": [
+    {
+      "id": "aspect_of_disobedience",
+      "label": "Aspect of Disobedience",
+      "labelTemplate": "You gain {value}% increased Armor for 4 seconds when you deal any form of damage, stacking up to 44%.",
+      "valueRange": [0.25, 0.50],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_might",
+      "label": "Aspect of Might",
+      "labelTemplate": "Basic Skills grant {value}% Damage Reduction for 2 seconds.",
+      "valueRange": [20.0, 40.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "source": "codex"
+    },
+    {
+      "id": "conceited_aspect",
+      "label": "Conceited Aspect",
+      "labelTemplate": "Deal {value}% increased damage while you have a Barrier active.",
+      "valueRange": [15.0, 25.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "source": "codex"
+    },
+    {
+      "id": "eluding_aspect",
+      "label": "Eluding Aspect",
+      "labelTemplate": "Becoming Injured while Crowd Controlled grants you Unstoppable for {value} seconds.",
+      "valueRange": [3.0, 5.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet"],
+      "classRestrictions": [],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_elements",
+      "label": "Aspect of the Elements",
+      "labelTemplate": "Gain {value}% increased damage to a set of damage types for 7 seconds. This effect alternates between Fire, Ice, and Lightning damage types.",
+      "valueRange": [20.0, 40.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand"],
+      "classRestrictions": [],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_frozen_orbit",
+      "label": "Aspect of Frozen Orbit",
+      "labelTemplate": "Blizzard deals {value}% increased damage and will strike 1 additional time.",
+      "valueRange": [65.0, 100.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    },
+    {
+      "id": "snowguards_aspect",
+      "label": "Snowguard's Aspect",
+      "labelTemplate": "While within your own Blizzard, you take {value}% less damage.",
+      "valueRange": [10.0, 20.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    },
+    {
+      "id": "prodigys_aspect",
+      "label": "Prodigy's Aspect",
+      "labelTemplate": "Using a Cooldown restores {value} Mana.",
+      "valueRange": [15.0, 25.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "offHand"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_piercing_cold",
+      "label": "Aspect of Piercing Cold",
+      "labelTemplate": "Ice Shards pierce {value} times, dealing 20% reduced damage each pierce.",
+      "valueRange": [3.0, 5.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    },
+    {
+      "id": "flamethrower_aspect",
+      "label": "Flamethrower Aspect",
+      "labelTemplate": "Incinerate forks into {value} additional streams.",
+      "valueRange": [2.0, 4.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_berserk_ripping",
+      "label": "Aspect of Berserk Ripping",
+      "labelTemplate": "Whenever you deal direct damage while Berserking, inflict {value}% of the Base damage dealt as additional Bleeding damage over 5 seconds.",
+      "valueRange": [20.0, 40.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": ["Barbarian"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_anemia",
+      "label": "Aspect of Anemia",
+      "labelTemplate": "Lucky Hit: Direct damage against Bleeding enemies has up to a {value}% chance to Stun them for 2 seconds.",
+      "valueRange": [20.0, 40.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": ["Barbarian"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_grasping_veins",
+      "label": "Aspect of Grasping Veins",
+      "labelTemplate": "Gain {value}% increased Critical Strike Chance for 6 seconds when you cast Corpse Tendrils.",
+      "valueRange": [10.0, 20.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Necromancer"],
+      "source": "codex"
+    },
+    {
+      "id": "blood_seekers_aspect",
+      "label": "Blood Seeker's Aspect",
+      "labelTemplate": "Blood Lance deals {value}% increased damage to its primary target for each other enemy it also hits.",
+      "valueRange": [10.0, 20.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Necromancer"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_explosive_verve",
+      "label": "Aspect of Explosive Verve",
+      "labelTemplate": "Your Grenade skills count as Trap skills. Whenever you arm a Trap or drop Grenades, you gain {value}% increased Movement Speed for 3 seconds.",
+      "valueRange": [10.0, 20.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Rogue"],
+      "source": "codex"
+    },
+    {
+      "id": "rapid_aspect",
+      "label": "Rapid Aspect",
+      "labelTemplate": "Basic Skills gain {value}% increased Attack Speed.",
+      "valueRange": [20.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Rogue"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_the_unsatiated",
+      "label": "Aspect of the Unsatiated",
+      "labelTemplate": "After killing an enemy with Shred, your next Werewolf Skill deals {value}% increased damage.",
+      "valueRange": [30.0, 50.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Druid"],
+      "source": "codex"
+    },
+    {
+      "id": "stormshifters_aspect",
+      "label": "Stormshifter's Aspect",
+      "labelTemplate": "While Hurricane is active, Shred gains {value} additional Charge(s).",
+      "valueRange": [1.0, 2.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Druid"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_the_calm_breeze",
+      "label": "Aspect of the Calm Breeze",
+      "labelTemplate": "Lucky Hit: Wind Shear has up to a {value}% chance to fully restore your Spirit.",
+      "valueRange": [5.0, 15.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Spiritborn"],
+      "source": "codex"
+    },
+    {
+      "id": "aspect_of_the_overflowing_energy",
+      "label": "Aspect of the Overflowing Energy",
+      "labelTemplate": "Crackling Energy hits {value} additional enemy. Each time Crackling Energy hits an enemy, your Shock Skill Cooldowns are reduced by 0.1 second.",
+      "valueRange": [1.0, 2.0],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
+      "classRestrictions": ["Sorcerer"],
+      "source": "codex"
+    }
+  ]
+}

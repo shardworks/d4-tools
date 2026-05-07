@@ -1,42 +1,32 @@
+"use client";
+
+import type { Character, Build, Item } from "@/lib/schema";
 import { GearSlotGrid } from "./GearSlotGrid";
 import { StatBlock } from "./StatBlock";
 
-type Affix = {
-  label: string;
-  value: string;
-};
-
-type Item = {
-  id: string;
-  slot: string;
-  name: string;
-  rarity: "common" | "magic" | "rare" | "legendary" | "unique" | "mythic";
-  itemPower?: number;
-  affixes: Affix[];
-  aspectName?: string;
-  isAncestral?: boolean;
-};
-
-type Character = {
-  name: string;
-  class: string;
-  level: number;
-  paragon: number;
-  buildName: string;
-  items: Item[];
-  stats: Array<{ label: string; value: string }>;
-};
-
-type BuildSummaryViewProps = {
+interface BuildSummaryViewProps {
   character: Character;
-};
+  build: Build;
+  /** When true, gear slots are clickable and open the slot editor */
+  editable?: boolean;
+  /** Called after a slot item is saved (parent persists the change) */
+  onItemSave?: (slotId: string, item: Item) => Promise<void>;
+  /** Called after a slot item is removed */
+  onItemRemove?: (slotId: string) => Promise<void>;
+}
 
-export function BuildSummaryView({ character }: BuildSummaryViewProps) {
-  // Convert items array to a Record keyed by slot id
-  const itemsBySlot: Record<string, Item> = {};
-  for (const item of character.items) {
-    itemsBySlot[item.slot] = item;
-  }
+export function BuildSummaryView({
+  character,
+  build,
+  editable = false,
+  onItemSave,
+  onItemRemove,
+}: BuildSummaryViewProps) {
+  // Placeholder stats — scoring engine will populate these in a future commission
+  const placeholderStats: Array<{ label: string; value: string }> = [
+    { label: "Level", value: String(character.level) },
+    { label: "Paragon", value: String(character.paragonAllocation.paragonLevel) },
+  ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "1200px" }}>
@@ -69,7 +59,7 @@ export function BuildSummaryView({ character }: BuildSummaryViewProps) {
               fontWeight: 600,
             }}
           >
-            {character.buildName}
+            {build.name}
           </span>
           <span style={{ color: "var(--stone-600)" }}>·</span>
           <span style={{ fontSize: "13px", color: "var(--stone-400)" }}>
@@ -81,7 +71,7 @@ export function BuildSummaryView({ character }: BuildSummaryViewProps) {
           </span>
           <span style={{ color: "var(--stone-600)" }}>·</span>
           <span style={{ fontSize: "13px", color: "var(--stone-400)" }}>
-            Paragon {character.paragon}
+            Paragon {character.paragonAllocation.paragonLevel}
           </span>
           <span style={{ color: "var(--stone-600)" }}>·</span>
           <span
@@ -99,7 +89,13 @@ export function BuildSummaryView({ character }: BuildSummaryViewProps) {
       {/* Main content: gear grid + stat block side by side */}
       <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-          <GearSlotGrid items={itemsBySlot} />
+          <GearSlotGrid
+            items={character.equippedItems}
+            characterClass={character.class}
+            editable={editable}
+            onItemSave={onItemSave}
+            onItemRemove={onItemRemove}
+          />
         </div>
         <div style={{ width: "260px", flexShrink: 0 }}>
           <div
@@ -114,7 +110,7 @@ export function BuildSummaryView({ character }: BuildSummaryViewProps) {
           >
             Character Stats
           </div>
-          <StatBlock stats={character.stats} />
+          <StatBlock stats={placeholderStats} />
         </div>
       </div>
     </div>

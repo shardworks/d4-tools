@@ -1,0 +1,26 @@
+{
+  "class": "Rogue",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "rogue_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "rogue_cunning_stratagem", "label": "Cunning Stratagem" },
+    { "id": "rogue_tricks_of_the_trade", "label": "Tricks of the Trade" },
+    { "id": "rogue_shadow_realm", "label": "Shadow Realm" },
+    { "id": "rogue_no_witnesses", "label": "No Witnesses" },
+    { "id": "rogue_deadly_menace", "label": "Deadly Menace" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_ambush", "label": "Ambush" },
+    { "id": "glyph_versatility", "label": "Versatility" },
+    { "id": "glyph_turf", "label": "Turf" },
+    { "id": "glyph_devious", "label": "Devious" }
+  ]
+}

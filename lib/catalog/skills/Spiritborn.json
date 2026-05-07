@@ -1,0 +1,32 @@
+{
+  "class": "Spiritborn",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "sb_quill_volley", "label": "Quill Volley", "category": "basic", "maxRank": 5 },
+    { "id": "sb_thunderspike", "label": "Thunderspike", "category": "basic", "maxRank": 5 },
+    { "id": "sb_rake", "label": "Rake", "category": "basic", "maxRank": 5 },
+    { "id": "sb_crush", "label": "Crush", "category": "basic", "maxRank": 5 },
+    { "id": "sb_ravage", "label": "Ravage", "category": "core", "maxRank": 5 },
+    { "id": "sb_scourge", "label": "Scourge", "category": "core", "maxRank": 5 },
+    { "id": "sb_rock_splitter", "label": "Rock Splitter", "category": "core", "maxRank": 5 },
+    { "id": "sb_stinger", "label": "Stinger", "category": "core", "maxRank": 5 },
+    { "id": "sb_armored_hide", "label": "Armored Hide", "category": "defensive", "maxRank": 5 },
+    { "id": "sb_counterattack", "label": "Counterattack", "category": "defensive", "maxRank": 5 },
+    { "id": "sb_razor_wings", "label": "Razor Wings", "category": "defensive", "maxRank": 5 },
+    { "id": "sb_shroud_of_feathers", "label": "Shroud of Feathers", "category": "defensive", "maxRank": 5 },
+    { "id": "sb_eagle_eye", "label": "Eagle Eye", "category": "brawling", "maxRank": 5 },
+    { "id": "sb_crushing_hand", "label": "Crushing Hand", "category": "brawling", "maxRank": 5 },
+    { "id": "sb_the_seeker", "label": "The Seeker", "category": "brawling", "maxRank": 5 },
+    { "id": "sb_veil_of_steel", "label": "Veil of Steel", "category": "brawling", "maxRank": 5 },
+    { "id": "sb_apex", "label": "Apex", "category": "ultimate", "maxRank": 1 },
+    { "id": "sb_supremacy", "label": "Supremacy", "category": "ultimate", "maxRank": 1 },
+    { "id": "sb_dominant", "label": "Dominant", "category": "key-passive", "maxRank": 1 },
+    { "id": "sb_packleader", "label": "Pack Leader", "category": "key-passive", "maxRank": 1 },
+    { "id": "sb_resonance", "label": "Resonance", "category": "key-passive", "maxRank": 1 }
+  ]
+}

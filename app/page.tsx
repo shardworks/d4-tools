@@ -1,15 +1,8 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
+/**
+ * Home page — redirects to the builds list-detail surface (D25).
+ */
 export default function Home() {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <Link
-        href="/character/demo"
-        style={{ color: "var(--accent)", textDecoration: "none" }}
-        className="hover:underline"
-      >
-        View demo character
-      </Link>
-    </div>
-  );
+  redirect("/builds");
 }

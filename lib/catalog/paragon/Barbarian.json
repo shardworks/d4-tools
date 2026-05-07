@@ -1,0 +1,29 @@
+{
+  "class": "Barbarian",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "barb_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "barb_bone_breaker", "label": "Bone Breaker" },
+    { "id": "barb_hemorrhage", "label": "Hemorrhage" },
+    { "id": "barb_blood_rage", "label": "Blood Rage" },
+    { "id": "barb_carnage", "label": "Carnage" },
+    { "id": "barb_warbringer", "label": "Warbringer" },
+    { "id": "barb_weapons_master", "label": "Weapons Master" },
+    { "id": "barb_flawless_technique", "label": "Flawless Technique" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_fervent", "label": "Fervent" },
+    { "id": "glyph_mortal_draw", "label": "Mortal Draw" },
+    { "id": "glyph_territorial", "label": "Territorial" },
+    { "id": "glyph_undaunted", "label": "Undaunted" },
+    { "id": "glyph_wrathful", "label": "Wrathful" },
+    { "id": "glyph_berserker", "label": "Berserker" }
+  ]
+}

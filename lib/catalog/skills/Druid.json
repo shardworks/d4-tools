@@ -1,0 +1,38 @@
+{
+  "class": "Druid",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "druid_maul", "label": "Maul", "category": "basic", "maxRank": 5 },
+    { "id": "druid_claw", "label": "Claw", "category": "basic", "maxRank": 5 },
+    { "id": "druid_storm_strike", "label": "Storm Strike", "category": "basic", "maxRank": 5 },
+    { "id": "druid_wind_shear", "label": "Wind Shear", "category": "basic", "maxRank": 5 },
+    { "id": "druid_earth_spike", "label": "Earth Spike", "category": "basic", "maxRank": 5 },
+    { "id": "druid_landslide", "label": "Landslide", "category": "core", "maxRank": 5 },
+    { "id": "druid_pulverize", "label": "Pulverize", "category": "core", "maxRank": 5 },
+    { "id": "druid_shred", "label": "Shred", "category": "core", "maxRank": 5 },
+    { "id": "druid_tornado", "label": "Tornado", "category": "core", "maxRank": 5 },
+    { "id": "druid_rabies", "label": "Rabies", "category": "core", "maxRank": 5 },
+    { "id": "druid_trample", "label": "Trample", "category": "defensive", "maxRank": 5 },
+    { "id": "druid_cyclone_armor", "label": "Cyclone Armor", "category": "defensive", "maxRank": 5 },
+    { "id": "druid_earthen_bulwark", "label": "Earthen Bulwark", "category": "defensive", "maxRank": 5 },
+    { "id": "druid_debilitating_roar", "label": "Debilitating Roar", "category": "defensive", "maxRank": 5 },
+    { "id": "druid_ravens", "label": "Ravens", "category": "companion", "maxRank": 5 },
+    { "id": "druid_wolves", "label": "Wolves", "category": "companion", "maxRank": 5 },
+    { "id": "druid_vine_creeper", "label": "Vine Creeper", "category": "companion", "maxRank": 5 },
+    { "id": "druid_boulder", "label": "Boulder", "category": "wrath", "maxRank": 5 },
+    { "id": "druid_hurricane", "label": "Hurricane", "category": "wrath", "maxRank": 5 },
+    { "id": "druid_petrify", "label": "Petrify", "category": "ultimate", "maxRank": 1 },
+    { "id": "druid_lacerate", "label": "Lacerate", "category": "ultimate", "maxRank": 1 },
+    { "id": "druid_cataclysm", "label": "Cataclysm", "category": "ultimate", "maxRank": 1 },
+    { "id": "druid_grizzly_rage", "label": "Grizzly Rage", "category": "ultimate", "maxRank": 1 },
+    { "id": "druid_bestial_rampage", "label": "Bestial Rampage", "category": "key-passive", "maxRank": 1 },
+    { "id": "druid_natural_balance", "label": "Natural Balance", "category": "key-passive", "maxRank": 1 },
+    { "id": "druid_natures_fury", "label": "Nature's Fury", "category": "key-passive", "maxRank": 1 },
+    { "id": "druid_earthen_might", "label": "Earthen Might", "category": "key-passive", "maxRank": 1 }
+  ]
+}

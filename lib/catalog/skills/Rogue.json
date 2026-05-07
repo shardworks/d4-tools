@@ -1,0 +1,39 @@
+{
+  "class": "Rogue",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "rogue_blade_shift", "label": "Blade Shift", "category": "basic", "maxRank": 5 },
+    { "id": "rogue_puncture", "label": "Puncture", "category": "basic", "maxRank": 5 },
+    { "id": "rogue_forceful_arrow", "label": "Forceful Arrow", "category": "basic", "maxRank": 5 },
+    { "id": "rogue_heartseeker", "label": "Heartseeker", "category": "basic", "maxRank": 5 },
+    { "id": "rogue_invigorating_strike", "label": "Invigorating Strike", "category": "basic", "maxRank": 5 },
+    { "id": "rogue_barrage", "label": "Barrage", "category": "core", "maxRank": 5 },
+    { "id": "rogue_rapid_fire", "label": "Rapid Fire", "category": "core", "maxRank": 5 },
+    { "id": "rogue_flurry", "label": "Flurry", "category": "core", "maxRank": 5 },
+    { "id": "rogue_penetrating_shot", "label": "Penetrating Shot", "category": "core", "maxRank": 5 },
+    { "id": "rogue_twisting_blades", "label": "Twisting Blades", "category": "core", "maxRank": 5 },
+    { "id": "rogue_shadow_step", "label": "Shadow Step", "category": "agility", "maxRank": 5 },
+    { "id": "rogue_dash", "label": "Dash", "category": "agility", "maxRank": 5 },
+    { "id": "rogue_concealment", "label": "Concealment", "category": "agility", "maxRank": 5 },
+    { "id": "rogue_smoke_grenade", "label": "Smoke Grenade", "category": "agility", "maxRank": 5 },
+    { "id": "rogue_dark_shroud", "label": "Dark Shroud", "category": "defensive", "maxRank": 5 },
+    { "id": "rogue_cold_imbuement", "label": "Cold Imbuement", "category": "imbuement", "maxRank": 5 },
+    { "id": "rogue_fire_imbuement", "label": "Fire Imbuement", "category": "imbuement", "maxRank": 5 },
+    { "id": "rogue_poison_imbuement", "label": "Poison Imbuement", "category": "imbuement", "maxRank": 5 },
+    { "id": "rogue_shadow_imbuement", "label": "Shadow Imbuement", "category": "imbuement", "maxRank": 5 },
+    { "id": "rogue_death_trap", "label": "Death Trap", "category": "ultimate", "maxRank": 1 },
+    { "id": "rogue_preparation", "label": "Preparation", "category": "ultimate", "maxRank": 1 },
+    { "id": "rogue_shadow_clone", "label": "Shadow Clone", "category": "ultimate", "maxRank": 1 },
+    { "id": "rogue_rain_of_arrows", "label": "Rain of Arrows", "category": "ultimate", "maxRank": 1 },
+    { "id": "rogue_momentum", "label": "Momentum", "category": "key-passive", "maxRank": 1 },
+    { "id": "rogue_victimize", "label": "Victimize", "category": "key-passive", "maxRank": 1 },
+    { "id": "rogue_close_quarters_combat", "label": "Close Quarters Combat", "category": "key-passive", "maxRank": 1 },
+    { "id": "rogue_precision", "label": "Precision", "category": "key-passive", "maxRank": 1 },
+    { "id": "rogue_exposure", "label": "Exposure", "category": "key-passive", "maxRank": 1 }
+  ]
+}

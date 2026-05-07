@@ -3,13 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sword, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sword, User, ChevronLeft, ChevronRight } from "lucide-react";
 
 const NAV_ITEMS = [
   {
-    href: "/character/demo",
-    label: "View Character",
+    href: "/builds",
+    label: "Builds",
     icon: Sword,
+  },
+  {
+    href: "/characters/new",
+    label: "New Character",
+    icon: User,
   },
 ];
 
@@ -61,7 +66,7 @@ export function SidebarNav() {
       <nav style={{ flex: 1, padding: "8px 0" }}>
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
 
           return (
             <Link

@@ -1,0 +1,31 @@
+{
+  "class": "Sorcerer",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "sorc_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "sorc_devastation", "label": "Devastation" },
+    { "id": "sorc_searing_heat", "label": "Searing Heat" },
+    { "id": "sorc_frigid_fate", "label": "Frigid Fate" },
+    { "id": "sorc_shocking_strikes", "label": "Shocking Strikes" },
+    { "id": "sorc_enchantment_mastery", "label": "Enchantment Mastery" },
+    { "id": "sorc_the_oculus", "label": "The Oculus" },
+    { "id": "sorc_burning_instinct", "label": "Burning Instinct" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_flamefeeder", "label": "Flamefeeder" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_cold_calc", "label": "Cold Calc" },
+    { "id": "glyph_destruction", "label": "Destruction" },
+    { "id": "glyph_stalagmite", "label": "Stalagmite" },
+    { "id": "glyph_lesser_conjuration", "label": "Lesser Conjuration" },
+    { "id": "glyph_esoteric_alteration", "label": "Esoteric Alteration" },
+    { "id": "glyph_lightning_rod", "label": "Lightning Rod" }
+  ]
+}

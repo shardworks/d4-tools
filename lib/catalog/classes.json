@@ -1,0 +1,60 @@
+{
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "classes": [
+    {
+      "id": "Barbarian",
+      "label": "Barbarian",
+      "primaryStat": "Strength",
+      "supported": true
+    },
+    {
+      "id": "Druid",
+      "label": "Druid",
+      "primaryStat": "Willpower",
+      "supported": true
+    },
+    {
+      "id": "Necromancer",
+      "label": "Necromancer",
+      "primaryStat": "Intelligence",
+      "supported": true
+    },
+    {
+      "id": "Rogue",
+      "label": "Rogue",
+      "primaryStat": "Dexterity",
+      "supported": true
+    },
+    {
+      "id": "Sorcerer",
+      "label": "Sorcerer",
+      "primaryStat": "Intelligence",
+      "supported": true
+    },
+    {
+      "id": "Spiritborn",
+      "label": "Spiritborn",
+      "primaryStat": "Willpower",
+      "supported": true
+    },
+    {
+      "id": "Paladin",
+      "label": "Paladin",
+      "primaryStat": "Strength",
+      "supported": false,
+      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)"
+    },
+    {
+      "id": "Warlock",
+      "label": "Warlock",
+      "primaryStat": "Intelligence",
+      "supported": false,
+      "unsupportedReason": "Catalog not yet verified for Season 13 (Lord of Hatred)"
+    }
+  ]
+}

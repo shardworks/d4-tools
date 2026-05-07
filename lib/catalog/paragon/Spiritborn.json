@@ -1,0 +1,25 @@
+{
+  "class": "Spiritborn",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "sb_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "sb_eagle_flight", "label": "Eagle Flight" },
+    { "id": "sb_jaguar_pounce", "label": "Jaguar Pounce" },
+    { "id": "sb_gorilla_grip", "label": "Gorilla Grip" },
+    { "id": "sb_centipede_venom", "label": "Centipede Venom" },
+    { "id": "sb_spirit_ascendant", "label": "Spirit Ascendant" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_territorial", "label": "Territorial" },
+    { "id": "glyph_seeker_g", "label": "Seeker" },
+    { "id": "glyph_keeper", "label": "Keeper" }
+  ]
+}

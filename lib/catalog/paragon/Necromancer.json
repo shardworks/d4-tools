@@ -1,0 +1,27 @@
+{
+  "class": "Necromancer",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "boards": [
+    { "id": "necro_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "necro_bone_graft", "label": "Bone Graft" },
+    { "id": "necro_scent_of_death", "label": "Scent of Death" },
+    { "id": "necro_splintering_aspect", "label": "Splintering" },
+    { "id": "necro_flesh_eater", "label": "Flesh-Eater" },
+    { "id": "necro_cult_leader", "label": "Cult Leader" },
+    { "id": "necro_desecration", "label": "Desecration" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_dominate", "label": "Dominate" },
+    { "id": "glyph_darkness", "label": "Darkness" },
+    { "id": "glyph_bone_graft_g", "label": "Bone Graft" },
+    { "id": "glyph_deadraiser", "label": "Deadraiser" }
+  ]
+}

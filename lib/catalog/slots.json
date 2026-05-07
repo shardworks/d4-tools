@@ -1,0 +1,24 @@
+{
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "slots": [
+    { "id": "helm", "label": "Helm", "cluster": "armor" },
+    { "id": "chest", "label": "Chest Armor", "cluster": "armor" },
+    { "id": "gloves", "label": "Gloves", "cluster": "armor" },
+    { "id": "pants", "label": "Pants", "cluster": "armor" },
+    { "id": "boots", "label": "Boots", "cluster": "armor" },
+    { "id": "amulet", "label": "Amulet", "cluster": "jewelry" },
+    { "id": "ring1", "label": "Ring 1", "cluster": "jewelry" },
+    { "id": "ring2", "label": "Ring 2", "cluster": "jewelry" },
+    { "id": "weapon", "label": "Weapon", "cluster": "weapon", "excludedClasses": ["Barbarian"] },
+    { "id": "offHand", "label": "Off-Hand", "cluster": "weapon", "excludedClasses": ["Barbarian"] },
+    { "id": "barb_1h_main", "label": "1H Main Hand", "cluster": "weapon", "classSpecific": ["Barbarian"] },
+    { "id": "barb_1h_off", "label": "1H Off-Hand", "cluster": "weapon", "classSpecific": ["Barbarian"] },
+    { "id": "barb_2h_bludgeoning", "label": "2H Bludgeoning", "cluster": "weapon", "classSpecific": ["Barbarian"] },
+    { "id": "barb_2h_slashing", "label": "2H Slashing", "cluster": "weapon", "classSpecific": ["Barbarian"] }
+  ]
+}

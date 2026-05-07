@@ -1,0 +1,164 @@
+"use client";
+
+import { useFormContext, useFieldArray } from "react-hook-form";
+import { getSkillsForClass, getSkillPointsAvailable, type SkillEntry } from "@/lib/catalog";
+import type { Character } from "@/lib/schema";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
+interface SkillTreePickerProps {
+  /** The class for which to load the skill catalog */
+  className: string;
+  /** Character level — drives the skill points budget */
+  level: number;
+}
+
+/**
+ * Flat skill-rank allocation table backed by React Hook Form.
+ * Each row lets the user allocate 0–maxRank points to a skill.
+ * Total ranks are validated against skill points available at the current level.
+ */
+export function SkillTreePicker({ className: charClass, level }: SkillTreePickerProps) {
+  const {
+    register,
+    formState: { errors },
+    getValues,
+  } = useFormContext<Character>();
+
+  const { fields, replace } = useFieldArray<Character, "skillSelections">({
+    name: "skillSelections",
+  });
+
+  const skills = getSkillsForClass(charClass);
+  const budget = getSkillPointsAvailable(level);
+
+  // Sync the field array whenever the class changes
+  // (parent CharacterEditor is responsible for calling replace on class change)
+
+  if (!skills.length) {
+    return (
+      <div style={{ color: "var(--stone-500)", fontSize: "13px", padding: "8px 0" }}>
+        Skill catalog not available for this class.
+      </div>
+    );
+  }
+
+  // Group skills by category
+  const byCategory = skills.reduce<Record<string, SkillEntry[]>>((acc, s) => {
+    (acc[s.category] ??= []).push(s);
+    return acc;
+  }, {});
+
+  const currentSkillSelections = getValues("skillSelections") ?? [];
+  const totalRanks = currentSkillSelections.reduce((sum, s) => sum + (s.rank ?? 0), 0);
+
+  // Build a map of fieldIndex by skillId for quick lookup
+  const indexBySkillId: Record<string, number> = {};
+  fields.forEach((f, i) => {
+    indexBySkillId[f.skillId] = i;
+  });
+
+  function getRankForSkill(skillId: string): number {
+    const idx = indexBySkillId[skillId];
+    return idx !== undefined ? (currentSkillSelections[idx]?.rank ?? 0) : 0;
+  }
+
+  function handleRankChange(skill: SkillEntry, value: number) {
+    const clamped = Math.max(0, Math.min(skill.maxRank, value));
+    const existing = currentSkillSelections.map((s) => ({ ...s }));
+    const idx = existing.findIndex((s) => s.skillId === skill.id);
+    if (idx >= 0) {
+      existing[idx].rank = clamped;
+    } else {
+      existing.push({ skillId: skill.id, rank: clamped, slot: skill.category });
+    }
+    // Filter out zero-rank entries
+    const filtered = existing.filter((s) => s.rank > 0);
+    replace(filtered);
+  }
+
+  const overBudget = totalRanks > budget;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <span style={{ fontSize: "13px", color: "var(--stone-400)" }}>
+          Skill Points Used:{" "}
+          <strong style={{ color: overBudget ? "var(--destructive, #ef4444)" : "var(--stone-100)" }}>
+            {totalRanks}
+          </strong>{" "}
+          / {budget}
+        </span>
+        {overBudget && (
+          <Badge variant="destructive" style={{ fontSize: "11px" }}>
+            Over budget
+          </Badge>
+        )}
+      </div>
+
+      {errors.skillSelections && (
+        <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px" }}>
+          {(errors.skillSelections as { message?: string }).message}
+        </p>
+      )}
+
+      {Object.entries(byCategory).map(([category, categorySkills]) => (
+        <div key={category}>
+          <div
+            style={{
+              fontSize: "11px",
+              fontWeight: 600,
+              color: "var(--stone-500)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              marginBottom: "8px",
+            }}
+          >
+            {category.replace("-", " ")}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {categorySkills.map((skill) => {
+              const rank = getRankForSkill(skill.id);
+              return (
+                <div
+                  key={skill.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "4px 0",
+                  }}
+                >
+                  <span
+                    style={{
+                      flex: 1,
+                      fontSize: "13px",
+                      color: rank > 0 ? "var(--stone-100)" : "var(--stone-400)",
+                    }}
+                  >
+                    {skill.label}
+                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={skill.maxRank}
+                      value={rank}
+                      onChange={(e) => handleRankChange(skill, parseInt(e.target.value, 10) || 0)}
+                      style={{ width: "60px", textAlign: "center" }}
+                    />
+                    <span style={{ fontSize: "11px", color: "var(--stone-600)" }}>
+                      / {skill.maxRank}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <Separator style={{ marginTop: "8px" }} />
+        </div>
+      ))}
+    </div>
+  );
+}

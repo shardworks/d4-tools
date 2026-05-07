@@ -1,0 +1,40 @@
+{
+  "class": "Sorcerer",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skills": [
+    { "id": "sorc_arc_lash", "label": "Arc Lash", "category": "basic", "maxRank": 5 },
+    { "id": "sorc_spark", "label": "Spark", "category": "basic", "maxRank": 5 },
+    { "id": "sorc_frost_bolt", "label": "Frost Bolt", "category": "basic", "maxRank": 5 },
+    { "id": "sorc_fire_bolt", "label": "Fire Bolt", "category": "basic", "maxRank": 5 },
+    { "id": "sorc_charged_bolts", "label": "Charged Bolts", "category": "core", "maxRank": 5 },
+    { "id": "sorc_ice_shards", "label": "Ice Shards", "category": "core", "maxRank": 5 },
+    { "id": "sorc_fireball", "label": "Fireball", "category": "core", "maxRank": 5 },
+    { "id": "sorc_incinerate", "label": "Incinerate", "category": "core", "maxRank": 5 },
+    { "id": "sorc_chain_lightning", "label": "Chain Lightning", "category": "core", "maxRank": 5 },
+    { "id": "sorc_frozen_orb", "label": "Frozen Orb", "category": "core", "maxRank": 5 },
+    { "id": "sorc_teleport", "label": "Teleport", "category": "defensive", "maxRank": 5 },
+    { "id": "sorc_ice_armor", "label": "Ice Armor", "category": "defensive", "maxRank": 5 },
+    { "id": "sorc_flame_shield", "label": "Flame Shield", "category": "defensive", "maxRank": 5 },
+    { "id": "sorc_frost_nova", "label": "Frost Nova", "category": "defensive", "maxRank": 5 },
+    { "id": "sorc_hydra", "label": "Hydra", "category": "conjuration", "maxRank": 5 },
+    { "id": "sorc_ice_blades", "label": "Ice Blades", "category": "conjuration", "maxRank": 5 },
+    { "id": "sorc_lightning_spear", "label": "Lightning Spear", "category": "conjuration", "maxRank": 5 },
+    { "id": "sorc_blizzard", "label": "Blizzard", "category": "mastery", "maxRank": 5 },
+    { "id": "sorc_meteor", "label": "Meteor", "category": "mastery", "maxRank": 5 },
+    { "id": "sorc_ball_lightning", "label": "Ball Lightning", "category": "mastery", "maxRank": 5 },
+    { "id": "sorc_unstable_currents", "label": "Unstable Currents", "category": "ultimate", "maxRank": 1 },
+    { "id": "sorc_inferno", "label": "Inferno", "category": "ultimate", "maxRank": 1 },
+    { "id": "sorc_deep_freeze", "label": "Deep Freeze", "category": "ultimate", "maxRank": 1 },
+    { "id": "sorc_shatter", "label": "Shatter", "category": "key-passive", "maxRank": 1 },
+    { "id": "sorc_permafrost", "label": "Permafrost", "category": "key-passive", "maxRank": 1 },
+    { "id": "sorc_avalanche", "label": "Avalanche", "category": "key-passive", "maxRank": 1 },
+    { "id": "sorc_endless_pyre", "label": "Endless Pyre", "category": "key-passive", "maxRank": 1 },
+    { "id": "sorc_vyr_mastery", "label": "Vyr's Mastery", "category": "key-passive", "maxRank": 1 },
+    { "id": "sorc_static_discharge", "label": "Static Discharge", "category": "key-passive", "maxRank": 1 }
+  ]
+}

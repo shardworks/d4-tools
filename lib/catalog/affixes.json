@@ -1,0 +1,397 @@
+{
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "affixes": [
+    {
+      "id": "affix_max_life",
+      "label": "Maximum Life",
+      "labelTemplate": "+{value} Maximum Life",
+      "valueRange": [700, 2800],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_max_life_pct",
+      "label": "Maximum Life %",
+      "labelTemplate": "+{value}% Maximum Life",
+      "valueRange": [8.0, 14.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "pants", "boots"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_str",
+      "label": "Strength",
+      "labelTemplate": "+{value} Strength",
+      "valueRange": [60, 200],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_int",
+      "label": "Intelligence",
+      "labelTemplate": "+{value} Intelligence",
+      "valueRange": [60, 200],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_wil",
+      "label": "Willpower",
+      "labelTemplate": "+{value} Willpower",
+      "valueRange": [60, 200],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_dex",
+      "label": "Dexterity",
+      "labelTemplate": "+{value} Dexterity",
+      "valueRange": [60, 200],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_crit_chance",
+      "label": "Critical Strike Chance",
+      "labelTemplate": "+{value}% Critical Strike Chance",
+      "valueRange": [3.0, 7.5],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "gloves", "amulet", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_crit_damage",
+      "label": "Critical Strike Damage",
+      "labelTemplate": "+{value}% Critical Strike Damage",
+      "valueRange": [20.0, 50.0],
+      "isPercent": true,
+      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_attack_speed",
+      "label": "Attack Speed",
+      "labelTemplate": "+{value}% Attack Speed",
+      "valueRange": [5.0, 10.5],
+      "isPercent": true,
+      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_movement_speed",
+      "label": "Movement Speed",
+      "labelTemplate": "+{value}% Movement Speed",
+      "valueRange": [8.0, 18.0],
+      "isPercent": true,
+      "slotRestrictions": ["boots", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_cdr",
+      "label": "Cooldown Reduction",
+      "labelTemplate": "+{value}% Cooldown Reduction",
+      "valueRange": [4.0, 10.5],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "gloves", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_rcr",
+      "label": "Resource Cost Reduction",
+      "labelTemplate": "+{value}% Resource Cost Reduction",
+      "valueRange": [5.0, 12.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "amulet", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_damage_reduction",
+      "label": "Damage Reduction",
+      "labelTemplate": "+{value}% Damage Reduction",
+      "valueRange": [5.0, 13.5],
+      "isPercent": true,
+      "slotRestrictions": ["chest", "pants"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_damage_reduction_close",
+      "label": "Damage Reduction from Close Enemies",
+      "labelTemplate": "+{value}% Damage Reduction from Close Enemies",
+      "valueRange": [6.0, 14.5],
+      "isPercent": true,
+      "slotRestrictions": ["chest", "pants", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_damage_reduction_distant",
+      "label": "Damage Reduction from Distant Enemies",
+      "labelTemplate": "+{value}% Damage Reduction from Distant Enemies",
+      "valueRange": [6.0, 14.5],
+      "isPercent": true,
+      "slotRestrictions": ["chest", "pants", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_all_res",
+      "label": "Resistance to All Elements",
+      "labelTemplate": "+{value}% Resistance to All Elements",
+      "valueRange": [8.0, 22.0],
+      "isPercent": true,
+      "slotRestrictions": ["amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_fire_res",
+      "label": "Fire Resistance",
+      "labelTemplate": "+{value}% Fire Resistance",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_cold_res",
+      "label": "Cold Resistance",
+      "labelTemplate": "+{value}% Cold Resistance",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_lightning_res",
+      "label": "Lightning Resistance",
+      "labelTemplate": "+{value}% Lightning Resistance",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_shadow_res",
+      "label": "Shadow Resistance",
+      "labelTemplate": "+{value}% Shadow Resistance",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_poison_res",
+      "label": "Poison Resistance",
+      "labelTemplate": "+{value}% Poison Resistance",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_lucky_hit_chance",
+      "label": "Lucky Hit Chance",
+      "labelTemplate": "+{value}% Lucky Hit Chance",
+      "valueRange": [5.0, 12.0],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_vulnerable_damage",
+      "label": "Vulnerable Damage",
+      "labelTemplate": "+{value}% Vulnerable Damage",
+      "valueRange": [15.0, 35.0],
+      "isPercent": true,
+      "slotRestrictions": ["ring1", "ring2", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_overpower_damage",
+      "label": "Overpower Damage",
+      "labelTemplate": "+{value}% Overpower Damage",
+      "valueRange": [20.0, 45.0],
+      "isPercent": true,
+      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_core_skill_damage",
+      "label": "Core Skill Damage",
+      "labelTemplate": "+{value}% Core Skill Damage",
+      "valueRange": [20.0, 40.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "pants", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_damage_vs_elites",
+      "label": "Damage vs. Elites",
+      "labelTemplate": "+{value}% Damage vs. Elites",
+      "valueRange": [10.0, 30.0],
+      "isPercent": true,
+      "slotRestrictions": ["chest", "amulet", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_dodge_chance",
+      "label": "Dodge Chance",
+      "labelTemplate": "+{value}% Dodge Chance",
+      "valueRange": [4.0, 9.0],
+      "isPercent": true,
+      "slotRestrictions": ["pants", "boots"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_armor",
+      "label": "Armor",
+      "labelTemplate": "+{value} Armor",
+      "valueRange": [500, 2500],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_ranks_all_skills",
+      "label": "Ranks to All Skills",
+      "labelTemplate": "+{value} Ranks to All Skills",
+      "valueRange": [1, 4],
+      "isPercent": false,
+      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_ranks_basic_skills",
+      "label": "Ranks to Basic Skills",
+      "labelTemplate": "+{value} Ranks to Basic Skills",
+      "valueRange": [1, 3],
+      "isPercent": false,
+      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_ranks_core_skills",
+      "label": "Ranks to Core Skills",
+      "labelTemplate": "+{value} Ranks to Core Skills",
+      "valueRange": [1, 3],
+      "isPercent": false,
+      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_ranks_defensive_skills",
+      "label": "Ranks to Defensive Skills",
+      "labelTemplate": "+{value} Ranks to Defensive Skills",
+      "valueRange": [1, 3],
+      "isPercent": false,
+      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_ranks_ultimate_skills",
+      "label": "Ranks to Ultimate Skills",
+      "labelTemplate": "+{value} Ranks to Ultimate Skills",
+      "valueRange": [1, 3],
+      "isPercent": false,
+      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_sorcerer_mana_regen",
+      "label": "Mana per Second",
+      "labelTemplate": "+{value} Mana per Second",
+      "valueRange": [3.0, 9.0],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Sorcerer"]
+    },
+    {
+      "id": "affix_sorcerer_max_mana",
+      "label": "Maximum Mana",
+      "labelTemplate": "+{value} Maximum Mana",
+      "valueRange": [15, 60],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Sorcerer"]
+    },
+    {
+      "id": "affix_sorcerer_mana_on_kill",
+      "label": "Mana on Kill",
+      "labelTemplate": "+{value} Mana on Kill",
+      "valueRange": [2, 8],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Sorcerer"]
+    },
+    {
+      "id": "affix_necromancer_essence_on_kill",
+      "label": "Essence On Kill",
+      "labelTemplate": "+{value} Essence On Kill",
+      "valueRange": [2, 6],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Necromancer"]
+    },
+    {
+      "id": "affix_druid_spirit_regen",
+      "label": "Spirit Regeneration",
+      "labelTemplate": "+{value} Spirit Regeneration",
+      "valueRange": [2, 8],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Druid"]
+    },
+    {
+      "id": "affix_rogue_energy_on_kill",
+      "label": "Energy On Kill",
+      "labelTemplate": "+{value} Energy On Kill",
+      "valueRange": [2, 6],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Rogue"]
+    },
+    {
+      "id": "affix_spiritborn_ferocity",
+      "label": "Ferocity",
+      "labelTemplate": "+{value} Ferocity",
+      "valueRange": [1, 5],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Spiritborn"]
+    },
+    {
+      "id": "affix_barbarian_fury_on_kill",
+      "label": "Fury On Kill",
+      "labelTemplate": "+{value} Fury On Kill",
+      "valueRange": [3, 8],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": ["Barbarian"]
+    },
+    {
+      "id": "affix_life_on_hit",
+      "label": "Life On Hit",
+      "labelTemplate": "+{value} Life On Hit",
+      "valueRange": [200, 800],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": []
+    },
+    {
+      "id": "affix_healing_received",
+      "label": "Healing Received",
+      "labelTemplate": "+{value}% Healing Received",
+      "valueRange": [5.0, 15.0],
+      "isPercent": true,
+      "slotRestrictions": ["helm", "chest", "amulet"],
+      "classRestrictions": []
+    }
+  ]
+}

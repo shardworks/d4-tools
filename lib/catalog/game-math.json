@@ -1,0 +1,28 @@
+{
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-07"
+  },
+  "skillPoints": {
+    "notes": "1 skill point per character level from levels 2-50. Capped at 49 from leveling alone. Additional points from renown (up to 10) and paragon boards are not tracked here.",
+    "pointsPerLevel": 1,
+    "levelingCapLevel": 50,
+    "maxFromLeveling": 49
+  },
+  "paragonPoints": {
+    "notes": "4 paragon points per paragon level. Paragon progression begins after reaching character level 60. Maximum paragon level is 300 (1200 points from leveling). Additional points from renown are not tracked here.",
+    "pointsPerParagonLevel": 4,
+    "maxParagonLevel": 300,
+    "maxFromParagonLeveling": 1200
+  },
+  "itemPower": {
+    "sacredThreshold": 725,
+    "ancestralThreshold": 825,
+    "maxItemPower": 1000
+  },
+  "masterworking": {
+    "maxRank": 12
+  }
+}
