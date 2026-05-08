@@ -48,7 +48,8 @@ or affix IDs. It would be a human-readable display, not a data API. Deep affix a
 require the game data API (§1.2) or a third-party planner that has implemented full import.
 
 **ToS:** Battle.net Terms of Service and Blizzard's website usage terms prohibit automated
-scraping of `battle.net`. The Game Data API (§1.2) is the intended programmatic interface.
+scraping of `battle.net`. The Game Data API (§1.2) was investigated as the intended programmatic
+interface but the documented endpoints do not exist (probed 2026-05-08).
 
 ---
 

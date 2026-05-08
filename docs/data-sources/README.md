@@ -154,7 +154,10 @@ per gap. Do not silently omit a lead because it wasn't verified; put it in Open 
   string (e.g. `3.0.1c`) has not been verified; the patch notes URL
   `https://diablo4.blizzard.com/en-us/news/patch-notes` returned HTTP 404 at access date.
   Obtain the current patch string from the game client or community Discord.
-- Whether Blizzard has published a `data.diablo4` namespace in the Game Data API — not confirmed.
+- ✅ Resolved — Whether Blizzard has published a `data.diablo4` namespace in the Game Data API:
+  **no.** Probed 2026-05-08 against `us.api.blizzard.com`; every D4 path returns HTTP 404 while
+  known-good paths (e.g. `/profile/user/wow`) return 401, confirming non-existence rather than
+  auth failure. See `docs/data-sources/01-armory.md` and `docs/future-import-paths.md`.
 - Whether any datamine repo is actively tracking the current Season 13 patch cycle — repo freshness
   to be verified per `08-datamine-extracts.md`.
 - Additional theorycraft authorities beyond Wudijo / Mekuna / RobBic / Northwar — needs community
