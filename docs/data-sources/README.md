@@ -16,7 +16,7 @@ commissions.
 
 | File | Area | Description |
 |------|------|-------------|
-| [01-armory.md](01-armory.md) | Armory / Character Import | Battle.net career profile, Blizzard OAuth APIs, third-party planners with Battle.net import (D4Builds.gg). How to fetch a live character's equipped gear and stats. |
+| [01-armory.md](01-armory.md) | Armory / Character Import | Investigated paths for fetching live D4 character data — Blizzard's Game Data API endpoints were probed and confirmed non-existent. See docs/future-import-paths.md for alternative paths (build-URL, OCR, vision-LLM, TTS-accessibility). |
 | [02-stats.md](02-stats.md) | Game Stats Catalog | Primary stat definitions, secondary stats, damage types, rarity tiers, item-slot enumeration. Canonical enums and sources for the full stat catalog. |
 | [03-affixes.md](03-affixes.md) | Affix Data | Item affixes, implicit/explicit breakdowns, affix pools per slot, affix IDs from datamine repos. Where to get affix tables and their observed JSON shapes. |
 | [04-crafting.md](04-crafting.md) | Crafting Systems | Tempering, enchanting, masterworking, horadric crafting. Sources for recipes, material costs, and system mechanics. |

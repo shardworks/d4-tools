@@ -136,13 +136,16 @@ this product is.
 ## 8. Data sources
 
 D4 entity data (items, affixes, aspects, paragon nodes, skills, classes)
-is sourced from **Blizzard APIs** and selected community datasets — not
-from local game files, screenshot OCR, or runtime game integration.
+is sourced from **community datamine repositories and selected community
+datasets** — not from Blizzard APIs (the documented D4 Game Data API
+endpoints were probed and confirmed non-existent), not from local game
+files, screenshot OCR, or runtime game integration.
 
-The full data-sourcing strategy — which APIs, which datasets, what each
-covers, how they're refreshed — lives in [`docs/data-sources/`](./data-sources/).
-That directory is the canonical reference; agents needing data should
-consult it rather than reinventing the picture.
+The full data-sourcing strategy — which datasets, what each covers, how
+they're refreshed, and what was investigated but found non-existent —
+lives in [`docs/data-sources/`](./data-sources/). That directory is the
+canonical reference; agents needing data should consult it rather than
+reinventing the picture.
 
 User-specific data (the actual rolls on items the user has found, build
 definitions, character records) is entered manually for v1. Live game
@@ -210,6 +213,9 @@ foreclose them.
   season.
 - **Visual paragon-board rendering.** Render the recommended paragon
   path as a visual board layout, not just a list.
+- Import paths beyond manual entry — build-URL parsing, screenshot OCR /
+  vision-LLM, TTS-accessibility intercept, or a future official Blizzard
+  API — are tracked in `docs/future-import-paths.md`.
 
 ## Open questions
 

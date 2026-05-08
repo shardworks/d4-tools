@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
   CharacterSchema,
-  CharacterImportSchema,
   BuildSchema,
   ItemSchema,
   AffixInstanceSchema,
@@ -237,129 +236,6 @@ describe("ParagonAllocationSchema", () => {
       ],
     });
     expect(result.success).toBe(false);
-  });
-});
-
-describe("CharacterImportSchema (D12/D30 provenance block)", () => {
-  const validImport = {
-    source: "battlenet" as const,
-    heroId: 12345678,
-    realm: "seasonal",
-    region: "americas" as const,
-    season: "13",
-    importedAt: "2026-05-07T00:00:00.000Z",
-  };
-
-  it("accepts a valid import block", () => {
-    expect(CharacterImportSchema.safeParse(validImport).success).toBe(true);
-  });
-
-  it("accepts heroId as a string", () => {
-    expect(
-      CharacterImportSchema.safeParse({ ...validImport, heroId: "12345678" }).success
-    ).toBe(true);
-  });
-
-  it("accepts null season for eternal characters (D30)", () => {
-    expect(
-      CharacterImportSchema.safeParse({ ...validImport, season: null }).success
-    ).toBe(true);
-  });
-
-  it("accepts all three valid regions", () => {
-    for (const region of ["americas", "europe", "asia"] as const) {
-      expect(CharacterImportSchema.safeParse({ ...validImport, region }).success).toBe(true);
-    }
-  });
-
-  it("rejects invalid region", () => {
-    expect(CharacterImportSchema.safeParse({ ...validImport, region: "us" }).success).toBe(false);
-  });
-
-  it("rejects missing source", () => {
-    const { source: _, ...rest } = validImport;
-    expect(CharacterImportSchema.safeParse(rest).success).toBe(false);
-  });
-
-  it("rejects wrong source value", () => {
-    expect(
-      CharacterImportSchema.safeParse({ ...validImport, source: "manual" }).success
-    ).toBe(false);
-  });
-});
-
-describe("CharacterSchema import block (optional D12/D30)", () => {
-  const base = {
-    id: "test-sorc",
-    name: "Test Sorcerer",
-    class: "Sorcerer" as const,
-    level: 100,
-    paragonAllocation: { paragonLevel: 0, boards: [] },
-    skillSelections: [],
-    equippedItems: {},
-    playstyleConstraints: [],
-  };
-
-  it("parses a character without the import block (manual entry)", () => {
-    expect(CharacterSchema.safeParse(base).success).toBe(true);
-  });
-
-  it("parses a character with a complete import block", () => {
-    const withImport = {
-      ...base,
-      import: {
-        source: "battlenet" as const,
-        heroId: 12345678,
-        realm: "seasonal",
-        region: "americas" as const,
-        season: "13",
-        importedAt: "2026-05-07T00:00:00.000Z",
-      },
-    };
-    const result = CharacterSchema.safeParse(withImport);
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.import?.source).toBe("battlenet");
-      expect(result.data.import?.heroId).toBe(12345678);
-      expect(result.data.import?.season).toBe("13");
-    }
-  });
-
-  it("parses a character with eternal realm (season: null)", () => {
-    const withImport = {
-      ...base,
-      import: {
-        source: "battlenet" as const,
-        heroId: 12345678,
-        realm: "eternal",
-        region: "europe" as const,
-        season: null,
-        importedAt: "2026-05-07T00:00:00.000Z",
-      },
-    };
-    expect(CharacterSchema.safeParse(withImport).success).toBe(true);
-  });
-
-  it("fails with a useful message on partial/invalid import block", () => {
-    const withBadImport = {
-      ...base,
-      import: { source: "battlenet", heroId: 123 },  // missing required fields
-    };
-    const result = CharacterSchema.safeParse(withBadImport);
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      // Should include field path in error
-      const issues = result.error.issues;
-      expect(issues.length).toBeGreaterThan(0);
-    }
-  });
-
-  it("import block is opaque to consumers — no import field on manual character", () => {
-    const result = CharacterSchema.safeParse(base);
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.import).toBeUndefined();
-    }
   });
 });
 
