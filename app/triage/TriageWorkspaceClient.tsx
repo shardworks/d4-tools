@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { Character, Build } from "@/lib/schema";
 import type { ScreenshotEntry, CacheEntry, ResolvedItem } from "@/lib/triage/types";
 import { resolveItem } from "@/lib/triage/resolve";
@@ -25,7 +25,9 @@ export function TriageWorkspaceClient({
   initialBuild,
 }: TriageWorkspaceClientProps) {
   const [screenshots] = useState<ScreenshotEntry[]>(initialScreenshots);
-  const [character, setCharacter] = useState<Character | null>(initialCharacter);
+  // Use the prop directly — when router.refresh() fires the Server Component re-renders
+  // and passes updated props, so no local state mirror is needed.
+  const character = initialCharacter;
   const activeBuild = initialBuild;
 
   // Gallery selection
@@ -45,12 +47,18 @@ export function TriageWorkspaceClient({
   const [isParsing, setIsParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
 
-  // Prefetch cache status pips for visible screenshots
+  // Track which hashes have already had a fetch initiated (avoids re-entrancy
+  // when setCacheStatuses updates cause a re-render — a ref never triggers re-runs).
+  const fetchedHashesRef = useRef<Set<string>>(new Set());
+
+  // Prefetch cache status pips for visible screenshots.
+  // Depends only on `screenshots` (stable); uses the ref guard to skip duplicates.
   useEffect(() => {
     for (const screenshot of screenshots) {
       const hash = screenshot.hash;
-      if (cacheStatuses[hash] !== undefined) continue;
+      if (fetchedHashesRef.current.has(hash)) continue;
 
+      fetchedHashesRef.current.add(hash);
       setCacheStatuses((prev) => ({ ...prev, [hash]: "loading" }));
       fetch(`/api/triage/cache/${hash}`)
         .then(async (res) => {
@@ -69,7 +77,7 @@ export function TriageWorkspaceClient({
           setCacheStatuses((prev) => ({ ...prev, [hash]: null }));
         });
     }
-  }, [screenshots, cacheStatuses]);
+  }, [screenshots]);
 
   // When a thumbnail is selected, load cache status if available
   const handleSelectScreenshot = useCallback(
@@ -138,12 +146,6 @@ export function TriageWorkspaceClient({
       setIsParsing(false);
     }
   }, [selectedFilename, character]);
-
-  // Re-sync character after wear (router.refresh() in DetailPane triggers re-render)
-  useEffect(() => {
-    if (!initialCharacter) return;
-    setCharacter(initialCharacter);
-  }, [initialCharacter]);
 
   return (
     <div className="flex flex-1 overflow-hidden">

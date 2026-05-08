@@ -148,17 +148,7 @@ export function DetailPane({
     });
   }, []);
 
-  // Empty states
-  if (!filename) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full gap-2 p-6">
-        <ImageOff size={32} className="text-stone-600" />
-        <p className="text-stone-500 text-sm font-medium">No screenshot selected</p>
-        <p className="text-stone-600 text-xs text-center">Click a thumbnail to select it.</p>
-      </div>
-    );
-  }
-
+  // Derived values — computed unconditionally so all hooks appear before any early return
   const activeItem = resolvedItems?.[activeItemIndex];
   const itemOverrides = getOverrides(activeItemIndex);
 
@@ -184,6 +174,7 @@ export function DetailPane({
   const canWear =
     !hasUncertain && !isIncompatible && !needsSlotPick && !!activeItem && !!effectiveSlotId && !!character;
 
+  // handleWear must be declared before any early return (rules-of-hooks)
   const handleWear = useCallback(async () => {
     if (!canWear || !activeItem || !effectiveSlotId || !character) return;
 
@@ -216,6 +207,17 @@ export function DetailPane({
     router.refresh();
     setTimeout(() => setWearSuccess(false), 2000);
   }, [canWear, activeItem, effectiveSlotId, character, itemOverrides, router]);
+
+  // Empty states — early return is safe here because all hooks are declared above
+  if (!filename) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-2 p-6">
+        <ImageOff size={32} className="text-stone-600" />
+        <p className="text-stone-500 text-sm font-medium">No screenshot selected</p>
+        <p className="text-stone-600 text-xs text-center">Click a thumbnail to select it.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full overflow-y-auto p-4 gap-4">
