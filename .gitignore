@@ -42,3 +42,9 @@ next-env.d.ts
 
 # data directory (file-based persistence)
 /data/
+
+# host-specific config
+.env
+
+# core dumps...
+core
