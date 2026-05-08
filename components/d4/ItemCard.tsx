@@ -1,6 +1,7 @@
 import type { Item } from "@/lib/schema";
 import { affixes as affixCatalog, aspects as aspectCatalog } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
 
 type ItemCardProps = {
   item: Item;
@@ -35,7 +36,7 @@ function AffixRow({ affixId, rolledValue }: { affixId: string; rolledValue: numb
       >
         {rolledValue}
         {entry?.isPercent ? "%" : ""}
-        {isGreater && " ✦"}
+        {isGreater && <Sparkles size={11} className="inline ml-0.5 text-rarity-mythic" />}
       </span>
       <span className="text-stone-400">{label}</span>
     </div>

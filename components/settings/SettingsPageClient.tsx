@@ -12,6 +12,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Region = "americas" | "europe" | "asia";
@@ -202,7 +203,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
               onClick={() => router.push("/import")}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-surface-2 border border-stone-700 text-stone-200 text-sm font-semibold cursor-pointer hover:bg-stone-800"
             >
-              Import Character →
+              Import Character <ArrowRight size={14} />
             </button>
           )}
         </div>

@@ -12,6 +12,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { AlertTriangle, ArrowLeft } from "lucide-react";
 import { BuildSummaryView } from "@/components/d4/BuildSummaryView";
 import type { Character, Build } from "@/lib/schema";
 
@@ -164,9 +165,9 @@ export function ImportConfirmClient() {
         <div className="flex gap-[10px]">
           <button
             onClick={() => router.back()}
-            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm cursor-pointer hover:bg-stone-800"
+            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm cursor-pointer hover:bg-stone-800 inline-flex items-center gap-1"
           >
-            ← Back
+            <ArrowLeft size={14} /> Back
           </button>
           <a
             href="/characters/new"
@@ -203,8 +204,9 @@ export function ImportConfirmClient() {
       {/* ── Warning banners (D14, D11) ─────────────────────────── */}
       {unresolvedCount > 0 && (
         <div className="px-[14px] py-[10px] rounded-md bg-warning/8 border border-warning/30 text-xs text-stone-400">
-          <strong className="text-stone-200">
-            ⚠ {unresolvedCount} unresolved{" "}
+          <strong className="inline-flex items-center gap-1 text-stone-200">
+            <AlertTriangle size={14} className="text-warning shrink-0" />
+            {unresolvedCount} unresolved{" "}
             {unresolvedCount === 1 ? "entity" : "entities"}
           </strong>{" "}
           — stored with <code className="font-mono">unresolved:</code> prefix.

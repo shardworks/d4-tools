@@ -16,6 +16,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BnetHeroSummary } from "@/lib/blizzard/types";
 import type { Character, Build } from "@/lib/schema";
@@ -67,7 +68,7 @@ function PreviewPane({
     <div className="p-6 overflow-y-auto h-full">
       {unresolvedCount > 0 && (
         <div className="px-[14px] py-[10px] rounded-md bg-warning/10 border border-warning/30 mb-4 text-xs text-stone-300">
-          <strong className="text-stone-200">⚠ {unresolvedCount} unresolved</strong>{" "}
+          <strong className="inline-flex items-center gap-1 text-stone-200"><AlertTriangle size={14} className="text-warning shrink-0" />{unresolvedCount} unresolved</strong>{" "}
           {unresolvedCount === 1 ? "entity" : "entities"} — stored with{" "}
           <code className="font-mono">unresolved:</code> prefix. These will be
           visible in the imported character and can be corrected when the catalog is updated.
@@ -300,8 +301,8 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
             {error}
             {privateProfile && (
               <div className="mt-2">
-                <a href="/characters/new" className="text-accent no-underline text-[11px]">
-                  Enter character manually →
+                <a href="/characters/new" className="text-accent no-underline text-[11px] inline-flex items-center gap-1">
+                  Enter character manually <ArrowRight size={14} />
                 </a>
               </div>
             )}
@@ -391,9 +392,9 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
                 )}
                 <button
                   onClick={proceedToConfirm}
-                  className="px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 cursor-pointer shrink-0 hover:bg-accent/90"
+                  className="px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 cursor-pointer shrink-0 hover:bg-accent/90 inline-flex items-center gap-1"
                 >
-                  Preview & Import →
+                  Preview & Import <ArrowRight size={14} />
                 </button>
               </div>
             )}

@@ -3,9 +3,6 @@
  *
  * Used for: CSRF state mismatch, OAuth denial, token exchange failure.
  * Per visual-spec §9.14: CSRF/state mismatch → full-page error channel.
- *
- * Note: emoji glyphs on lines 64 and 89-90 are out of scope per
- * foundation-audit-2026-05-08.md §3.2.
  */
 
 "use client";
@@ -13,6 +10,7 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { AlertOctagon } from "lucide-react";
 
 const ERROR_MESSAGES: Record<string, string> = {
   csrf_mismatch:
@@ -38,8 +36,8 @@ function ImportErrorContent() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center max-w-[520px] mx-auto">
       {/* Error icon */}
-      <div className="w-12 h-12 rounded-full bg-destructive/12 border border-destructive/30 flex items-center justify-center text-2xl mb-5">
-        ✕
+      <div className="w-12 h-12 rounded-full bg-destructive/12 border border-destructive/30 flex items-center justify-center mb-5">
+        <AlertOctagon size={24} className="text-destructive" />
       </div>
 
       <h1 className="text-[20px] font-bold text-stone-100 m-0 mb-3">
