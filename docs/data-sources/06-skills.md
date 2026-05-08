@@ -170,29 +170,50 @@ definition.
 ## 5. Season 13 New Classes — Paladin and Warlock
 
 Lord of Hatred (Season 13, late April 2026 — exact launch date unconfirmed) introduced two new
-classes. Skill data for both classes is confirmed present in `DiabloTools/d4data` Power/ directory
-(build 3.0.1.71747, accessed 2026-05-08). The catalog was seeded from this datamine source.
+classes. Skill and paragon catalog data was seeded from build-guide cross-reference (Icy Veins,
+Mobalytics, Maxroll, d4guides.gg) as permitted by the spec's "build-guide cross-reference allowed"
+clause. The DiabloTools/d4data Power/ directory is confirmed to contain Paladin and Warlock entries
+(build 3.0.1.71747), but individual skill files were not directly extracted for this seed; the
+build-guide references name the same skills that appear in the datamine.
 
 **Paladin:**
-- Primary attribute: Strength (confirmed in `Paladin.pcl.json`)
-- Resource system: Faith (confirmed in `DiabloTools/d4data`)
-- Skill tree: Basic attacks, Core strikes, Defensive skills, Aura passives, Ultimates, Key Passives
-- Skill tree categories (slugified): `basic`, `core`, `defensive`, `auras`, `ultimate`, `key-passive`
-- provenance: `datamined`
-- verification: `verified` (accessed 2026-05-08)
+- Primary attribute: Strength (confirmed per Icy Veins class guide and community sources)
+- Resource system: **Faith** (confirmed — Icy Veins skill guide lists Holy Bolt as a "Faith
+  generator"; FextraLife Paladin wiki: "Faith — unique class resource that regenerates over time")
+- Skill tree: Six categories — Basic, Core, Aura, Valor, Justice, Ultimate
+- Skill tree categories (slugified): `basic`, `core`, `aura`, `valor`, `justice`, `ultimate`
+- Season 13 note: Paladin has no key-passive skill tree node; the Oath system (Juggernaut, Zealot,
+  Judicator, Disciple) is a separate class mechanic that modifies skill behavior.
+- provenance: `build-guide reference`
+- verification: `referenced from Icy Veins, Mobalytics, Maxroll, d4guides.gg (accessed 2026-05-08)`
 
 **Warlock:**
-- Primary attribute: Intelligence (confirmed in `Warlock.pcl.json`)
-- Resource system: Corruption (confirmed in `DiabloTools/d4data`)
-- Skill tree: Basic attacks, Core spells, Defensive skills, Curse skills, Ultimates, Key Passives
-- Skill tree categories (slugified): `basic`, `core`, `defensive`, `curses`, `ultimate`, `key-passive`
-- provenance: `datamined`
-- verification: `verified` (accessed 2026-05-08)
+- Primary attribute: Intelligence (confirmed per Icy Veins class guide and community sources)
+- Resource system: **Wrath** (primary resource, spent by Core/Basic skills) and **Dominance**
+  (secondary resource, spent by Archfiend/defensive summoning skills). Confirmed by Maxroll Warlock
+  Class Overview and d4guides.gg Warlock database entry (accessed 2026-05-08). The resource is NOT
+  "Corruption" — that name was incorrect in the prior seed.
+- Skill tree: Six categories — Basic, Core, Defensive, Archfiend, Sigil, Ultimate
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `archfiend`, `sigil`, `ultimate`
+- Season 13 note: Warlock has no key-passive skill tree node; Soul Shards (Legion, Vanguard,
+  Mastermind, Ritualist) are a separate select-one class mechanic, not skill tree entries.
+- provenance: `build-guide reference`
+- verification: `referenced from Icy Veins, Mobalytics, Maxroll, d4guides.gg (accessed 2026-05-08)`
+
+**Paragon boards:** Both classes have 10 boards each (Starter + 9 named), matching the
+`Paragon_{Paladin,Warlock}_00` through `_09` files confirmed present in DiabloTools/d4data.
+Board names sourced from d4guides.gg class database (accessed 2026-05-08).
 
 - Sources:
-  - DiabloTools/d4data: `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
-  - Mekuna Warlock guide (naming reference): `https://mobalytics.gg/diablo-4/mekuna`
-  - Icy Veins D4 (naming reference): `https://www.icy-veins.com/d4`
+  - Icy Veins Paladin Skills Guide: `https://www.icy-veins.com/d4/guides/paladin-skills/`
+  - Icy Veins Warlock Skills Guide: `https://www.icy-veins.com/d4/guides/warlock-skills/`
+  - d4guides.gg Paladin: `https://d4guides.gg/en/loh/database/classes/paladin`
+  - d4guides.gg Warlock: `https://d4guides.gg/en/loh/database/classes/warlock`
+  - Maxroll Warlock Class Overview: `https://maxroll.gg/d4/getting-started/warlock-class-overview`
+  - Mobalytics Paladin builds: `https://mobalytics.gg/diablo-4/paladin-builds`
+  - Mobalytics Warlock builds: `https://mobalytics.gg/diablo-4/warlock-builds`
+  - DiabloTools/d4data (datamine — class file presence confirmed, not directly extracted):
+    `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
 
 ---
 

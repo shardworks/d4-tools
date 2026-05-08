@@ -163,24 +163,56 @@ describe("skills catalog", () => {
     }
   });
 
-  it("returns skills for Paladin including auras category", () => {
+  it("returns skills for Paladin with correct D4 LoH categories", () => {
     const skills = getSkillsForClass("Paladin");
     expect(skills.length).toBeGreaterThan(0);
     const categories = skills.map((s) => s.category);
     expect(categories).toContain("basic");
-    expect(categories).toContain("auras");
+    expect(categories).toContain("core");
+    // Paladin's unique middle categories: Aura, Valor, Justice
+    expect(categories).toContain("aura");
+    expect(categories).toContain("valor");
+    expect(categories).toContain("justice");
     expect(categories).toContain("ultimate");
-    expect(categories).toContain("key-passive");
+    // Paladin has no key-passive in Season 13; Oath system is a separate class mechanic
+    expect(categories).not.toContain("key-passive");
+    expect(categories).not.toContain("auras"); // old fabricated category name
   });
 
-  it("returns skills for Warlock including curses category", () => {
+  it("returns skills for Warlock with correct D4 LoH categories", () => {
     const skills = getSkillsForClass("Warlock");
     expect(skills.length).toBeGreaterThan(0);
     const categories = skills.map((s) => s.category);
     expect(categories).toContain("basic");
-    expect(categories).toContain("curses");
+    expect(categories).toContain("core");
+    expect(categories).toContain("defensive");
+    // Warlock's unique middle categories: Archfiend, Sigil
+    expect(categories).toContain("archfiend");
+    expect(categories).toContain("sigil");
     expect(categories).toContain("ultimate");
-    expect(categories).toContain("key-passive");
+    // Warlock has no key-passive in Season 13; Soul Shards are a separate class mechanic
+    expect(categories).not.toContain("key-passive");
+    expect(categories).not.toContain("curses"); // old fabricated category name
+  });
+
+  it("Paladin skill catalog contains build-guide-confirmed skill 'Arbiter of Justice'", () => {
+    const skills = getSkillsForClass("Paladin");
+    expect(skills.find((s) => s.label === "Arbiter of Justice")).toBeTruthy();
+  });
+
+  it("Paladin skill catalog contains build-guide-confirmed skill 'Blessed Hammer'", () => {
+    const skills = getSkillsForClass("Paladin");
+    expect(skills.find((s) => s.label === "Blessed Hammer")).toBeTruthy();
+  });
+
+  it("Warlock skill catalog contains build-guide-confirmed skill 'Command Fallen'", () => {
+    const skills = getSkillsForClass("Warlock");
+    expect(skills.find((s) => s.label === "Command Fallen")).toBeTruthy();
+  });
+
+  it("Warlock skill catalog contains build-guide-confirmed skill 'Metamorphosis'", () => {
+    const skills = getSkillsForClass("Warlock");
+    expect(skills.find((s) => s.label === "Metamorphosis")).toBeTruthy();
   });
 
   it("returns empty for truly unknown class", () => {

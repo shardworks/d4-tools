@@ -7,21 +7,31 @@
     "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "pal_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "pal_blessed_path", "label": "Blessed Path" },
-    { "id": "pal_divine_justice", "label": "Divine Justice" },
-    { "id": "pal_holy_might", "label": "Holy Might" },
-    { "id": "pal_sacred_ground", "label": "Sacred Ground" },
-    { "id": "pal_radiant_defense", "label": "Radiant Defense" },
-    { "id": "pal_crusader_virtue", "label": "Crusader's Virtue" }
+    { "id": "pal_starter",       "label": "Starter Board", "isStarterBoard": true },
+    { "id": "pal_beacon",        "label": "Beacon" },
+    { "id": "pal_castle",        "label": "Castle" },
+    { "id": "pal_divinity",      "label": "Divinity" },
+    { "id": "pal_endure",        "label": "Endure" },
+    { "id": "pal_fervent",       "label": "Fervent" },
+    { "id": "pal_preacher",      "label": "Preacher" },
+    { "id": "pal_relentless",    "label": "Relentless" },
+    { "id": "pal_sentencing",    "label": "Sentencing" },
+    { "id": "pal_shield_bearer", "label": "Shield Bearer" }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_holy_light", "label": "Holy Light" },
-    { "id": "glyph_avenging", "label": "Avenging" },
-    { "id": "glyph_divine_fervor", "label": "Divine Fervor" },
-    { "id": "glyph_shield_mastery", "label": "Shield Mastery" }
+    { "id": "glyph_reinforced",   "label": "Reinforced" },
+    { "id": "glyph_exploit",      "label": "Exploit" },
+    { "id": "glyph_control",      "label": "Control" },
+    { "id": "glyph_chip",         "label": "Chip" },
+    { "id": "glyph_diminish",     "label": "Diminish" },
+    { "id": "glyph_feverous",     "label": "Feverous" },
+    { "id": "glyph_honed",        "label": "Honed" },
+    { "id": "glyph_imbiber",      "label": "Imbiber" },
+    { "id": "glyph_outmatch",     "label": "Outmatch" },
+    { "id": "glyph_resplendence", "label": "Resplendence" },
+    { "id": "glyph_sentinel",     "label": "Sentinel" },
+    { "id": "glyph_spirit",       "label": "Spirit" },
+    { "id": "glyph_turf",         "label": "Turf" },
+    { "id": "glyph_undaunted",    "label": "Undaunted" }
   ]
 }

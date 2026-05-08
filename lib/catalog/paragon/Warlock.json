@@ -7,21 +7,29 @@
     "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "warl_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "warl_shadow_pact", "label": "Shadow Pact" },
-    { "id": "warl_curse_of_ages", "label": "Curse of Ages" },
-    { "id": "warl_void_touched", "label": "Void Touched" },
-    { "id": "warl_chaos_conduit", "label": "Chaos Conduit" },
-    { "id": "warl_dark_ascension", "label": "Dark Ascension" },
-    { "id": "warl_infernal_soul", "label": "Infernal Soul" }
+    { "id": "warl_starter",          "label": "Starter Board",   "isStarterBoard": true },
+    { "id": "warl_chaos",            "label": "Chaos" },
+    { "id": "warl_demonic_spicules", "label": "Demonic Spicules" },
+    { "id": "warl_dominion",         "label": "Dominion" },
+    { "id": "warl_dynamism",         "label": "Dynamism" },
+    { "id": "warl_fathomless",       "label": "Fathomless" },
+    { "id": "warl_greater_hex",      "label": "Greater Hex" },
+    { "id": "warl_overmind",         "label": "Overmind" },
+    { "id": "warl_pyrosis",          "label": "Pyrosis" },
+    { "id": "warl_ritualism",        "label": "Ritualism" }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_corruption_g", "label": "Corruption" },
-    { "id": "glyph_shadow_hex", "label": "Shadow Hex" },
-    { "id": "glyph_malefic", "label": "Malefic" },
-    { "id": "glyph_void_caller", "label": "Void Caller" }
+    { "id": "glyph_reinforced",    "label": "Reinforced" },
+    { "id": "glyph_exploit",       "label": "Exploit" },
+    { "id": "glyph_control",       "label": "Control" },
+    { "id": "glyph_abyssal",       "label": "Abyssal" },
+    { "id": "glyph_archfiend",     "label": "Archfiend" },
+    { "id": "glyph_demonologist",  "label": "Demonologist" },
+    { "id": "glyph_destruction",   "label": "Destruction" },
+    { "id": "glyph_hellforge",     "label": "Hellforge" },
+    { "id": "glyph_ichor_carapace","label": "Ichor Carapace" },
+    { "id": "glyph_mastermind",    "label": "Mastermind" },
+    { "id": "glyph_occultist",     "label": "Occultist" },
+    { "id": "glyph_vanguard",      "label": "Vanguard" }
   ]
 }
