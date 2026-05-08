@@ -5,6 +5,7 @@ import { ItemCard } from "./ItemCard";
 import { GearSlotEditor } from "./GearSlotEditor";
 import { getSlotsForClass, type SlotEntry } from "@/lib/catalog";
 import type { Item } from "@/lib/schema";
+import { cn } from "@/lib/utils";
 
 interface GearSlotGridProps {
   items: Record<string, Item>;
@@ -26,30 +27,16 @@ function EmptySlot({
   onClick?: () => void;
 }) {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      style={{
-        borderRadius: "var(--radius-card)",
-        border: "1px dashed var(--stone-700)",
-        padding: "8px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "48px",
-        color: "var(--stone-600)",
-        fontSize: "11px",
-        cursor: onClick ? "pointer" : "default",
-        transition: "border-color 100ms",
-      }}
-      onMouseEnter={(e) => {
-        if (onClick) (e.currentTarget as HTMLElement).style.borderColor = "var(--stone-500)";
-      }}
-      onMouseLeave={(e) => {
-        if (onClick) (e.currentTarget as HTMLElement).style.borderColor = "var(--stone-700)";
-      }}
+      className={cn(
+        "w-full flex items-center justify-center min-h-12 rounded border border-dashed border-stone-700 p-2 text-stone-600 text-[11px] transition-colors duration-100 bg-transparent",
+        onClick ? "cursor-pointer hover:border-stone-500" : "cursor-default"
+      )}
     >
       {label}
-    </div>
+    </button>
   );
 }
 
@@ -75,13 +62,17 @@ function ClusterSection({
       {slots.map((slot) => {
         const item = items[slot.id];
         return item ? (
-          <div
+          <button
             key={slot.id}
+            type="button"
             onClick={editable ? () => onSlotClick(slot) : undefined}
-            className={editable ? "cursor-pointer" : "cursor-default"}
+            className={cn(
+              "w-full text-left border-0 bg-transparent p-0",
+              editable ? "cursor-pointer hover:opacity-90" : "cursor-default"
+            )}
           >
             <ItemCard item={item} />
-          </div>
+          </button>
         ) : (
           <EmptySlot
             key={slot.id}
@@ -102,8 +93,6 @@ function ClusterSection({
  * appear only when characterClass === "Barbarian".
  *
  * When editable=true, clicking a slot opens the GearSlotEditor side sheet.
- * Note: EmptySlot imperative hover (onMouseEnter/onMouseLeave) is out-of-scope
- * per foundation-audit-2026-05-08.md §3.2.
  */
 export function GearSlotGrid({
   items,

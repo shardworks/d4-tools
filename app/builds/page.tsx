@@ -84,15 +84,7 @@ export default async function BuildsListPage() {
                 className="no-underline"
               >
                 <div
-                  className="grid grid-cols-[1fr_180px_100px_80px_80px] px-3 py-[10px] rounded-md border border-stone-800 bg-surface-2 items-center cursor-pointer transition-[border-color,background] duration-100"
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--stone-600)";
-                    (e.currentTarget as HTMLElement).style.background = "var(--surface-1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--stone-800)";
-                    (e.currentTarget as HTMLElement).style.background = "var(--surface-2)";
-                  }}
+                  className="grid grid-cols-[1fr_180px_100px_80px_80px] px-3 py-[10px] rounded-md border border-stone-800 bg-surface-2 items-center cursor-pointer transition-[border-color,background] duration-100 hover:border-stone-600 hover:bg-surface-1"
                 >
                   <div>
                     <div className="text-sm font-semibold text-stone-100">
