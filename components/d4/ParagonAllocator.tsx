@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { X, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ParagonAllocatorProps {
   /** Character's class (drives which boards/glyphs are available) */
@@ -52,10 +53,10 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div className="flex flex-col gap-4">
       {/* Paragon level */}
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <label style={{ fontSize: "13px", color: "var(--stone-300)", minWidth: "110px" }}>
+      <div className="flex items-center gap-3">
+        <label className="text-sm text-stone-300 min-w-[110px]">
           Paragon Level
         </label>
         <Input
@@ -63,28 +64,26 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
           min={0}
           max={300}
           {...register("paragonAllocation.paragonLevel", { valueAsNumber: true })}
-          style={{ width: "80px" }}
+          className="w-20"
         />
         {errors.paragonAllocation?.paragonLevel && (
-          <span style={{ color: "var(--destructive, #ef4444)", fontSize: "12px" }}>
+          <span className="error-text text-xs">
             {errors.paragonAllocation.paragonLevel.message}
           </span>
         )}
       </div>
 
       {/* Points budget indicator */}
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <span style={{ fontSize: "13px", color: "var(--stone-400)" }}>
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-stone-400">
           Points Allocated:{" "}
-          <strong
-            style={{ color: overBudget ? "var(--destructive, #ef4444)" : "var(--stone-100)" }}
-          >
+          <strong className={cn(overBudget ? "text-destructive" : "text-stone-100")}>
             {totalSpent}
           </strong>{" "}
           / {budget}
         </span>
         {overBudget && (
-          <Badge variant="destructive" style={{ fontSize: "11px" }}>
+          <Badge variant="destructive" className="text-[11px]">
             Over budget
           </Badge>
         )}
@@ -93,33 +92,17 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
       <Separator />
 
       {/* Boards */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <div
-          style={{
-            fontSize: "11px",
-            fontWeight: 600,
-            color: "var(--stone-500)",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-          }}
-        >
+      <div className="flex flex-col gap-3">
+        <div className="mini-label tracking-[0.08em]">
           Paragon Boards
         </div>
 
         {fields.map((field, index) => (
           <div
             key={field.id}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-              padding: "10px",
-              border: "1px solid var(--stone-700)",
-              borderRadius: "var(--radius-card, 6px)",
-              background: "var(--surface-2, rgba(255,255,255,0.03))",
-            }}
+            className="panel flex flex-col gap-2 p-[10px]"
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div className="flex items-center gap-2">
               {/* Board selector */}
               <Controller
                 control={control}
@@ -135,7 +118,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                       }
                     }}
                   >
-                    <SelectTrigger style={{ flex: 1, height: "32px", fontSize: "13px" }}>
+                    <SelectTrigger className="flex-1 h-8 text-sm">
                       <SelectValue placeholder="Select board…" />
                     </SelectTrigger>
                     <SelectContent>
@@ -143,7 +126,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                         <SelectItem key={b.id} value={b.id}>
                           {b.label}
                           {b.isStarterBoard && (
-                            <span style={{ color: "var(--stone-500)", marginLeft: "6px" }}>
+                            <span className="text-stone-500 ml-[6px]">
                               (starter)
                             </span>
                           )}
@@ -163,22 +146,14 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                 {...register(`paragonAllocation.boards.${index}.spentPoints` as never, {
                   valueAsNumber: true,
                 })}
-                style={{ width: "72px" }}
+                className="w-[72px]"
               />
-              <span style={{ fontSize: "11px", color: "var(--stone-600)" }}>pts</span>
+              <span className="text-[11px] text-stone-600">pts</span>
 
               <button
                 type="button"
                 onClick={() => remove(index)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "var(--stone-500)",
-                  padding: "4px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                className="icon-btn text-stone-500 p-1"
                 aria-label="Remove board"
               >
                 <X size={14} />
@@ -187,8 +162,8 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
 
             {/* Glyph selector */}
             {catalog.glyphs.length > 0 && (
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ fontSize: "12px", color: "var(--stone-500)", minWidth: "50px" }}>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-stone-500 min-w-[50px]">
                   Glyph:
                 </span>
                 <Controller
@@ -199,7 +174,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                       value={(f.value as string) ?? "__none__"}
                       onValueChange={(val) => f.onChange(val === "__none__" ? undefined : val)}
                     >
-                      <SelectTrigger style={{ flex: 1, height: "28px", fontSize: "12px" }}>
+                      <SelectTrigger className="flex-1 h-7 text-xs">
                         <SelectValue placeholder="No glyph" />
                       </SelectTrigger>
                       <SelectContent>
@@ -213,7 +188,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                     </Select>
                   )}
                 />
-                <span style={{ fontSize: "12px", color: "var(--stone-500)" }}>Lvl:</span>
+                <span className="text-xs text-stone-500">Lvl:</span>
                 <Input
                   type="number"
                   min={1}
@@ -222,7 +197,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                   {...register(`paragonAllocation.boards.${index}.glyph.level` as never, {
                     valueAsNumber: true,
                   })}
-                  style={{ width: "52px" }}
+                  className="w-[52px]"
                 />
               </div>
             )}
@@ -234,7 +209,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
           variant="outline"
           size="sm"
           onClick={addBoard}
-          style={{ alignSelf: "flex-start", gap: "6px" }}
+          className="self-start gap-[6px]"
         >
           <Plus size={14} />
           Add Board

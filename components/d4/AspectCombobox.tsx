@@ -50,32 +50,18 @@ export function AspectCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          style={{
-            width: "100%",
-            justifyContent: "space-between",
-            fontSize: "12px",
-            height: "30px",
-            fontWeight: 400,
-            color: selected ? "var(--legendary, #c87f27)" : "var(--stone-500)",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+          className={cn(
+            "w-full justify-between text-xs h-[30px] font-normal overflow-hidden text-ellipsis",
+            selected ? "text-rarity-legendary" : "text-stone-500"
+          )}
         >
-          <span
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              flex: 1,
-              textAlign: "left",
-            }}
-          >
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-left">
             {selected ? selected.label : placeholder}
           </span>
-          <ChevronsUpDown style={{ marginLeft: "4px", flexShrink: 0 }} size={12} />
+          <ChevronsUpDown className="ml-1 shrink-0" size={12} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent style={{ width: "400px", padding: 0 }} align="start">
+      <PopoverContent className="w-[400px] p-0" align="start">
         <Command>
           <CommandInput placeholder="Search aspects…" />
           <CommandList>
@@ -89,21 +75,14 @@ export function AspectCombobox({
                     onSelect(aspect.id, aspect);
                     setOpen(false);
                   }}
-                  style={{ fontSize: "12px" }}
+                  className="text-xs"
                 >
                   <Check
                     className={cn("mr-2", value === aspect.id ? "opacity-100" : "opacity-0")}
                     size={12}
                   />
-                  <span style={{ flex: 1 }}>{aspect.label}</span>
-                  <span
-                    style={{
-                      color: "var(--stone-500)",
-                      fontSize: "11px",
-                      marginLeft: "8px",
-                      flexShrink: 0,
-                    }}
-                  >
+                  <span className="flex-1">{aspect.label}</span>
+                  <span className="text-stone-500 text-[11px] ml-2 shrink-0">
                     {aspect.source}
                   </span>
                 </CommandItem>

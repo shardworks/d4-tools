@@ -6,6 +6,7 @@ import type { Character } from "@/lib/schema";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 interface SkillTreePickerProps {
   /** The class for which to load the skill catalog */
@@ -38,7 +39,7 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
 
   if (!skills.length) {
     return (
-      <div style={{ color: "var(--stone-500)", fontSize: "13px", padding: "8px 0" }}>
+      <div className="text-stone-500 text-sm py-2">
         Skill catalog not available for this class.
       </div>
     );
@@ -81,74 +82,59 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
   const overBudget = totalRanks > budget;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <span style={{ fontSize: "13px", color: "var(--stone-400)" }}>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-stone-400">
           Skill Points Used:{" "}
-          <strong style={{ color: overBudget ? "var(--destructive, #ef4444)" : "var(--stone-100)" }}>
+          <strong className={cn(overBudget ? "text-destructive" : "text-stone-100")}>
             {totalRanks}
           </strong>{" "}
           / {budget}
         </span>
         {overBudget && (
-          <Badge variant="destructive" style={{ fontSize: "11px" }}>
+          <Badge variant="destructive" className="text-[11px]">
             Over budget
           </Badge>
         )}
       </div>
 
       {errors.skillSelections && (
-        <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px" }}>
+        <p className="error-text text-xs m-0">
           {(errors.skillSelections as { message?: string }).message}
         </p>
       )}
 
       {Object.entries(byCategory).map(([category, categorySkills]) => (
         <div key={category}>
-          <div
-            style={{
-              fontSize: "11px",
-              fontWeight: 600,
-              color: "var(--stone-500)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              marginBottom: "8px",
-            }}
-          >
+          <div className="mini-label tracking-[0.08em] mb-2">
             {category.replace("-", " ")}
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div className="flex flex-col gap-1">
             {categorySkills.map((skill) => {
               const rank = getRankForSkill(skill.id);
               return (
                 <div
                   key={skill.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    padding: "4px 0",
-                  }}
+                  className="flex items-center gap-3 py-1"
                 >
                   <span
-                    style={{
-                      flex: 1,
-                      fontSize: "13px",
-                      color: rank > 0 ? "var(--stone-100)" : "var(--stone-400)",
-                    }}
+                    className={cn(
+                      "flex-1 text-sm",
+                      rank > 0 ? "text-stone-100" : "text-stone-400"
+                    )}
                   >
                     {skill.label}
                   </span>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div className="flex items-center gap-[6px]">
                     <Input
                       type="number"
                       min={0}
                       max={skill.maxRank}
                       value={rank}
                       onChange={(e) => handleRankChange(skill, parseInt(e.target.value, 10) || 0)}
-                      style={{ width: "60px", textAlign: "center" }}
+                      className="w-[60px] text-center"
                     />
-                    <span style={{ fontSize: "11px", color: "var(--stone-600)" }}>
+                    <span className="text-[11px] text-stone-600">
                       / {skill.maxRank}
                     </span>
                   </div>
@@ -156,7 +142,7 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
               );
             })}
           </div>
-          <Separator style={{ marginTop: "8px" }} />
+          <Separator className="mt-2" />
         </div>
       ))}
     </div>

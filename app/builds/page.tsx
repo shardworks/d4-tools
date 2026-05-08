@@ -23,35 +23,19 @@ export default async function BuildsListPage() {
   for (const c of characters) charById[c.id] = c;
 
   return (
-    <div style={{ padding: "24px", maxWidth: "900px" }}>
+    <div className="p-6 max-w-[900px]">
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "20px",
-            fontWeight: 700,
-            color: "var(--stone-100)",
-            margin: 0,
-          }}
-        >
-          Builds
-        </h1>
-        <div style={{ display: "flex", gap: "8px" }}>
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-[20px] font-bold text-stone-100 m-0">Builds</h1>
+        <div className="flex gap-2">
           <Link href="/import">
-            <Button variant="outline" style={{ gap: "6px" }}>
+            <Button variant="outline" className="gap-[6px]">
               <CloudDownload size={14} />
               Import from Battle.net
             </Button>
           </Link>
           <Link href="/characters/new">
-            <Button style={{ gap: "6px" }}>
+            <Button className="gap-[6px]">
               <Plus size={14} />
               New Character
             </Button>
@@ -61,36 +45,17 @@ export default async function BuildsListPage() {
 
       {/* Error display */}
       {error && (
-        <div
-          style={{
-            padding: "12px 16px",
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            borderRadius: "6px",
-            color: "#ef4444",
-            fontSize: "13px",
-            fontFamily: "monospace",
-            marginBottom: "16px",
-            whiteSpace: "pre-wrap",
-          }}
-        >
+        <div className="error-banner font-mono whitespace-pre-wrap mb-4 block">
           {error}
         </div>
       )}
 
       {/* Empty state */}
       {!error && builds.length === 0 && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "48px 24px",
-            color: "var(--stone-500)",
-            fontSize: "14px",
-          }}
-        >
+        <div className="text-center py-12 px-6 text-stone-500 text-base">
           <p>No builds yet.</p>
           <Link href="/characters/new">
-            <Button variant="outline" style={{ marginTop: "12px", gap: "6px" }}>
+            <Button variant="outline" className="mt-3 gap-[6px]">
               <Plus size={14} />
               Create your first character
             </Button>
@@ -100,21 +65,9 @@ export default async function BuildsListPage() {
 
       {/* Build list */}
       {builds.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+        <div className="flex flex-col gap-[6px]">
           {/* Table header */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 180px 100px 80px 80px",
-              padding: "6px 12px",
-              fontSize: "11px",
-              fontWeight: 600,
-              color: "var(--stone-500)",
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              borderBottom: "1px solid var(--stone-800)",
-            }}
-          >
+          <div className="grid grid-cols-[1fr_180px_100px_80px_80px] gap-0 px-3 py-[6px] text-[11px] font-semibold text-stone-500 uppercase tracking-[0.06em] border-b border-stone-800">
             <span>Character / Build</span>
             <span>Class</span>
             <span>Level</span>
@@ -128,20 +81,10 @@ export default async function BuildsListPage() {
               <Link
                 key={build.id}
                 href={`/builds/${build.id}`}
-                style={{ textDecoration: "none" }}
+                className="no-underline"
               >
                 <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 180px 100px 80px 80px",
-                    padding: "10px 12px",
-                    borderRadius: "6px",
-                    border: "1px solid var(--stone-800)",
-                    background: "var(--surface-2)",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    transition: "border-color 100ms, background 100ms",
-                  }}
+                  className="grid grid-cols-[1fr_180px_100px_80px_80px] px-3 py-[10px] rounded-md border border-stone-800 bg-surface-2 items-center cursor-pointer transition-[border-color,background] duration-100"
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.borderColor = "var(--stone-600)";
                     (e.currentTarget as HTMLElement).style.background = "var(--surface-1)";
@@ -152,32 +95,30 @@ export default async function BuildsListPage() {
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--stone-100)" }}>
+                    <div className="text-sm font-semibold text-stone-100">
                       {char?.name ?? build.characterId}
                     </div>
-                    <div style={{ fontSize: "11px", color: "var(--accent)", marginTop: "2px" }}>
+                    <div className="text-[11px] text-accent mt-0.5">
                       {build.name}
                     </div>
                   </div>
-                  <span style={{ fontSize: "12px", color: "var(--stone-400)" }}>
-                    {char?.class ?? "—"}
-                  </span>
-                  <span style={{ fontSize: "12px", color: "var(--stone-400)" }}>
+                  <span className="text-xs text-stone-400">{char?.class ?? "—"}</span>
+                  <span className="text-xs text-stone-400">
                     {char ? `Lvl ${char.level}` : "—"}
                   </span>
-                  <span style={{ fontSize: "12px", color: "var(--stone-400)" }}>
+                  <span className="text-xs text-stone-400">
                     {char ? `P${char.paragonAllocation.paragonLevel}` : "—"}
                   </span>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <div className="flex justify-end">
                     <Link
                       href={`/characters/${build.characterId}`}
                       onClick={(e) => e.stopPropagation()}
-                      style={{ textDecoration: "none" }}
+                      className="no-underline"
                     >
                       <Button
                         variant="ghost"
                         size="sm"
-                        style={{ gap: "4px", fontSize: "11px", height: "26px", padding: "0 8px" }}
+                        className="gap-1 text-[11px] h-[26px] px-2"
                         title="Edit character"
                       >
                         <PenSquare size={12} />

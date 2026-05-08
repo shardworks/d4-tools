@@ -3,6 +3,9 @@
  *
  * Used for: CSRF state mismatch, OAuth denial, token exchange failure.
  * Per visual-spec §9.14: CSRF/state mismatch → full-page error channel.
+ *
+ * Note: emoji glyphs on lines 64 and 89-90 are out of scope per
+ * foundation-audit-2026-05-08.md §3.2.
  */
 
 "use client";
@@ -33,72 +36,30 @@ function ImportErrorContent() {
   const isCSRF = reason === "csrf_mismatch" || reason === "csrf_state_missing";
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "60vh",
-        padding: "24px",
-        textAlign: "center",
-        maxWidth: "520px",
-        margin: "0 auto",
-      }}
-    >
+    <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center max-w-[520px] mx-auto">
       {/* Error icon */}
-      <div
-        style={{
-          width: "48px",
-          height: "48px",
-          borderRadius: "50%",
-          background: "rgba(239,68,68,0.12)",
-          border: "1px solid rgba(239,68,68,0.3)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "24px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="w-12 h-12 rounded-full bg-destructive/12 border border-destructive/30 flex items-center justify-center text-2xl mb-5">
         ✕
       </div>
 
-      <h1 style={{ fontSize: "20px", fontWeight: 700, color: "var(--stone-100)", margin: "0 0 12px 0" }}>
+      <h1 className="text-[20px] font-bold text-stone-100 m-0 mb-3">
         {isCSRF ? "Security Error" : "Sign-in Failed"}
       </h1>
 
-      <p style={{ fontSize: "14px", color: "var(--stone-400)", lineHeight: 1.6, margin: "0 0 28px 0" }}>
+      <p className="text-base text-stone-400 leading-[1.6] m-0 mb-7">
         {message}
       </p>
 
-      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+      <div className="flex gap-3 flex-wrap justify-center">
         <a
           href="/api/auth/battlenet/start"
-          style={{
-            padding: "8px 18px",
-            borderRadius: "6px",
-            background: "var(--accent)",
-            color: "#000",
-            fontSize: "13px",
-            fontWeight: 600,
-            textDecoration: "none",
-          }}
+          className="px-[18px] py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline"
         >
           Try Again
         </a>
         <Link
           href="/characters/new"
-          style={{
-            padding: "8px 18px",
-            borderRadius: "6px",
-            background: "transparent",
-            border: "1px solid var(--stone-700)",
-            color: "var(--stone-300)",
-            fontSize: "13px",
-            fontWeight: 500,
-            textDecoration: "none",
-          }}
+          className="px-[18px] py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm font-medium no-underline"
         >
           Enter Manually
         </Link>

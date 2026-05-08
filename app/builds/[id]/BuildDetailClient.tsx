@@ -87,24 +87,17 @@ export function BuildDetailClient({ build, character: initialCharacter }: BuildD
   );
 
   return (
-    <div style={{ padding: "24px" }}>
+    <div className="p-6">
       {/* Navigation */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          marginBottom: "20px",
-        }}
-      >
-        <Link href="/builds" style={{ textDecoration: "none" }}>
-          <Button variant="ghost" size="sm" style={{ gap: "6px" }}>
+      <div className="flex items-center gap-3 mb-5">
+        <Link href="/builds" className="no-underline">
+          <Button variant="ghost" size="sm" className="gap-[6px]">
             <ArrowLeft size={14} />
             All Builds
           </Button>
         </Link>
-        <Link href={`/characters/${character.id}`} style={{ textDecoration: "none" }}>
-          <Button variant="outline" size="sm" style={{ gap: "6px" }}>
+        <Link href={`/characters/${character.id}`} className="no-underline">
+          <Button variant="outline" size="sm" className="gap-[6px]">
             <PenSquare size={14} />
             Edit Character
           </Button>
@@ -113,17 +106,7 @@ export function BuildDetailClient({ build, character: initialCharacter }: BuildD
 
       {/* Save error */}
       {saveError && (
-        <div
-          style={{
-            padding: "10px 14px",
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            borderRadius: "6px",
-            color: "#ef4444",
-            fontSize: "13px",
-            marginBottom: "16px",
-          }}
-        >
+        <div className="error-banner mb-4">
           {saveError}
         </div>
       )}

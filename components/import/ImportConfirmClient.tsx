@@ -148,7 +148,7 @@ export function ImportConfirmClient() {
   // ── Loading state ─────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div style={{ padding: "24px", color: "var(--stone-500)", fontSize: "14px" }}>
+      <div className="p-6 text-stone-500 text-base">
         Loading import preview…
       </div>
     );
@@ -157,46 +157,20 @@ export function ImportConfirmClient() {
   // ── Error state ───────────────────────────────────────────────────────────
   if (error) {
     return (
-      <div style={{ padding: "24px", maxWidth: "520px" }}>
-        <div
-          style={{
-            padding: "12px 16px",
-            borderRadius: "6px",
-            background: "rgba(239,68,68,0.08)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            color: "#ef4444",
-            fontSize: "13px",
-            marginBottom: "16px",
-          }}
-        >
+      <div className="p-6 max-w-[520px]">
+        <div className="px-4 py-3 rounded-md bg-destructive/8 border border-destructive/30 text-destructive text-sm mb-4">
           {error}
         </div>
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div className="flex gap-[10px]">
           <button
             onClick={() => router.back()}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "6px",
-              background: "transparent",
-              border: "1px solid var(--stone-700)",
-              color: "var(--stone-300)",
-              fontSize: "13px",
-              cursor: "pointer",
-            }}
+            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm cursor-pointer"
           >
             ← Back
           </button>
           <a
             href="/characters/new"
-            style={{
-              padding: "8px 16px",
-              borderRadius: "6px",
-              background: "transparent",
-              border: "1px solid var(--stone-700)",
-              color: "var(--stone-400)",
-              fontSize: "13px",
-              textDecoration: "none",
-            }}
+            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-400 text-sm no-underline"
           >
             Enter Manually
           </a>
@@ -225,48 +199,22 @@ export function ImportConfirmClient() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100%",
-        padding: "24px",
-        gap: "16px",
-      }}
-    >
+    <div className="flex flex-col min-h-full p-6 gap-4">
       {/* ── Warning banners (D14, D11) ─────────────────────────── */}
       {unresolvedCount > 0 && (
-        <div
-          style={{
-            padding: "10px 14px",
-            borderRadius: "6px",
-            background: "rgba(234,179,8,0.08)",
-            border: "1px solid rgba(234,179,8,0.3)",
-            fontSize: "12px",
-            color: "var(--stone-400)",
-          }}
-        >
-          <strong style={{ color: "var(--stone-200)" }}>
+        <div className="px-[14px] py-[10px] rounded-md bg-warning/8 border border-warning/30 text-xs text-stone-400">
+          <strong className="text-stone-200">
             ⚠ {unresolvedCount} unresolved{" "}
             {unresolvedCount === 1 ? "entity" : "entities"}
           </strong>{" "}
-          — stored with <code style={{ fontFamily: "monospace" }}>unresolved:</code> prefix.
+          — stored with <code className="font-mono">unresolved:</code> prefix.
           These will appear in the character and can be corrected when the catalog is updated.
         </div>
       )}
 
       {uniqueNameCount > 0 && (
-        <div
-          style={{
-            padding: "10px 14px",
-            borderRadius: "6px",
-            background: "rgba(148,163,184,0.08)",
-            border: "1px solid rgba(148,163,184,0.3)",
-            fontSize: "12px",
-            color: "var(--stone-400)",
-          }}
-        >
-          <strong style={{ color: "var(--stone-200)" }}>
+        <div className="px-[14px] py-[10px] rounded-md bg-stone-400/8 border border-stone-400/30 text-xs text-stone-400">
+          <strong className="text-stone-200">
             {uniqueNameCount} name-only unique{uniqueNameCount === 1 ? "" : "s"}
           </strong>{" "}
           — stored with name + rarity=unique; aspect omitted (D11).
@@ -275,27 +223,15 @@ export function ImportConfirmClient() {
 
       {/* ── Re-import banner (D13) ─────────────────────────────── */}
       {draft.existingCharacterId && (
-        <div
-          style={{
-            padding: "10px 14px",
-            borderRadius: "6px",
-            background: "rgba(59,130,246,0.08)",
-            border: "1px solid rgba(59,130,246,0.3)",
-            fontSize: "12px",
-            color: "var(--stone-400)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-          }}
-        >
+        <div className="flex flex-col gap-2 px-[14px] py-[10px] rounded-md bg-info/8 border border-info/30 text-xs text-stone-400">
           <div>
-            <strong style={{ color: "var(--stone-200)" }}>Same hero already imported</strong> as{" "}
-            <code style={{ fontFamily: "monospace", fontSize: "11px" }}>
+            <strong className="text-stone-200">Same hero already imported</strong> as{" "}
+            <code className="font-mono text-[11px]">
               {draft.existingCharacterId}
             </code>
             . What would you like to do?
           </div>
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div className="flex gap-2">
             <button
               disabled={saving}
               onClick={() =>
@@ -306,17 +242,7 @@ export function ImportConfirmClient() {
                   "new"
                 )
               }
-              style={{
-                padding: "6px 14px",
-                borderRadius: "5px",
-                background: "var(--surface-2)",
-                border: "1px solid var(--stone-700)",
-                color: "var(--stone-200)",
-                fontSize: "12px",
-                fontWeight: 600,
-                cursor: saving ? "not-allowed" : "pointer",
-                opacity: saving ? 0.6 : 1,
-              }}
+              className={`px-[14px] py-[6px] rounded-[5px] bg-surface-2 border border-stone-700 text-stone-200 text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
             >
               Save as new
             </button>
@@ -330,17 +256,7 @@ export function ImportConfirmClient() {
                   "update"
                 )
               }
-              style={{
-                padding: "6px 14px",
-                borderRadius: "5px",
-                background: "rgba(59,130,246,0.12)",
-                border: "1px solid rgba(59,130,246,0.4)",
-                color: "#60a5fa",
-                fontSize: "12px",
-                fontWeight: 600,
-                cursor: saving ? "not-allowed" : "pointer",
-                opacity: saving ? 0.6 : 1,
-              }}
+              className={`px-[14px] py-[6px] rounded-[5px] bg-info/12 border border-info/40 text-info text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
             >
               Update existing
             </button>
@@ -349,7 +265,7 @@ export function ImportConfirmClient() {
       )}
 
       {/* ── BuildSummaryView (read-only) ───────────────────────── */}
-      <div style={{ flex: 1 }}>
+      <div className="flex-1">
         <BuildSummaryView
           character={previewCharacter}
           build={previewBuild}
@@ -358,29 +274,11 @@ export function ImportConfirmClient() {
       </div>
 
       {/* ── Footer: Cancel / Save ──────────────────────────────── */}
-      <div
-        style={{
-          borderTop: "1px solid var(--stone-800)",
-          paddingTop: "16px",
-          display: "flex",
-          gap: "12px",
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
-      >
+      <div className="border-t border-stone-800 pt-4 flex gap-3 items-center justify-end">
         <button
           onClick={() => router.back()}
           disabled={saving}
-          style={{
-            padding: "9px 20px",
-            borderRadius: "6px",
-            background: "transparent",
-            border: "1px solid var(--stone-700)",
-            color: "var(--stone-300)",
-            fontSize: "13px",
-            cursor: saving ? "not-allowed" : "pointer",
-            opacity: saving ? 0.6 : 1,
-          }}
+          className={`px-5 py-[9px] rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
         >
           Cancel
         </button>
@@ -392,17 +290,7 @@ export function ImportConfirmClient() {
             onClick={() =>
               saveCharacterAndBuild(draft.character, draft.buildName, null, "new")
             }
-            style={{
-              padding: "9px 20px",
-              borderRadius: "6px",
-              background: "var(--accent)",
-              color: "#000",
-              fontWeight: 700,
-              fontSize: "13px",
-              border: "none",
-              cursor: saving ? "not-allowed" : "pointer",
-              opacity: saving ? 0.6 : 1,
-            }}
+            className={`px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
           >
             {saving ? "Saving…" : "Save Character"}
           </button>

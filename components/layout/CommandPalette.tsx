@@ -29,7 +29,7 @@ interface CommandEntry {
   id: string;
   label: string;
   description?: string;
-  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   group: string;
   run: () => void | Promise<void>;
 }
@@ -262,8 +262,7 @@ export function CommandPalette() {
     <>
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
-          className="overflow-hidden p-0 shadow-lg"
-          style={{ maxWidth: "32rem" }}
+          className="overflow-hidden p-0 shadow-lg max-w-[32rem]"
         >
           <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
             {mode === "root" && (
@@ -283,11 +282,11 @@ export function CommandPalette() {
                               await cmd.run();
                             }}
                           >
-                            <Icon size={16} style={{ marginRight: "8px", flexShrink: 0 }} />
+                            <Icon size={16} className="mr-2 shrink-0" />
                             <div>
-                              <div style={{ fontSize: "13px" }}>{cmd.label}</div>
+                              <div className="text-sm">{cmd.label}</div>
                               {cmd.description && (
-                                <div style={{ fontSize: "11px", color: "var(--stone-500)" }}>
+                                <div className="text-[11px] text-stone-500">
                                   {cmd.description}
                                 </div>
                               )}
@@ -319,10 +318,10 @@ export function CommandPalette() {
                           router.push(`/characters/${char.id}`);
                         }}
                       >
-                        <User size={16} style={{ marginRight: "8px", flexShrink: 0 }} />
+                        <User size={16} className="mr-2 shrink-0" />
                         <div>
-                          <div style={{ fontSize: "13px" }}>{char.name}</div>
-                          <div style={{ fontSize: "11px", color: "var(--stone-500)" }}>
+                          <div className="text-sm">{char.name}</div>
+                          <div className="text-[11px] text-stone-500">
                             {char.class} · Lvl {char.level}
                           </div>
                         </div>
@@ -354,11 +353,11 @@ export function CommandPalette() {
                             exportBuild(build.id);
                           }}
                         >
-                          <Sword size={16} style={{ marginRight: "8px", flexShrink: 0 }} />
+                          <Sword size={16} className="mr-2 shrink-0" />
                           <div>
-                            <div style={{ fontSize: "13px" }}>{build.name}</div>
+                            <div className="text-sm">{build.name}</div>
                             {char && (
-                              <div style={{ fontSize: "11px", color: "var(--stone-500)" }}>
+                              <div className="text-[11px] text-stone-500">
                                 {char.name} · {char.class}
                               </div>
                             )}

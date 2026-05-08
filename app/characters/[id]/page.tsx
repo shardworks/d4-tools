@@ -22,15 +22,7 @@ export default async function CharacterDetailPage({ params }: Props) {
     // Zod validation failure or parse error — surface it
     const message = err instanceof Error ? err.message : "Unknown error loading character";
     return (
-      <div
-        style={{
-          padding: "24px",
-          color: "#ef4444",
-          fontFamily: "monospace",
-          fontSize: "13px",
-          whiteSpace: "pre-wrap",
-        }}
-      >
+      <div className="p-6 text-destructive font-mono text-sm whitespace-pre-wrap">
         <strong>Error loading character:</strong>
         {"\n\n"}
         {message}
@@ -41,7 +33,7 @@ export default async function CharacterDetailPage({ params }: Props) {
   if (!character) notFound();
 
   return (
-    <div style={{ maxWidth: "720px", padding: "24px" }}>
+    <div className="max-w-[720px] p-6">
       <CharacterEditor character={character} />
     </div>
   );

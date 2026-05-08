@@ -1,5 +1,6 @@
 import type { Item } from "@/lib/schema";
 import { affixes as affixCatalog, aspects as aspectCatalog } from "@/lib/catalog";
+import { cn } from "@/lib/utils";
 
 type ItemCardProps = {
   item: Item;
@@ -25,27 +26,18 @@ function AffixRow({ affixId, rolledValue }: { affixId: string; rolledValue: numb
   const isGreater = max !== undefined && rolledValue >= max;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "6px",
-        alignItems: "baseline",
-        fontSize: "12px",
-      }}
-    >
+    <div className="flex gap-[6px] items-baseline text-xs">
       <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontVariantNumeric: "tabular-nums",
-          color: isGreater ? "var(--rarity-mythic, #d4a017)" : "var(--stone-100)",
-          flexShrink: 0,
-        }}
+        className={cn(
+          "font-mono tabular-nums shrink-0",
+          isGreater ? "text-rarity-mythic" : "text-stone-100"
+        )}
       >
         {rolledValue}
         {entry?.isPercent ? "%" : ""}
         {isGreater && " ✦"}
       </span>
-      <span style={{ color: "var(--stone-400)" }}>{label}</span>
+      <span className="text-stone-400">{label}</span>
     </div>
   );
 }
@@ -68,51 +60,28 @@ export function ItemCard({ item }: ItemCardProps) {
 
   return (
     <div
-      className={item.isAncestral ? "ancestral" : undefined}
-      style={{
-        borderRadius: "var(--radius-card)",
-        border: `1px solid ${borderColor}`,
-        padding: "var(--item-card-padding)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--item-card-row-gap)",
-        backgroundColor: "var(--surface-2)",
-      }}
+      className={cn(
+        "rounded bg-surface-2 flex flex-col p-[var(--item-card-padding)] gap-[var(--item-card-row-gap)]",
+        item.isAncestral && "ancestral"
+      )}
+      style={{ border: `1px solid ${borderColor}` }}
     >
-      {/* Item name */}
+      {/* Item name — color is runtime-rarity-driven; static typography uses classes */}
       <div
-        style={{
-          color,
-          fontWeight: 700,
-          fontSize: "13px",
-          lineHeight: 1.2,
-        }}
+        className="font-bold text-[13px] leading-[1.2]"
+        style={{ color }}
       >
         {displayName}
         {item.isAncestral && (
-          <span
-            style={{
-              marginLeft: "6px",
-              fontSize: "10px",
-              color: "var(--rarity-unique, #8b5e3c)",
-              fontWeight: 400,
-            }}
-          >
+          <span className="ml-[6px] text-[10px] text-rarity-unique font-normal">
             Ancestral
           </span>
         )}
       </div>
 
       {/* Slot + power */}
-      <div
-        style={{
-          color: "var(--stone-500)",
-          fontSize: "11px",
-          display: "flex",
-          gap: "6px",
-        }}
-      >
-        <span style={{ textTransform: "capitalize" }}>{item.slot.replace(/_/g, " ")}</span>
+      <div className="flex gap-[6px] text-stone-500 text-[11px]">
+        <span className="capitalize">{item.slot.replace(/_/g, " ")}</span>
         {item.itemPower !== undefined && (
           <>
             <span>·</span>
@@ -123,20 +92,14 @@ export function ItemCard({ item }: ItemCardProps) {
 
       {/* Aspect (for legendaries) */}
       {aspectEntry && (
-        <div
-          style={{
-            color: "var(--rarity-legendary)",
-            fontSize: "11px",
-            fontStyle: "italic",
-          }}
-        >
+        <div className="text-rarity-legendary text-[11px] italic">
           {aspectEntry.label}
         </div>
       )}
 
       {/* Affixes (implicits + explicits + tempered combined for display) */}
       {allAffixes.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+        <div className="flex flex-col gap-[3px]">
           {allAffixes.map((affix, i) => (
             <AffixRow key={i} affixId={affix.affixId} rolledValue={affix.rolledValue} />
           ))}

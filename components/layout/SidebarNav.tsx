@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sword, User, ChevronLeft, ChevronRight, CloudDownload, Settings } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   {
@@ -56,24 +57,15 @@ export function SidebarNav() {
   const width = collapsed ? "40px" : "200px";
 
   if (!mounted) {
-    return <div style={{ width: "40px", minWidth: "40px", flexShrink: 0 }} />;
+    return <div className="w-10 min-w-10 shrink-0" />;
   }
 
   return (
     <aside
-      style={{
-        width,
-        minWidth: width,
-        flexShrink: 0,
-        backgroundColor: "var(--surface-1)",
-        borderRight: "1px solid var(--stone-800)",
-        display: "flex",
-        flexDirection: "column",
-        transition: "width 150ms ease",
-        overflow: "hidden",
-      }}
+      className="flex flex-col overflow-hidden bg-surface-1 border-r border-stone-800 transition-[width] duration-150 ease-in-out shrink-0"
+      style={{ width, minWidth: width }}
     >
-      <nav style={{ flex: 1, padding: "8px 0" }}>
+      <nav className="flex-1 py-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
@@ -82,26 +74,14 @@ export function SidebarNav() {
             <Link
               key={item.href}
               href={item.href}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "0 8px",
-                height: "40px",
-                textDecoration: "none",
-                color: isActive ? "var(--accent)" : "var(--stone-400)",
-                backgroundColor: isActive ? "var(--surface-2)" : "transparent",
-                borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
-                fontSize: "13px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                transition: "color 100ms ease, background-color 100ms ease",
-              }}
+              className={cn(
+                "flex items-center gap-[10px] px-2 h-10 no-underline text-sm whitespace-nowrap overflow-hidden border-l-2 transition-[color,background-color] duration-100 ease-in-out",
+                isActive
+                  ? "text-accent bg-surface-2 border-l-accent"
+                  : "text-stone-400 bg-transparent border-l-transparent"
+              )}
             >
-              <Icon
-                size={18}
-                style={{ flexShrink: 0 }}
-              />
+              <Icon size={18} className="shrink-0" />
               {!collapsed && <span>{item.label}</span>}
             </Link>
           );
@@ -110,18 +90,7 @@ export function SidebarNav() {
 
       <button
         onClick={toggleCollapsed}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "40px",
-          width: "100%",
-          background: "none",
-          border: "none",
-          borderTop: "1px solid var(--stone-800)",
-          cursor: "pointer",
-          color: "var(--stone-500)",
-        }}
+        className="flex items-center justify-center h-10 w-full bg-transparent border-0 border-t border-stone-800 cursor-pointer text-stone-500"
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}

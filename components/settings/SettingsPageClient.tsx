@@ -12,6 +12,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 type Region = "americas" | "europe" | "asia";
 
@@ -27,58 +28,6 @@ const REGION_OPTIONS: { value: Region; label: string; description: string }[] = 
   { value: "europe", label: "Europe", description: "eu.api.blizzard.com" },
   { value: "asia", label: "Asia", description: "kr.api.blizzard.com" },
 ];
-
-const labelStyle: React.CSSProperties = {
-  fontSize: "13px",
-  fontWeight: 600,
-  color: "var(--stone-300)",
-  display: "block",
-  marginBottom: "4px",
-};
-
-const sectionHeadingStyle: React.CSSProperties = {
-  fontSize: "16px",
-  fontWeight: 700,
-  color: "var(--stone-100)",
-  margin: "0 0 4px 0",
-};
-
-const sectionDescStyle: React.CSSProperties = {
-  fontSize: "13px",
-  color: "var(--stone-500)",
-  margin: "0 0 20px 0",
-};
-
-const dividerStyle: React.CSSProperties = {
-  height: "1px",
-  background: "var(--stone-800)",
-  margin: "32px 0",
-};
-
-const radioRowStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  padding: "10px 12px",
-  borderRadius: "6px",
-  border: "1px solid var(--stone-800)",
-  background: "var(--surface-2)",
-  cursor: "pointer",
-  marginBottom: "8px",
-};
-
-const statusBadgeStyle = (connected: boolean): React.CSSProperties => ({
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "6px",
-  padding: "4px 10px",
-  borderRadius: "9999px",
-  fontSize: "12px",
-  fontWeight: 600,
-  background: connected ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)",
-  color: connected ? "#22c55e" : "#ef4444",
-  border: `1px solid ${connected ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
-});
 
 export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetConfigured }: SettingsPageClientProps) {
   const [region, setRegion] = useState<Region | null>(initialRegion);
@@ -128,35 +77,17 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
   }
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        maxWidth: "640px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "0",
-      }}
-    >
+    <div className="p-6 max-w-[640px] flex flex-col">
       {/* Page header */}
-      <div style={{ marginBottom: "32px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 700, color: "var(--stone-100)", margin: "0 0 6px 0" }}>
-          Settings
-        </h1>
-        <p style={{ fontSize: "13px", color: "var(--stone-500)", margin: 0 }}>
+      <div className="mb-8">
+        <h1 className="text-[22px] font-bold text-stone-100 m-0 mb-[6px]">Settings</h1>
+        <p className="text-sm text-stone-500 m-0">
           Configure Battle.net connection and region for character import.
         </p>
       </div>
 
       {/* Anchor nav */}
-      <div
-        style={{
-          display: "flex",
-          gap: "16px",
-          marginBottom: "32px",
-          borderBottom: "1px solid var(--stone-800)",
-          paddingBottom: "12px",
-        }}
-      >
+      <div className="flex gap-4 mb-8 border-b border-stone-800 pb-3">
         {[
           { href: "#region", label: "Region" },
           { href: "#battlenet", label: "Battle.net" },
@@ -164,22 +95,17 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           <a
             key={link.href}
             href={link.href}
-            style={{
-              fontSize: "13px",
-              color: "var(--stone-400)",
-              textDecoration: "none",
-              fontWeight: 500,
-            }}
+            className="text-sm text-stone-400 no-underline font-medium"
           >
             {link.label}
           </a>
         ))}
       </div>
 
-      {/* ── Section: Region ──────────────────────────────────────── */}
-      <div id="region" style={{ scrollMarginTop: "80px" }}>
-        <h2 style={sectionHeadingStyle}>Region</h2>
-        <p style={sectionDescStyle}>
+      {/* ── Section: Region ──────────────────────────────────────────── */}
+      <div id="region" className="scroll-mt-20">
+        <h2 className="text-md font-bold text-stone-100 m-0 mb-1">Region</h2>
+        <p className="text-sm text-stone-500 m-0 mb-5">
           Select the Battle.net region your D4 account is on. This determines which API server is
           used when fetching your character roster.
         </p>
@@ -189,11 +115,10 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           return (
             <label
               key={opt.value}
-              style={{
-                ...radioRowStyle,
-                borderColor: isSelected ? "var(--accent)" : "var(--stone-800)",
-                background: isSelected ? "rgba(var(--accent-rgb, 234,179,8), 0.08)" : "var(--surface-2)",
-              }}
+              className={cn(
+                "flex items-center gap-[10px] px-3 py-[10px] rounded-md border cursor-pointer mb-2 bg-surface-2",
+                isSelected ? "border-accent bg-accent/8" : "border-stone-800"
+              )}
             >
               <input
                 type="radio"
@@ -202,72 +127,60 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
                 checked={isSelected}
                 disabled={saving}
                 onChange={() => handleRegionChange(opt.value)}
-                style={{ accentColor: "var(--accent)" }}
+                className="accent-accent"
               />
               <div>
-                <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--stone-100)" }}>
-                  {opt.label}
-                </div>
-                <div style={{ fontSize: "11px", color: "var(--stone-500)", fontFamily: "monospace" }}>
-                  {opt.description}
-                </div>
+                <div className="text-sm font-semibold text-stone-100">{opt.label}</div>
+                <div className="text-[11px] text-stone-500 font-mono">{opt.description}</div>
               </div>
             </label>
           );
         })}
 
         {!region && (
-          <p style={{ fontSize: "12px", color: "var(--stone-500)", marginTop: "8px" }}>
+          <p className="text-xs text-stone-500 mt-2">
             No region selected. Import from Battle.net will use Americas by default until you choose one.
           </p>
         )}
       </div>
 
-      <div style={dividerStyle} />
+      <div className="h-px bg-stone-800 my-8" />
 
-      {/* ── Section: Battle.net Connection ───────────────────────── */}
-      <div id="battlenet" style={{ scrollMarginTop: "80px" }}>
-        <h2 style={sectionHeadingStyle}>Battle.net Connection</h2>
-        <p style={sectionDescStyle}>
+      {/* ── Section: Battle.net Connection ───────────────────────────── */}
+      <div id="battlenet" className="scroll-mt-20">
+        <h2 className="text-md font-bold text-stone-100 m-0 mb-1">Battle.net Connection</h2>
+        <p className="text-sm text-stone-500 m-0 mb-5">
           Connect your Battle.net account to import characters from Diablo IV.
           Sign in once; tokens are stored locally in your data directory.
         </p>
 
         {/* Connection status badge */}
-        <div style={{ marginBottom: "20px" }}>
-          <span style={labelStyle}>Status</span>
-          <div style={statusBadgeStyle(isConnected)}>
+        <div className="mb-5">
+          <span className="text-sm font-semibold text-stone-300 block mb-1">Status</span>
+          <div
+            className={cn(
+              "inline-flex items-center gap-[6px] px-[10px] py-1 rounded-full text-xs font-semibold",
+              isConnected
+                ? "border border-success/30 bg-success/12 text-success"
+                : "border border-destructive/30 bg-destructive/12 text-destructive"
+            )}
+          >
             <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: isConnected ? "#22c55e" : "#ef4444",
-                flexShrink: 0,
-              }}
+              className={cn(
+                "w-[6px] h-[6px] rounded-full shrink-0",
+                isConnected ? "bg-success" : "bg-destructive"
+              )}
             />
             {isConnected ? "Connected" : "Not connected"}
           </div>
         </div>
 
         {/* Action buttons */}
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div className="flex gap-[10px] items-center">
           {!isConnected ? (
             <a
               href="/api/auth/battlenet/start"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "8px 16px",
-                borderRadius: "6px",
-                background: "var(--accent)",
-                color: "#000",
-                fontSize: "13px",
-                fontWeight: 600,
-                textDecoration: "none",
-                cursor: "pointer",
-              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline cursor-pointer"
             >
               Sign in with Battle.net
             </a>
@@ -275,20 +188,10 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
             <button
               onClick={handleDisconnect}
               disabled={disconnecting}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "8px 16px",
-                borderRadius: "6px",
-                background: "transparent",
-                border: "1px solid rgba(239,68,68,0.5)",
-                color: "#ef4444",
-                fontSize: "13px",
-                fontWeight: 600,
-                cursor: disconnecting ? "not-allowed" : "pointer",
-                opacity: disconnecting ? 0.6 : 1,
-              }}
+              className={cn(
+                "inline-flex items-center gap-2 px-4 py-2 rounded-md bg-transparent border border-destructive/50 text-destructive text-sm font-semibold",
+                disconnecting ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+              )}
             >
               {disconnecting ? "Disconnecting…" : "Disconnect"}
             </button>
@@ -297,19 +200,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           {isConnected && (
             <button
               onClick={() => router.push("/import")}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "8px 16px",
-                borderRadius: "6px",
-                background: "var(--surface-2)",
-                border: "1px solid var(--stone-700)",
-                color: "var(--stone-200)",
-                fontSize: "13px",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-surface-2 border border-stone-700 text-stone-200 text-sm font-semibold cursor-pointer"
             >
               Import Character →
             </button>
@@ -317,26 +208,16 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
         </div>
 
         {!isBnetConfigured && (
-          <div
-            style={{
-              marginTop: "16px",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              background: "rgba(234,179,8,0.08)",
-              border: "1px solid rgba(234,179,8,0.3)",
-              fontSize: "12px",
-              color: "var(--stone-400)",
-            }}
-          >
-            <strong style={{ color: "var(--stone-200)" }}>Setup required:</strong> Set{" "}
-            <code style={{ fontFamily: "monospace" }}>BLIZZARD_CLIENT_ID</code> and{" "}
-            <code style={{ fontFamily: "monospace" }}>BLIZZARD_CLIENT_SECRET</code> env vars.
+          <div className="mt-4 px-3 py-[10px] rounded-md bg-warning/8 border border-warning/30 text-xs text-stone-400">
+            <strong className="text-stone-200">Setup required:</strong> Set{" "}
+            <code className="font-mono">BLIZZARD_CLIENT_ID</code> and{" "}
+            <code className="font-mono">BLIZZARD_CLIENT_SECRET</code> env vars.
             Register your application at{" "}
             <a
               href="https://develop.battle.net/access/clients"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "var(--accent)", textDecoration: "none" }}
+              className="text-accent no-underline"
             >
               develop.battle.net
             </a>

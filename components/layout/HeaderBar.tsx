@@ -8,35 +8,12 @@ export function HeaderBar({
   buildName = "Demo Build",
 }: HeaderBarProps) {
   return (
-    <header
-      style={{
-        height: "40px",
-        minHeight: "40px",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 16px",
-        gap: "8px",
-        backgroundColor: "var(--surface-1)",
-        borderBottom: "1px solid var(--stone-800)",
-        flexShrink: 0,
-      }}
-    >
-      <span
-        style={{
-          fontSize: "13px",
-          fontWeight: 600,
-          color: "var(--stone-200)",
-        }}
-      >
+    <header className="h-10 min-h-10 flex items-center px-4 gap-2 bg-surface-1 border-b border-stone-800 shrink-0">
+      <span className="text-sm font-semibold text-stone-200">
         {characterName}
       </span>
-      <span style={{ color: "var(--stone-600)", fontSize: "13px" }}>—</span>
-      <span
-        style={{
-          fontSize: "13px",
-          color: "var(--stone-400)",
-        }}
-      >
+      <span className="text-stone-600 text-sm">—</span>
+      <span className="text-sm text-stone-400">
         {buildName}
       </span>
     </header>

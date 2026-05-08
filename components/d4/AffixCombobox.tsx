@@ -50,32 +50,18 @@ export function AffixCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          style={{
-            width: "100%",
-            justifyContent: "space-between",
-            fontSize: "12px",
-            height: "30px",
-            fontWeight: 400,
-            color: selected ? "var(--stone-100)" : "var(--stone-500)",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+          className={cn(
+            "w-full justify-between text-xs h-[30px] font-normal overflow-hidden text-ellipsis",
+            selected ? "text-stone-100" : "text-stone-500"
+          )}
         >
-          <span
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              flex: 1,
-              textAlign: "left",
-            }}
-          >
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-1 text-left">
             {selected ? selected.label : placeholder}
           </span>
-          <ChevronsUpDown style={{ marginLeft: "4px", flexShrink: 0 }} size={12} />
+          <ChevronsUpDown className="ml-1 shrink-0" size={12} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent style={{ width: "360px", padding: 0 }} align="start">
+      <PopoverContent className="w-[360px] p-0" align="start">
         <Command>
           <CommandInput placeholder="Search affixes…" />
           <CommandList>
@@ -89,14 +75,14 @@ export function AffixCombobox({
                     onSelect(affix.id, affix);
                     setOpen(false);
                   }}
-                  style={{ fontSize: "12px" }}
+                  className="text-xs"
                 >
                   <Check
                     className={cn("mr-2", value === affix.id ? "opacity-100" : "opacity-0")}
                     size={12}
                   />
-                  <span style={{ flex: 1 }}>{affix.label}</span>
-                  <span style={{ color: "var(--stone-500)", fontSize: "11px", marginLeft: "8px" }}>
+                  <span className="flex-1">{affix.label}</span>
+                  <span className="text-stone-500 text-[11px] ml-2">
                     {affix.valueRange[0]}–{affix.valueRange[1]}
                     {affix.isPercent ? "%" : ""}
                   </span>

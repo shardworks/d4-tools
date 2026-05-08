@@ -2,7 +2,14 @@
  * CSS custom properties at :root are the canonical token source.
  * @theme aliases them as Tailwind utilities (bg-surface-0, text-rarity-legendary, etc.).
  * No tailwind.config.js — v4's @theme in CSS is the only config surface.
- * Dark-only baseline: all tokens at :root directly. No .dark selector, no dark: variants. */
+ * Dark-only baseline: all tokens at :root directly. No .dark selector, no dark: variants.
+ *
+ * Structure:
+ *   @theme — one-line aliases for color tokens (no values here) + direct values for
+ *            type/spacing/radius (where same-name aliases would create circular refs)
+ *   :root  — ALL canonical token values including shadcn bridge aliases (D2, D3)
+ *   base   — html/body, soft-gate, focus-visible, ancestral
+ *   @layer components — recurring-shape utility classes (D5) */
 
 @import "tailwindcss";
 
@@ -11,42 +18,59 @@
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), "Courier New", monospace;
 
-  /* Stone neutrals (warm) */
-  --color-stone-50: #fafaf9;
-  --color-stone-100: #f5f5f4;
-  --color-stone-200: #e7e5e4;
-  --color-stone-300: #d6d3d1;
-  --color-stone-400: #a8a29e;
-  --color-stone-500: #78716c;
-  --color-stone-600: #57534e;
-  --color-stone-700: #44403c;
-  --color-stone-800: #292524;
-  --color-stone-900: #1c1917;
-  --color-stone-950: #0c0a09;
+  /* Stone neutrals — aliases to :root canonical values */
+  --color-stone-50: var(--stone-50);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-stone-900: var(--stone-900);
+  --color-stone-950: var(--stone-950);
 
-  /* Accent */
-  --color-accent: oklch(70% 0.14 65);
+  /* Surfaces */
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
 
-  /* Dark surfaces */
-  --color-surface-0: #14110f;
-  --color-surface-1: #1c1815;
-  --color-surface-2: #252019;
+  /* Semantic */
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-info: var(--info);
 
-  /* Semantic colors (collision-tuned) */
-  --color-danger: oklch(60% 0.20 25);
-  --color-warning: oklch(72% 0.18 55);
-  --color-success: oklch(68% 0.18 145);
-  --color-info: oklch(65% 0.18 240);
+  /* Rarity */
+  --color-rarity-common: var(--rarity-common);
+  --color-rarity-magic: var(--rarity-magic);
+  --color-rarity-rare: var(--rarity-rare);
+  --color-rarity-legendary: var(--rarity-legendary);
+  --color-rarity-unique: var(--rarity-unique);
+  --color-rarity-mythic: var(--rarity-mythic);
 
-  /* Rarity colors (sampled from Maxroll D4 planner) */
-  --color-rarity-common: #c8c8c8;
-  --color-rarity-magic: #4a7fff;
-  --color-rarity-rare: #ffde00;
-  --color-rarity-legendary: #ff8000;
-  --color-rarity-unique: #b57e2a;
-  --color-rarity-mythic: #cc2222;
+  /* shadcn bridge — color-utility aliases (enables bg-destructive, text-foreground, etc.) */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-  /* Type scale */
+  /* Type scale — direct values (same names in @theme + :root; value here ensures
+     Tailwind utility generation; :root value wins at runtime via cascade) */
   --text-micro-micro: 11px;
   --text-micro: 12px;
   --text-sm: 13px;
@@ -66,7 +90,7 @@
   --spacing-8: 32px;
   --spacing-12: 48px;
 
-  /* Border radius scale */
+  /* Border radius scale (for rounded-* utilities; :root uses semantic names) */
   --radius-none: 0px;
   --radius-sm: 2px;
   --radius: 4px;
@@ -75,7 +99,7 @@
 }
 
 :root {
-  /* Stone neutrals */
+  /* ── Stone neutrals (canonical values) ─────────────────────────── */
   --stone-50: #fafaf9;
   --stone-100: #f5f5f4;
   --stone-200: #e7e5e4;
@@ -88,21 +112,21 @@
   --stone-900: #1c1917;
   --stone-950: #0c0a09;
 
-  /* Accent */
+  /* ── Accent ─────────────────────────────────────────────────────── */
   --accent: oklch(70% 0.14 65);
 
-  /* Dark surfaces */
+  /* ── Dark surfaces ──────────────────────────────────────────────── */
   --surface-0: #14110f;
   --surface-1: #1c1815;
   --surface-2: #252019;
 
-  /* Semantic colors */
+  /* ── Semantic colors ────────────────────────────────────────────── */
   --danger: oklch(60% 0.20 25);
   --warning: oklch(72% 0.18 55);
   --success: oklch(68% 0.18 145);
   --info: oklch(65% 0.18 240);
 
-  /* Rarity colors (sampled from Maxroll D4 planner) */
+  /* ── Rarity colors (sampled from Maxroll D4 planner) ───────────── */
   --rarity-common: #c8c8c8;
   --rarity-magic: #4a7fff;
   --rarity-rare: #ffde00;
@@ -110,16 +134,37 @@
   --rarity-unique: #b57e2a;
   --rarity-mythic: #cc2222;
 
-  /* Ancestral treatment hook (border/glow applied via CSS over rarity color) */
+  /* ── shadcn token bridge (D3) ───────────────────────────────────── *
+   * Aliases map shadcn-conventional names to existing canonical tokens.
+   * Foreground colors chosen to satisfy WCAG AA against their paired surface. */
+  --primary: var(--accent);
+  --primary-foreground: #000000;        /* black on accent (amber) — high contrast */
+  --background: var(--surface-0);
+  --foreground: var(--stone-100);       /* #f5f5f4 on #14110f — WCAG AAA */
+  --popover: var(--surface-2);
+  --popover-foreground: var(--stone-100);
+  --muted: var(--surface-1);
+  --muted-foreground: var(--stone-500); /* #78716c on dark — passes AA for UI text */
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--stone-200);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--stone-100);
+  --accent-foreground: #000000;
+  --ring: var(--accent);
+  --input: var(--stone-700);
+  --border: var(--stone-800);
+  --ring-offset-background: var(--surface-0);
+
+  /* ── Ancestral treatment tokens (:root-only) ────────────────────── */
   --ancestral-border: oklch(85% 0.15 80);
   --ancestral-glow: 0 0 8px oklch(85% 0.15 80 / 0.6);
   --ancestral-sparkle: none; /* placeholder for future sparkle animation */
 
-  /* Item card padding tokens */
+  /* ── Item card layout tokens (:root-only) ───────────────────────── */
   --item-card-padding: 8px;
   --item-card-row-gap: 6px;
 
-  /* Type scale tokens */
+  /* ── Type scale tokens ──────────────────────────────────────────── */
   --text-micro-micro: 11px;
   --text-micro: 12px;
   --text-sm: 13px;
@@ -129,7 +174,8 @@
   --text-xl: 22px;
   --text-2xl: 28px;
 
-  /* Spacing scale tokens */
+  /* ── Spacing scale tokens ───────────────────────────────────────── */
+  --spacing-0: 0px;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -138,7 +184,7 @@
   --spacing-8: 32px;
   --spacing-12: 48px;
 
-  /* Border radius tokens */
+  /* ── Border radius tokens (semantic names used in components) ────── */
   --radius-none: 0px;
   --radius-sm: 2px;
   --radius-card: 4px;
@@ -146,7 +192,7 @@
   --radius-pill: 9999px;
 }
 
-/* Base styles */
+/* ── Base styles ──────────────────────────────────────────────────── */
 html, body {
   background-color: var(--surface-0);
   color: var(--stone-200);
@@ -177,4 +223,34 @@ html, body {
 .ancestral {
   border-color: var(--ancestral-border) !important;
   box-shadow: var(--ancestral-glow);
+}
+
+/* ── Recurring-shape component classes (D5) ───────────────────────── *
+ * Extracted patterns that appear 3+ times across the application.     *
+ * Used in T6 sweep to replace repeating inline-style blocks.          */
+@layer components {
+  /* Uppercase mini-label — section headers throughout the UI */
+  .mini-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.06em] text-stone-500;
+  }
+
+  /* Error banner — red tinted container for error messages */
+  .error-banner {
+    @apply flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-[14px] py-[10px] text-sm text-destructive;
+  }
+
+  /* Error text — inline error copy (color only; size/spacing added at call site) */
+  .error-text {
+    @apply text-destructive;
+  }
+
+  /* Panel — bordered surface-2 container */
+  .panel {
+    @apply rounded border border-stone-800 bg-surface-2;
+  }
+
+  /* Ghost icon button — transparent, no border, pointer cursor */
+  .icon-btn {
+    @apply flex cursor-pointer items-center border-0 bg-transparent p-0.5;
+  }
 }

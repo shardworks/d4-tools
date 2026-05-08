@@ -16,6 +16,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import type { BnetHeroSummary } from "@/lib/blizzard/types";
 import type { Character, Build } from "@/lib/schema";
 
@@ -54,18 +55,7 @@ function PreviewPane({
 }) {
   if (!draft) {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%",
-          color: "var(--stone-600)",
-          fontSize: "13px",
-          textAlign: "center",
-          padding: "24px",
-        }}
-      >
+      <div className="flex items-center justify-center h-full text-stone-600 text-sm text-center p-6">
         Select a hero from the list to preview their build.
       </div>
     );
@@ -74,36 +64,26 @@ function PreviewPane({
   const unresolvedCount = (warnings ?? []).filter((w) => w.storedAs.startsWith("unresolved:")).length;
 
   return (
-    <div style={{ padding: "24px", overflowY: "auto", height: "100%" }}>
+    <div className="p-6 overflow-y-auto h-full">
       {unresolvedCount > 0 && (
-        <div
-          style={{
-            padding: "10px 14px",
-            borderRadius: "6px",
-            background: "rgba(234,179,8,0.1)",
-            border: "1px solid rgba(234,179,8,0.3)",
-            marginBottom: "16px",
-            fontSize: "12px",
-            color: "var(--stone-300)",
-          }}
-        >
-          <strong style={{ color: "var(--stone-200)" }}>⚠ {unresolvedCount} unresolved</strong>{" "}
+        <div className="px-[14px] py-[10px] rounded-md bg-warning/10 border border-warning/30 mb-4 text-xs text-stone-300">
+          <strong className="text-stone-200">⚠ {unresolvedCount} unresolved</strong>{" "}
           {unresolvedCount === 1 ? "entity" : "entities"} — stored with{" "}
-          <code style={{ fontFamily: "monospace" }}>unresolved:</code> prefix. These will be
+          <code className="font-mono">unresolved:</code> prefix. These will be
           visible in the imported character and can be corrected when the catalog is updated.
         </div>
       )}
 
-      <div style={{ marginBottom: "16px" }}>
-        <div style={{ fontSize: "18px", fontWeight: 700, color: "var(--stone-100)" }}>
+      <div className="mb-4">
+        <div className="text-[18px] font-bold text-stone-100">
           {draft.character.name}
         </div>
-        <div style={{ fontSize: "13px", color: "var(--stone-400)", marginTop: "4px" }}>
+        <div className="text-sm text-stone-400 mt-1">
           {draft.character.class} · Level {draft.character.level} · Paragon{" "}
           {draft.character.paragonAllocation.paragonLevel}
         </div>
         {draft.character.import && (
-          <div style={{ fontSize: "11px", color: "var(--stone-600)", marginTop: "4px" }}>
+          <div className="text-[11px] text-stone-600 mt-1">
             {draft.character.import.season
               ? `Season ${draft.character.import.season}`
               : "Eternal"}{" "}
@@ -112,7 +92,7 @@ function PreviewPane({
         )}
       </div>
 
-      <div style={{ fontSize: "12px", color: "var(--stone-500)" }}>
+      <div className="text-xs text-stone-500">
         {Object.keys(draft.character.equippedItems).length} items equipped ·{" "}
         {draft.character.skillSelections.length} skills selected
       </div>
@@ -274,40 +254,23 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
   // ── Not connected state ───────────────────────────────────────────────────
   if (!isConnected) {
     return (
-      <div style={{ padding: "32px", maxWidth: "520px" }}>
-        <h1 style={{ fontSize: "20px", fontWeight: 700, color: "var(--stone-100)", margin: "0 0 12px 0" }}>
+      <div className="p-8 max-w-[520px]">
+        <h1 className="text-[20px] font-bold text-stone-100 m-0 mb-3">
           Import from Battle.net
         </h1>
-        <p style={{ fontSize: "14px", color: "var(--stone-400)", marginBottom: "24px" }}>
+        <p className="text-base text-stone-400 mb-6">
           Connect your Battle.net account to import your Diablo IV characters.
         </p>
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+        <div className="flex gap-3 flex-wrap">
           <a
             href="/api/auth/battlenet/start"
-            style={{
-              padding: "10px 20px",
-              borderRadius: "6px",
-              background: "var(--accent)",
-              color: "#000",
-              fontWeight: 700,
-              fontSize: "14px",
-              textDecoration: "none",
-            }}
+            className="px-5 py-[10px] rounded-md bg-accent text-black font-bold text-base no-underline"
           >
             Sign in with Battle.net
           </a>
           <a
             href="/characters/new"
-            style={{
-              padding: "10px 20px",
-              borderRadius: "6px",
-              background: "transparent",
-              border: "1px solid var(--stone-700)",
-              color: "var(--stone-300)",
-              fontWeight: 500,
-              fontSize: "14px",
-              textDecoration: "none",
-            }}
+            className="px-5 py-[10px] rounded-md bg-transparent border border-stone-700 text-stone-300 font-medium text-base no-underline"
           >
             Enter Manually
           </a>
@@ -317,55 +280,26 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
   }
 
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "60vh" }}>
+    <div className="flex h-full min-h-[60vh]">
       {/* ── Left rail: hero list (30%) ─────────────────────────── */}
-      <div
-        style={{
-          width: "30%",
-          minWidth: "220px",
-          maxWidth: "320px",
-          borderRight: "1px solid var(--stone-800)",
-          overflowY: "auto",
-          flexShrink: 0,
-        }}
-      >
-        <div
-          style={{
-            padding: "16px",
-            borderBottom: "1px solid var(--stone-800)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <h2 style={{ fontSize: "14px", fontWeight: 700, color: "var(--stone-200)", margin: 0 }}>
-            Your Heroes
-          </h2>
+      <div className="w-[30%] min-w-[220px] max-w-[320px] border-r border-stone-800 overflow-y-auto shrink-0">
+        <div className="p-4 border-b border-stone-800 flex items-center justify-between">
+          <h2 className="text-base font-bold text-stone-200 m-0">Your Heroes</h2>
           {loading && (
-            <span style={{ fontSize: "11px", color: "var(--stone-500)" }}>Loading…</span>
+            <span className="text-[11px] text-stone-500">Loading…</span>
           )}
         </div>
 
         {/* Error / rate-limit / private-profile banners */}
         {error && (
-          <div
-            style={{
-              margin: "8px",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              background: "rgba(239,68,68,0.08)",
-              border: "1px solid rgba(239,68,68,0.3)",
-              fontSize: "12px",
-              color: "var(--stone-400)",
-            }}
-          >
-            <div style={{ color: "#ef4444", fontWeight: 600, marginBottom: "4px" }}>
+          <div className="m-2 px-3 py-[10px] rounded-md bg-destructive/8 border border-destructive/30 text-xs text-stone-400">
+            <div className="text-destructive font-semibold mb-1">
               {rateLimitedUntil ? `Rate limited — retry in ${countdown}s` : "Error"}
             </div>
             {error}
             {privateProfile && (
-              <div style={{ marginTop: "8px" }}>
-                <a href="/characters/new" style={{ color: "var(--accent)", textDecoration: "none", fontSize: "11px" }}>
+              <div className="mt-2">
+                <a href="/characters/new" className="text-accent no-underline text-[11px]">
                   Enter character manually →
                 </a>
               </div>
@@ -373,17 +307,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
             {!rateLimitedUntil && !privateProfile && (
               <button
                 onClick={fetchRoster}
-                style={{
-                  marginTop: "8px",
-                  padding: "4px 10px",
-                  borderRadius: "4px",
-                  background: "transparent",
-                  border: "1px solid var(--stone-700)",
-                  color: "var(--stone-400)",
-                  fontSize: "11px",
-                  cursor: "pointer",
-                  display: "block",
-                }}
+                className="mt-2 px-[10px] py-1 rounded bg-transparent border border-stone-700 text-stone-400 text-[11px] cursor-pointer block"
               >
                 Retry
               </button>
@@ -398,22 +322,17 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
             <button
               key={hero.id}
               onClick={() => selectHero(hero)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                background: isSelected ? "var(--surface-2)" : "transparent",
-                borderLeft: isSelected ? "2px solid var(--accent)" : "2px solid transparent",
-                borderRight: "none",
-                borderTop: "none",
-                borderBottom: "1px solid var(--stone-800)",
-                cursor: "pointer",
-                textAlign: "left",
-              }}
+              className={cn(
+                "w-full px-4 py-3 border-l-2 border-r-0 border-t-0 border-b border-stone-800 cursor-pointer text-left",
+                isSelected
+                  ? "bg-surface-2 border-l-accent"
+                  : "bg-transparent border-l-transparent"
+              )}
             >
-              <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--stone-100)" }}>
+              <div className="text-sm font-semibold text-stone-100">
                 {hero.name}
               </div>
-              <div style={{ fontSize: "11px", color: "var(--stone-500)", marginTop: "2px", display: "flex", gap: "6px" }}>
+              <div className="text-[11px] text-stone-500 mt-0.5 flex gap-[6px]">
                 <span>{hero.class.charAt(0).toUpperCase() + hero.class.slice(1)}</span>
                 <span>·</span>
                 <span>Lvl {hero.level}</span>
@@ -425,16 +344,12 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
                 )}
                 <span>·</span>
                 <span
-                  style={{
-                    padding: "1px 5px",
-                    borderRadius: "3px",
-                    background: hero.seasonal
-                      ? "rgba(234,179,8,0.12)"
-                      : "rgba(148,163,184,0.12)",
-                    color: hero.seasonal ? "var(--accent)" : "var(--stone-400)",
-                    fontSize: "10px",
-                    fontWeight: 600,
-                  }}
+                  className={cn(
+                    "px-[5px] py-0 rounded-[3px] text-[10px] font-semibold",
+                    hero.seasonal
+                      ? "bg-warning/12 text-accent"
+                      : "bg-stone-400/12 text-stone-400"
+                  )}
                 >
                   {hero.seasonal ? "S" : "E"}
                 </span>
@@ -444,25 +359,16 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
         })}
 
         {!loading && heroes.length === 0 && !error && (
-          <div style={{ padding: "16px", fontSize: "12px", color: "var(--stone-600)" }}>
+          <div className="p-4 text-xs text-stone-600">
             No heroes found on this account.
           </div>
         )}
       </div>
 
       {/* ── Right pane: preview (70%) ───────────────────────────── */}
-      <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>
+      <div className="flex-1 overflow-y-auto flex flex-col">
         {draftLoading ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-              color: "var(--stone-600)",
-              fontSize: "13px",
-            }}
-          >
+          <div className="flex items-center justify-center h-full text-stone-600 text-sm">
             Loading hero details…
           </div>
         ) : (
@@ -473,48 +379,18 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
             />
 
             {draft && (
-              <div
-                style={{
-                  padding: "16px 24px",
-                  borderTop: "1px solid var(--stone-800)",
-                  display: "flex",
-                  gap: "12px",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  flexShrink: 0,
-                }}
-              >
+              <div className="px-6 py-4 border-t border-stone-800 flex gap-3 items-center justify-end shrink-0">
                 {draft.existingCharacterId && (
-                  <div
-                    style={{
-                      flex: 1,
-                      padding: "8px 12px",
-                      borderRadius: "6px",
-                      background: "rgba(234,179,8,0.08)",
-                      border: "1px solid rgba(234,179,8,0.3)",
-                      fontSize: "12px",
-                      color: "var(--stone-400)",
-                    }}
-                  >
-                    <strong style={{ color: "var(--stone-200)" }}>Already imported</strong> as{" "}
-                    <code style={{ fontFamily: "monospace", fontSize: "11px" }}>
+                  <div className="flex-1 px-3 py-2 rounded-md bg-warning/8 border border-warning/30 text-xs text-stone-400">
+                    <strong className="text-stone-200">Already imported</strong> as{" "}
+                    <code className="font-mono text-[11px]">
                       {draft.existingCharacterId}
                     </code>
                   </div>
                 )}
                 <button
                   onClick={proceedToConfirm}
-                  style={{
-                    padding: "9px 20px",
-                    borderRadius: "6px",
-                    background: "var(--accent)",
-                    color: "#000",
-                    fontWeight: 700,
-                    fontSize: "13px",
-                    border: "none",
-                    cursor: "pointer",
-                    flexShrink: 0,
-                  }}
+                  className="px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 cursor-pointer shrink-0"
                 >
                   Preview & Import →
                 </button>

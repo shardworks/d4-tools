@@ -68,18 +68,8 @@ function ClusterSection({
 }) {
   if (slots.length === 0) return null;
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1, minWidth: 0 }}>
-      <div
-        style={{
-          fontSize: "11px",
-          fontWeight: 600,
-          color: "var(--stone-500)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          paddingBottom: "4px",
-          borderBottom: "1px solid var(--stone-800)",
-        }}
-      >
+    <div className="flex flex-col gap-2 flex-1 min-w-0">
+      <div className="mini-label tracking-[0.08em] pb-1 border-b border-stone-800">
         {title}
       </div>
       {slots.map((slot) => {
@@ -88,7 +78,7 @@ function ClusterSection({
           <div
             key={slot.id}
             onClick={editable ? () => onSlotClick(slot) : undefined}
-            style={{ cursor: editable ? "pointer" : "default" }}
+            className={editable ? "cursor-pointer" : "cursor-default"}
           >
             <ItemCard item={item} />
           </div>
@@ -112,6 +102,8 @@ function ClusterSection({
  * appear only when characterClass === "Barbarian".
  *
  * When editable=true, clicking a slot opens the GearSlotEditor side sheet.
+ * Note: EmptySlot imperative hover (onMouseEnter/onMouseLeave) is out-of-scope
+ * per foundation-audit-2026-05-08.md §3.2.
  */
 export function GearSlotGrid({
   items,
@@ -139,9 +131,9 @@ export function GearSlotGrid({
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div className="flex flex-col gap-4">
         {/* Top row: armor + jewelry */}
-        <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+        <div className="flex gap-4 items-start">
           <ClusterSection
             title="Armor"
             slots={armorSlots}

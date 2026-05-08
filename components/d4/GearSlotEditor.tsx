@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { AffixCombobox } from "./AffixCombobox";
 import { AspectCombobox } from "./AspectCombobox";
 import { Plus, Trash2, Save, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface GearSlotEditorProps {
   slot: SlotEntry;
@@ -44,6 +45,16 @@ const RARITY_LABELS: Record<string, string> = {
   legendary: "Legendary",
   unique: "Unique",
   mythic: "Mythic Unique",
+};
+
+/** Canonical rarity-color map — mirrors ItemCard.tsx (D4). */
+const rarityColor: Record<string, string> = {
+  common: "var(--rarity-common)",
+  magic: "var(--rarity-magic)",
+  rare: "var(--rarity-rare)",
+  legendary: "var(--rarity-legendary)",
+  unique: "var(--rarity-unique)",
+  mythic: "var(--rarity-mythic)",
 };
 
 /**
@@ -94,34 +105,14 @@ function InlineAffixList({
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span
-          style={{
-            fontSize: "11px",
-            fontWeight: 600,
-            color: "var(--stone-500)",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-          }}
-        >
-          {label}
-        </span>
+    <div className="flex flex-col gap-[6px]">
+      <div className="flex items-center justify-between">
+        <span className="mini-label">{label}</span>
         {(!maxRows || fields.length < maxRows) && (
           <button
             type="button"
             onClick={() => append({ affixId: "", rolledValue: 0 } as never)}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--stone-400)",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              fontSize: "11px",
-              padding: "2px 4px",
-            }}
+            className="icon-btn gap-1 text-[11px] text-stone-400 px-1"
           >
             <Plus size={11} /> Add
           </button>
@@ -136,9 +127,9 @@ function InlineAffixList({
         const entry = getAffixEntry(affixId);
 
         return (
-          <div key={field.id} style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <div style={{ flex: 1 }}>
+          <div key={field.id} className="flex flex-col gap-[3px]">
+            <div className="flex items-center gap-[6px]">
+              <div className="flex-1">
                 <Controller
                   control={control}
                   name={`${name}.${i}.affixId` as never}
@@ -169,43 +160,34 @@ function InlineAffixList({
                     step="0.1"
                     value={f.value as number}
                     onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
-                    style={{
-                      width: "72px",
-                      fontSize: "12px",
-                      borderColor: outOfRange ? "var(--destructive, #ef4444)" : undefined,
-                      color: greater ? "var(--mythic, #d4a017)" : undefined,
-                    }}
+                    className={cn(
+                      "w-[72px] text-xs",
+                      outOfRange && "border-destructive",
+                      greater && "text-rarity-mythic"
+                    )}
                   />
                 )}
               />
               {entry && (
-                <span style={{ fontSize: "10px", color: "var(--stone-600)", whiteSpace: "nowrap" }}>
+                <span className="text-[10px] text-stone-600 whitespace-nowrap">
                   {entry.isPercent ? "%" : ""}
                 </span>
               )}
               {greater && (
-                <Badge style={{ fontSize: "9px", padding: "1px 4px", background: "rgba(212,160,23,0.15)", color: "var(--mythic, #d4a017)", border: "1px solid rgba(212,160,23,0.4)" }}>
+                <Badge className="text-[9px] px-1 py-0 text-rarity-mythic border-rarity-mythic/40 bg-rarity-mythic/15">
                   GA
                 </Badge>
               )}
               <button
                 type="button"
                 onClick={() => remove(i)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "var(--stone-600)",
-                  padding: "2px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                className="icon-btn text-stone-600"
               >
                 <X size={12} />
               </button>
             </div>
             {outOfRange && (
-              <p style={{ color: "var(--destructive, #ef4444)", fontSize: "11px", margin: 0, paddingLeft: "4px" }}>
+              <p className="error-text text-[11px] m-0 pl-1">
                 {outOfRange}
               </p>
             )}
@@ -214,7 +196,7 @@ function InlineAffixList({
       })}
 
       {fields.length === 0 && (
-        <span style={{ fontSize: "12px", color: "var(--stone-700)", fontStyle: "italic" }}>
+        <span className="text-xs text-stone-700 italic">
           None
         </span>
       )}
@@ -286,44 +268,39 @@ export function GearSlotEditor({
     }
   }
 
-  const rarityColor: Record<string, string> = {
-    common: "var(--stone-400)",
-    magic: "#5599ff",
-    rare: "#f0c040",
-    legendary: "var(--legendary, #c87f27)",
-    unique: "#8b5e3c",
-    mythic: "#d4a017",
-  };
-
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        style={{ width: "520px", maxWidth: "100vw", overflowY: "auto", padding: "24px" }}
+        className="max-w-[100vw] overflow-y-auto p-6"
+        style={{ width: "520px" }}
       >
-        <SheetHeader style={{ marginBottom: "16px" }}>
-          <SheetTitle style={{ color: "var(--stone-100)", fontSize: "16px" }}>
+        <SheetHeader className="mb-4">
+          <SheetTitle className="text-stone-100 text-md">
             {slot.label}
           </SheetTitle>
         </SheetHeader>
 
         <FormProvider {...form}>
-          <form onSubmit={handleSubmit(onSubmit as never)} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <form onSubmit={handleSubmit(onSubmit as never)} className="flex flex-col gap-4">
             {/* Rarity + Item Power */}
-            <div style={{ display: "flex", gap: "12px", alignItems: "flex-end" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                <Label style={{ fontSize: "11px" }}>Rarity</Label>
+            <div className="flex gap-3 items-end">
+              <div className="flex flex-col gap-1">
+                <Label className="text-[11px]">Rarity</Label>
                 <Controller
                   control={control}
                   name="rarity"
                   render={({ field: f }) => (
                     <Select value={f.value as string} onValueChange={f.onChange}>
-                      <SelectTrigger style={{ width: "140px", height: "32px", fontSize: "12px", color: rarityColor[f.value as string] ?? "var(--stone-100)" }}>
+                      <SelectTrigger
+                        className="w-[140px] h-8 text-xs"
+                        style={{ color: rarityColor[f.value as string] ?? "var(--stone-100)" }}
+                      >
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {ITEM_RARITIES.map((r) => (
-                          <SelectItem key={r} value={r} style={{ fontSize: "12px" }}>
+                          <SelectItem key={r} value={r} className="text-xs">
                             {RARITY_LABELS[r]}
                           </SelectItem>
                         ))}
@@ -333,21 +310,21 @@ export function GearSlotEditor({
                 />
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                <Label style={{ fontSize: "11px" }}>Item Power</Label>
+              <div className="flex flex-col gap-1">
+                <Label className="text-[11px]">Item Power</Label>
                 <Input
                   type="number"
                   min={0}
                   max={1000}
                   {...register("itemPower", { valueAsNumber: true })}
-                  style={{ width: "90px", height: "32px", fontSize: "12px" }}
+                  className="w-[90px] h-8 text-xs"
                   placeholder="925"
                 />
               </div>
 
               {/* Ancestral toggle */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px", alignItems: "center" }}>
-                <Label style={{ fontSize: "11px" }}>Ancestral</Label>
+              <div className="flex flex-col gap-1 items-center">
+                <Label className="text-[11px]">Ancestral</Label>
                 <Controller
                   control={control}
                   name="isAncestral"
@@ -362,12 +339,12 @@ export function GearSlotEditor({
             </div>
 
             {/* Item name (optional) */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-              <Label style={{ fontSize: "11px" }}>Item Name (optional)</Label>
+            <div className="flex flex-col gap-1">
+              <Label className="text-[11px]">Item Name (optional)</Label>
               <Input
                 {...register("name")}
                 placeholder="Unique item name…"
-                style={{ fontSize: "12px" }}
+                className="text-xs"
               />
             </div>
 
@@ -416,35 +393,16 @@ export function GearSlotEditor({
             <Separator />
 
             {/* Aspect */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    color: "var(--stone-500)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  Aspect
-                </span>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="mini-label">Aspect</span>
                 {aspectId && (
                   <button
                     type="button"
                     onClick={() => {
                       setValue("aspect", undefined as never);
                     }}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "var(--stone-600)",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      fontSize: "11px",
-                    }}
+                    className="icon-btn gap-1 text-[11px] text-stone-600"
                   >
                     <X size={11} /> Clear
                   </button>
@@ -470,7 +428,7 @@ export function GearSlotEditor({
               />
 
               {aspectId && (
-                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                <div className="flex gap-2 items-center">
                   <Controller
                     control={control}
                     name="aspect.rolledValue"
@@ -480,7 +438,7 @@ export function GearSlotEditor({
                         step="0.1"
                         value={f.value as number}
                         onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
-                        style={{ width: "80px", fontSize: "12px" }}
+                        className="w-20 text-xs"
                       />
                     )}
                   />
@@ -489,12 +447,12 @@ export function GearSlotEditor({
                     name="aspect.source"
                     render={({ field: f }) => (
                       <Select value={f.value as string} onValueChange={f.onChange}>
-                        <SelectTrigger style={{ width: "120px", height: "32px", fontSize: "12px" }}>
+                        <SelectTrigger className="w-[120px] h-8 text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="codex" style={{ fontSize: "12px" }}>Codex of Power</SelectItem>
-                          <SelectItem value="legendary" style={{ fontSize: "12px" }}>Legendary Drop</SelectItem>
+                          <SelectItem value="codex" className="text-xs">Codex of Power</SelectItem>
+                          <SelectItem value="legendary" className="text-xs">Legendary Drop</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -507,12 +465,12 @@ export function GearSlotEditor({
 
             {/* Save error */}
             {saveError && (
-              <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px" }}>{saveError}</p>
+              <p className="error-text text-xs m-0">{saveError}</p>
             )}
 
             {/* Actions */}
-            <div style={{ display: "flex", gap: "8px", justifyContent: "space-between" }}>
-              <Button type="submit" disabled={isSaving} style={{ gap: "6px" }}>
+            <div className="flex gap-2 justify-between">
+              <Button type="submit" disabled={isSaving} className="gap-[6px]">
                 <Save size={13} />
                 {isSaving ? "Saving…" : "Save Item"}
               </Button>
@@ -521,7 +479,7 @@ export function GearSlotEditor({
                   type="button"
                   variant="outline"
                   onClick={handleRemove}
-                  style={{ gap: "6px", color: "var(--destructive, #ef4444)" }}
+                  className="gap-[6px] text-destructive"
                 >
                   <Trash2 size={13} />
                   Remove

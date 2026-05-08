@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Save, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CharacterEditorProps {
   /** Existing character to edit; undefined = new character mode */
@@ -136,43 +137,29 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
     }
   }
 
-  const tabStyle = (tab: typeof activeTab) => ({
-    padding: "6px 14px",
-    fontSize: "13px",
-    fontWeight: activeTab === tab ? 600 : 400,
-    color: activeTab === tab ? "var(--accent)" : "var(--stone-400)",
-    borderBottom: activeTab === tab ? "2px solid var(--accent)" : "2px solid transparent",
-    background: "none",
-    border: "none",
-    borderBottomWidth: "2px",
-    borderBottomStyle: "solid" as const,
-    borderBottomColor: activeTab === tab ? "var(--accent)" : "transparent",
-    cursor: "pointer",
-    transition: "color 100ms",
-  });
+  const tabClass = (tab: typeof activeTab) =>
+    cn(
+      "px-[14px] py-[6px] text-sm cursor-pointer bg-transparent border-0 border-b-2 border-b-transparent transition-colors duration-100",
+      activeTab === tab
+        ? "font-semibold text-accent border-b-accent"
+        : "font-normal text-stone-400"
+    );
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <h1
-            style={{
-              fontSize: "20px",
-              fontWeight: 700,
-              color: "var(--stone-100)",
-              margin: 0,
-            }}
-          >
+        <div className="flex items-center justify-between">
+          <h1 className="text-[20px] font-bold text-stone-100 m-0">
             {isNew ? "New Character" : "Edit Character"}
           </h1>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div className="flex items-center gap-[10px]">
             {isDirty && (
-              <Badge variant="outline" style={{ fontSize: "11px", color: "var(--stone-400)" }}>
+              <Badge variant="outline" className="text-[11px] text-stone-400">
                 Unsaved changes
               </Badge>
             )}
-            <Button type="submit" disabled={isSaving} style={{ gap: "6px" }}>
+            <Button type="submit" disabled={isSaving} className="gap-[6px]">
               <Save size={14} />
               {isSaving ? "Saving…" : "Save"}
             </Button>
@@ -181,51 +168,33 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
 
         {/* Save error */}
         {saveError && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "10px 14px",
-              background: "rgba(239,68,68,0.1)",
-              borderRadius: "6px",
-              border: "1px solid rgba(239,68,68,0.3)",
-              color: "#ef4444",
-              fontSize: "13px",
-            }}
-          >
+          <div className="error-banner">
             <AlertCircle size={14} />
             {saveError}
           </div>
         )}
 
         {/* Tab bar */}
-        <div
-          style={{
-            display: "flex",
-            gap: 0,
-            borderBottom: "1px solid var(--stone-800)",
-          }}
-        >
-          <button type="button" style={tabStyle("basic")} onClick={() => setActiveTab("basic")}>
+        <div className="flex border-b border-stone-800">
+          <button type="button" className={tabClass("basic")} onClick={() => setActiveTab("basic")}>
             Basic Info
           </button>
-          <button type="button" style={tabStyle("skills")} onClick={() => setActiveTab("skills")}>
+          <button type="button" className={tabClass("skills")} onClick={() => setActiveTab("skills")}>
             Skills
           </button>
-          <button type="button" style={tabStyle("paragon")} onClick={() => setActiveTab("paragon")}>
+          <button type="button" className={tabClass("paragon")} onClick={() => setActiveTab("paragon")}>
             Paragon
           </button>
         </div>
 
         {/* Tab content */}
         {activeTab === "basic" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div className="flex flex-col gap-4">
             {/* Name */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <div className="flex flex-col gap-[6px]">
               <label
                 htmlFor="char-name"
-                style={{ fontSize: "13px", fontWeight: 500, color: "var(--stone-300)" }}
+                className="text-sm font-medium text-stone-300"
               >
                 Character Name *
               </label>
@@ -233,25 +202,25 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
                 id="char-name"
                 placeholder="e.g. Doomed Aura Sorcerer"
                 {...register("name")}
-                style={{ maxWidth: "380px" }}
+                className="max-w-[380px]"
               />
               {errors.name && (
-                <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px", margin: 0 }}>
+                <p className="error-text text-xs m-0">
                   {errors.name.message}
                 </p>
               )}
             </div>
 
             {/* Class */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "13px", fontWeight: 500, color: "var(--stone-300)" }}>
+            <div className="flex flex-col gap-[6px]">
+              <label className="text-sm font-medium text-stone-300">
                 Class *
               </label>
               <Select
                 value={selectedClass}
                 onValueChange={(val) => setValue("class", val as D4Class, { shouldDirty: true })}
               >
-                <SelectTrigger style={{ maxWidth: "240px" }}>
+                <SelectTrigger className="max-w-[240px]">
                   <SelectValue placeholder="Select class…" />
                 </SelectTrigger>
                 <SelectContent>
@@ -263,7 +232,7 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
                     >
                       {cls.label}
                       {!cls.supported && (
-                        <span style={{ color: "var(--stone-600)", marginLeft: "8px", fontSize: "11px" }}>
+                        <span className="text-stone-600 ml-2 text-[11px]">
                           — catalog not yet verified
                         </span>
                       )}
@@ -272,18 +241,18 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
                 </SelectContent>
               </Select>
               {errors.class && (
-                <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px", margin: 0 }}>
+                <p className="error-text text-xs m-0">
                   {errors.class.message}
                 </p>
               )}
             </div>
 
-            <div style={{ display: "flex", gap: "24px" }}>
+            <div className="flex gap-6">
               {/* Level */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <div className="flex flex-col gap-[6px]">
                 <label
                   htmlFor="char-level"
-                  style={{ fontSize: "13px", fontWeight: 500, color: "var(--stone-300)" }}
+                  className="text-sm font-medium text-stone-300"
                 >
                   Character Level
                 </label>
@@ -293,10 +262,10 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
                   min={1}
                   max={100}
                   {...register("level", { valueAsNumber: true })}
-                  style={{ width: "100px" }}
+                  className="w-[100px]"
                 />
                 {errors.level && (
-                  <p style={{ color: "var(--destructive, #ef4444)", fontSize: "12px", margin: 0 }}>
+                  <p className="error-text text-xs m-0">
                     {errors.level.message}
                   </p>
                 )}
@@ -304,7 +273,7 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
             </div>
 
             {!isNew && (
-              <div style={{ fontSize: "12px", color: "var(--stone-600)" }}>
+              <div className="text-xs text-stone-600">
                 ID: <code>{character?.id}</code>
               </div>
             )}

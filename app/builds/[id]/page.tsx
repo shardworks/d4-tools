@@ -22,15 +22,7 @@ export default async function BuildDetailPage({ params }: Props) {
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error loading build";
     return (
-      <div
-        style={{
-          padding: "24px",
-          color: "#ef4444",
-          fontFamily: "monospace",
-          fontSize: "13px",
-          whiteSpace: "pre-wrap",
-        }}
-      >
+      <div className="p-6 text-destructive font-mono text-sm whitespace-pre-wrap">
         <strong>Error loading build:</strong>
         {"\n\n"}
         {message}
@@ -46,15 +38,7 @@ export default async function BuildDetailPage({ params }: Props) {
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error loading character";
     return (
-      <div
-        style={{
-          padding: "24px",
-          color: "#ef4444",
-          fontFamily: "monospace",
-          fontSize: "13px",
-          whiteSpace: "pre-wrap",
-        }}
-      >
+      <div className="p-6 text-destructive font-mono text-sm whitespace-pre-wrap">
         <strong>Error loading character for build:</strong>
         {"\n\n"}
         {message}
@@ -64,7 +48,7 @@ export default async function BuildDetailPage({ params }: Props) {
 
   if (!character) {
     return (
-      <div style={{ padding: "24px", color: "var(--stone-400)", fontSize: "13px" }}>
+      <div className="p-6 text-stone-400 text-sm">
         Character not found for this build (id: {build.characterId}).
       </div>
     );

@@ -16,7 +16,7 @@ export default function ImportConfirmPage() {
   return (
     <Suspense
       fallback={
-        <div style={{ padding: "24px", color: "var(--stone-500)", fontSize: "14px" }}>
+        <div className="p-6 text-stone-500 text-base">
           Loading preview…
         </div>
       }
