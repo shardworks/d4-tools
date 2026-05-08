@@ -44,7 +44,7 @@ In production, `DATA_DIR` must be set or the app will throw at startup.
 
 **Battle.net Import:** `lib/blizzard/` houses the full import path: OAuth helpers (`oauth.ts`), token persistence (`tokens.ts`), typed API client (`client.ts`), catalog resolver primitive (`resolvers.ts`), and API-payload→canonical conversion (`import.ts`). Routes: `/api/auth/battlenet/{start,callback,disconnect}`, `/api/blizzard/{roster,import/[heroId]}`. UI: `/import` (roster picker), `/import/confirm` (preview + save), `/settings` (region + connection status).
 
-**Demo:** `/character/demo` renders a mock Sorcerer (Blizzard/Ice Shards, level 100/paragon 200) through the full component stack without hitting the API.
+**Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new` or import one via Battle.net at `/import`.
 
 ## Foundational Docs
 
@@ -57,6 +57,4 @@ In production, `DATA_DIR` must be set or the app will throw at startup.
 
 ## For Downstream Agents
 
-The component tree is intentionally flat. Prop types are inline within each component file — no shared types module. The mock character in `lib/mock/demo-character.ts` is the authoritative shape reference for the `Character`, `Item`, and `Affix` types until a shared schema is introduced.
-
-Route handlers in `app/api/` are stubbed with file-based persistence and return mock-compatible shapes. Real data integration is out of scope for v1.
+Schemas in `lib/schema/` (Zod + inferred types) are the canonical shape for all domain types — `Character`, `Item`, `Affix`, `Build`, `D4Class`, `ItemRarity`. Persistence and route handlers in `lib/persistence/` and `app/api/` read/write through these schemas. Component prop types compose from `lib/schema` rather than inlining.
