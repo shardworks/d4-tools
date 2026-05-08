@@ -19,8 +19,9 @@ The app runs at `http://localhost:3000`.
 | Variable | Default (dev) | Required | Description |
 |----------|--------------|----------|-------------|
 | `DATA_DIR` | `./data/` | Production only | Directory for file-based character/build persistence. Required in production. |
-| `SCREENSHOT_DIR` | _(none)_ | Always | Directory containing D4 loot screenshots for the `/triage` workspace. No dev fallback — the app throws if unset whenever `/triage` is used. |
+| `SCREENSHOT_DIR` | _(none)_ | Always | Destination directory for uploaded screenshots and the `/triage` gallery source. The upload endpoint writes here; the gallery reads here. No dev fallback — the app throws if unset whenever `/triage` is used. |
 | `ANTHROPIC_API_KEY` | _(none)_ | For `/triage` | Anthropic API key for Vision-LLM screenshot parsing. Server-side only — never exposed to the browser. |
+| `UPLOAD_SECRET` | _(none)_ | Recommended for non-LAN | Optional shared secret for `POST /api/triage/upload`. Set to any strong random string when the endpoint is reachable beyond a private LAN. The PowerShell watcher sends this as `X-Upload-Token`. |
 
 In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY` are required to use the `/triage` workspace.
 
@@ -32,7 +33,7 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 
 **Persistence:** File-based via Next.js Route Handlers (`app/api/characters/route.ts`). The `lib/persistence/` module reads/writes JSON files from `DATA_DIR`. No database dependency for v1.
 
-**Character import:** Manual entry via /characters/new is the primary path. `/triage` is a Vision-LLM screenshot triage workspace that parses loot screenshots via the Anthropic API and supports one-click equip; requires `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY`.
+**Character import / Triage:** Screenshots arrive via the upload pipeline: the gaming machine runs a foreground PowerShell watcher (`bin/screenshot-watcher.ps1`) that watches the D4 screenshot folder and POSTs new files to `POST /api/triage/upload`. The server saves each image under `SCREENSHOT_DIR`, calls the Anthropic Vision API synchronously, caches the result, and returns the parse outcome. The `/triage` gallery displays all uploaded screenshots with their parse results and a fallback Parse button. Manual entry via `/characters/new` remains the primary character-setup path; triage is used for loot evaluation. See [`docs/triage-deployment.md`](docs/triage-deployment.md) for cross-host topology and networking options.
 
 **Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new`. Triage loot screenshots from `/triage`.
 

@@ -67,7 +67,13 @@ incident, but it is not unambiguously sanctioned.
 site, plus mapping to the canonical schema. Per-site parsers must be
 maintained as the source HTML evolves.
 
-### Path B — Screenshot OCR
+### Path B — Screenshot OCR  ✅ Shipped (v11 + v12)
+
+> **Status:** The vision-LLM variant (Path B') is the working manifestation,
+> shipped in v11 (LLM extractor + triage gallery + parse-on-demand) and v12
+> (upload-driven pipeline: Windows watcher → `POST /api/triage/upload` →
+> synchronous LLM → cache). The dedicated-OCR variant (PaddleOCR / Tesseract)
+> was not pursued. See [`docs/triage-deployment.md`](triage-deployment.md).
 
 User takes screenshots of in-game UI (item tooltips, character sheet,
 inventory) and the tool OCRs them into structured data.
@@ -200,8 +206,11 @@ For **real-time loot triage** (the product's stated success criterion —
 Documented here for future Coco sessions to evaluate, not yet in the
 backlog:
 
-- **`vN: Vision-LLM screenshot import`** — drag-and-drop a character
-  screenshot, vision-LLM extracts to v2 schema, catalog validates.
+- ~~**`vN: Vision-LLM screenshot import`**~~ **✅ Shipped in v11 + v12.**
+  Upload pipeline: gaming machine runs `bin/screenshot-watcher.ps1`;
+  `POST /api/triage/upload` receives, saves, and parses synchronously via
+  the Anthropic Vision API; `/triage` gallery displays results. The
+  dedicated-OCR variant was superseded by the vision-LLM approach.
 - **`vN: Build-URL parser`** — paste a D4Builds.gg / Maxroll / Mobalytics
   URL, fetch and parse to v2 schema. Per-source parsers; ToS gray-area
   acknowledged.

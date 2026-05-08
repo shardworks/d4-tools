@@ -41,3 +41,19 @@ export const CharacterSchema = z.object({
 });
 
 export type Character = z.infer<typeof CharacterSchema>;
+
+/**
+ * Form-input variant of CharacterSchema.
+ * `id` is optional here so new-character forms can submit without an id;
+ * the server generates the id from the name on POST /api/characters.
+ * The persistence schema (CharacterSchema) stays strict — this is the only relaxation.
+ */
+export const CharacterFormSchema = CharacterSchema.extend({
+  id: z
+    .string()
+    .regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with hyphens")
+    .optional(),
+});
+
+export type CharacterFormInput = z.input<typeof CharacterFormSchema>;
+export type CharacterFormOutput = z.output<typeof CharacterFormSchema>;

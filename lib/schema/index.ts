@@ -36,10 +36,11 @@ export type { PlaystyleConstraint } from "./playstyle";
 
 export {
   CharacterSchema,
+  CharacterFormSchema,
   D4ClassSchema,
   D4_CLASSES,
 } from "./character";
-export type { Character, D4Class } from "./character";
+export type { Character, CharacterFormInput, CharacterFormOutput, D4Class } from "./character";
 
 export { BuildSchema } from "./build";
 export type { Build } from "./build";

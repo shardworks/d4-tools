@@ -1,0 +1,12 @@
+{
+  "_comment": "Configuration for screenshot-watcher.ps1. Copy this file to screenshot-watcher.config.json and fill in your values.",
+
+  "WatchDir": "C:\\Users\\YourName\\Documents\\Diablo IV\\Screenshots",
+  "UploadUrl": "http://your-d4-tools-host:3000/api/triage/upload",
+
+  "UploadSecret": "",
+  "_UploadSecret_comment": "Set to the same value as UPLOAD_SECRET on the server. Leave empty to disable auth (single-host / private LAN only).",
+
+  "Filter": "*.png,*.jpg,*.jpeg",
+  "_Filter_comment": "Comma-separated glob patterns for files to watch. Defaults to *.png,*.jpg,*.jpeg."
+}

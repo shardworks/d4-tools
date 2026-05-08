@@ -5,14 +5,13 @@ import { useRouter } from "next/navigation";
 import { useForm, FormProvider, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CharacterSchema, type Character, type D4Class } from "@/lib/schema";
+import { CharacterFormSchema, type Character, type CharacterFormOutput, type D4Class } from "@/lib/schema";
 import { classes } from "@/lib/catalog";
 import { SkillTreePicker } from "./SkillTreePicker";
 import { ParagonAllocator } from "./ParagonAllocator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Save, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,11 +31,17 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
 
   // Use three-generic form to separate RHF input type (with optionals) from
   // Zod output type (with applied defaults) — @hookform/resolvers/zod v5 + Zod v4 pattern.
-  type CharacterInput = z.input<typeof CharacterSchema>;
-  const form = useForm<CharacterInput, unknown, Character>({
-    resolver: zodResolver(CharacterSchema) as unknown as Resolver<CharacterInput, unknown, Character>,
+  // CharacterFormSchema has id optional so new-character forms can submit without an id;
+  // the server generates the id on POST /api/characters.
+  type CharacterInput = z.input<typeof CharacterFormSchema>;
+  const form = useForm<CharacterInput, unknown, CharacterFormOutput>({
+    resolver: zodResolver(CharacterFormSchema) as unknown as Resolver<
+      CharacterInput,
+      unknown,
+      CharacterFormOutput
+    >,
     defaultValues: character ?? {
-      id: "",
+      // id intentionally omitted for new characters — server generates from name
       name: "",
       class: "Sorcerer",
       level: 1,
@@ -79,12 +84,12 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
     return () => window.removeEventListener("beforeunload", handler);
   }, [isDirty]);
 
-  async function onSubmit(data: Character) {
+  async function onSubmit(data: CharacterFormOutput) {
     setIsSaving(true);
     setSaveError(null);
     try {
       if (isNew) {
-        // Create character
+        // Create character — id is absent, server generates from name
         const charRes = await fetch("/api/characters", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -116,8 +121,12 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
         // Navigate to the new build's detail page
         router.push(`/builds/${savedBuild.id}`);
       } else {
-        // Update existing character
-        const res = await fetch(`/api/characters/${data.id}`, {
+        // Update existing character — id is always present when editing
+        const id = data.id;
+        if (!id) {
+          throw new Error("Character ID is missing — cannot update");
+        }
+        const res = await fetch(`/api/characters/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
@@ -173,6 +182,24 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
             {saveError}
           </div>
         )}
+
+        {/* Catch-all: surface any validation error not handled by a per-field block.
+            Per-field blocks exist for: name, class, level. Any other key in errors
+            (e.g. id, root, or schema-wide issues) is rendered here so failures are
+            never silently swallowed. Does not double-render already-handled fields. */}
+        {Object.entries(errors)
+          .filter(([key]) => !["name", "class", "level"].includes(key))
+          .flatMap(([key, err]) => {
+            const msg = typeof err?.message === "string" ? err.message : undefined;
+            return msg
+              ? [
+                  <div key={key} className="error-banner">
+                    <AlertCircle size={14} />
+                    {msg}
+                  </div>,
+                ]
+              : [];
+          })}
 
         {/* Tab bar */}
         <div className="flex border-b border-stone-800">

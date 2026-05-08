@@ -1,0 +1,192 @@
+# Triage Deployment Guide
+
+This document explains the two-host topology introduced in v12: a gaming machine
+running the PowerShell watcher produces screenshots; a d4-tools server running
+Next.js consumes and parses them via `POST /api/triage/upload`.
+
+---
+
+## Topology overview
+
+```
+┌──────────────────────────────────┐       ┌────────────────────────────────────┐
+│  Gaming machine (Windows)        │       │  d4-tools host (Linux/macOS/Win)   │
+│                                  │       │                                    │
+│  Diablo 4 ──────► Screenshots/   │       │  Next.js server                    │
+│                        │         │       │    POST /api/triage/upload         │
+│  screenshot-watcher.ps1          │  HTTP │    ↓                               │
+│    (FileSystemWatcher)  ─────────┼──────►│  SCREENSHOT_DIR/<filename>         │
+│                                  │       │    ↓                               │
+│  Local screenshots kept intact   │       │  Vision LLM (Anthropic)            │
+│  (never deleted)                 │       │    ↓                               │
+└──────────────────────────────────┘       │  DATA_DIR/screenshot-cache/<hash>  │
+                                           │    ↓                               │
+                                           │  /triage gallery                   │
+                                           └────────────────────────────────────┘
+```
+
+### Roles
+
+| Component | Host | Purpose |
+|---|---|---|
+| `bin/screenshot-watcher.ps1` | Gaming machine (Windows) | Watches the D4 screenshot folder; uploads new files via multipart HTTP POST |
+| `POST /api/triage/upload` | d4-tools host | Receives the file, saves it atomically under `SCREENSHOT_DIR`, calls the LLM, caches the result |
+| `/triage` gallery | d4-tools host (browser) | Displays uploaded screenshots with parse results; Parse button available as fallback |
+
+Both machines can be the same computer (single-host setup). In that case
+`UploadUrl: http://localhost:3000/api/triage/upload` and no auth is needed.
+
+---
+
+## Networking options
+
+### Option 1: Same machine (simplest)
+
+Run d4-tools and Diablo 4 on the same Windows machine. Point the watcher at
+`http://localhost:3000/api/triage/upload`. No auth required.
+
+```json
+{
+  "UploadUrl": "http://localhost:3000/api/triage/upload",
+  "UploadSecret": ""
+}
+```
+
+### Option 2: Private LAN (two machines, no external exposure)
+
+The gaming machine and the d4-tools host are on the same home or office network.
+Find the d4-tools host's LAN IP (e.g. `192.168.1.50`) and use it directly.
+
+```json
+{
+  "UploadUrl": "http://192.168.1.50:3000/api/triage/upload",
+  "UploadSecret": ""
+}
+```
+
+Auth is optional on a trusted private LAN — no traffic leaves your network.
+Setting `UPLOAD_SECRET` anyway adds defense-in-depth at negligible cost.
+
+### Option 3: Tailscale (recommended for cross-location setups)
+
+[Tailscale](https://tailscale.com) creates a private mesh VPN between your
+devices. Each device gets a stable `100.x.y.z` IP. No port-forwarding or
+dynamic-DNS required.
+
+1. Install Tailscale on both machines and sign in with the same account.
+2. Find the d4-tools host's Tailscale IP: `tailscale ip -4`
+3. Configure the watcher:
+
+```json
+{
+  "UploadUrl": "http://100.x.y.z:3000/api/triage/upload",
+  "UploadSecret": "strong-random-secret"
+}
+```
+
+Enable `UPLOAD_SECRET` — Tailscale traffic is encrypted but a shared secret
+prevents other Tailscale network members from pushing uploads.
+
+### Option 4: Direct internet exposure
+
+Expose port 3000 directly via a reverse proxy (nginx, Caddy) with HTTPS.
+
+**Strongly recommended when exposed to the internet:**
+- HTTPS (TLS certificate via Let's Encrypt / Caddy automatic HTTPS)
+- `UPLOAD_SECRET` set to a long random string
+
+```bash
+# Generate a secret (Linux/macOS)
+openssl rand -hex 32
+```
+
+Set the same value in `.env.local` on the server and in
+`screenshot-watcher.config.json` on the gaming machine.
+
+---
+
+## Server setup
+
+### Environment variables
+
+Set these in `.env.local` (development) or your production environment:
+
+```
+SCREENSHOT_DIR=/path/to/screenshots
+ANTHROPIC_API_KEY=sk-ant-...
+UPLOAD_SECRET=                      # optional; recommended for non-private networks
+```
+
+`SCREENSHOT_DIR` is the directory where uploaded files are saved.
+After uploading, this directory is also read by the `/triage` gallery.
+
+### Starting the server
+
+```bash
+# development
+pnpm dev
+
+# production
+pnpm build && pnpm start
+```
+
+The upload endpoint is available at `POST /api/triage/upload` immediately.
+
+---
+
+## Watcher setup
+
+See [`bin/screenshot-watcher.README.md`](../bin/screenshot-watcher.README.md)
+for full watcher documentation. Quick start:
+
+1. Copy `bin/screenshot-watcher.config.json` values and fill in:
+   - `WatchDir`: path to your D4 Screenshots folder
+   - `UploadUrl`: URL of the server endpoint
+   - `UploadSecret`: shared secret (must match server's `UPLOAD_SECRET`)
+2. Run on Windows: `.\bin\screenshot-watcher.ps1`
+
+---
+
+## When to use `UPLOAD_SECRET`
+
+| Scenario | Recommendation |
+|---|---|
+| Single machine (localhost only) | Skip it — no external traffic |
+| Private LAN (home network, both machines yours) | Optional, low-stakes; worth setting for habit |
+| Tailscale VPN | Set it — protects against other VPN members |
+| Internet-exposed endpoint | **Required** — set a long random secret |
+
+An empty or absent `UPLOAD_SECRET` causes the server to log a one-time warning
+and accept all uploads without authentication. This is intentional for
+zero-config single-host setups.
+
+---
+
+## The parse flow in detail
+
+1. Watcher detects a `Created` event in `WatchDir`.
+2. Waits until the file is fully written (open-retry loop, 250 ms cadence).
+3. POSTs the file as `multipart/form-data` to `UploadUrl` with the filename
+   as a separate `filename` form field.
+4. Server validates the `X-Upload-Token` header (if `UPLOAD_SECRET` is set).
+5. Server checks the MIME type, rejects non-image files.
+6. Server saves the file atomically under `SCREENSHOT_DIR` (collision suffix
+   appended if a file with the same name already exists).
+7. Server computes SHA-256 of the file bytes.
+8. Server checks `DATA_DIR/screenshot-cache/<hash>.json` for a prior result.
+   - **Cache hit**: returns the cached `CacheEntry` in the response. LLM not called.
+   - **Cache miss**: calls the Anthropic Vision API synchronously.
+9. On LLM success: writes the result to the cache; returns HTTP 201 with the
+   full `CacheEntry`.
+10. On LLM failure: returns HTTP 200 (not 201) with `parseStatus: "error"` and
+    the error message. The file remains on disk; the gallery's **Parse** button
+    can retry.
+
+---
+
+## Fallback: manual parse
+
+The gallery at `/triage` lists all files under `SCREENSHOT_DIR`. Selecting any
+image and pressing **Parse** triggers the existing `POST /api/triage/parse`
+endpoint, which runs the same LLM flow on demand. Use this as a fallback when
+a watcher upload failed at the parse step.
