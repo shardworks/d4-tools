@@ -1,0 +1,17 @@
+{
+  "id": "msg_01ABCDnoitem",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_01ABCDnoitem",
+      "name": "record_extracted_items",
+      "input": {
+        "items": []
+      }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "stop_reason": "tool_use"
+}

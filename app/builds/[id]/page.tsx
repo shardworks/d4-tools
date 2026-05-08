@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { loadBuild } from "@/lib/persistence/builds";
 import { loadCharacter } from "@/lib/persistence/characters";
+import { setActiveBuildId } from "@/lib/persistence/active-build";
 import { BuildDetailClient } from "./BuildDetailClient";
 
 interface Props {
@@ -15,6 +16,10 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function BuildDetailPage({ params }: Props) {
   const { id } = await params;
+
+  // Mark this build as active server-side on each visit (D5).
+  // Best-effort — don't block render on write failure.
+  setActiveBuildId(id).catch(() => undefined);
 
   let build;
   try {

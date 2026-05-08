@@ -1,0 +1,32 @@
+{
+  "id": "msg_01ABCDuncertain",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_01ABCDuncertain",
+      "name": "record_extracted_items",
+      "input": {
+        "items": [
+          {
+            "name": "Strange Boots",
+            "itemType": "Boots",
+            "rarity": "Legendary",
+            "itemPower": 750,
+            "isAncestral": false,
+            "implicits": [],
+            "explicits": [
+              { "label": "Maximum Life", "rolledValue": 99999 },
+              { "label": "UnknownAffix XYZ", "rolledValue": 500 }
+            ],
+            "tempered": [],
+            "aspect": null
+          }
+        ]
+      }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "stop_reason": "tool_use"
+}

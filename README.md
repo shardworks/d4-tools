@@ -19,8 +19,10 @@ The app runs at `http://localhost:3000`.
 | Variable | Default (dev) | Required | Description |
 |----------|--------------|----------|-------------|
 | `DATA_DIR` | `./data/` | Production only | Directory for file-based character/build persistence. Required in production. |
+| `SCREENSHOT_DIR` | _(none)_ | Always | Directory containing D4 loot screenshots for the `/triage` workspace. No dev fallback — the app throws if unset whenever `/triage` is used. |
+| `ANTHROPIC_API_KEY` | _(none)_ | For `/triage` | Anthropic API key for Vision-LLM screenshot parsing. Server-side only — never exposed to the browser. |
 
-In production, `DATA_DIR` must be set or the app will throw at startup.
+In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY` are required to use the `/triage` workspace.
 
 ## Architecture
 
@@ -30,9 +32,9 @@ In production, `DATA_DIR` must be set or the app will throw at startup.
 
 **Persistence:** File-based via Next.js Route Handlers (`app/api/characters/route.ts`). The `lib/persistence/` module reads/writes JSON files from `DATA_DIR`. No database dependency for v1.
 
-**Character import:** not currently shipped. Manual entry via /characters/new is the only path; see docs/future-import-paths.md for the import roadmap.
+**Character import:** Manual entry via /characters/new is the primary path. `/triage` is a Vision-LLM screenshot triage workspace that parses loot screenshots via the Anthropic API and supports one-click equip; requires `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY`.
 
-**Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new`.
+**Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new`. Triage loot screenshots from `/triage`.
 
 ## Foundational Docs
 

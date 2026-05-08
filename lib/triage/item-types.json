@@ -1,0 +1,97 @@
+{
+  "comment": "Maps in-game item type display strings (lowercased) to slot-id candidates. classOverrides keys are D4 class names; their slot lists override the default for that class.",
+  "mappings": [
+    {
+      "types": ["helm", "helmet", "cap", "crown"],
+      "defaultSlots": ["helm"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["chest armor", "chest", "tunic", "coat", "armor", "robe"],
+      "defaultSlots": ["chest"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["gloves", "gauntlets", "mitts", "handwraps"],
+      "defaultSlots": ["gloves"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["pants", "leggings", "breeches", "trousers"],
+      "defaultSlots": ["pants"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["boots", "greaves", "sabatons", "sandals"],
+      "defaultSlots": ["boots"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["amulet", "necklace", "talisman", "pendant"],
+      "defaultSlots": ["amulet"],
+      "classOverrides": {}
+    },
+    {
+      "types": ["ring"],
+      "defaultSlots": ["ring1", "ring2"],
+      "classOverrides": {}
+    },
+    {
+      "comment": "One-handed weapons — Barbarian can equip in either 1H slot; others go to weapon",
+      "types": [
+        "sword", "one-handed sword", "dagger", "wand", "scepter",
+        "mace", "one-handed mace", "axe", "one-handed axe",
+        "scythe", "one-handed scythe", "sword", "flail"
+      ],
+      "defaultSlots": ["weapon"],
+      "classOverrides": {
+        "Barbarian": ["barb_1h_main", "barb_1h_off"]
+      }
+    },
+    {
+      "comment": "Two-handed bludgeoning weapons",
+      "types": [
+        "two-handed mace", "two handed mace", "two-handed flail", "two handed flail",
+        "polearm", "two-handed scythe", "two handed scythe", "staff", "quarterstaff"
+      ],
+      "defaultSlots": ["weapon"],
+      "classOverrides": {
+        "Barbarian": ["barb_2h_bludgeoning"]
+      }
+    },
+    {
+      "comment": "Two-handed slashing weapons",
+      "types": [
+        "two-handed sword", "two handed sword", "two-handed axe", "two handed axe",
+        "glaive", "two-handed scimitar"
+      ],
+      "defaultSlots": ["weapon"],
+      "classOverrides": {
+        "Barbarian": ["barb_2h_slashing"]
+      }
+    },
+    {
+      "comment": "Generic 'Two-Handed Weapon' without subtype — Barbarian can use either 2H slot",
+      "types": ["two-handed weapon", "two handed weapon"],
+      "defaultSlots": ["weapon"],
+      "classOverrides": {
+        "Barbarian": ["barb_2h_bludgeoning", "barb_2h_slashing"]
+      }
+    },
+    {
+      "comment": "Off-hand items (non-Barbarian only)",
+      "types": [
+        "off-hand", "offhand", "off hand", "shield", "focus", "totem",
+        "orb", "phylactery", "book of the dead"
+      ],
+      "defaultSlots": ["offHand"],
+      "classOverrides": {}
+    },
+    {
+      "comment": "Bows and crossbows (ranged weapons)",
+      "types": ["bow", "crossbow", "longbow", "shortbow"],
+      "defaultSlots": ["weapon"],
+      "classOverrides": {}
+    }
+  ]
+}

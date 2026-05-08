@@ -33,3 +33,32 @@ export function charactersDir(): string {
 export function buildsDir(): string {
   return path.join(getDataDir(), "builds");
 }
+
+/**
+ * Returns the SCREENSHOT_DIR path.
+ * Strict-always — throws clearly when unset, no dev fallback (D2).
+ */
+export function getScreenshotDir(): string {
+  const dir = process.env.SCREENSHOT_DIR;
+  if (!dir) {
+    throw new Error(
+      "SCREENSHOT_DIR environment variable is required. Set it to the directory containing your D4 loot screenshots."
+    );
+  }
+  return dir;
+}
+
+/** Path to the active-build pointer file. */
+export function activeBuildPath(): string {
+  return path.join(getDataDir(), "active-build.json");
+}
+
+/** Directory where per-image parse cache entries are stored. */
+export function screenshotCacheDir(): string {
+  return path.join(getDataDir(), "screenshot-cache");
+}
+
+/** Path to a specific cache entry by SHA-256 hash. */
+export function screenshotCachePath(hash: string): string {
+  return path.join(screenshotCacheDir(), `${hash}.json`);
+}

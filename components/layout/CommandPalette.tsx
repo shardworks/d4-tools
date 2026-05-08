@@ -22,6 +22,7 @@ import {
   Plus,
   Upload,
   Download,
+  Image,
 } from "lucide-react";
 
 interface CommandEntry {
@@ -180,6 +181,17 @@ export function CommandPalette() {
 
   // Root commands — useMemo so closures are stable and ref not accessed during render
   const rootCommands = useMemo<CommandEntry[]>(() => [
+    {
+      id: "navigate-to-triage",
+      label: "Go to Triage",
+      description: "Open the screenshot triage workspace",
+      icon: Image,
+      group: "Navigate",
+      run: () => {
+        handleOpenChange(false);
+        router.push("/triage");
+      },
+    },
     {
       id: "navigate-to-character",
       label: "Go to Character…",

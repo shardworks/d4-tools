@@ -48,3 +48,4 @@ export async function atomicWriteJson<T>(filePath: string, data: T): Promise<voi
 // Re-export per-entity helpers for convenience
 export * from "./characters";
 export * from "./builds";
+export * from "./active-build";

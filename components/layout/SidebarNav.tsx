@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sword, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sword, User, ChevronLeft, ChevronRight, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -16,6 +16,11 @@ const NAV_ITEMS = [
     href: "/characters/new",
     label: "New Character",
     icon: User,
+  },
+  {
+    href: "/triage",
+    label: "Triage",
+    icon: Image,
   },
 ];
 

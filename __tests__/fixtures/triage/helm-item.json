@@ -1,0 +1,32 @@
+{
+  "id": "msg_01ABCDhelmparse",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_01ABCDhelm",
+      "name": "record_extracted_items",
+      "input": {
+        "items": [
+          {
+            "name": "Harlequin Crest",
+            "itemType": "Helm",
+            "rarity": "Unique",
+            "itemPower": 925,
+            "isAncestral": false,
+            "implicits": [],
+            "explicits": [
+              { "label": "Maximum Life", "rolledValue": 2800 },
+              { "label": "Intelligence", "rolledValue": 200 }
+            ],
+            "tempered": [],
+            "aspect": null
+          }
+        ]
+      }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "stop_reason": "tool_use"
+}

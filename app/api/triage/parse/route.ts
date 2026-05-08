@@ -1,0 +1,104 @@
+import { NextResponse } from "next/server";
+import * as fs from "fs/promises";
+import * as path from "path";
+import { getScreenshotDir } from "@/lib/persistence/paths";
+import { sha256 } from "@/lib/triage/hash";
+import { getCachedParse, writeCachedParse } from "@/lib/triage/cache";
+import { extractItemsFromImage } from "@/lib/triage/anthropic";
+import { SUPPORTED_IMAGE_TYPES } from "@/lib/triage/types";
+
+/**
+ * POST /api/triage/parse
+ * Body: { filename: string }
+ *
+ * Flow: filename → disk path → SHA-256 → cache hit/miss → LLM → cache write → result.
+ * ANTHROPIC_API_KEY is only read inside extractItemsFromImage (server-side). (D24)
+ */
+export async function POST(request: Request) {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  if (typeof body !== "object" || body === null || typeof (body as { filename?: unknown }).filename !== "string") {
+    return NextResponse.json({ error: "Missing required field: filename" }, { status: 400 });
+  }
+
+  const { filename } = body as { filename: string };
+
+  let screenshotDir: string;
+  try {
+    screenshotDir = getScreenshotDir();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "SCREENSHOT_DIR is not configured";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+
+  // Path-traversal protection — validate against directory listing (D3)
+  let dirContents: string[];
+  try {
+    const entries = await fs.readdir(screenshotDir, { withFileTypes: true });
+    dirContents = entries.filter((e) => e.isFile()).map((e) => e.name);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to read screenshot directory";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+
+  if (!dirContents.includes(filename)) {
+    return NextResponse.json({ error: "Screenshot not found: " + filename }, { status: 404 });
+  }
+
+  const filePath = path.join(screenshotDir, filename);
+  const ext = path.extname(filename).toLowerCase() as keyof typeof SUPPORTED_IMAGE_TYPES;
+  const mediaType = SUPPORTED_IMAGE_TYPES[ext];
+
+  if (!mediaType) {
+    return NextResponse.json(
+      { error: `Unsupported image format: ${ext}. Supported: jpg, jpeg, png, webp, gif` },
+      { status: 400 }
+    );
+  }
+
+  // Read file bytes and compute hash
+  let bytes: Buffer;
+  try {
+    bytes = await fs.readFile(filePath);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to read screenshot file";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+
+  const hash = sha256(bytes);
+
+  // Cache lookup (D15)
+  try {
+    const cached = await getCachedParse(hash);
+    if (cached) {
+      return NextResponse.json({ hash, cached: true, entry: cached });
+    }
+  } catch (err) {
+    // Cache read error is non-fatal — proceed to LLM
+    console.error("Cache read error:", err);
+  }
+
+  // LLM call — errors are NOT cached (D13)
+  let entry;
+  try {
+    entry = await extractItemsFromImage(bytes, mediaType);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Screenshot parsing failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+
+  // Cache the result (only successes and no-item-detected per D13)
+  try {
+    await writeCachedParse(hash, entry);
+  } catch (err) {
+    // Cache write failure is non-fatal
+    console.error("Cache write error:", err);
+  }
+
+  return NextResponse.json({ hash, cached: false, entry });
+}
