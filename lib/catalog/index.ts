@@ -47,9 +47,9 @@ export interface ClassEntry {
   primaryStat: string;
   supported: boolean;
   unsupportedReason?: string;
-  /** Blizzard API class identifier string (e.g. "sorcerer", "barbarian") — D26/D28 */
+  /** Datamine class identifier string (e.g. "sorcerer", "barbarian") — sourced from `DiabloTools/d4data` PlayerClass entries. */
   bnetClassName?: string;
-  /** Blizzard API numeric class sno ID — D26/D28 */
+  /** Datamine numeric class SNO ID — sourced from `DiabloTools/d4data` PlayerClass entries. */
   bnetClassId?: number;
   /** Named class resources (e.g. ["Fury"] for Barbarian, ["Wrath", "Dominance"] for Warlock) */
   resources?: string[];
@@ -61,7 +61,7 @@ export interface SlotEntry {
   cluster: "armor" | "jewelry" | "weapon";
   classSpecific?: string[];
   excludedClasses?: string[];
-  /** Blizzard API slot key (e.g. "head", "torso") — D28 */
+  /** Datamine slot key (e.g. "head", "torso") — sourced from `DiabloTools/d4data`. */
   bnetSlotKey?: string;
 }
 
@@ -74,9 +74,9 @@ export interface AffixEntry {
   isPercent: boolean;
   slotRestrictions: string[];
   classRestrictions: string[];
-  /** Blizzard API numeric sno ID for this affix — D28 */
+  /** Datamine numeric SNO ID for this affix — sourced from `DiabloTools/d4data`. */
   bnetId?: number;
-  /** Blizzard API fileName string for this affix — D28 */
+  /** Datamine file-name (without `.aff.json` extension) for this affix — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
 }
 
@@ -90,9 +90,9 @@ export interface AspectEntry {
   slotRestrictions: string[];
   classRestrictions: string[];
   source: "legendary" | "codex";
-  /** Blizzard API numeric sno ID for this aspect — D28 */
+  /** Datamine numeric SNO ID for this aspect — sourced from `DiabloTools/d4data`. */
   bnetId?: number;
-  /** Blizzard API fileName string for this aspect — D28 */
+  /** Datamine file-name (without `.asp.json` extension) for this aspect — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
 }
 
@@ -101,9 +101,9 @@ export interface SkillEntry {
   label: string;
   category: string;
   maxRank: number;
-  /** Blizzard API numeric sno ID for this skill — D28 */
+  /** Datamine numeric SNO ID for this skill — sourced from `DiabloTools/d4data` Power entries. */
   bnetId?: number;
-  /** Blizzard API fileName string for this skill — D28 */
+  /** Datamine file-name (without `.pow.json` extension) for this skill — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
 }
 
@@ -111,18 +111,18 @@ export interface ParagonBoardEntry {
   id: string;
   label: string;
   isStarterBoard?: boolean;
-  /** Blizzard API numeric sno ID for this board — D28 */
+  /** Datamine numeric SNO ID for this board — sourced from `DiabloTools/d4data` ParagonBoard entries. */
   bnetId?: number;
-  /** Blizzard API fileName string for this board — D28 */
+  /** Datamine file-name (without `.pbd.json` extension) for this board — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
 }
 
 export interface ParagonGlyphEntry {
   id: string;
   label: string;
-  /** Blizzard API numeric sno ID for this glyph — D28 */
+  /** Datamine numeric SNO ID for this glyph — sourced from `DiabloTools/d4data` ParagonGlyph entries. */
   bnetId?: number;
-  /** Blizzard API fileName string for this glyph — D28 */
+  /** Datamine file-name (without `.gph.json` extension) for this glyph — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
 }
 
