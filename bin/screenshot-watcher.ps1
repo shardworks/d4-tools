@@ -243,13 +243,15 @@ Write-Log "---"
 
 # ─── Event handler ────────────────────────────────────────────────────────────
 
-$OnCreated = Register-ObjectEvent -InputObject $Watcher -EventName 'Created' -Action {
+$OnCreated = Register-ObjectEvent -InputObject $Watcher -EventName 'Created' -MessageData $AllowedExtensions -Action {
     $FilePath = $Event.SourceEventArgs.FullPath
     $FileName = $Event.SourceEventArgs.Name
     $Ext      = [System.IO.Path]::GetExtension($FileName).ToLower()
 
     # Extension filter (since FileSystemWatcher.Filter = '*.*')
-    if ($Using:AllowedExtensions -notcontains $Ext) { return }
+    # $Using: is NOT supported in Register-ObjectEvent action blocks (PS 5.1);
+    # the allowed-extensions array is passed via -MessageData and read here.
+    if ($Event.MessageData -notcontains $Ext) { return }
 
     Write-Log "Detected: $FileName"
 
