@@ -3,29 +3,31 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "sorc_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "sorc_devastation", "label": "Devastation" },
-    { "id": "sorc_searing_heat", "label": "Searing Heat" },
-    { "id": "sorc_frigid_fate", "label": "Frigid Fate" },
-    { "id": "sorc_shocking_strikes", "label": "Shocking Strikes" },
-    { "id": "sorc_enchantment_mastery", "label": "Enchantment Mastery" },
-    { "id": "sorc_the_oculus", "label": "The Oculus" },
-    { "id": "sorc_burning_instinct", "label": "Burning Instinct" }
+    { "id": "sorc_starter", "label": "Starter Board", "isStarterBoard": true, "bnetFileName": "Paragon_Sorc_00", "bnetId": 939773 },
+    { "id": "sorc_devastation", "label": "Devastation", "bnetFileName": "Paragon_Sorc_01", "bnetId": 939563 },
+    { "id": "sorc_searing_heat", "label": "Searing Heat", "bnetFileName": "Paragon_Sorc_02", "bnetId": 939706 },
+    { "id": "sorc_frigid_fate", "label": "Frigid Fate", "bnetFileName": "Paragon_Sorc_03", "bnetId": 939708 },
+    { "id": "sorc_shocking_strikes", "label": "Shocking Strikes", "bnetFileName": "Paragon_Sorc_04", "bnetId": 939747 },
+    { "id": "sorc_enchantment_mastery", "label": "Enchantment Mastery", "bnetFileName": "Paragon_Sorc_05", "bnetId": 993604 },
+    { "id": "sorc_the_oculus", "label": "The Oculus", "bnetFileName": "Paragon_Sorc_06", "bnetId": 997305 },
+    { "id": "sorc_burning_instinct", "label": "Burning Instinct", "bnetFileName": "Paragon_Sorc_07", "bnetId": 1192460 },
+    { "id": "sorc_board_08", "label": "Board 08 (label deferred)", "bnetFileName": "Paragon_Sorc_08", "bnetId": 1192467 },
+    { "id": "sorc_board_10", "label": "Board 10 (label deferred)", "bnetFileName": "Paragon_Sorc_10", "bnetId": 1985929 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_flamefeeder", "label": "Flamefeeder" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_cold_calc", "label": "Cold Calc" },
-    { "id": "glyph_destruction", "label": "Destruction" },
-    { "id": "glyph_stalagmite", "label": "Stalagmite" },
-    { "id": "glyph_lesser_conjuration", "label": "Lesser Conjuration" },
-    { "id": "glyph_esoteric_alteration", "label": "Esoteric Alteration" },
-    { "id": "glyph_lightning_rod", "label": "Lightning Rod" }
+    { "id": "glyph_reinforced", "label": "Reinforced", "bnetFileName": "Rare_012_Willpower_Side", "bnetId": 1023195 },
+    { "id": "glyph_flamefeeder", "label": "Flamefeeder", "bnetFileName": "Rare_015_Dexterity_Side", "bnetId": 1023198 },
+    { "id": "glyph_exploit", "label": "Tactician", "bnetFileName": "Rare_010_Dexterity_Main", "bnetId": 1023193 },
+    { "id": "glyph_control", "label": "Control", "bnetFileName": "Rare_020_Dexterity_Side", "bnetId": 1023203 },
+    { "id": "glyph_cold_calc", "label": "Cryopathy", "bnetFileName": "Rare_009_Willpower_Side", "bnetId": 1023192 },
+    { "id": "glyph_destruction", "label": "Destruction", "bnetFileName": "Rare_019_Dexterity_Side", "bnetId": 1023202 },
+    { "id": "glyph_stalagmite", "label": "Stalagmite", "bnetFileName": "Rare_084_Intelligence_Main", "bnetId": 1623724 },
+    { "id": "glyph_lesser_conjuration", "label": "Conjurer", "bnetFileName": "Rare_005_Intelligence_Main", "bnetId": 1023188 },
+    { "id": "glyph_esoteric_alteration", "label": "Warding", "bnetFileName": "Rare_077_Willpower_Side", "bnetId": 1023196 },
+    { "id": "glyph_lightning_rod", "label": "Charged", "bnetFileName": "Rare_006_Intelligence_Main", "bnetId": 1023189 }
   ]
 }

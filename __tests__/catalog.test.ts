@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFile } from "fs/promises";
+import * as fs from "fs";
+import * as path from "path";
 import {
   classes,
   supportedClasses,
@@ -812,6 +814,193 @@ describe("audit doc coverage: docs/datamine-verification-necromancer-rogue.md", 
     }
     for (const glyph of glyphs) {
       expect(body).toContain(glyph.id);
+    }
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// V9 datamine reconciliation: Sorcerer & Spiritborn (build 3.0.1.71747)
+// ──────────────────────────────────────────────────────────────────────────────
+
+describe("Sorcerer datamine traceability (v9)", () => {
+  it("every Sorcerer skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Sorcerer paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Sorcerer");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("Sorcerer skill catalog contains datamine-confirmed skill 'Inferno'", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    expect(skills.find((s) => s.label === "Inferno")).toBeTruthy();
+  });
+
+  it("Sorcerer skill catalog contains datamine-added skill 'Firewall'", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    expect(skills.find((s) => s.label === "Firewall")).toBeTruthy();
+  });
+
+  it("Sorcerer skill catalog contains datamine-added skill 'Familiar'", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    expect(skills.find((s) => s.label === "Familiar")).toBeTruthy();
+  });
+
+  it("Sorcerer skill catalog uses datamine-correct categories (no key-passive)", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("core");
+    expect(categories).toContain("defensive");
+    expect(categories).toContain("conjuration");
+    expect(categories).toContain("mastery");
+    expect(categories).toContain("ultimate");
+    // Key-passive system was removed in LoH expansion (build 3.0.1.71747)
+    expect(categories).not.toContain("key-passive");
+  });
+
+  it("Sorcerer skill catalog does not contain v2 fabricated key-passive 'Static Discharge'", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    expect(skills.find((s) => s.label === "Static Discharge")).toBeFalsy();
+  });
+
+  it("Sorcerer skill catalog does not contain v2 fabricated key-passive 'Shatter'", () => {
+    const skills = getSkillsForClass("Sorcerer");
+    expect(skills.find((s) => s.label === "Shatter")).toBeFalsy();
+  });
+
+  it("Sorcerer paragon board count is 10 (includes two boards added by v9)", () => {
+    const { boards } = getParagonCatalogForClass("Sorcerer");
+    expect(boards).toHaveLength(10);
+  });
+
+  it("Sorcerer paragon glyph catalog uses datamine-correct label 'Tactician', not v2 'Exploit'", () => {
+    const { glyphs } = getParagonCatalogForClass("Sorcerer");
+    expect(glyphs.find((g) => g.label === "Tactician")).toBeTruthy();
+    expect(glyphs.find((g) => g.label === "Exploit")).toBeFalsy();
+  });
+
+  it("Sorcerer paragon glyph catalog uses datamine-correct label 'Cryopathy', not v2 'Cold Calc'", () => {
+    const { glyphs } = getParagonCatalogForClass("Sorcerer");
+    expect(glyphs.find((g) => g.label === "Cryopathy")).toBeTruthy();
+    expect(glyphs.find((g) => g.label === "Cold Calc")).toBeFalsy();
+  });
+
+  it("Sorcerer audit doc cross-reference: every live entry bnetFileName appears in audit doc", () => {
+    const auditDoc = fs.readFileSync(
+      path.resolve(__dirname, "../docs/datamine-verification-sorcerer-spiritborn.md"),
+      "utf8"
+    );
+    const skills = getSkillsForClass("Sorcerer");
+    const { boards, glyphs } = getParagonCatalogForClass("Sorcerer");
+    const allEntries = [
+      ...skills,
+      ...boards,
+      ...glyphs,
+    ];
+    for (const entry of allEntries) {
+      expect(auditDoc).toContain(`\`${entry.bnetFileName}\``);
+    }
+  });
+});
+
+describe("Spiritborn datamine traceability (v9)", () => {
+  it("every Spiritborn skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Spiritborn paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Spiritborn");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("Spiritborn skill catalog contains datamine-confirmed skill 'Thunderspike'", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    expect(skills.find((s) => s.label === "Thunderspike")).toBeTruthy();
+  });
+
+  it("Spiritborn skill catalog uses datamine-correct categories (no brawling)", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("core");
+    expect(categories).toContain("potency");
+    expect(categories).toContain("defensive");
+    expect(categories).toContain("focus");
+    expect(categories).toContain("ultimate");
+    expect(categories).toContain("key-passive");
+    // brawling was a v2 fabrication copied from Barbarian
+    expect(categories).not.toContain("brawling");
+  });
+
+  it("Spiritborn skill catalog does not contain v2 fabricated skill 'Crush'", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    expect(skills.find((s) => s.label === "Crush")).toBeFalsy();
+  });
+
+  it("Spiritborn skill catalog does not contain v2 fabricated skill 'Apex'", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    expect(skills.find((s) => s.label === "Apex")).toBeFalsy();
+  });
+
+  it("Spiritborn skill catalog does not contain v2 fabricated key-passive 'Dominant'", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    expect(skills.find((s) => s.label === "Dominant")).toBeFalsy();
+  });
+
+  it("Spiritborn skill catalog contains datamine-correct key-passive 'Vital Strikes'", () => {
+    const skills = getSkillsForClass("Spiritborn");
+    expect(skills.find((s) => s.label === "Vital Strikes")).toBeTruthy();
+  });
+
+  it("Spiritborn paragon catalog does not contain v2 fabricated glyphs", () => {
+    const { glyphs } = getParagonCatalogForClass("Spiritborn");
+    const glyphIds = glyphs.map((g) => g.id);
+    // All six v2 Spiritborn glyph entries were fabricated and removed
+    expect(glyphIds).not.toContain("glyph_reinforced");
+    expect(glyphIds).not.toContain("glyph_exploit");
+    expect(glyphIds).not.toContain("glyph_control");
+    expect(glyphIds).not.toContain("glyph_territorial");
+    expect(glyphIds).not.toContain("glyph_seeker_g");
+    expect(glyphIds).not.toContain("glyph_keeper");
+  });
+
+  it("Spiritborn paragon board count is 9 (Paragon_Spirit_09 absent in datamine)", () => {
+    const { boards } = getParagonCatalogForClass("Spiritborn");
+    expect(boards).toHaveLength(9);
+  });
+
+  it("Spiritborn audit doc cross-reference: every live entry bnetFileName appears in audit doc", () => {
+    const auditDoc = fs.readFileSync(
+      path.resolve(__dirname, "../docs/datamine-verification-sorcerer-spiritborn.md"),
+      "utf8"
+    );
+    const skills = getSkillsForClass("Spiritborn");
+    const { boards, glyphs } = getParagonCatalogForClass("Spiritborn");
+    const allEntries = [
+      ...skills,
+      ...boards,
+      ...glyphs,
+    ];
+    for (const entry of allEntries) {
+      expect(auditDoc).toContain(`\`${entry.bnetFileName}\``);
     }
   });
 });

@@ -3,23 +3,35 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "sb_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "sb_eagle_flight", "label": "Eagle Flight" },
-    { "id": "sb_jaguar_pounce", "label": "Jaguar Pounce" },
-    { "id": "sb_gorilla_grip", "label": "Gorilla Grip" },
-    { "id": "sb_centipede_venom", "label": "Centipede Venom" },
-    { "id": "sb_spirit_ascendant", "label": "Spirit Ascendant" }
+    { "id": "sb_starter", "label": "Starter Board", "isStarterBoard": true, "bnetFileName": "Paragon_Spirit_0", "bnetId": 1985956 },
+    { "id": "sb_eagle_flight", "label": "Eagle Flight", "bnetFileName": "Paragon_Spirit_01", "bnetId": 1985954 },
+    { "id": "sb_jaguar_pounce", "label": "Jaguar Pounce", "bnetFileName": "Paragon_Spirit_02", "bnetId": 1986368 },
+    { "id": "sb_gorilla_grip", "label": "Gorilla Grip", "bnetFileName": "Paragon_Spirit_03", "bnetId": 1986382 },
+    { "id": "sb_centipede_venom", "label": "Centipede Venom", "bnetFileName": "Paragon_Spirit_04", "bnetId": 1986416 },
+    { "id": "sb_spirit_ascendant", "label": "Spirit Ascendant", "bnetFileName": "Paragon_Spirit_05", "bnetId": 1986433 },
+    { "id": "sb_board_06", "label": "Board 06 (label deferred)", "bnetFileName": "Paragon_Spirit_06", "bnetId": 1986521 },
+    { "id": "sb_board_07", "label": "Board 07 (label deferred)", "bnetFileName": "Paragon_Spirit_07", "bnetId": 1986631 },
+    { "id": "sb_board_08", "label": "Board 08 (label deferred)", "bnetFileName": "Paragon_Spirit_08", "bnetId": 1986843 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_territorial", "label": "Territorial" },
-    { "id": "glyph_seeker_g", "label": "Seeker" },
-    { "id": "glyph_keeper", "label": "Keeper" }
+    { "id": "glyph_sb_fulminate", "label": "Fulminate", "bnetFileName": "Rare_047_Intelligence_Side", "bnetId": 2077016 },
+    { "id": "glyph_sb_outmatch", "label": "Outmatch", "bnetFileName": "Rare_049_Strength_Side", "bnetId": 2077200 },
+    { "id": "glyph_sb_spirit", "label": "Spirit", "bnetFileName": "Rare_050_Dexterity_Main", "bnetId": 2077106 },
+    { "id": "glyph_sb_menagerist", "label": "Menagerist", "bnetFileName": "Rare_090_Dexterity_Main", "bnetId": 2064639 },
+    { "id": "glyph_sb_hone", "label": "Hone", "bnetFileName": "Rare_091_Strength_Side", "bnetId": 2067363 },
+    { "id": "glyph_sb_consumption", "label": "Consumption", "bnetFileName": "Rare_092_Intelligence_Side", "bnetId": 2070496 },
+    { "id": "glyph_sb_fitness", "label": "Fitness", "bnetFileName": "Rare_093_Dexterity_Main", "bnetId": 2063983 },
+    { "id": "glyph_sb_ritual", "label": "Ritual", "bnetFileName": "Rare_094_Intelligence_Side", "bnetId": 2069914 },
+    { "id": "glyph_sb_jagged_plume", "label": "Jagged Plume", "bnetFileName": "Rare_095_Dexterity_Main", "bnetId": 2066786 },
+    { "id": "glyph_sb_innate", "label": "Innate", "bnetFileName": "Rare_096_Strength_Side", "bnetId": 2067561 },
+    { "id": "glyph_sb_wildfire", "label": "WildFire", "bnetFileName": "Rare_097_Dexterity_Main", "bnetId": 2067631 },
+    { "id": "glyph_sb_colossal", "label": "Colossal", "bnetFileName": "Rare_098_Strength_Side", "bnetId": 2069252 },
+    { "id": "glyph_sb_talon", "label": "Talon", "bnetFileName": "Rare_100_Dexterity_Main", "bnetId": 2067375 },
+    { "id": "glyph_sb_hubris", "label": "Hubris", "bnetFileName": "Rare_101_Strength_Side", "bnetId": 2070631 },
+    { "id": "glyph_sb_fester", "label": "Fester", "bnetFileName": "Rare_102_Dexterity_Main", "bnetId": 2072563 }
   ]
 }

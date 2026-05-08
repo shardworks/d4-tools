@@ -322,17 +322,71 @@ DiabloTools/d4data at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry
 
 ---
 
-## 8. Open Items
+## 8. Datamine-Verified Legacy Classes — Sorcerer and Spiritborn (v9)
+
+All Sorcerer and Spiritborn skill and paragon catalog entries have been directly extracted from
+DiabloTools/d4data at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry carries a
+`bnetFileName` and `bnetId` traceable to a specific Power file in `json/base/meta/Power/`. See
+`docs/datamine-verification-sorcerer-spiritborn.md` for the full per-entry audit trail.
+
+**Sorcerer:**
+- Primary attribute: Intelligence (datamine-confirmed: `PlayerClass/Sorcerer.pcl.json`,
+  `tPrimaryAttribute = Attribute_Intelligence`)
+- Resource system: **Mana** (community-confirmed; stable lore fact corroborated by
+  `Search_ResourceMana` tags on Sorcerer skill Power files)
+- Skill tree: Six categories — Basic, Core, Defensive, Conjuration, Mastery, Ultimate
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `conjuration`, `mastery`,
+  `ultimate` (confirmed from `tPrimaryTag.gbidSkillTag.name` values in Power files)
+- v9 reconciliation note: Sorcerer has **no key-passive skill tree selection** in build
+  3.0.1.71747. The LoH expansion replaced the classic key-passive mechanic (Shatter, Permafrost,
+  Avalanche, Endless Pyre, Vyr's Mastery) with 14 passive-talent nodes (Hoarfrost, Frigid Breeze,
+  Elemental Synergies, etc.). Two skills were added: Firewall (mastery tier, `Sorcerer_Firewall`)
+  and Familiar (conjuration tier, `X1_Sorcerer_Familiar`).
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+**Spiritborn:**
+- Primary attribute: Willpower (datamine-confirmed: `PlayerClass/Spiritborn.pcl.json`,
+  `tPrimaryAttribute = Attribute_Willpower`)
+- Resource system: **Spirit** (community-confirmed; stable lore fact)
+- Skill tree: Seven categories — Basic, Core, Potency, Defensive, Focus, Ultimate, Key Passive
+- Skill tree categories (slugified): `basic`, `core`, `potency`, `defensive`, `focus`, `ultimate`,
+  `key-passive` (confirmed from `tPrimaryTag.gbidSkillTag.name` values in Power files)
+- v9 reconciliation note: The v2 seed had a fabricated `brawling` category (copied from Barbarian)
+  and was missing the entire Potency tier (4 skills), the second Gorilla defensive skill, the Eagle
+  second Focus skill, Jaguar and Centipede Focus skills, and three of four Spirit ultimate skills.
+  The v2 seed also carried fabricated key-passive names (Dominant, Pack Leader, Resonance); datamine
+  key passives are Vital Strikes, Prodigy's Tempo, Noxious Resonance, and Adaptive Stances. All
+  corrections are documented in `docs/datamine-verification-sorcerer-spiritborn.md §2`.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+**Paragon boards:**
+- Sorcerer boards: `Paragon_Sorc_00` through `Paragon_Sorc_10` (10 boards; `Paragon_Sorc_09`
+  absent in datamine — sequence jumps from `_08` to `_10`)
+- Spiritborn boards: `Paragon_Spirit_0` through `Paragon_Spirit_08` (9 boards; starter board uses
+  single-digit filename `Paragon_Spirit_0`; `Paragon_Spirit_09` absent in this build)
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+- Sources:
+  - DiabloTools/d4data (primary — directly extracted):
+    `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
+
+---
+
+## 9. Open Items
 
 - Paragon Glyph path confirmed: `json/base/meta/ParagonGlyph/Rare_*.gph.json`. Glyph display names
-  are not embedded in the glyph files themselves; they require string-table lookup in
-  `json/enUS_Text/meta/StringList/`. Glyph catalog entries currently carry v5 community-sourced
-  labels; string-table verification is deferred.
+  confirmed via string-table lookup at `json/enUS_Text/meta/StringList/ParagonGlyph_*.stl.json`
+  for Sorcerer and Spiritborn glyphs (v9). Legacy class glyph entries carry v5 community-sourced
+  labels; string-table verification for those classes is deferred.
 - Clarify the per-rank scaling formula: how `nRankScale` in the Power definition maps to actual
   per-rank value increases.
 - Determine whether skill tag data (`arTagsGranted`) is complete in the datamine or requires
   supplemental string-table lookup for display names.
 - Paragon Board node definitions path confirmed: `json/base/meta/ParagonBoard/Paragon_*.pbd.json`.
-  Board display names require string-table lookup; current catalog uses v5 community-sourced labels.
+  Board display names require string-table lookup; current catalog uses v5/v9 community-sourced
+  labels for boards where `szName` is empty.
 - Verify whether any existing planners expose a documented skill-tree URL schema that could be
   parsed for build import (Maxroll planner URL structure).
