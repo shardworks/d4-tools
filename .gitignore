@@ -6,6 +6,10 @@
 .pnp.js
 .yarn/install-state.gz
 
+# package manager — pnpm is canonical; do not commit npm or yarn lockfiles
+package-lock.json
+yarn.lock
+
 # testing
 /coverage
 

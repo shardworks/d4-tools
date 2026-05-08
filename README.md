@@ -4,13 +4,15 @@ A Next.js 16 web application for Diablo 4 build analysis. Provides a structured 
 
 ## Running Locally
 
+This project uses **pnpm**. Do not use `npm install` or `yarn install` — both `package-lock.json` and `yarn.lock` are gitignored.
+
 ```bash
-npm install
+pnpm install
 cp .env.example .env.local
-npm run dev
+pnpm dev
 ```
 
-The app runs at `http://localhost:3000`. The demo character is at `/character/demo`.
+The app runs at `http://localhost:3000`.
 
 ### Environment Variables
 
