@@ -3,27 +3,44 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "barb_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "barb_bone_breaker", "label": "Bone Breaker" },
-    { "id": "barb_hemorrhage", "label": "Hemorrhage" },
-    { "id": "barb_blood_rage", "label": "Blood Rage" },
-    { "id": "barb_carnage", "label": "Carnage" },
-    { "id": "barb_warbringer", "label": "Warbringer" },
-    { "id": "barb_weapons_master", "label": "Weapons Master" },
-    { "id": "barb_flawless_technique", "label": "Flawless Technique" }
+    { "id": "barb_starter",           "label": "Starter Board",       "isStarterBoard": true, "bnetFileName": "Paragon_Barb_00", "bnetId": 921459 },
+    { "id": "barb_bone_breaker",      "label": "Bone Breaker",                                "bnetFileName": "Paragon_Barb_01", "bnetId": 921475 },
+    { "id": "barb_hemorrhage",        "label": "Hemorrhage",                                  "bnetFileName": "Paragon_Barb_02", "bnetId": 921460 },
+    { "id": "barb_blood_rage",        "label": "Blood Rage",                                  "bnetFileName": "Paragon_Barb_03", "bnetId": 921481 },
+    { "id": "barb_carnage",           "label": "Carnage",                                     "bnetFileName": "Paragon_Barb_04", "bnetId": 939079 },
+    { "id": "barb_warbringer",        "label": "Warbringer",                                  "bnetFileName": "Paragon_Barb_05", "bnetId": 993298 },
+    { "id": "barb_weapons_master",    "label": "Weapons Master",                              "bnetFileName": "Paragon_Barb_06", "bnetId": 997728 },
+    { "id": "barb_flawless_technique","label": "Flawless Technique",                          "bnetFileName": "Paragon_Barb_07", "bnetId": 1194322 },
+    { "id": "barb_paragon_board_8",   "label": "Paragon Board 8",                             "bnetFileName": "Paragon_Barb_08", "bnetId": 1194330 },
+    { "id": "barb_paragon_board_10",  "label": "Paragon Board 10",                            "bnetFileName": "Paragon_Barb_10", "bnetId": 1985448 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_fervent", "label": "Fervent" },
-    { "id": "glyph_mortal_draw", "label": "Mortal Draw" },
-    { "id": "glyph_territorial", "label": "Territorial" },
-    { "id": "glyph_undaunted", "label": "Undaunted" },
-    { "id": "glyph_wrathful", "label": "Wrathful" },
-    { "id": "glyph_berserker", "label": "Berserker" }
+    { "id": "glyph_imbiber",      "label": "Imbiber",       "bnetFileName": "Rare_011_Willpower_Side", "bnetId": 1071719 },
+    { "id": "glyph_territorial",  "label": "Territorial",   "bnetFileName": "Rare_014_Dexterity_Side", "bnetId": 1023197 },
+    { "id": "glyph_exploit",      "label": "Exploit",       "bnetFileName": "Rare_016_Dexterity_Side", "bnetId": 1023199 },
+    { "id": "glyph_ambidextrous", "label": "Ambidextrous",  "bnetFileName": "Rare_021_Strength_Main",  "bnetId": 1027075 },
+    { "id": "glyph_might",        "label": "Might",         "bnetFileName": "Rare_022_Strength_Main",  "bnetId": 1027083 },
+    { "id": "glyph_cleaver",      "label": "Cleaver",       "bnetFileName": "Rare_023_Strength_Main",  "bnetId": 1027084 },
+    { "id": "glyph_seething",     "label": "Seething",      "bnetFileName": "Rare_024_Strength_Main",  "bnetId": 1027085 },
+    { "id": "glyph_crusher",      "label": "Crusher",       "bnetFileName": "Rare_025_Strength_Main",  "bnetId": 1027086 },
+    { "id": "glyph_executioner",  "label": "Executioner",   "bnetFileName": "Rare_026_Strength_Main",  "bnetId": 1027087 },
+    { "id": "glyph_ire",          "label": "Ire",           "bnetFileName": "Rare_027_Strength_Main",  "bnetId": 1027088 },
+    { "id": "glyph_marshal",      "label": "Marshal",       "bnetFileName": "Rare_028_Strength_Main",  "bnetId": 1027089 },
+    { "id": "glyph_bloodfeeder",  "label": "Bloodfeeder",   "bnetFileName": "Rare_029_Dexterity_Side", "bnetId": 1027090 },
+    { "id": "glyph_wrath",        "label": "Wrath",         "bnetFileName": "Rare_030_Dexterity_Side", "bnetId": 1027091 },
+    { "id": "glyph_weapon_master","label": "Weapon Master", "bnetFileName": "Rare_031_Dexterity_Side", "bnetId": 1027093 },
+    { "id": "glyph_mortal_draw",  "label": "Mortal Draw",   "bnetFileName": "Rare_032_Dexterity_Side", "bnetId": 1027094 },
+    { "id": "glyph_revenge",      "label": "Revenge",       "bnetFileName": "Rare_033_Willpower_Side", "bnetId": 1027095 },
+    { "id": "glyph_undaunted",    "label": "Undaunted",     "bnetFileName": "Rare_034_Willpower_Side", "bnetId": 1027096 },
+    { "id": "glyph_dominate",     "label": "Dominate",      "bnetFileName": "Rare_035_Willpower_Side", "bnetId": 1027097 },
+    { "id": "glyph_disembowel",   "label": "Disembowel",    "bnetFileName": "Rare_036_Willpower_Side", "bnetId": 1027098 },
+    { "id": "glyph_brawl",        "label": "Brawl",         "bnetFileName": "Rare_037_Willpower_Side", "bnetId": 1027099 },
+    { "id": "glyph_twister",      "label": "Twister",       "bnetFileName": "Rare_080_Strength_Main",  "bnetId": 1621704 },
+    { "id": "glyph_rumble",       "label": "Rumble",        "bnetFileName": "Rare_081_Strength_Main",  "bnetId": 1622788 },
+    { "id": "glyph_challenger",   "label": "Challenger",    "bnetFileName": "Rare_Str_Generic",        "bnetId": 2073373 }
   ]
 }

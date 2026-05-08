@@ -301,6 +301,185 @@ describe("game-math helpers", () => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// v7 Barbarian / Druid datamine cross-check blocks
+// Appended at the end of the file per concurrency-safety convention.
+// ---------------------------------------------------------------------------
+
+describe("Barbarian skill catalog — v7 datamine verification", () => {
+  it("Barbarian skill catalog contains datamine-confirmed skill 'Mighty Throw'", () => {
+    // New skill in Lord of Hatred datamine (X1_Barbarian_WeaponThrow); not in v2 seed
+    const skills = getSkillsForClass("Barbarian");
+    expect(skills.find((s) => s.label === "Mighty Throw")).toBeTruthy();
+  });
+
+  it("Barbarian skill catalog uses datamine-correct name 'Flay' (internal Power name is Barbarian_Maim)", () => {
+    // Barbarian_Maim.pow.json displays as "Flay"; catalog must preserve label "Flay"
+    const skills = getSkillsForClass("Barbarian");
+    expect(skills.find((s) => s.label === "Flay")).toBeTruthy();
+    // No fabricated "Maim" label should exist
+    expect(skills.find((s) => s.label === "Maim")).toBeFalsy();
+  });
+
+  it("Barbarian skill catalog does not contain removed entry 'barb_seismic_slam'", () => {
+    const skills = getSkillsForClass("Barbarian");
+    expect(skills.find((s) => s.id === "barb_seismic_slam")).toBeFalsy();
+  });
+
+  it("Barbarian skill catalog does not contain removed key-passive entries", () => {
+    const skills = getSkillsForClass("Barbarian");
+    expect(skills.find((s) => s.id === "barb_unbridled_rage")).toBeFalsy();
+    expect(skills.find((s) => s.id === "barb_gushing_wounds")).toBeFalsy();
+    expect(skills.find((s) => s.id === "barb_walking_arsenal")).toBeFalsy();
+    expect(skills.find((s) => s.id === "barb_unconstrained")).toBeFalsy();
+  });
+
+  it("Barbarian skill catalog uses datamine-correct category 'brawling' for Leap", () => {
+    const skills = getSkillsForClass("Barbarian");
+    const leap = skills.find((s) => s.id === "barb_leap");
+    expect(leap).toBeTruthy();
+    expect(leap?.category).toBe("brawling");
+  });
+
+  it("Barbarian skill catalog uses datamine-correct category 'weapon-mastery' for Steel Grasp", () => {
+    const skills = getSkillsForClass("Barbarian");
+    const sg = skills.find((s) => s.id === "barb_steel_grasp");
+    expect(sg).toBeTruthy();
+    expect(sg?.category).toBe("weapon-mastery");
+  });
+
+  it("every Barbarian skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Barbarian");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Barbarian paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Barbarian");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("Barbarian paragon catalog does not contain removed entry 'glyph_reinforced'", () => {
+    const { glyphs } = getParagonCatalogForClass("Barbarian");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).not.toContain("glyph_reinforced");
+  });
+
+  it("Barbarian paragon catalog does not contain removed entries 'glyph_fervent', 'glyph_wrathful', 'glyph_berserker'", () => {
+    const { glyphs } = getParagonCatalogForClass("Barbarian");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).not.toContain("glyph_fervent");
+    expect(glyphIds).not.toContain("glyph_wrathful");
+    expect(glyphIds).not.toContain("glyph_berserker");
+  });
+
+  it("Barbarian paragon catalog contains datamine-confirmed glyphs 'glyph_exploit' and 'glyph_undaunted'", () => {
+    const { glyphs } = getParagonCatalogForClass("Barbarian");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).toContain("glyph_exploit");
+    expect(glyphIds).toContain("glyph_undaunted");
+  });
+
+  it("audit doc covers every Barbarian catalog entry id", async () => {
+    const { readFileSync } = await import("node:fs");
+    const doc = readFileSync("docs/datamine-verification-barbarian-druid.md", "utf8");
+    const skills = getSkillsForClass("Barbarian");
+    const { boards, glyphs } = getParagonCatalogForClass("Barbarian");
+    for (const entry of [...skills, ...boards, ...glyphs]) {
+      expect(doc).toContain("`" + entry.id + "`");
+    }
+  });
+});
+
+describe("Druid skill catalog — v7 datamine verification", () => {
+  it("Druid skill catalog contains datamine-confirmed skill 'Lightning Storm'", () => {
+    // New skill in Lord of Hatred datamine (Druid_LightningStorm); not in v2 seed
+    const skills = getSkillsForClass("Druid");
+    expect(skills.find((s) => s.label === "Lightning Storm")).toBeTruthy();
+  });
+
+  it("Druid skill catalog contains datamine-confirmed skill 'Blood Howl'", () => {
+    // New skill in Lord of Hatred datamine (Druid_BloodHowl); not in v2 seed
+    const skills = getSkillsForClass("Druid");
+    expect(skills.find((s) => s.label === "Blood Howl")).toBeTruthy();
+  });
+
+  it("Druid skill catalog does not contain removed key-passive entries", () => {
+    const skills = getSkillsForClass("Druid");
+    expect(skills.find((s) => s.id === "druid_bestial_rampage")).toBeFalsy();
+    expect(skills.find((s) => s.id === "druid_natural_balance")).toBeFalsy();
+    expect(skills.find((s) => s.id === "druid_natures_fury")).toBeFalsy();
+    expect(skills.find((s) => s.id === "druid_earthen_might")).toBeFalsy();
+  });
+
+  it("Druid skill catalog uses datamine-correct category 'wrath' for Trample", () => {
+    const skills = getSkillsForClass("Druid");
+    const trample = skills.find((s) => s.id === "druid_trample");
+    expect(trample).toBeTruthy();
+    expect(trample?.category).toBe("wrath");
+  });
+
+  it("Druid skill catalog uses datamine-correct category 'wrath' for Rabies", () => {
+    const skills = getSkillsForClass("Druid");
+    const rabies = skills.find((s) => s.id === "druid_rabies");
+    expect(rabies).toBeTruthy();
+    expect(rabies?.category).toBe("wrath");
+  });
+
+  it("every Druid skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Druid");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Druid paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Druid");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("Druid paragon catalog does not contain removed entry 'glyph_reinforced'", () => {
+    const { glyphs } = getParagonCatalogForClass("Druid");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).not.toContain("glyph_reinforced");
+  });
+
+  it("Druid paragon catalog does not contain removed entries 'glyph_nature_magic' and 'glyph_control'", () => {
+    const { glyphs } = getParagonCatalogForClass("Druid");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).not.toContain("glyph_nature_magic");
+    expect(glyphIds).not.toContain("glyph_control");
+  });
+
+  it("Druid paragon catalog contains datamine-confirmed glyphs 'glyph_exploit' and 'glyph_fang_claw'", () => {
+    const { glyphs } = getParagonCatalogForClass("Druid");
+    const glyphIds = glyphs.map((g) => g.id);
+    expect(glyphIds).toContain("glyph_exploit");
+    expect(glyphIds).toContain("glyph_fang_claw");
+  });
+
+  it("audit doc covers every Druid catalog entry id", async () => {
+    const { readFileSync } = await import("node:fs");
+    const doc = readFileSync("docs/datamine-verification-barbarian-druid.md", "utf8");
+    const skills = getSkillsForClass("Druid");
+    const { boards, glyphs } = getParagonCatalogForClass("Druid");
+    for (const entry of [...skills, ...boards, ...glyphs]) {
+      expect(doc).toContain("`" + entry.id + "`");
+    }
+  });
+});
+
 describe("bnetId / bnetFileName / bnetClassId fields (D26 / D28)", () => {
   it("every ClassEntry that has bnetClassName has it as a lowercase string", () => {
     for (const cls of classes) {

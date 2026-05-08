@@ -3,25 +3,44 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "druid_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "druid_thunderstruck", "label": "Thunderstruck" },
-    { "id": "druid_ancestral_guidance", "label": "Ancestral Guidance" },
-    { "id": "druid_lust_for_carnage", "label": "Lust for Carnage" },
-    { "id": "druid_constricting_tendrils", "label": "Constricting Tendrils" },
-    { "id": "druid_wild_strikes", "label": "Wild Strikes" },
-    { "id": "druid_the_animal_spirit", "label": "The Animal Spirit" }
+    { "id": "druid_starter",             "label": "Starter Board",        "isStarterBoard": true, "bnetFileName": "Paragon_Druid_00", "bnetId": 940011 },
+    { "id": "druid_thunderstruck",       "label": "Thunderstruck",                                "bnetFileName": "Paragon_Druid_01", "bnetId": 939952 },
+    { "id": "druid_ancestral_guidance",  "label": "Ancestral Guidance",                          "bnetFileName": "Paragon_Druid_02", "bnetId": 939954 },
+    { "id": "druid_lust_for_carnage",    "label": "Lust for Carnage",                            "bnetFileName": "Paragon_Druid_03", "bnetId": 939976 },
+    { "id": "druid_constricting_tendrils","label": "Constricting Tendrils",                      "bnetFileName": "Paragon_Druid_04", "bnetId": 939984 },
+    { "id": "druid_wild_strikes",        "label": "Wild Strikes",                                "bnetFileName": "Paragon_Druid_05", "bnetId": 994015 },
+    { "id": "druid_the_animal_spirit",   "label": "The Animal Spirit",                           "bnetFileName": "Paragon_Druid_06", "bnetId": 997766 },
+    { "id": "druid_paragon_board_7",     "label": "Paragon Board 7",                             "bnetFileName": "Paragon_Druid_07", "bnetId": 1195795 },
+    { "id": "druid_paragon_board_8",     "label": "Paragon Board 8",                             "bnetFileName": "Paragon_Druid_08", "bnetId": 1195797 },
+    { "id": "druid_paragon_board_10",    "label": "Paragon Board 10",                            "bnetFileName": "Paragon_Druid_10", "bnetId": 1985817 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_nature_magic", "label": "Nature Magic" },
-    { "id": "glyph_fang_claw", "label": "Fang and Claw" },
-    { "id": "glyph_territorial", "label": "Territorial" },
-    { "id": "glyph_earth_and_sky", "label": "Earth and Sky" },
-    { "id": "glyph_control", "label": "Control" }
+    { "id": "glyph_guzzler",      "label": "Guzzler",       "bnetFileName": "Rare_011_Intelligence_Side", "bnetId": 1023194 },
+    { "id": "glyph_protector",    "label": "Protector",     "bnetFileName": "Rare_012_Intelligence_Side", "bnetId": 1068816 },
+    { "id": "glyph_poise",        "label": "Poise",         "bnetFileName": "Rare_013_Dexterity_Side",    "bnetId": 1028219 },
+    { "id": "glyph_territorial",  "label": "Territorial",   "bnetFileName": "Rare_014_Dexterity_Side",    "bnetId": 1023197 },
+    { "id": "glyph_exploit",      "label": "Exploit",       "bnetFileName": "Rare_016_Dexterity_Side",    "bnetId": 1023199 },
+    { "id": "glyph_undaunted",    "label": "Undaunted",     "bnetFileName": "Rare_034_Intelligence_Side",  "bnetId": 1068821 },
+    { "id": "glyph_dominate",     "label": "Dominate",      "bnetFileName": "Rare_035_Intelligence_Side",  "bnetId": 1068833 },
+    { "id": "glyph_fang_claw",    "label": "Fang and Claw", "bnetFileName": "Rare_039_Willpower_Main",     "bnetId": 1028226 },
+    { "id": "glyph_earth_and_sky","label": "Earth and Sky", "bnetFileName": "Rare_040_Willpower_Main",     "bnetId": 1028227 },
+    { "id": "glyph_wilds",        "label": "Wilds",         "bnetFileName": "Rare_041_Intelligence_Side",  "bnetId": 1028228 },
+    { "id": "glyph_werebear",     "label": "Werebear",      "bnetFileName": "Rare_042_Willpower_Main",     "bnetId": 1028229 },
+    { "id": "glyph_werewolf",     "label": "Werewolf",      "bnetFileName": "Rare_043_Willpower_Main",     "bnetId": 1028230 },
+    { "id": "glyph_human",        "label": "Human",         "bnetFileName": "Rare_044_Willpower_Main",     "bnetId": 1028231 },
+    { "id": "glyph_bane",         "label": "Bane",          "bnetFileName": "Rare_045_Intelligence_Side",  "bnetId": 1028232 },
+    { "id": "glyph_keeper",       "label": "Keeper",        "bnetFileName": "Rare_046_Intelligence_Side",  "bnetId": 1028233 },
+    { "id": "glyph_fulminate",    "label": "Fulminate",     "bnetFileName": "Rare_047_Dexterity_Side",    "bnetId": 1028234 },
+    { "id": "glyph_tracker",      "label": "Tracker",       "bnetFileName": "Rare_048_Dexterity_Side",    "bnetId": 1028235 },
+    { "id": "glyph_outmatch",     "label": "Outmatch",      "bnetFileName": "Rare_049_Dexterity_Side",    "bnetId": 1028236 },
+    { "id": "glyph_spirit",       "label": "Spirit",        "bnetFileName": "Rare_050_Dexterity_Side",    "bnetId": 1028237 },
+    { "id": "glyph_shapeshifter", "label": "Shapeshifter",  "bnetFileName": "Rare_051_Dexterity_Side",    "bnetId": 1028238 },
+    { "id": "glyph_tectonic",     "label": "Tectonic",      "bnetFileName": "Rare_086_Dexterity_Side",    "bnetId": 1624740 },
+    { "id": "glyph_electrocution","label": "Electrocution", "bnetFileName": "Rare_087_Willpower_Main",     "bnetId": 1627925 },
+    { "id": "glyph_headhunter",   "label": "Headhunter",    "bnetFileName": "Rare_Will_Generic",           "bnetId": 2117207 }
   ]
 }

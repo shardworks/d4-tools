@@ -274,7 +274,55 @@ DiabloTools/d4data at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry
 
 ---
 
-## 7. Open Items
+## 7. Legacy Classes Datamine Verification — Barbarian and Druid
+
+All skill and paragon catalog entries for Barbarian and Druid have been directly extracted from
+DiabloTools/d4data at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry carries a
+`bnetFileName` and `bnetId` traceable to a specific Power file in `json/base/meta/Power/`. See
+`docs/datamine-verification-barbarian-druid.md` for the full per-entry audit trail.
+
+**Barbarian:**
+- Primary attribute: Strength (datamine-confirmed: `PlayerClass/Barbarian.pcl.json`,
+  `arCoreStatBenefit` shows Strength as the primary scaling stat with 1.1x scalar)
+- Resource system: **Fury** (datamine-confirmed via `Search_ResourceFury` tags on skill Power files)
+- Skill tree: Six categories — Basic, Core, Defensive, Brawling, Weapon Mastery, Ultimate
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `brawling`, `weapon-mastery`,
+  `ultimate` (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each Power file;
+  `Skill_Primary_Brawling` → `brawling`, `Skill_Primary_Weapon_Mastery` → `weapon-mastery`)
+- Note: Barbarian key-passive skills (Unbridled Rage, Gushing Wounds, Walking Arsenal,
+  Unconstrained) and Seismic Slam have no corresponding Power files in the datamine at this build;
+  these entries were removed from the catalog per the four-way reconciliation rule. Mighty Throw
+  (`X1_Barbarian_WeaponThrow`) was added as a datamine-confirmed skill.
+- Paragon boards: 10 boards (`Paragon_Barb_00` through `Paragon_Barb_10`; `Paragon_Barb_09`
+  absent from datamine). Two boards (08 and 10) are datamine-extras with placeholder labels.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+**Druid:**
+- Primary attribute: Willpower (datamine-confirmed: `PlayerClass/Druid.pcl.json`,
+  `arCoreStatBenefit` shows Willpower as the primary scaling stat with 1.25x scalar)
+- Resource system: **Spirit** (datamine-confirmed via `Search_ResourceSpirit` tags on skill Power
+  files and explicit Spirit resource references in the class definition)
+- Skill tree: Six categories — Basic, Core, Defensive, Companion, Wrath, Ultimate
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `companion`, `wrath`, `ultimate`
+  (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each Power file)
+- Category corrections from v2 seed: Trample moved `defensive` → `wrath`; Rabies moved
+  `core` → `wrath` (both confirmed by `Skill_Primary_Wrath` datamine tag).
+- Note: Druid key-passive skills (Bestial Rampage, Natural Balance, Nature's Fury, Earthen Might)
+  have no corresponding Power files in the datamine at this build; removed per reconciliation rule.
+  Lightning Storm, Blood Howl, and Stone Burst were added as datamine-confirmed skills.
+- Paragon boards: 10 boards (`Paragon_Druid_00` through `Paragon_Druid_10`; `Paragon_Druid_09`
+  absent from datamine). Three boards (07, 08, and 10) are datamine-extras with placeholder labels.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+- Sources:
+  - DiabloTools/d4data (primary — directly extracted):
+    `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
+
+---
+
+## 8. Open Items
 
 - Paragon Glyph path confirmed: `json/base/meta/ParagonGlyph/Rare_*.gph.json`. Glyph display names
   are not embedded in the glyph files themselves; they require string-table lookup in
