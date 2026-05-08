@@ -93,8 +93,8 @@ Each class has one primary attribute that scales its main damage. Assignment:
 - Rogue → Dexterity
 - Sorcerer → Intelligence
 - Spiritborn → Willpower
-- Paladin → Strength (verify for Season 13)
-- Warlock → Intelligence (verify for Season 13)
+- Paladin → Strength
+- Warlock → Intelligence
 
 - provenance: `official, wiki`
 
@@ -198,14 +198,11 @@ fetching of their guide content.
 
 ## Open Items
 
-- Confirm primary attribute assignments for Paladin and Warlock (Season 13 new classes).
 - Verify whether a Critical Strike Chance hard cap exists in Season 13 and what it is — historically
   100% cap, but some community sources discuss effective caps; see `07-breakpoints.md`.
 - Confirm the Movement Speed cap in Season 13 (historically 200%; verify not changed with
   Lord of Hatred content or new class mechanics).
 - Verify that `diablo.wiki.gg/wiki/Attributes` sub-path is accessible despite the root 401.
-- Update provenance for Paladin/Warlock attribute assignments once datamine data is confirmed
-  in `DiabloTools/d4data`.
 - Determine whether Season 13 introduced any new stat types tied to new mechanics (War Plans,
   Talisman, Echoing Hatred).
 - Check if the In-Depth Damage Guide and Attack Speed Mechanics articles on Maxroll have been

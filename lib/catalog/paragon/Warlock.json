@@ -1,0 +1,27 @@
+{
+  "class": "Warlock",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-08"
+  },
+  "boards": [
+    { "id": "warl_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "warl_shadow_pact", "label": "Shadow Pact" },
+    { "id": "warl_curse_of_ages", "label": "Curse of Ages" },
+    { "id": "warl_void_touched", "label": "Void Touched" },
+    { "id": "warl_chaos_conduit", "label": "Chaos Conduit" },
+    { "id": "warl_dark_ascension", "label": "Dark Ascension" },
+    { "id": "warl_infernal_soul", "label": "Infernal Soul" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_corruption_g", "label": "Corruption" },
+    { "id": "glyph_shadow_hex", "label": "Shadow Hex" },
+    { "id": "glyph_malefic", "label": "Malefic" },
+    { "id": "glyph_void_caller", "label": "Void Caller" }
+  ]
+}

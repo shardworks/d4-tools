@@ -128,6 +128,8 @@ describe("makeResolver — entries without bnetId/bnetFileName", () => {
 // ─── buildResolvers integration tests ─────────────────────────────────────
 
 describe("buildResolvers — class resolver", () => {
+  // Minimal fixture: Paladin carries supported: false intentionally to verify that the resolver
+  // resolves by bnetClassName regardless of the supported flag (resolver contract, not catalog state).
   const classes: ClassEntry[] = [
     { id: "Sorcerer", label: "Sorcerer", primaryStat: "Intelligence", supported: true, bnetClassName: "sorcerer", bnetClassId: 1 },
     { id: "Barbarian", label: "Barbarian", primaryStat: "Strength", supported: true, bnetClassName: "barbarian", bnetClassId: 4 },
@@ -156,7 +158,7 @@ describe("buildResolvers — class resolver", () => {
     if (!result.isUnresolved) expect(result.entry.id).toBe("Barbarian");
   });
 
-  it("resolves Paladin (unsupported class still resolves — D15)", () => {
+  it("resolves Paladin by bnetClassName regardless of supported flag (resolver contract — D15)", () => {
     const result = resolvers.class("crusader");
     expect(result.isUnresolved).toBe(false);
     if (!result.isUnresolved) expect(result.entry.id).toBe("Paladin");

@@ -16,17 +16,21 @@ import gameMath from "./game-math.json";
 import barbSkills from "./skills/Barbarian.json";
 import druidSkills from "./skills/Druid.json";
 import necroSkills from "./skills/Necromancer.json";
+import paladinSkills from "./skills/Paladin.json";
 import rogueSkills from "./skills/Rogue.json";
 import sorcSkills from "./skills/Sorcerer.json";
 import sbSkills from "./skills/Spiritborn.json";
+import warlockSkills from "./skills/Warlock.json";
 
 // Per-class paragon catalogs
 import barbParagon from "./paragon/Barbarian.json";
 import druidParagon from "./paragon/Druid.json";
 import necroParagon from "./paragon/Necromancer.json";
+import paladinParagon from "./paragon/Paladin.json";
 import rogueParagon from "./paragon/Rogue.json";
 import sorcParagon from "./paragon/Sorcerer.json";
 import sbParagon from "./paragon/Spiritborn.json";
+import warlockParagon from "./paragon/Warlock.json";
 
 // ─── Type aliases for catalog shapes ───────────────────────────────────────
 
@@ -128,7 +132,7 @@ export const verifiedAgainst: VerifiedAgainst = classesCatalog.verifiedAgainst;
 /** All classes (including unsupported Paladin/Warlock). */
 export const classes: ClassEntry[] = classesCatalog.classes as ClassEntry[];
 
-/** Supported classes only (Paladin/Warlock excluded). */
+/** Supported classes only. */
 export const supportedClasses: ClassEntry[] = classes.filter((c) => c.supported);
 
 /** All gear slots. */
@@ -149,9 +153,11 @@ const skillCatalogByClass: Record<string, SkillEntry[]> = {
   Barbarian: barbSkills.skills as SkillEntry[],
   Druid: druidSkills.skills as SkillEntry[],
   Necromancer: necroSkills.skills as SkillEntry[],
+  Paladin: paladinSkills.skills as SkillEntry[],
   Rogue: rogueSkills.skills as SkillEntry[],
   Sorcerer: sorcSkills.skills as SkillEntry[],
   Spiritborn: sbSkills.skills as SkillEntry[],
+  Warlock: warlockSkills.skills as SkillEntry[],
 };
 
 export function getSkillsForClass(className: string): SkillEntry[] {
@@ -167,9 +173,11 @@ const paragonCatalogByClass: Record<
   Barbarian: barbParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
   Druid: druidParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
   Necromancer: necroParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
+  Paladin: paladinParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
   Rogue: rogueParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
   Sorcerer: sorcParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
   Spiritborn: sbParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
+  Warlock: warlockParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
 };
 
 export function getParagonCatalogForClass(className: string): {

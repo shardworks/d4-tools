@@ -1,0 +1,35 @@
+{
+  "class": "Paladin",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-08"
+  },
+  "skills": [
+    { "id": "pal_smite", "label": "Smite", "category": "basic", "maxRank": 5 },
+    { "id": "pal_holy_bolt", "label": "Holy Bolt", "category": "basic", "maxRank": 5 },
+    { "id": "pal_slash", "label": "Slash", "category": "basic", "maxRank": 5 },
+    { "id": "pal_consecrate", "label": "Consecrate", "category": "basic", "maxRank": 5 },
+    { "id": "pal_blessed_hammer", "label": "Blessed Hammer", "category": "core", "maxRank": 5 },
+    { "id": "pal_shield_bash", "label": "Shield Bash", "category": "core", "maxRank": 5 },
+    { "id": "pal_radiance", "label": "Radiance", "category": "core", "maxRank": 5 },
+    { "id": "pal_holy_nova", "label": "Holy Nova", "category": "core", "maxRank": 5 },
+    { "id": "pal_thorns_strike", "label": "Thorns Strike", "category": "core", "maxRank": 5 },
+    { "id": "pal_holy_shield", "label": "Holy Shield", "category": "defensive", "maxRank": 5 },
+    { "id": "pal_divine_favor", "label": "Divine Favor", "category": "defensive", "maxRank": 5 },
+    { "id": "pal_repentance", "label": "Repentance", "category": "defensive", "maxRank": 5 },
+    { "id": "pal_fortify", "label": "Fortify", "category": "defensive", "maxRank": 5 },
+    { "id": "pal_fanaticism", "label": "Fanaticism", "category": "auras", "maxRank": 5 },
+    { "id": "pal_conviction", "label": "Conviction", "category": "auras", "maxRank": 5 },
+    { "id": "pal_concentration", "label": "Concentration", "category": "auras", "maxRank": 5 },
+    { "id": "pal_holy_freeze", "label": "Holy Freeze", "category": "auras", "maxRank": 5 },
+    { "id": "pal_divine_wrath", "label": "Divine Wrath", "category": "ultimate", "maxRank": 1 },
+    { "id": "pal_judgment", "label": "Judgment", "category": "ultimate", "maxRank": 1 },
+    { "id": "pal_wrath_of_heaven", "label": "Wrath of Heaven", "category": "ultimate", "maxRank": 1 },
+    { "id": "pal_holy_champion", "label": "Holy Champion", "category": "key-passive", "maxRank": 1 },
+    { "id": "pal_sacred_defense", "label": "Sacred Defense", "category": "key-passive", "maxRank": 1 },
+    { "id": "pal_retribution", "label": "Retribution", "category": "key-passive", "maxRank": 1 },
+    { "id": "pal_lights_embrace", "label": "Light's Embrace", "category": "key-passive", "maxRank": 1 }
+  ]
+}

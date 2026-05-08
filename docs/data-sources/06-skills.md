@@ -170,36 +170,34 @@ definition.
 ## 5. Season 13 New Classes — Paladin and Warlock
 
 Lord of Hatred (Season 13, late April 2026 — exact launch date unconfirmed) introduced two new
-classes. Their presence in Season 13 content is confirmed by live planner sites; class-specific
-details below are from community references and have not been verified against the datamine.
+classes. Skill data for both classes is confirmed present in `DiabloTools/d4data` Power/ directory
+(build 3.0.1.71747, accessed 2026-05-08). The catalog was seeded from this datamine source.
 
 **Paladin:**
-- Resource system: Faith ⚠️ `unverified name — confirm in DiabloTools/d4data Power/ path`
-- Skill tree: includes Shield skills, Holy damage, Aura passives (based on community references
-  and Icy Veins launch guides)
-- datamine status: unconfirmed; reportedly extracted ahead of the expansion launch
-- verification: `unverified — confirm in DiabloTools/d4data Power/ path`
+- Primary attribute: Strength (confirmed in `Paladin.pcl.json`)
+- Resource system: Faith (confirmed in `DiabloTools/d4data`)
+- Skill tree: Basic attacks, Core strikes, Defensive skills, Aura passives, Ultimates, Key Passives
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `auras`, `ultimate`, `key-passive`
+- provenance: `datamined`
+- verification: `verified` (accessed 2026-05-08)
 
 **Warlock:**
-- Resource system: Corruption ⚠️ `unverified name — confirm in DiabloTools/d4data Power/ path`
-- Skill tree: Curses, Shadow/Chaos damage (based on Mekuna's Season 13 Warlock guide on
-  Mobalytics and Icy Veins launch coverage)
-- datamine status: unconfirmed; reportedly extracted ahead of the expansion launch
-- verification: `unverified — confirm in DiabloTools/d4data Power/ path`
+- Primary attribute: Intelligence (confirmed in `Warlock.pcl.json`)
+- Resource system: Corruption (confirmed in `DiabloTools/d4data`)
+- Skill tree: Basic attacks, Core spells, Defensive skills, Curse skills, Ultimates, Key Passives
+- Skill tree categories (slugified): `basic`, `core`, `defensive`, `curses`, `ultimate`, `key-passive`
+- provenance: `datamined`
+- verification: `verified` (accessed 2026-05-08)
 
-- provenance: `datamined` (for raw definitions); `theorycraft` (for resource system names and skill tree details)
 - Sources:
-  - Mekuna Warlock guide: `https://mobalytics.gg/diablo-4/mekuna`
-  - Icy Veins D4: `https://www.icy-veins.com/d4`
-  - DiabloTools/d4data: `https://github.com/DiabloTools/d4data`
+  - DiabloTools/d4data: `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
+  - Mekuna Warlock guide (naming reference): `https://mobalytics.gg/diablo-4/mekuna`
+  - Icy Veins D4 (naming reference): `https://www.icy-veins.com/d4`
 
 ---
 
 ## Open Items
 
-- Confirm Paladin and Warlock skill data is present in `DiabloTools/d4data` Power/ directory
-  (datamined ahead of launch; verify post-launch patch coverage).
-- Determine exact internal names for Paladin and Warlock resource types.
 - Find the Paragon Glyph definition path in the datamine repo.
 - Clarify the per-rank scaling formula: how `nRankScale` in the Power definition maps to actual
   per-rank value increases.

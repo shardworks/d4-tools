@@ -140,8 +140,8 @@ describe("CharacterSchema", () => {
     }
   });
 
-  it("accepts Paladin and Warlock (flagged not-yet-supported in catalog, not schema)", () => {
-    // The schema allows Paladin/Warlock; the UI disables them via catalog
+  it("accepts Paladin and Warlock", () => {
+    // The schema accepts all 8 classes; catalog and UI behaviour driven by classes.json supported flag
     for (const cls of ["Paladin", "Warlock"] as const) {
       const result = CharacterSchema.safeParse({ ...validCharacter, class: cls });
       expect(result.success).toBe(true);

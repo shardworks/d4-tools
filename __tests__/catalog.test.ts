@@ -29,24 +29,26 @@ describe("classes catalog", () => {
     expect(classes).toHaveLength(8);
   });
 
-  it("has 6 supported classes", () => {
-    expect(supportedClasses).toHaveLength(6);
+  it("has 8 supported classes", () => {
+    expect(supportedClasses).toHaveLength(8);
     const supportedIds = supportedClasses.map((c) => c.id);
     expect(supportedIds).toContain("Barbarian");
     expect(supportedIds).toContain("Druid");
     expect(supportedIds).toContain("Necromancer");
+    expect(supportedIds).toContain("Paladin");
     expect(supportedIds).toContain("Rogue");
     expect(supportedIds).toContain("Sorcerer");
     expect(supportedIds).toContain("Spiritborn");
+    expect(supportedIds).toContain("Warlock");
   });
 
-  it("flags Paladin and Warlock as not supported", () => {
+  it("Paladin and Warlock are supported with no unsupportedReason", () => {
     const paladin = classes.find((c) => c.id === "Paladin");
     const warlock = classes.find((c) => c.id === "Warlock");
-    expect(paladin?.supported).toBe(false);
-    expect(warlock?.supported).toBe(false);
-    expect(paladin?.unsupportedReason).toBeTruthy();
-    expect(warlock?.unsupportedReason).toBeTruthy();
+    expect(paladin?.supported).toBe(true);
+    expect(warlock?.supported).toBe(true);
+    expect(paladin?.unsupportedReason).toBeUndefined();
+    expect(warlock?.unsupportedReason).toBeUndefined();
   });
 });
 
@@ -150,17 +152,39 @@ describe("aspects catalog", () => {
 });
 
 describe("skills catalog", () => {
-  it("returns skills for all 6 supported classes", () => {
-    const supportedClasses = ["Barbarian", "Druid", "Necromancer", "Rogue", "Sorcerer", "Spiritborn"];
-    for (const cls of supportedClasses) {
+  it("returns skills for all 8 supported classes", () => {
+    const allClasses = [
+      "Barbarian", "Druid", "Necromancer", "Paladin",
+      "Rogue", "Sorcerer", "Spiritborn", "Warlock",
+    ];
+    for (const cls of allClasses) {
       const skills = getSkillsForClass(cls);
       expect(skills.length).toBeGreaterThan(0);
     }
   });
 
-  it("returns empty for unsupported classes", () => {
-    expect(getSkillsForClass("Paladin")).toHaveLength(0);
-    expect(getSkillsForClass("Warlock")).toHaveLength(0);
+  it("returns skills for Paladin including auras category", () => {
+    const skills = getSkillsForClass("Paladin");
+    expect(skills.length).toBeGreaterThan(0);
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("auras");
+    expect(categories).toContain("ultimate");
+    expect(categories).toContain("key-passive");
+  });
+
+  it("returns skills for Warlock including curses category", () => {
+    const skills = getSkillsForClass("Warlock");
+    expect(skills.length).toBeGreaterThan(0);
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("curses");
+    expect(categories).toContain("ultimate");
+    expect(categories).toContain("key-passive");
+  });
+
+  it("returns empty for truly unknown class", () => {
+    expect(getSkillsForClass("Wizard")).toHaveLength(0);
   });
 
   it("skills have maxRank field", () => {
@@ -183,6 +207,38 @@ describe("paragon catalog", () => {
     const catalog = getParagonCatalogForClass("Barbarian");
     const starter = catalog.boards.find((b) => b.isStarterBoard);
     expect(starter).toBeTruthy();
+  });
+
+  it("returns boards and glyphs for Paladin", () => {
+    const catalog = getParagonCatalogForClass("Paladin");
+    expect(catalog.boards.length).toBeGreaterThan(0);
+    expect(catalog.glyphs.length).toBeGreaterThan(0);
+    const starter = catalog.boards.find((b) => b.isStarterBoard);
+    expect(starter).toBeTruthy();
+    // Universal glyphs must be present
+    const glyphIds = catalog.glyphs.map((g) => g.id);
+    expect(glyphIds).toContain("glyph_reinforced");
+    expect(glyphIds).toContain("glyph_exploit");
+    expect(glyphIds).toContain("glyph_control");
+  });
+
+  it("returns boards and glyphs for Warlock", () => {
+    const catalog = getParagonCatalogForClass("Warlock");
+    expect(catalog.boards.length).toBeGreaterThan(0);
+    expect(catalog.glyphs.length).toBeGreaterThan(0);
+    const starter = catalog.boards.find((b) => b.isStarterBoard);
+    expect(starter).toBeTruthy();
+    // Universal glyphs must be present
+    const glyphIds = catalog.glyphs.map((g) => g.id);
+    expect(glyphIds).toContain("glyph_reinforced");
+    expect(glyphIds).toContain("glyph_exploit");
+    expect(glyphIds).toContain("glyph_control");
+  });
+
+  it("returns empty boards and glyphs for truly unknown class", () => {
+    const catalog = getParagonCatalogForClass("Wizard");
+    expect(catalog.boards).toHaveLength(0);
+    expect(catalog.glyphs).toHaveLength(0);
   });
 });
 

@@ -194,6 +194,13 @@ describe("convertBnetHero — unresolved IDs (D14)", () => {
   });
 });
 
+/**
+ * D15 resolver-fallback tests: these use a deliberately minimal mock that carries
+ * no skill catalog entries for Paladin (skills: [] in resolvers above). The purpose
+ * is to verify resolver fallback behaviour (unresolved:NNN warnings) under arbitrary
+ * inputs — not to reflect the production catalog's content. The production Paladin
+ * and Warlock skill catalogs are populated and tested in __tests__/catalog.test.ts.
+ */
 describe("convertBnetHero — Paladin/Warlock class handling (D15)", () => {
   it("resolves 'crusader' bnetClassName to the Paladin catalog class (no class warning)", () => {
     const paladinHero: BnetHero = {

@@ -1,0 +1,27 @@
+{
+  "class": "Paladin",
+  "verifiedAgainst": {
+    "expansion": "Lord of Hatred",
+    "season": "Season 13 (Season of Reckoning)",
+    "patch": "unconfirmed",
+    "accessedDate": "2026-05-08"
+  },
+  "boards": [
+    { "id": "pal_starter", "label": "Starter Board", "isStarterBoard": true },
+    { "id": "pal_blessed_path", "label": "Blessed Path" },
+    { "id": "pal_divine_justice", "label": "Divine Justice" },
+    { "id": "pal_holy_might", "label": "Holy Might" },
+    { "id": "pal_sacred_ground", "label": "Sacred Ground" },
+    { "id": "pal_radiant_defense", "label": "Radiant Defense" },
+    { "id": "pal_crusader_virtue", "label": "Crusader's Virtue" }
+  ],
+  "glyphs": [
+    { "id": "glyph_reinforced", "label": "Reinforced" },
+    { "id": "glyph_exploit", "label": "Exploit" },
+    { "id": "glyph_control", "label": "Control" },
+    { "id": "glyph_holy_light", "label": "Holy Light" },
+    { "id": "glyph_avenging", "label": "Avenging" },
+    { "id": "glyph_divine_fervor", "label": "Divine Fervor" },
+    { "id": "glyph_shield_mastery", "label": "Shield Mastery" }
+  ]
+}
