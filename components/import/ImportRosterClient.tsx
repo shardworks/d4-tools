@@ -79,8 +79,9 @@ function PreviewPane({
           {draft.character.name}
         </div>
         <div className="text-sm text-stone-400 mt-1">
-          {draft.character.class} · Level {draft.character.level} · Paragon{" "}
-          {draft.character.paragonAllocation.paragonLevel}
+          {draft.character.class} · Level{" "}
+          <span className="tabular-nums">{draft.character.level}</span> · Paragon{" "}
+          <span className="tabular-nums">{draft.character.paragonAllocation.paragonLevel}</span>
         </div>
         {draft.character.import && (
           <div className="text-[11px] text-stone-600 mt-1">
@@ -93,8 +94,8 @@ function PreviewPane({
       </div>
 
       <div className="text-xs text-stone-500">
-        {Object.keys(draft.character.equippedItems).length} items equipped ·{" "}
-        {draft.character.skillSelections.length} skills selected
+        <span className="tabular-nums">{Object.keys(draft.character.equippedItems).length}</span> items equipped ·{" "}
+        <span className="tabular-nums">{draft.character.skillSelections.length}</span> skills selected
       </div>
     </div>
   );
@@ -335,11 +336,11 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
               <div className="text-[11px] text-stone-500 mt-0.5 flex gap-[6px]">
                 <span>{hero.class.charAt(0).toUpperCase() + hero.class.slice(1)}</span>
                 <span>·</span>
-                <span>Lvl {hero.level}</span>
+                <span className="tabular-nums">Lvl {hero.level}</span>
                 {hero.paragonLevel > 0 && (
                   <>
                     <span>·</span>
-                    <span>P{hero.paragonLevel}</span>
+                    <span className="tabular-nums">P{hero.paragonLevel}</span>
                   </>
                 )}
                 <span>·</span>

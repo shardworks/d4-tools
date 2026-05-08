@@ -82,7 +82,7 @@ export function AffixCombobox({
                     size={12}
                   />
                   <span className="flex-1">{affix.label}</span>
-                  <span className="text-stone-500 text-[11px] ml-2">
+                  <span className="text-stone-500 text-[11px] ml-2 tabular-nums">
                     {affix.valueRange[0]}–{affix.valueRange[1]}
                     {affix.isPercent ? "%" : ""}
                   </span>

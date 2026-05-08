@@ -85,7 +85,7 @@ export function ItemCard({ item }: ItemCardProps) {
         {item.itemPower !== undefined && (
           <>
             <span>·</span>
-            <span>{item.itemPower} Item Power</span>
+            <span className="tabular-nums">{item.itemPower} Item Power</span>
           </>
         )}
       </div>

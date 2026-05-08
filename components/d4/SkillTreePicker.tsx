@@ -86,10 +86,10 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
       <div className="flex items-center gap-3">
         <span className="text-sm text-stone-400">
           Skill Points Used:{" "}
-          <strong className={cn(overBudget ? "text-destructive" : "text-stone-100")}>
+          <strong className={cn("tabular-nums", overBudget ? "text-destructive" : "text-stone-100")}>
             {totalRanks}
           </strong>{" "}
-          / {budget}
+          / <span className="tabular-nums">{budget}</span>
         </span>
         {overBudget && (
           <Badge variant="destructive" className="text-[11px]">
@@ -134,7 +134,7 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
                       onChange={(e) => handleRankChange(skill, parseInt(e.target.value, 10) || 0)}
                       className="w-[60px] text-center"
                     />
-                    <span className="text-[11px] text-stone-600">
+                    <span className="text-[11px] text-stone-600 tabular-nums">
                       / {skill.maxRank}
                     </span>
                   </div>

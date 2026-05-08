@@ -77,10 +77,10 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
       <div className="flex items-center gap-3">
         <span className="text-sm text-stone-400">
           Points Allocated:{" "}
-          <strong className={cn(overBudget ? "text-destructive" : "text-stone-100")}>
+          <strong className={cn("tabular-nums", overBudget ? "text-destructive" : "text-stone-100")}>
             {totalSpent}
           </strong>{" "}
-          / {budget}
+          / <span className="tabular-nums">{budget}</span>
         </span>
         {overBudget && (
           <Badge variant="destructive" className="text-[11px]">

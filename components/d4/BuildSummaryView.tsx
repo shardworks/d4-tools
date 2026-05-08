@@ -42,9 +42,9 @@ export function BuildSummaryView({
           <span className="text-stone-600">·</span>
           <span className="text-sm text-stone-400">{character.class}</span>
           <span className="text-stone-600">·</span>
-          <span className="text-sm text-stone-400">Level {character.level}</span>
+          <span className="text-sm text-stone-400 tabular-nums">Level {character.level}</span>
           <span className="text-stone-600">·</span>
-          <span className="text-sm text-stone-400">
+          <span className="text-sm text-stone-400 tabular-nums">
             Paragon {character.paragonAllocation.paragonLevel}
           </span>
           <span className="text-stone-600">·</span>

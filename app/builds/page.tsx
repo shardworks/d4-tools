@@ -95,10 +95,10 @@ export default async function BuildsListPage() {
                     </div>
                   </div>
                   <span className="text-xs text-stone-400">{char?.class ?? "—"}</span>
-                  <span className="text-xs text-stone-400">
+                  <span className="text-xs text-stone-400 tabular-nums">
                     {char ? `Lvl ${char.level}` : "—"}
                   </span>
-                  <span className="text-xs text-stone-400">
+                  <span className="text-xs text-stone-400 tabular-nums">
                     {char ? `P${char.paragonAllocation.paragonLevel}` : "—"}
                   </span>
                   <div className="flex justify-end">
