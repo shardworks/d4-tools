@@ -195,24 +195,30 @@ describe("skills catalog", () => {
     expect(categories).not.toContain("curses"); // old fabricated category name
   });
 
-  it("Paladin skill catalog contains build-guide-confirmed skill 'Arbiter of Justice'", () => {
+  it("Paladin skill catalog contains datamine-confirmed skill 'Arbiter of Justice'", () => {
     const skills = getSkillsForClass("Paladin");
     expect(skills.find((s) => s.label === "Arbiter of Justice")).toBeTruthy();
   });
 
-  it("Paladin skill catalog contains build-guide-confirmed skill 'Blessed Hammer'", () => {
+  it("Paladin skill catalog contains datamine-confirmed skill 'Blessed Hammer'", () => {
     const skills = getSkillsForClass("Paladin");
     expect(skills.find((s) => s.label === "Blessed Hammer")).toBeTruthy();
   });
 
-  it("Warlock skill catalog contains build-guide-confirmed skill 'Command Fallen'", () => {
+  it("Warlock skill catalog contains datamine-confirmed skill 'Command Fallen'", () => {
     const skills = getSkillsForClass("Warlock");
     expect(skills.find((s) => s.label === "Command Fallen")).toBeTruthy();
   });
 
-  it("Warlock skill catalog contains build-guide-confirmed skill 'Metamorphosis'", () => {
+  it("Warlock skill catalog contains datamine-confirmed skill 'Metamorphosis'", () => {
     const skills = getSkillsForClass("Warlock");
     expect(skills.find((s) => s.label === "Metamorphosis")).toBeTruthy();
+  });
+
+  it("Warlock skill catalog uses datamine-correct name 'Lava Bomb', not the erroneous 'Molten Bomb'", () => {
+    const skills = getSkillsForClass("Warlock");
+    expect(skills.find((s) => s.label === "Lava Bomb")).toBeTruthy();
+    expect(skills.find((s) => s.label === "Molten Bomb")).toBeFalsy();
   });
 
   it("returns empty for truly unknown class", () => {
@@ -247,11 +253,12 @@ describe("paragon catalog", () => {
     expect(catalog.glyphs.length).toBeGreaterThan(0);
     const starter = catalog.boards.find((b) => b.isStarterBoard);
     expect(starter).toBeTruthy();
-    // Universal glyphs must be present
+    // Datamine-confirmed glyphs present (glyph_reinforced removed: no Paladin-usable
+    // "Reinforced" file exists in DiabloTools/d4data build 3.0.1.71747)
     const glyphIds = catalog.glyphs.map((g) => g.id);
-    expect(glyphIds).toContain("glyph_reinforced");
     expect(glyphIds).toContain("glyph_exploit");
     expect(glyphIds).toContain("glyph_control");
+    expect(glyphIds).not.toContain("glyph_reinforced");
   });
 
   it("returns boards and glyphs for Warlock", () => {
@@ -260,11 +267,13 @@ describe("paragon catalog", () => {
     expect(catalog.glyphs.length).toBeGreaterThan(0);
     const starter = catalog.boards.find((b) => b.isStarterBoard);
     expect(starter).toBeTruthy();
-    // Universal glyphs must be present
+    // Datamine-confirmed glyphs present (glyph_reinforced and glyph_exploit removed:
+    // no Warlock-usable files for these exist in DiabloTools/d4data build 3.0.1.71747)
     const glyphIds = catalog.glyphs.map((g) => g.id);
-    expect(glyphIds).toContain("glyph_reinforced");
-    expect(glyphIds).toContain("glyph_exploit");
     expect(glyphIds).toContain("glyph_control");
+    expect(glyphIds).toContain("glyph_abyssal");
+    expect(glyphIds).not.toContain("glyph_reinforced");
+    expect(glyphIds).not.toContain("glyph_exploit");
   });
 
   it("returns empty boards and glyphs for truly unknown class", () => {
@@ -340,6 +349,42 @@ describe("bnetId / bnetFileName / bnetClassId fields (D26 / D28)", () => {
       if (aspect.bnetId !== undefined) {
         expect(typeof aspect.bnetId).toBe("number");
       }
+    }
+  });
+
+  // T6 datamine reconciliation: every Paladin/Warlock skill and paragon entry must have
+  // a non-empty bnetFileName traceable to DiabloTools/d4data build 3.0.1.71747.
+  it("every Paladin skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Paladin");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Warlock skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Warlock");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Paladin paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Paladin");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("every Warlock paragon board and glyph entry has a non-empty bnetFileName", () => {
+    const { boards, glyphs } = getParagonCatalogForClass("Warlock");
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
     }
   });
 });

@@ -2,14 +2,15 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "classes": [
     {
       "id": "Barbarian",
       "label": "Barbarian",
       "primaryStat": "Strength",
+      "resources": ["Fury"],
       "supported": true,
       "bnetClassName": "barbarian",
       "bnetClassId": 4
@@ -18,6 +19,7 @@
       "id": "Druid",
       "label": "Druid",
       "primaryStat": "Willpower",
+      "resources": ["Spirit"],
       "supported": true,
       "bnetClassName": "druid",
       "bnetClassId": 2
@@ -26,6 +28,7 @@
       "id": "Necromancer",
       "label": "Necromancer",
       "primaryStat": "Intelligence",
+      "resources": ["Essence"],
       "supported": true,
       "bnetClassName": "necromancer",
       "bnetClassId": 3
@@ -34,6 +37,7 @@
       "id": "Rogue",
       "label": "Rogue",
       "primaryStat": "Dexterity",
+      "resources": ["Energy"],
       "supported": true,
       "bnetClassName": "rogue",
       "bnetClassId": 5
@@ -42,6 +46,7 @@
       "id": "Sorcerer",
       "label": "Sorcerer",
       "primaryStat": "Intelligence",
+      "resources": ["Mana"],
       "supported": true,
       "bnetClassName": "sorcerer",
       "bnetClassId": 1
@@ -50,6 +55,7 @@
       "id": "Spiritborn",
       "label": "Spiritborn",
       "primaryStat": "Willpower",
+      "resources": ["Spirit"],
       "supported": true,
       "bnetClassName": "spiritborn",
       "bnetClassId": 6
@@ -58,6 +64,7 @@
       "id": "Paladin",
       "label": "Paladin",
       "primaryStat": "Strength",
+      "resources": ["Faith"],
       "supported": true,
       "bnetClassName": "crusader",
       "bnetClassId": 7
@@ -66,6 +73,7 @@
       "id": "Warlock",
       "label": "Warlock",
       "primaryStat": "Intelligence",
+      "resources": ["Wrath", "Dominance"],
       "supported": true,
       "bnetClassName": "witch",
       "bnetClassId": 8

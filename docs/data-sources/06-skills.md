@@ -1,7 +1,7 @@
 # 06 — Skill Data
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch 3.0.1.71747 / accessed 2026-05-08
 ```
 
 This document covers sources for D4 skill data: skill definitions, ranks, upgrades (Enhanced /
@@ -170,60 +170,63 @@ definition.
 ## 5. Season 13 New Classes — Paladin and Warlock
 
 Lord of Hatred (Season 13, late April 2026 — exact launch date unconfirmed) introduced two new
-classes. Skill and paragon catalog data was seeded from build-guide cross-reference (Icy Veins,
-Mobalytics, Maxroll, d4guides.gg) as permitted by the spec's "build-guide cross-reference allowed"
-clause. The DiabloTools/d4data Power/ directory is confirmed to contain Paladin and Warlock entries
-(build 3.0.1.71747), but individual skill files were not directly extracted for this seed; the
-build-guide references name the same skills that appear in the datamine.
+classes. All skill and paragon catalog entries have been directly extracted from DiabloTools/d4data
+at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry carries a `bnetFileName` and
+`bnetId` traceable to a specific Power file in `json/base/meta/Power/`. See
+`docs/datamine-verification-2026-05-08.md` for the full per-entry audit trail.
 
 **Paladin:**
-- Primary attribute: Strength (confirmed per Icy Veins class guide and community sources)
-- Resource system: **Faith** (confirmed — Icy Veins skill guide lists Holy Bolt as a "Faith
-  generator"; FextraLife Paladin wiki: "Faith — unique class resource that regenerates over time")
+- Primary attribute: Strength (datamine-confirmed: `PlayerClass/Paladin.pcl.json`,
+  `tPrimaryAttribute = Attribute_Strength`)
+- Resource system: **Faith** (datamine-confirmed via achievement string "Spend 130 Faith in
+  5 seconds" and skill resource-cost attributes tagged `Resource_Paladin_Faith`)
 - Skill tree: Six categories — Basic, Core, Aura, Valor, Justice, Ultimate
 - Skill tree categories (slugified): `basic`, `core`, `aura`, `valor`, `justice`, `ultimate`
+  (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each Power file)
 - Season 13 note: Paladin has no key-passive skill tree node; the Oath system (Juggernaut, Zealot,
   Judicator, Disciple) is a separate class mechanic that modifies skill behavior.
-- provenance: `build-guide reference`
-- verification: `referenced from Icy Veins, Mobalytics, Maxroll, d4guides.gg (accessed 2026-05-08)`
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
 
 **Warlock:**
-- Primary attribute: Intelligence (confirmed per Icy Veins class guide and community sources)
-- Resource system: **Wrath** (primary resource, spent by Core/Basic skills) and **Dominance**
-  (secondary resource, spent by Archfiend/defensive summoning skills). Confirmed by Maxroll Warlock
-  Class Overview and d4guides.gg Warlock database entry (accessed 2026-05-08). The resource is NOT
-  "Corruption" — that name was incorrect in the prior seed.
+- Primary attribute: Intelligence (datamine-confirmed: `PlayerClass/Warlock.pcl.json`,
+  `tPrimaryAttribute = Attribute_Intelligence`)
+- Resource system: **Wrath** (primary resource, confirmed via `Search_ResourceWrath` tags on
+  skills) and **Dominance** (secondary resource, confirmed via `Search_ResourceDominance` tags)
 - Skill tree: Six categories — Basic, Core, Defensive, Archfiend, Sigil, Ultimate
 - Skill tree categories (slugified): `basic`, `core`, `defensive`, `archfiend`, `sigil`, `ultimate`
+  (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each Power file)
 - Season 13 note: Warlock has no key-passive skill tree node; Soul Shards (Legion, Vanguard,
   Mastermind, Ritualist) are a separate select-one class mechanic, not skill tree entries.
-- provenance: `build-guide reference`
-- verification: `referenced from Icy Veins, Mobalytics, Maxroll, d4guides.gg (accessed 2026-05-08)`
+- Correction from v5 seed: the basic skill previously labeled "Molten Bomb" is correctly named
+  **"Lava Bomb"** per the `Skill_Warlock_LavaBomb` identity tag in its Power file.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
 
-**Paragon boards:** Both classes have 10 boards each (Starter + 9 named), matching the
-`Paragon_{Paladin,Warlock}_00` through `_09` files confirmed present in DiabloTools/d4data.
-Board names sourced from d4guides.gg class database (accessed 2026-05-08).
+**Paragon boards:** Both classes have 10 boards each (Starter + 9 named).
+- Paladin boards: `Paragon_Paladin_00` through `Paragon_Paladin_09` (snoIDs confirmed in datamine)
+- Warlock boards: `Paragon_Warlock_00` through `Paragon_Warlock_10` (note: `Paragon_Warlock_09`
+  is absent in the datamine; boards 08 and 10 are present and consecutive in the catalog)
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
 
 - Sources:
-  - Icy Veins Paladin Skills Guide: `https://www.icy-veins.com/d4/guides/paladin-skills/`
-  - Icy Veins Warlock Skills Guide: `https://www.icy-veins.com/d4/guides/warlock-skills/`
-  - d4guides.gg Paladin: `https://d4guides.gg/en/loh/database/classes/paladin`
-  - d4guides.gg Warlock: `https://d4guides.gg/en/loh/database/classes/warlock`
-  - Maxroll Warlock Class Overview: `https://maxroll.gg/d4/getting-started/warlock-class-overview`
-  - Mobalytics Paladin builds: `https://mobalytics.gg/diablo-4/paladin-builds`
-  - Mobalytics Warlock builds: `https://mobalytics.gg/diablo-4/warlock-builds`
-  - DiabloTools/d4data (datamine — class file presence confirmed, not directly extracted):
+  - DiabloTools/d4data (primary — directly extracted):
     `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
 
 ---
 
 ## Open Items
 
-- Find the Paragon Glyph definition path in the datamine repo.
+- Paragon Glyph path confirmed: `json/base/meta/ParagonGlyph/Rare_*.gph.json`. Glyph display names
+  are not embedded in the glyph files themselves; they require string-table lookup in
+  `json/enUS_Text/meta/StringList/`. Glyph catalog entries currently carry v5 community-sourced
+  labels; string-table verification is deferred.
 - Clarify the per-rank scaling formula: how `nRankScale` in the Power definition maps to actual
   per-rank value increases.
 - Determine whether skill tag data (`arTagsGranted`) is complete in the datamine or requires
   supplemental string-table lookup for display names.
-- Locate the Paragon Board node definitions path in `DiabloTools/d4data`.
+- Paragon Board node definitions path confirmed: `json/base/meta/ParagonBoard/Paragon_*.pbd.json`.
+  Board display names require string-table lookup; current catalog uses v5 community-sourced labels.
 - Verify whether any existing planners expose a documented skill-tree URL schema that could be
   parsed for build import (Maxroll planner URL structure).

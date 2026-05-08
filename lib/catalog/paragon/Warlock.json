@@ -3,33 +3,31 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
+    "patch": "3.0.1.71747",
     "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "warl_starter",          "label": "Starter Board",   "isStarterBoard": true },
-    { "id": "warl_chaos",            "label": "Chaos" },
-    { "id": "warl_demonic_spicules", "label": "Demonic Spicules" },
-    { "id": "warl_dominion",         "label": "Dominion" },
-    { "id": "warl_dynamism",         "label": "Dynamism" },
-    { "id": "warl_fathomless",       "label": "Fathomless" },
-    { "id": "warl_greater_hex",      "label": "Greater Hex" },
-    { "id": "warl_overmind",         "label": "Overmind" },
-    { "id": "warl_pyrosis",          "label": "Pyrosis" },
-    { "id": "warl_ritualism",        "label": "Ritualism" }
+    { "id": "warl_starter",          "label": "Starter Board",   "isStarterBoard": true, "bnetFileName": "Paragon_Warlock_00", "bnetId": 2458674 },
+    { "id": "warl_chaos",            "label": "Chaos",                                   "bnetFileName": "Paragon_Warlock_01", "bnetId": 2458676 },
+    { "id": "warl_demonic_spicules", "label": "Demonic Spicules",                        "bnetFileName": "Paragon_Warlock_02", "bnetId": 2458678 },
+    { "id": "warl_dominion",         "label": "Dominion",                                "bnetFileName": "Paragon_Warlock_03", "bnetId": 2458680 },
+    { "id": "warl_dynamism",         "label": "Dynamism",                                "bnetFileName": "Paragon_Warlock_04", "bnetId": 2458682 },
+    { "id": "warl_fathomless",       "label": "Fathomless",                              "bnetFileName": "Paragon_Warlock_05", "bnetId": 2458684 },
+    { "id": "warl_greater_hex",      "label": "Greater Hex",                             "bnetFileName": "Paragon_Warlock_06", "bnetId": 2458686 },
+    { "id": "warl_overmind",         "label": "Overmind",                                "bnetFileName": "Paragon_Warlock_07", "bnetId": 2458688 },
+    { "id": "warl_pyrosis",          "label": "Pyrosis",                                 "bnetFileName": "Paragon_Warlock_08", "bnetId": 2458690 },
+    { "id": "warl_ritualism",        "label": "Ritualism",                               "bnetFileName": "Paragon_Warlock_10", "bnetId": 2458692 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced",    "label": "Reinforced" },
-    { "id": "glyph_exploit",       "label": "Exploit" },
-    { "id": "glyph_control",       "label": "Control" },
-    { "id": "glyph_abyssal",       "label": "Abyssal" },
-    { "id": "glyph_archfiend",     "label": "Archfiend" },
-    { "id": "glyph_demonologist",  "label": "Demonologist" },
-    { "id": "glyph_destruction",   "label": "Destruction" },
-    { "id": "glyph_hellforge",     "label": "Hellforge" },
-    { "id": "glyph_ichor_carapace","label": "Ichor Carapace" },
-    { "id": "glyph_mastermind",    "label": "Mastermind" },
-    { "id": "glyph_occultist",     "label": "Occultist" },
-    { "id": "glyph_vanguard",      "label": "Vanguard" }
+    { "id": "glyph_control",       "label": "Control",       "bnetFileName": "Rare_125_Willpower_Main",    "bnetId": 2533053 },
+    { "id": "glyph_abyssal",       "label": "Abyssal",       "bnetFileName": "Rare_117_Strength_Side",     "bnetId": 2531536 },
+    { "id": "glyph_archfiend",     "label": "Archfiend",     "bnetFileName": "Rare_124_Willpower_Main",    "bnetId": 2532972 },
+    { "id": "glyph_demonologist",  "label": "Demonologist",  "bnetFileName": "Rare_128_Strength_Side",     "bnetId": 2533449 },
+    { "id": "glyph_destruction",   "label": "Destruction",   "bnetFileName": "Rare_126_Strength_Side",     "bnetId": 2533352 },
+    { "id": "glyph_hellforge",     "label": "Hellforge",     "bnetFileName": "Rare_116_Intelligence_Side", "bnetId": 2531451 },
+    { "id": "glyph_ichor_carapace","label": "Ichor Carapace","bnetFileName": "Rare_118_Willpower_Main",    "bnetId": 2531984 },
+    { "id": "glyph_mastermind",    "label": "Mastermind",    "bnetFileName": "Rare_123_Willpower_Main",    "bnetId": 2532939 },
+    { "id": "glyph_occultist",     "label": "Occultist",     "bnetFileName": "Rare_114_Intelligence_Side", "bnetId": 2530611 },
+    { "id": "glyph_vanguard",      "label": "Vanguard",      "bnetFileName": "Rare_122_Willpower_Main",    "bnetId": 2532860 }
   ]
 }

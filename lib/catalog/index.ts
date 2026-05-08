@@ -51,6 +51,8 @@ export interface ClassEntry {
   bnetClassName?: string;
   /** Blizzard API numeric class sno ID — D26/D28 */
   bnetClassId?: number;
+  /** Named class resources (e.g. ["Fury"] for Barbarian, ["Wrath", "Dominance"] for Warlock) */
+  resources?: string[];
 }
 
 export interface SlotEntry {

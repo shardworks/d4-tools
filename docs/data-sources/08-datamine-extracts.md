@@ -1,7 +1,7 @@
 # 08 — Datamine Extracts
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch 3.0.1.71747 / accessed 2026-05-08
 ```
 
 This document catalogs GitHub repositories and community resources that extract structured game data
@@ -55,9 +55,10 @@ archived `blizzhackers/d4data` repo; the blizzhackers README redirects here.
 
 - URL: `https://github.com/DiabloTools/d4data`
 - Accessed: 2026-05-07
-- Patch: Season 13 / Lord of Hatred — actively maintained (863+ commits, 33 stars as of access date; verify last-commit date for current patch coverage)
+- Patch: `3.0.1.71747` — Season 13 / Lord of Hatred. Actively maintained; build confirmed via
+  datamine extraction of Paladin/Warlock class data (2026-05-08).
 - provenance: `datamined`
-- verification: `verified working` (HTTP 200; repo confirmed live with 863+ commits and 33 stars at access date)
+- verification: `verified working` (HTTP 200; repo confirmed live with 863+ commits and 33 stars at access date; build 3.0.1.71747 confirmed to include Paladin and Warlock class data)
 
 **Data browser:** `https://blizzhackers.dev` — a web interface for browsing the extracted data.
 - URL: `https://blizzhackers.dev`
@@ -198,8 +199,9 @@ The load-bearing property for any datamine repo is whether it tracks the **curre
 **Season 13 anchor points (as verified at access date):**
 - Lord of Hatred expansion launched: late April 2026 (exact date unconfirmed; Maxroll coverage
   dated May 6 references the expansion as released "a week ago")
-- Two new classes: Paladin, Warlock (confirmed on Blizzard marketing site and live planners)
-- Current patch version string: unconfirmed — see Open Items
+- Two new classes: Paladin, Warlock (confirmed on Blizzard marketing site and live planners;
+  all class data verified present in DiabloTools/d4data at build 3.0.1.71747)
+- Current patch version string: `3.0.1.71747` (confirmed from DiabloTools/d4data, 2026-05-08)
 
 **Freshness checklist for any datamine repo:**
 1. Last commit date — must be from late April 2026 or later for Lord of Hatred content
@@ -215,14 +217,18 @@ tagged `broken / stale` for Season 13 purposes.
 
 ## Open Items
 
-- Determine the current Season 13 patch version string (e.g. `3.x.x`) — obtain from the game
-  client version display or community Discord (Blizzhackers); patch notes URL returned 404.
+- Season 13 patch version string confirmed: `3.0.1.71747` (extracted from DiabloTools/d4data
+  build metadata, accessed 2026-05-08).
 - Confirm exact Lord of Hatred expansion launch date — "late April 2026" is inferred from
   Maxroll coverage dated May 6; confirm via Blizzard official announcement or patch notes.
 - Re-test `https://blizzhackers.dev` — connection timed out at access date; confirm whether
   the data browser is still operational or permanently offline.
-- Confirm `DiabloTools/d4data` last-commit date and verify it tracks the current Season 13 patch.
-- Verify whether Paladin and Warlock class data is present in `DiabloTools/d4data`.
+- Paladin and Warlock class data confirmed present in `DiabloTools/d4data` at build 3.0.1.71747:
+  `json/base/meta/PlayerClass/Paladin.pcl.json`, `json/base/meta/PlayerClass/Warlock.pcl.json`,
+  `json/base/meta/SkillKit/Paladin.skl.json`, `json/base/meta/SkillKit/Warlock.skl.json`,
+  `json/base/meta/ParagonBoard/Paragon_Paladin_*.pbd.json`,
+  `json/base/meta/ParagonBoard/Paragon_Warlock_*.pbd.json`. All 24 Paladin and 24 Warlock skill
+  Power files verified present. Full per-entry audit in `docs/datamine-verification-2026-05-08.md`.
 - Find the current Blizzhackers Discord invite link (check the GitHub README).
 - Verify CascExplorer and CascLib repo URLs are correct and projects are still maintained.
 - Determine whether TACTLib is actively maintained and preferred over CascLib for D4 CASC access.

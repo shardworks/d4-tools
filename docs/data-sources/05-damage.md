@@ -1,7 +1,7 @@
 # 05 — Damage / DPS Formula
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch 3.0.1.71747 / accessed 2026-05-08
 ```
 
 This document covers sources for D4's damage formula and the multiplicative damage-bucket model.
@@ -222,6 +222,7 @@ Blizzard does not publish the internal damage formula. The closest official sour
   (no standalone document found during research; may be embedded in build guides).
 - Confirm Overpower formula for Season 13 — any patch notes changes after Season 9?
 - Determine damage formula changes for Paladin and Warlock classes (Season 13 new classes);
-  their resource system names (community references suggest "Faith" and "Corruption" respectively —
-  unverified; confirm in DiabloTools/d4data) may introduce new bucket types.
+  resource names are now datamine-confirmed: Paladin = "Faith", Warlock = "Wrath" (primary) +
+  "Dominance" (secondary). Whether these resources introduce new damage-bucket types relative
+  to existing classes remains to be verified against Season 13 theorycraft.
 - Check whether a `DamageFormula/` path exists in `DiabloTools/d4data`.

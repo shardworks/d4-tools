@@ -1,7 +1,7 @@
 # 02 — Game Stats Catalog
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch 3.0.1.71747 / accessed 2026-05-08
 ```
 
 This document covers sources for the D4 game-stats catalog: primary and secondary stat definitions,
@@ -93,16 +93,19 @@ Each class has one primary attribute that scales its main damage. Assignment:
 - Rogue → Dexterity
 - Sorcerer → Intelligence
 - Spiritborn → Willpower
-- Paladin → Strength
-- Warlock → Intelligence
+- Paladin → Strength  *(datamine-confirmed: `PlayerClass/Paladin.pcl.json`, `tPrimaryAttribute = Attribute_Strength`)*
+- Warlock → Intelligence  *(datamine-confirmed: `PlayerClass/Warlock.pcl.json`, `tPrimaryAttribute = Attribute_Intelligence`)*
 
-- provenance: `official, wiki`
+- provenance: `official, wiki` (Barbarian–Spiritborn); `datamined` (Paladin, Warlock — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08)
 
 **Sources:**
 - Blizzard game guide: `https://diablo4.blizzard.com/en-us/` (marketing hub; game guide pages linked)
 - wiki.gg D4: `https://diablo.wiki.gg/wiki/Attributes` (HTTP 401 on root as of 2026-05-07; verify sub-path)
   - Accessed: 2026-05-07
   - verification: `unverified — see Open Items`
+- DiabloTools/d4data `json/base/meta/PlayerClass/` (Paladin and Warlock only)
+  - Accessed: 2026-05-08
+  - verification: `verified — build 3.0.1.71747`
 
 **ToS (Blizzard game guide):** Public marketing content; personal reference use is unrestricted.
 **ToS (wiki.gg):** Wiki.gg content is community-maintained. Game data on the wiki is Blizzard's
