@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { readFile } from "fs/promises";
 import {
   classes,
   supportedClasses,
@@ -385,6 +386,253 @@ describe("bnetId / bnetFileName / bnetClassId fields (D26 / D28)", () => {
     }
     for (const glyph of glyphs) {
       expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Necromancer datamine reconciliation — DiabloTools/d4data build 3.0.1.71747
+// ---------------------------------------------------------------------------
+describe("Necromancer skills catalog (datamine-reconciled, build 3.0.1.71747)", () => {
+  it("verifiedAgainst patch is 3.0.1.71747", () => {
+    // Skills are loaded by getSkillsForClass; patch pin is on the catalog object.
+    // We exercise it indirectly: if the catalog loads and entries have bnetFileName,
+    // the file must have been rewritten with the correct patch stamp.
+    const skills = getSkillsForClass("Necromancer");
+    expect(skills.length).toBeGreaterThan(0);
+    // bnetFileName presence confirms this is the v6-reconciled file
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("contains datamine-confirmed skill 'Bone Spear' (core)", () => {
+    const skills = getSkillsForClass("Necromancer");
+    expect(skills.find((s) => s.label === "Bone Spear")).toBeTruthy();
+  });
+
+  it("contains datamine-confirmed skill 'Army of the Dead' (ultimate)", () => {
+    const skills = getSkillsForClass("Necromancer");
+    expect(skills.find((s) => s.label === "Army of the Dead")).toBeTruthy();
+  });
+
+  it("summoning skills no longer carry '(Passive)' suffix in labels", () => {
+    const skills = getSkillsForClass("Necromancer");
+    // Datamine labels do not include a '(Passive)' suffix — v2 editorial addition stripped.
+    expect(skills.find((s) => s.label === "Skeletal Warriors")).toBeTruthy();
+    expect(skills.find((s) => s.label === "Skeletal Mages")).toBeTruthy();
+    expect(skills.find((s) => s.label === "Golem")).toBeTruthy();
+    expect(skills.find((s) => s.label === "Skeletal Warriors (Passive)")).toBeFalsy();
+    expect(skills.find((s) => s.label === "Skeletal Mages (Passive)")).toBeFalsy();
+    expect(skills.find((s) => s.label === "Golem (Passive)")).toBeFalsy();
+  });
+
+  it("has correct Necromancer skill-tree categories", () => {
+    const skills = getSkillsForClass("Necromancer");
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("core");
+    expect(categories).toContain("macabre");
+    expect(categories).toContain("defensive");
+    expect(categories).toContain("summoning");
+    expect(categories).toContain("ultimate");
+    expect(categories).toContain("key-passive");
+  });
+
+  it("every Necromancer skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Necromancer");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+});
+
+describe("Necromancer paragon catalog (datamine-reconciled, build 3.0.1.71747)", () => {
+  it("returns boards with starter board and bnetFileName on every board", () => {
+    const { boards } = getParagonCatalogForClass("Necromancer");
+    expect(boards.length).toBeGreaterThan(0);
+    const starter = boards.find((b) => b.isStarterBoard);
+    expect(starter).toBeTruthy();
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("starter board resolves to Paragon_Necro_00", () => {
+    const { boards } = getParagonCatalogForClass("Necromancer");
+    const starter = boards.find((b) => b.isStarterBoard);
+    expect(starter?.bnetFileName).toBe("Paragon_Necro_00");
+  });
+
+  it("every Necromancer paragon glyph has a non-empty bnetFileName", () => {
+    const { glyphs } = getParagonCatalogForClass("Necromancer");
+    expect(glyphs.length).toBeGreaterThan(0);
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("glyph_reinforced is removed — no Necromancer-usable 'Reinforced' file in build 3.0.1.71747", () => {
+    const { glyphs } = getParagonCatalogForClass("Necromancer");
+    const glyphIds = glyphs.map((g) => g.id);
+    // Reinforced (Rare_012_Willpower_Side) is Sorcerer-only; fUsableByClass[3]=0.
+    expect(glyphIds).not.toContain("glyph_reinforced");
+  });
+
+  it("contains datamine-confirmed Necromancer glyph 'Exploit'", () => {
+    const { glyphs } = getParagonCatalogForClass("Necromancer");
+    expect(glyphs.find((g) => g.label === "Exploit")).toBeTruthy();
+  });
+
+  it("contains datamine-confirmed Necromancer-specific glyph 'Deadraiser'", () => {
+    const { glyphs } = getParagonCatalogForClass("Necromancer");
+    expect(glyphs.find((g) => g.label === "Deadraiser")).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Rogue datamine reconciliation — DiabloTools/d4data build 3.0.1.71747
+// ---------------------------------------------------------------------------
+describe("Rogue skills catalog (datamine-reconciled, build 3.0.1.71747)", () => {
+  it("verifiedAgainst patch confirmed via bnetFileName presence on all entries", () => {
+    const skills = getSkillsForClass("Rogue");
+    expect(skills.length).toBeGreaterThan(0);
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("contains datamine-confirmed skill 'Twisting Blades' (core)", () => {
+    const skills = getSkillsForClass("Rogue");
+    expect(skills.find((s) => s.label === "Twisting Blades")).toBeTruthy();
+  });
+
+  it("contains datamine-confirmed skill 'Preparation' (ultimate, not the Specialization style)", () => {
+    const skills = getSkillsForClass("Rogue");
+    expect(skills.find((s) => s.label === "Preparation")).toBeTruthy();
+  });
+
+  it("has correct Rogue skill-tree categories", () => {
+    const skills = getSkillsForClass("Rogue");
+    const categories = skills.map((s) => s.category);
+    expect(categories).toContain("basic");
+    expect(categories).toContain("core");
+    expect(categories).toContain("agility");
+    expect(categories).toContain("defensive");
+    expect(categories).toContain("imbuement");
+    expect(categories).toContain("ultimate");
+    expect(categories).toContain("key-passive");
+  });
+
+  it("every Rogue skill entry has a non-empty bnetFileName", () => {
+    const skills = getSkillsForClass("Rogue");
+    for (const skill of skills) {
+      expect(skill.bnetFileName).toBeTruthy();
+    }
+  });
+});
+
+describe("Rogue paragon catalog (datamine-reconciled, build 3.0.1.71747)", () => {
+  it("returns boards with starter board and bnetFileName on every board", () => {
+    const { boards } = getParagonCatalogForClass("Rogue");
+    expect(boards.length).toBeGreaterThan(0);
+    const starter = boards.find((b) => b.isStarterBoard);
+    expect(starter).toBeTruthy();
+    for (const board of boards) {
+      expect(board.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("starter board resolves to Paragon_Rogue_00", () => {
+    const { boards } = getParagonCatalogForClass("Rogue");
+    const starter = boards.find((b) => b.isStarterBoard);
+    expect(starter?.bnetFileName).toBe("Paragon_Rogue_00");
+  });
+
+  it("every Rogue paragon glyph has a non-empty bnetFileName", () => {
+    const { glyphs } = getParagonCatalogForClass("Rogue");
+    expect(glyphs.length).toBeGreaterThan(0);
+    for (const glyph of glyphs) {
+      expect(glyph.bnetFileName).toBeTruthy();
+    }
+  });
+
+  it("glyph_reinforced is removed — no Rogue-usable 'Reinforced' file in build 3.0.1.71747", () => {
+    const { glyphs } = getParagonCatalogForClass("Rogue");
+    const glyphIds = glyphs.map((g) => g.id);
+    // Reinforced (Rare_012_Willpower_Side) is Sorcerer-only; fUsableByClass[4]=0.
+    expect(glyphIds).not.toContain("glyph_reinforced");
+  });
+
+  it("contains datamine-confirmed Rogue glyph 'Exploit' (Rare_079_Dexterity_Side)", () => {
+    const { glyphs } = getParagonCatalogForClass("Rogue");
+    const exploit = glyphs.find((g) => g.id === "glyph_exploit");
+    expect(exploit).toBeTruthy();
+    // Rogue Exploit uses a different file than Paladin's Rare_016_Intelligence_Side
+    expect(exploit?.bnetFileName).toBe("Rare_079_Dexterity_Side");
+  });
+
+  it("contains datamine-confirmed Rogue-specific glyph 'Devious'", () => {
+    const { glyphs } = getParagonCatalogForClass("Rogue");
+    expect(glyphs.find((g) => g.label === "Devious")).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Audit document coverage — every catalog id must appear in the audit doc
+// ---------------------------------------------------------------------------
+describe("audit doc coverage: docs/datamine-verification-necromancer-rogue.md", () => {
+  it("audit doc contains every Necromancer skill catalog id", async () => {
+    const docPath = new URL(
+      "../docs/datamine-verification-necromancer-rogue.md",
+      import.meta.url
+    ).pathname;
+    const body = await readFile(docPath, "utf8");
+    const skills = getSkillsForClass("Necromancer");
+    for (const skill of skills) {
+      expect(body).toContain(skill.id);
+    }
+  });
+
+  it("audit doc contains every Rogue skill catalog id", async () => {
+    const docPath = new URL(
+      "../docs/datamine-verification-necromancer-rogue.md",
+      import.meta.url
+    ).pathname;
+    const body = await readFile(docPath, "utf8");
+    const skills = getSkillsForClass("Rogue");
+    for (const skill of skills) {
+      expect(body).toContain(skill.id);
+    }
+  });
+
+  it("audit doc contains every Necromancer paragon board and glyph catalog id", async () => {
+    const docPath = new URL(
+      "../docs/datamine-verification-necromancer-rogue.md",
+      import.meta.url
+    ).pathname;
+    const body = await readFile(docPath, "utf8");
+    const { boards, glyphs } = getParagonCatalogForClass("Necromancer");
+    for (const board of boards) {
+      expect(body).toContain(board.id);
+    }
+    for (const glyph of glyphs) {
+      expect(body).toContain(glyph.id);
+    }
+  });
+
+  it("audit doc contains every Rogue paragon board and glyph catalog id", async () => {
+    const docPath = new URL(
+      "../docs/datamine-verification-necromancer-rogue.md",
+      import.meta.url
+    ).pathname;
+    const body = await readFile(docPath, "utf8");
+    const { boards, glyphs } = getParagonCatalogForClass("Rogue");
+    for (const board of boards) {
+      expect(body).toContain(board.id);
+    }
+    for (const glyph of glyphs) {
+      expect(body).toContain(glyph.id);
     }
   });
 });

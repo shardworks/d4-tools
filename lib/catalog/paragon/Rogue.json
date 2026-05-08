@@ -3,24 +3,23 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "rogue_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "rogue_cunning_stratagem", "label": "Cunning Stratagem" },
-    { "id": "rogue_tricks_of_the_trade", "label": "Tricks of the Trade" },
-    { "id": "rogue_shadow_realm", "label": "Shadow Realm" },
-    { "id": "rogue_no_witnesses", "label": "No Witnesses" },
-    { "id": "rogue_deadly_menace", "label": "Deadly Menace" }
+    { "id": "rogue_starter",             "label": "Starter Board",       "isStarterBoard": true, "bnetFileName": "Paragon_Rogue_00", "bnetId": 2456301 },
+    { "id": "rogue_cunning_stratagem",   "label": "Cunning Stratagem",                           "bnetFileName": "Paragon_Rogue_01", "bnetId": 2456302 },
+    { "id": "rogue_tricks_of_the_trade", "label": "Tricks of the Trade",                         "bnetFileName": "Paragon_Rogue_02", "bnetId": 2456303 },
+    { "id": "rogue_shadow_realm",        "label": "Shadow Realm",                                "bnetFileName": "Paragon_Rogue_03", "bnetId": 2456304 },
+    { "id": "rogue_no_witnesses",        "label": "No Witnesses",                                "bnetFileName": "Paragon_Rogue_04", "bnetId": 2456305 },
+    { "id": "rogue_deadly_menace",       "label": "Deadly Menace",                               "bnetFileName": "Paragon_Rogue_05", "bnetId": 2456306 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_ambush", "label": "Ambush" },
-    { "id": "glyph_versatility", "label": "Versatility" },
-    { "id": "glyph_turf", "label": "Turf" },
-    { "id": "glyph_devious", "label": "Devious" }
+    { "id": "glyph_exploit",     "label": "Exploit",     "bnetFileName": "Rare_079_Dexterity_Side", "bnetId": 2506148 },
+    { "id": "glyph_control",     "label": "Control",     "bnetFileName": "Rare_020_Dexterity_Side", "bnetId": 1029495 },
+    { "id": "glyph_ambush",      "label": "Ambush",      "bnetFileName": "Rare_073_Dexterity_Main", "bnetId": 2479348 },
+    { "id": "glyph_versatility", "label": "Versatility", "bnetFileName": "Rare_077_Dexterity_Side", "bnetId": 2479360 },
+    { "id": "glyph_turf",        "label": "Turf",        "bnetFileName": "Rare_014_Dexterity_Main", "bnetId": 2506849 },
+    { "id": "glyph_devious",     "label": "Devious",     "bnetFileName": "Rare_096_Dexterity_Side", "bnetId": 2479440 }
   ]
 }

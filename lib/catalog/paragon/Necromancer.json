@@ -3,25 +3,24 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-08"
   },
   "boards": [
-    { "id": "necro_starter", "label": "Starter Board", "isStarterBoard": true },
-    { "id": "necro_bone_graft", "label": "Bone Graft" },
-    { "id": "necro_scent_of_death", "label": "Scent of Death" },
-    { "id": "necro_splintering_aspect", "label": "Splintering" },
-    { "id": "necro_flesh_eater", "label": "Flesh-Eater" },
-    { "id": "necro_cult_leader", "label": "Cult Leader" },
-    { "id": "necro_desecration", "label": "Desecration" }
+    { "id": "necro_starter",           "label": "Starter Board",  "isStarterBoard": true, "bnetFileName": "Paragon_Necro_00", "bnetId": 2395010 },
+    { "id": "necro_bone_graft",        "label": "Bone Graft",                             "bnetFileName": "Paragon_Necro_01", "bnetId": 2395011 },
+    { "id": "necro_scent_of_death",    "label": "Scent of Death",                         "bnetFileName": "Paragon_Necro_02", "bnetId": 2395012 },
+    { "id": "necro_splintering_aspect","label": "Splintering",                            "bnetFileName": "Paragon_Necro_03", "bnetId": 2395013 },
+    { "id": "necro_flesh_eater",       "label": "Flesh-Eater",                            "bnetFileName": "Paragon_Necro_04", "bnetId": 2395014 },
+    { "id": "necro_cult_leader",       "label": "Cult Leader",                            "bnetFileName": "Paragon_Necro_05", "bnetId": 2395015 },
+    { "id": "necro_desecration",       "label": "Desecration",                            "bnetFileName": "Paragon_Necro_06", "bnetId": 2395016 }
   ],
   "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced" },
-    { "id": "glyph_exploit", "label": "Exploit" },
-    { "id": "glyph_control", "label": "Control" },
-    { "id": "glyph_dominate", "label": "Dominate" },
-    { "id": "glyph_darkness", "label": "Darkness" },
-    { "id": "glyph_bone_graft_g", "label": "Bone Graft" },
-    { "id": "glyph_deadraiser", "label": "Deadraiser" }
+    { "id": "glyph_exploit",    "label": "Exploit",    "bnetFileName": "Rare_016_Intelligence_Side", "bnetId": 2506132 },
+    { "id": "glyph_control",    "label": "Control",    "bnetFileName": "Rare_020_Intelligence_Side", "bnetId": 1029491 },
+    { "id": "glyph_dominate",   "label": "Dominate",   "bnetFileName": "Rare_057_Intelligence_Main", "bnetId": 2479280 },
+    { "id": "glyph_darkness",   "label": "Darkness",   "bnetFileName": "Rare_060_Intelligence_Side", "bnetId": 2479295 },
+    { "id": "glyph_bone_graft_g","label": "Bone Graft","bnetFileName": "Rare_091_Intelligence_Main", "bnetId": 2479415 },
+    { "id": "glyph_deadraiser", "label": "Deadraiser", "bnetFileName": "Rare_093_Intelligence_Side", "bnetId": 2479430 }
   ]
 }

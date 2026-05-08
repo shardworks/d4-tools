@@ -216,7 +216,65 @@ at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry carries a `bnetFil
 
 ---
 
-## Open Items
+## 6. Legacy Classes Datamine Verification — Necromancer and Rogue
+
+All skill and paragon catalog entries for Necromancer and Rogue have been directly extracted from
+DiabloTools/d4data at build 3.0.1.71747 (accessed 2026-05-08). Every skill entry carries a
+`bnetFileName` and `bnetId` traceable to a specific Power file in `json/base/meta/Power/`. See
+`docs/datamine-verification-necromancer-rogue.md` for the full per-entry audit trail.
+
+**Necromancer:**
+- Primary attribute: Intelligence (datamine-confirmed: `PlayerClass/Necromancer.pcl.json`,
+  `tPrimaryAttribute = Attribute_Intelligence`)
+- Resource system: **Essence** (confirmed via `bnetClassName = "necromancer"` and resource
+  attributes tagged `Resource_Necromancer_Essence` in Power files)
+- Skill tree: Seven categories — Basic, Core, Macabre, Defensive, Summoning, Ultimate, Key Passive
+- Skill tree categories (slugified): `basic`, `core`, `macabre`, `defensive`, `summoning`,
+  `ultimate`, `key-passive` (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each
+  Power file)
+- Class-mechanic note: The Book of the Dead (the out-of-tree UI for choosing skeleton and golem
+  variants) is a separate class mechanic and is not represented as a skill-tree entry. The
+  summoning passive skills (`necro_skeletal_warriors`, `necro_skeletal_mages`, `necro_golem`)
+  are legitimate skill-tree nodes that unlock and upgrade the respective minion pools; they are
+  distinct from the Book of the Dead customization mechanic.
+- Label correction from v2 seed: Three summoning entries carried an erroneous `(Passive)` suffix
+  not present in the datamine string tables. Labels corrected to "Skeletal Warriors", "Skeletal
+  Mages", and "Golem". Existing id slugs (`necro_skeletal_warriors`, `necro_skeletal_mages`,
+  `necro_golem`) already reflected the clean label; no id renames were required.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+**Rogue:**
+- Primary attribute: Dexterity (datamine-confirmed: `PlayerClass/Rogue.pcl.json`,
+  `tPrimaryAttribute = Attribute_Dexterity`)
+- Resource system: **Energy** (confirmed via resource-cost attributes tagged
+  `Resource_Rogue_Energy` in Power files)
+- Skill tree: Seven categories — Basic, Core, Agility, Defensive, Imbuement, Ultimate, Key Passive
+- Skill tree categories (slugified): `basic`, `core`, `agility`, `defensive`, `imbuement`,
+  `ultimate`, `key-passive` (confirmed from `tPrimaryTag.gbidSkillTag.name` values in each
+  Power file)
+- Class-mechanic note: The Rogue's Specialization system (Combo Points, Inner Sight, Preparation
+  as a playstyle style) is a separate class mechanic that selects the active resource behavior.
+  This is distinct from the ultimate skill `rogue_preparation` ("Preparation"), which is a
+  legitimate `arActiveSkillEntries` skill-tree node and is correctly cataloged.
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+**Paragon boards:** Necromancer has 7 boards (Starter + 6 named); Rogue has 6 boards
+(Starter + 5 named).
+- Necromancer boards: `Paragon_Necro_00` through `Paragon_Necro_06` (note class token `Necro`,
+  not `Necromancer`; snoIDs confirmed in datamine)
+- Rogue boards: `Paragon_Rogue_00` through `Paragon_Rogue_05` (snoIDs confirmed in datamine)
+- provenance: `datamined`
+- verification: `verified — DiabloTools/d4data build 3.0.1.71747, accessed 2026-05-08`
+
+- Sources:
+  - DiabloTools/d4data (primary — directly extracted):
+    `https://github.com/DiabloTools/d4data` (build 3.0.1.71747)
+
+---
+
+## 7. Open Items
 
 - Paragon Glyph path confirmed: `json/base/meta/ParagonGlyph/Rare_*.gph.json`. Glyph display names
   are not embedded in the glyph files themselves; they require string-table lookup in
