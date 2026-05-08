@@ -95,7 +95,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           <a
             key={link.href}
             href={link.href}
-            className="text-sm text-stone-400 no-underline font-medium"
+            className="text-sm text-stone-400 no-underline font-medium hover:text-stone-300"
           >
             {link.label}
           </a>
@@ -117,7 +117,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
               key={opt.value}
               className={cn(
                 "flex items-center gap-[10px] px-3 py-[10px] rounded-md border cursor-pointer mb-2 bg-surface-2",
-                isSelected ? "border-accent bg-accent/8" : "border-stone-800"
+                isSelected ? "border-accent bg-accent/8" : "border-stone-800 hover:border-stone-600"
               )}
             >
               <input
@@ -180,7 +180,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           {!isConnected ? (
             <a
               href="/api/auth/battlenet/start"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline cursor-pointer hover:bg-accent/90"
             >
               Sign in with Battle.net
             </a>
@@ -190,7 +190,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
               disabled={disconnecting}
               className={cn(
                 "inline-flex items-center gap-2 px-4 py-2 rounded-md bg-transparent border border-destructive/50 text-destructive text-sm font-semibold",
-                disconnecting ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+                disconnecting ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-destructive/20"
               )}
             >
               {disconnecting ? "Disconnecting…" : "Disconnect"}
@@ -200,7 +200,7 @@ export function SettingsPageClient({ initialRegion, initialIsConnected, isBnetCo
           {isConnected && (
             <button
               onClick={() => router.push("/import")}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-surface-2 border border-stone-700 text-stone-200 text-sm font-semibold cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-surface-2 border border-stone-700 text-stone-200 text-sm font-semibold cursor-pointer hover:bg-stone-800"
             >
               Import Character →
             </button>

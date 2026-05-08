@@ -14,7 +14,7 @@ export default function NewCharacterPage() {
         </span>
         <Link
           href="/import"
-          className="px-[14px] py-[6px] rounded-[5px] bg-accent text-black text-xs font-bold no-underline shrink-0"
+          className="px-[14px] py-[6px] rounded-[5px] bg-accent text-black text-xs font-bold no-underline shrink-0 hover:bg-accent/90"
         >
           Import from Battle.net
         </Link>

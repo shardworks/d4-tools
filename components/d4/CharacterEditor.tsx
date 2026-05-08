@@ -142,7 +142,7 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
       "px-[14px] py-[6px] text-sm cursor-pointer bg-transparent border-0 border-b-2 border-b-transparent transition-colors duration-100",
       activeTab === tab
         ? "font-semibold text-accent border-b-accent"
-        : "font-normal text-stone-400"
+        : "font-normal text-stone-400 hover:text-stone-300"
     );
 
   return (

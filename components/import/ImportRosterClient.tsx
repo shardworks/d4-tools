@@ -264,13 +264,13 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
         <div className="flex gap-3 flex-wrap">
           <a
             href="/api/auth/battlenet/start"
-            className="px-5 py-[10px] rounded-md bg-accent text-black font-bold text-base no-underline"
+            className="px-5 py-[10px] rounded-md bg-accent text-black font-bold text-base no-underline hover:bg-accent/90"
           >
             Sign in with Battle.net
           </a>
           <a
             href="/characters/new"
-            className="px-5 py-[10px] rounded-md bg-transparent border border-stone-700 text-stone-300 font-medium text-base no-underline"
+            className="px-5 py-[10px] rounded-md bg-transparent border border-stone-700 text-stone-300 font-medium text-base no-underline hover:bg-stone-800 hover:border-stone-600"
           >
             Enter Manually
           </a>
@@ -307,7 +307,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
             {!rateLimitedUntil && !privateProfile && (
               <button
                 onClick={fetchRoster}
-                className="mt-2 px-[10px] py-1 rounded bg-transparent border border-stone-700 text-stone-400 text-[11px] cursor-pointer block"
+                className="mt-2 px-[10px] py-1 rounded bg-transparent border border-stone-700 text-stone-400 text-[11px] cursor-pointer block hover:bg-stone-800"
               >
                 Retry
               </button>
@@ -326,7 +326,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
                 "w-full px-4 py-3 border-l-2 border-r-0 border-t-0 border-b border-stone-800 cursor-pointer text-left",
                 isSelected
                   ? "bg-surface-2 border-l-accent"
-                  : "bg-transparent border-l-transparent"
+                  : "bg-transparent border-l-transparent hover:bg-surface-2"
               )}
             >
               <div className="text-sm font-semibold text-stone-100">
@@ -390,7 +390,7 @@ export function ImportRosterClient({ isConnected }: ImportRosterClientProps) {
                 )}
                 <button
                   onClick={proceedToConfirm}
-                  className="px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 cursor-pointer shrink-0"
+                  className="px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 cursor-pointer shrink-0 hover:bg-accent/90"
                 >
                   Preview & Import →
                 </button>

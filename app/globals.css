@@ -251,6 +251,6 @@ html, body {
 
   /* Ghost icon button — transparent, no border, pointer cursor */
   .icon-btn {
-    @apply flex cursor-pointer items-center border-0 bg-transparent p-0.5;
+    @apply flex cursor-pointer items-center border-0 bg-transparent p-0.5 hover:text-stone-300;
   }
 }

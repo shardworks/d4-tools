@@ -53,13 +53,13 @@ function ImportErrorContent() {
       <div className="flex gap-3 flex-wrap justify-center">
         <a
           href="/api/auth/battlenet/start"
-          className="px-[18px] py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline"
+          className="px-[18px] py-2 rounded-md bg-accent text-black text-sm font-semibold no-underline hover:bg-accent/90"
         >
           Try Again
         </a>
         <Link
           href="/characters/new"
-          className="px-[18px] py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm font-medium no-underline"
+          className="px-[18px] py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm font-medium no-underline hover:bg-stone-800 hover:border-stone-600"
         >
           Enter Manually
         </Link>

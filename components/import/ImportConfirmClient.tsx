@@ -164,13 +164,13 @@ export function ImportConfirmClient() {
         <div className="flex gap-[10px]">
           <button
             onClick={() => router.back()}
-            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm cursor-pointer"
+            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm cursor-pointer hover:bg-stone-800"
           >
             ← Back
           </button>
           <a
             href="/characters/new"
-            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-400 text-sm no-underline"
+            className="px-4 py-2 rounded-md bg-transparent border border-stone-700 text-stone-400 text-sm no-underline hover:bg-stone-800"
           >
             Enter Manually
           </a>
@@ -242,7 +242,7 @@ export function ImportConfirmClient() {
                   "new"
                 )
               }
-              className={`px-[14px] py-[6px] rounded-[5px] bg-surface-2 border border-stone-700 text-stone-200 text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+              className={`px-[14px] py-[6px] rounded-[5px] bg-surface-2 border border-stone-700 text-stone-200 text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-stone-800"}`}
             >
               Save as new
             </button>
@@ -256,7 +256,7 @@ export function ImportConfirmClient() {
                   "update"
                 )
               }
-              className={`px-[14px] py-[6px] rounded-[5px] bg-info/12 border border-info/40 text-info text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+              className={`px-[14px] py-[6px] rounded-[5px] bg-info/12 border border-info/40 text-info text-xs font-semibold ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-info/20"}`}
             >
               Update existing
             </button>
@@ -278,7 +278,7 @@ export function ImportConfirmClient() {
         <button
           onClick={() => router.back()}
           disabled={saving}
-          className={`px-5 py-[9px] rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+          className={`px-5 py-[9px] rounded-md bg-transparent border border-stone-700 text-stone-300 text-sm ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-stone-800"}`}
         >
           Cancel
         </button>
@@ -290,7 +290,7 @@ export function ImportConfirmClient() {
             onClick={() =>
               saveCharacterAndBuild(draft.character, draft.buildName, null, "new")
             }
-            className={`px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+            className={`px-5 py-[9px] rounded-md bg-accent text-black font-bold text-sm border-0 ${saving ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:bg-accent/90"}`}
           >
             {saving ? "Saving…" : "Save Character"}
           </button>

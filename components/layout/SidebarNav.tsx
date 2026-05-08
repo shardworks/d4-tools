@@ -78,7 +78,7 @@ export function SidebarNav() {
                 "flex items-center gap-[10px] px-2 h-10 no-underline text-sm whitespace-nowrap overflow-hidden border-l-2 transition-[color,background-color] duration-100 ease-in-out",
                 isActive
                   ? "text-accent bg-surface-2 border-l-accent"
-                  : "text-stone-400 bg-transparent border-l-transparent"
+                  : "text-stone-400 bg-transparent border-l-transparent hover:bg-surface-2 hover:text-stone-300"
               )}
             >
               <Icon size={18} className="shrink-0" />
@@ -90,7 +90,7 @@ export function SidebarNav() {
 
       <button
         onClick={toggleCollapsed}
-        className="flex items-center justify-center h-10 w-full bg-transparent border-0 border-t border-stone-800 cursor-pointer text-stone-500"
+        className="flex items-center justify-center h-10 w-full bg-transparent border-0 border-t border-stone-800 cursor-pointer text-stone-500 hover:bg-surface-2 hover:text-stone-300"
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}

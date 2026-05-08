@@ -37,7 +37,7 @@ export function SoftGate() {
       </p>
       <button
         onClick={handleDismiss}
-        className="px-4 py-2 bg-surface-2 border border-stone-700 rounded text-stone-200 text-sm cursor-pointer"
+        className="px-4 py-2 bg-surface-2 border border-stone-700 rounded text-stone-200 text-sm cursor-pointer hover:bg-stone-800"
       >
         Continue anyway
       </button>
