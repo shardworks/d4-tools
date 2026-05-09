@@ -6,6 +6,7 @@ import { getScreenshotDir } from "@/lib/persistence/paths";
 import { getActiveBuildId } from "@/lib/persistence/active-build";
 import { loadBuild } from "@/lib/persistence/builds";
 import { loadCharacter } from "@/lib/persistence/characters";
+import { loadDamageConfig } from "@/lib/damage/config";
 import { sha256 } from "@/lib/triage/hash";
 import { SUPPORTED_IMAGE_TYPES } from "@/lib/triage/types";
 import type { ScreenshotEntry } from "@/lib/triage/types";
@@ -113,6 +114,10 @@ export default async function TriagePage() {
     // No active build — show empty state in detail pane
   }
 
+  // Load damage config server-side so local overrides (data/damage-config.local.json)
+  // are available in the triage DPS delta computation. Falls back to bundled baseline.
+  const damageConfig = loadDamageConfig();
+
   // Empty screenshots state is handled client-side in GalleryPane
 
   return (
@@ -121,6 +126,7 @@ export default async function TriagePage() {
         initialScreenshots={screenshots}
         initialCharacter={activeCharacter}
         initialBuild={activeBuild}
+        damageConfig={damageConfig}
       />
     </Suspense>
   );

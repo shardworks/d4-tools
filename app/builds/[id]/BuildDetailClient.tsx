@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Character, Build, Item } from "@/lib/schema";
+import type { DamageConfig } from "@/lib/damage";
 import { BuildSummaryView } from "@/components/d4/BuildSummaryView";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, PenSquare } from "lucide-react";
@@ -11,13 +12,15 @@ import { ArrowLeft, PenSquare } from "lucide-react";
 interface BuildDetailClientProps {
   build: Build;
   character: Character;
+  /** Server-loaded damage config including local overrides. Passed through to BuildSummaryView. */
+  damageConfig: DamageConfig;
 }
 
 /**
  * Client component wrapping BuildSummaryView.
  * Handles optimistic character updates when gear slot items are saved/removed.
  */
-export function BuildDetailClient({ build, character: initialCharacter }: BuildDetailClientProps) {
+export function BuildDetailClient({ build, character: initialCharacter, damageConfig }: BuildDetailClientProps) {
   const router = useRouter();
   const [character, setCharacter] = useState<Character>(initialCharacter);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -117,6 +120,7 @@ export function BuildDetailClient({ build, character: initialCharacter }: BuildD
         editable
         onItemSave={handleItemSave}
         onItemRemove={handleItemRemove}
+        config={damageConfig}
       />
     </div>
   );

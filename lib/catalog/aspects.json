@@ -14,7 +14,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
       "classRestrictions": [],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Armor_Item", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_might",
@@ -24,7 +26,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
       "classRestrictions": [],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "conceited_aspect",
@@ -34,7 +37,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
       "classRestrictions": [],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "eluding_aspect",
@@ -44,7 +49,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet"],
       "classRestrictions": [],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_elements",
@@ -54,7 +60,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand"],
       "classRestrictions": [],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_frozen_orbit",
@@ -64,7 +71,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Frost_Skill_Damage_Percent", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "snowguards_aspect",
@@ -74,7 +83,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "prodigys_aspect",
@@ -84,7 +94,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "offHand"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_piercing_cold",
@@ -94,7 +105,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "flamethrower_aspect",
@@ -104,7 +116,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_berserk_ripping",
@@ -114,7 +127,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
       "classRestrictions": ["Barbarian"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_anemia",
@@ -124,7 +138,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
       "classRestrictions": ["Barbarian"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_grasping_veins",
@@ -134,7 +149,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Necromancer"],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Crit_Strike_Chance_Percent", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "blood_seekers_aspect",
@@ -144,7 +161,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Necromancer"],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_explosive_verve",
@@ -154,7 +173,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Rogue"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "rapid_aspect",
@@ -164,7 +184,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Rogue"],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_the_unsatiated",
@@ -174,7 +196,9 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Druid"],
-      "source": "codex"
+      "source": "codex",
+      "attribute": { "eAttribute": "Attr_Wererform_Skill_Damage_Percent", "nParam": 0 },
+      "isDistinctMultiplier": false
     },
     {
       "id": "stormshifters_aspect",
@@ -184,7 +208,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Druid"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_the_calm_breeze",
@@ -194,7 +219,8 @@
       "isPercent": true,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Spiritborn"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_the_overflowing_energy",
@@ -204,7 +230,8 @@
       "isPercent": false,
       "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
       "classRestrictions": ["Sorcerer"],
-      "source": "codex"
+      "source": "codex",
+      "isDistinctMultiplier": false
     }
   ]
 }

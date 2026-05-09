@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, ImageOff, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Character, Build, Item } from "@/lib/schema";
+import type { DamageConfig } from "@/lib/damage";
 import { ItemSchema } from "@/lib/schema";
 import type { CacheEntry, ResolvedItem, AffixMatchResult, AspectMatchResult } from "@/lib/triage/types";
 import type { ResolvedItemOverrides } from "./ParsedItemCard";
@@ -111,6 +112,8 @@ interface DetailPaneProps {
   isParsing: boolean;
   parseError: string | null;
   onParse: () => void;
+  /** Server-loaded damage config. Passed to DpsDeltaSection for local-override support. */
+  damageConfig?: DamageConfig;
 }
 
 export function DetailPane({
@@ -122,6 +125,7 @@ export function DetailPane({
   isParsing,
   parseError,
   onParse,
+  damageConfig,
 }: DetailPaneProps) {
   const router = useRouter();
 
@@ -372,6 +376,7 @@ export function DetailPane({
                 build={activeBuild}
                 newItem={tentativeItem}
                 slotId={effectiveSlotId}
+                config={damageConfig}
               />
             );
           })()}

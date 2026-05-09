@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { Character, Build } from "@/lib/schema";
+import type { DamageConfig } from "@/lib/damage";
 import type { ScreenshotEntry, CacheEntry, ResolvedItem } from "@/lib/triage/types";
 import { resolveItem } from "@/lib/triage/resolve";
 import { GalleryPane } from "@/components/triage/GalleryPane";
@@ -12,6 +13,8 @@ interface TriageWorkspaceClientProps {
   initialScreenshots: ScreenshotEntry[];
   initialCharacter: Character | null;
   initialBuild: Build | null;
+  /** Server-loaded damage config including local overrides. Passed to DpsDeltaSection. */
+  damageConfig: DamageConfig;
 }
 
 /**
@@ -23,6 +26,7 @@ export function TriageWorkspaceClient({
   initialScreenshots,
   initialCharacter,
   initialBuild,
+  damageConfig,
 }: TriageWorkspaceClientProps) {
   const [screenshots] = useState<ScreenshotEntry[]>(initialScreenshots);
   // Use the prop directly — when router.refresh() fires the Server Component re-renders
@@ -173,6 +177,7 @@ export function TriageWorkspaceClient({
           isParsing={isParsing}
           parseError={parseError}
           onParse={handleParse}
+          damageConfig={damageConfig}
         />
       </div>
     </div>

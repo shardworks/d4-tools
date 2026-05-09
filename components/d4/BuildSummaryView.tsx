@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
+import { AlertTriangle } from "lucide-react";
 import type { Character, Build, Item } from "@/lib/schema";
+import type { DamageConfig } from "@/lib/damage";
 import { GearSlotGrid } from "./GearSlotGrid";
 import { StatBlock } from "./StatBlock";
 import { SkillDpsSection, formatDps } from "./SkillDpsSection";
@@ -18,6 +20,11 @@ interface BuildSummaryViewProps {
   onItemSave?: (slotId: string, item: Item) => Promise<void>;
   /** Called after a slot item is removed */
   onItemRemove?: (slotId: string) => Promise<void>;
+  /**
+   * Damage config to use. Defaults to baseConfig (bundled baseline).
+   * Pass a server-loaded config from loadDamageConfig() to include local overrides.
+   */
+  config?: DamageConfig;
 }
 
 export function BuildSummaryView({
@@ -26,7 +33,10 @@ export function BuildSummaryView({
   editable = false,
   onItemSave,
   onItemRemove,
+  config: configProp,
 }: BuildSummaryViewProps) {
+  const config = configProp ?? baseConfig;
+
   // Placeholder stats — scoring engine will populate these in a future commission
   const placeholderStats: Array<{ label: string; value: string }> = [
     { label: "Level", value: String(character.level) },
@@ -34,19 +44,22 @@ export function BuildSummaryView({
   ];
 
   // Compute DPS at render-time (D23). Pure-functional — no I/O, no side effects.
-  // Catches unmapped-attribute errors (D30) and returns null for graceful null state (D28).
-  const dpsResult = useMemo(() => {
+  // Surfaces unmapped-attribute errors (D30) as a config-gap banner (not silent "—").
+  const dpsState = useMemo(() => {
     const catalog = {
       skills: getSkillsForClass(character.class),
       affixes,
       aspects,
     };
     try {
-      return computeBuildDps(build, character, catalog, baseConfig);
-    } catch {
-      return null;
+      return { result: computeBuildDps(build, character, catalog, config), error: null };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return { result: null, error: message };
     }
-  }, [build, character]);
+  }, [build, character, config]);
+
+  const { result: dpsResult, error: dpsError } = dpsState;
 
   // Aggregate DPS chip label (D36)
   const dpsChip =
@@ -75,13 +88,29 @@ export function BuildSummaryView({
           </span>
           {/* D36: DPS chip replaces placeholder "Power score: —" */}
           <span className="text-stone-600">·</span>
-          {dpsChip ? (
+          {dpsError ? (
+            <span className="flex items-center gap-1 text-xs text-amber-400">
+              <AlertTriangle size={12} />
+              Config gap
+            </span>
+          ) : dpsChip ? (
             <span className="text-xs text-stone-300 tabular-nums font-mono">{dpsChip}</span>
           ) : (
             <span className="text-xs text-stone-600 italic">Sustained boss DPS: —</span>
           )}
         </div>
       </div>
+
+      {/* Config gap error banner (D30) */}
+      {dpsError && (
+        <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-950/30 border border-amber-800/40 rounded px-3 py-2">
+          <AlertTriangle size={13} className="shrink-0 mt-0.5" />
+          <span>
+            <span className="font-medium">Config gap:</span>{" "}
+            {dpsError}
+          </span>
+        </div>
+      )}
 
       {/* Main content: gear grid + stat block side by side */}
       <div className="flex gap-6 items-start">

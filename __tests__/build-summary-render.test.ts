@@ -179,6 +179,198 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
   });
 });
 
+describe("BuildSummaryView data layer — bucket contributions and conditionals (D20, D38)", () => {
+  const skill = makeSkill("fireball");
+
+  it("bucketContributions has the five expected keys when DPS is non-zero", () => {
+    const character = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    expect(result.perSkill).toHaveLength(1);
+    const { bucketContributions } = result.perSkill[0];
+    expect(bucketContributions).toHaveProperty("additive");
+    expect(bucketContributions).toHaveProperty("crit");
+    expect(bucketContributions).toHaveProperty("vulnerable");
+    expect(bucketContributions).toHaveProperty("distinct");
+    expect(bucketContributions).toHaveProperty("enemyDefense");
+  });
+
+  it("bucketContributions.crit reflects baseline crit EV (1 + 0.05 × 0.50 = 1.025)", () => {
+    const character = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    expect(result.perSkill[0].bucketContributions.crit).toBeCloseTo(1.025, 4);
+  });
+
+  it("bucketContributions.vulnerable reflects baseline vuln EV (1 + 0.90 × 0.20 = 1.18)", () => {
+    const character = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    expect(result.perSkill[0].bucketContributions.vulnerable).toBeCloseTo(1.18, 4);
+  });
+
+  it("equipping an additive-bucket affix (Core Skill Damage +50%) sets additive to 1.50", () => {
+    const coreSkillAffix: AffixEntry = {
+      id: "test_core_skill_damage",
+      label: "Core Skill Damage",
+      labelTemplate: "Core Skill Damage +[V]%",
+      valueRange: [0, 1],
+      isPercent: true,
+      slotRestrictions: [],
+      classRestrictions: [],
+      attribute: { eAttribute: "Attr_Core_Skill_Damage_Percent", nParam: 0 },
+    };
+    const chest: Item = {
+      slot: "chest",
+      name: "Test Chest",
+      rarity: "rare",
+      itemPower: 800,
+      isAncestral: false,
+      implicits: [],
+      explicits: [{ affixId: "test_core_skill_damage", rolledValue: 0.50 }],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const catalog = { skills: [skill], affixes: [coreSkillAffix], aspects: [] as AspectEntry[] };
+    const character = makeCharacter(
+      { weapon: makeWeapon(800), chest },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    // additiveMult = 1 + 0.50 = 1.50
+    expect(result.perSkill[0].bucketContributions.additive).toBeCloseTo(1.50, 4);
+  });
+
+  it("conditionalsApplied is empty when all affixes are unconditional or none equipped", () => {
+    const character = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    expect(result.perSkill[0].conditionalsApplied).toHaveLength(0);
+  });
+
+  it("conditionalsApplied lists elite conditional with uptime 1.0 when elite affix equipped", () => {
+    const eliteAffix: AffixEntry = {
+      id: "test_elite_damage",
+      label: "Damage vs Elites",
+      labelTemplate: "Damage vs Elites +[V]%",
+      valueRange: [0, 1],
+      isPercent: true,
+      slotRestrictions: [],
+      classRestrictions: [],
+      attribute: { eAttribute: "Attr_Damage_Percent_Bonus_To_Elites", nParam: 0 },
+    };
+    const chest: Item = {
+      slot: "chest",
+      name: "Elite Chest",
+      rarity: "rare",
+      itemPower: 800,
+      isAncestral: false,
+      implicits: [],
+      explicits: [{ affixId: "test_elite_damage", rolledValue: 0.50 }],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const catalog = { skills: [skill], affixes: [eliteAffix], aspects: [] as AspectEntry[] };
+    const character = makeCharacter(
+      { weapon: makeWeapon(800), chest },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    const { conditionalsApplied } = result.perSkill[0];
+    const eliteEntry = conditionalsApplied.find((c) => c.type === "elite");
+    expect(eliteEntry).toBeDefined();
+    expect(eliteEntry?.uptime).toBe(1.0); // boss is an elite → full uptime
+    expect(eliteEntry?.contributionPct).toBeCloseTo(1.0, 4); // 100% of additive is elite
+  });
+
+  it("conditionalsApplied lists cc conditional with uptime 0.0 for CC-damage affix (zeroed under boss framing)", () => {
+    const ccAffix: AffixEntry = {
+      id: "test_cc_damage",
+      label: "Damage to CC'd Enemies",
+      labelTemplate: "Damage to CC'd Enemies +[V]%",
+      valueRange: [0, 1],
+      isPercent: true,
+      slotRestrictions: [],
+      classRestrictions: [],
+      attribute: { eAttribute: "Attr_Damage_Percent_Bonus_With_Crowd_Control", nParam: 0 },
+    };
+    const chest: Item = {
+      slot: "chest",
+      name: "CC Chest",
+      rarity: "rare",
+      itemPower: 800,
+      isAncestral: false,
+      implicits: [],
+      explicits: [{ affixId: "test_cc_damage", rolledValue: 0.50 }],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const catalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[] };
+    const character = makeCharacter(
+      { weapon: makeWeapon(800), chest },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const result = computeBuildDps(testBuild, character, catalog, baseConfig);
+    const { conditionalsApplied } = result.perSkill[0];
+    const ccEntry = conditionalsApplied.find((c) => c.type === "cc");
+    expect(ccEntry).toBeDefined();
+    expect(ccEntry?.uptime).toBe(0.0); // boss immune to CC
+    expect(ccEntry?.contributionPct).toBe(0); // zero contribution
+  });
+
+  it("CC-conditional affix does NOT increase aggregate DPS (boss-framing zeroes CC)", () => {
+    const ccAffix: AffixEntry = {
+      id: "test_cc_damage",
+      label: "Damage to CC'd Enemies",
+      labelTemplate: "Damage to CC'd Enemies +[V]%",
+      valueRange: [0, 1],
+      isPercent: true,
+      slotRestrictions: [],
+      classRestrictions: [],
+      attribute: { eAttribute: "Attr_Damage_Percent_Bonus_With_Crowd_Control", nParam: 0 },
+    };
+    const chest: Item = {
+      slot: "chest",
+      name: "CC Chest",
+      rarity: "rare",
+      itemPower: 800,
+      isAncestral: false,
+      implicits: [],
+      explicits: [{ affixId: "test_cc_damage", rolledValue: 0.50 }],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const bareCatalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const ccCatalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[] };
+    const bareChar = makeCharacter({ weapon: makeWeapon(800) }, [{ skillId: "fireball", rank: 3 }]);
+    const ccChar = makeCharacter({ weapon: makeWeapon(800), chest }, [{ skillId: "fireball", rank: 3 }]);
+    const bareResult = computeBuildDps(testBuild, bareChar, bareCatalog, baseConfig);
+    const ccResult = computeBuildDps(testBuild, ccChar, ccCatalog, baseConfig);
+    // CC uptime is 0.0 → no change in aggregate DPS
+    expect(ccResult.aggregate).toBeCloseTo(bareResult.aggregate, 4);
+  });
+});
+
 describe("formatDps utility (D36)", () => {
   it("formats small integers without separator", () => {
     expect(formatDps(999)).toBe("999");

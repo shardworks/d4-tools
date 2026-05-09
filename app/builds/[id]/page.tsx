@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { loadBuild } from "@/lib/persistence/builds";
 import { loadCharacter } from "@/lib/persistence/characters";
 import { setActiveBuildId } from "@/lib/persistence/active-build";
+import { loadDamageConfig } from "@/lib/damage/config";
 import { BuildDetailClient } from "./BuildDetailClient";
 
 interface Props {
@@ -59,5 +60,10 @@ export default async function BuildDetailPage({ params }: Props) {
     );
   }
 
-  return <BuildDetailClient build={build} character={character} />;
+  // Load damage config server-side so local overrides (data/damage-config.local.json)
+  // are reflected in the rendered DPS values. Falls back to bundled baseline if
+  // DATA_DIR is not set or the override file is absent.
+  const damageConfig = loadDamageConfig();
+
+  return <BuildDetailClient build={build} character={character} damageConfig={damageConfig} />;
 }

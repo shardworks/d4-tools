@@ -21,13 +21,12 @@
  *   - Resource economy (D27): optimistic DPS assumes sustain
  */
 
-import type { Character, Item } from "../schema";
+import type { Item } from "../schema";
 import type { SkillEntry, AffixEntry, AspectEntry } from "../catalog";
 import type { DamageConfig } from "./config";
 import type { AffixContribution, BuildDpsResult, SkillDpsResult } from "./types";
 import {
   collectAllAffixContributions,
-  sumBucket,
   getDistinctMultiplierContributions,
   sumPrimaryStat,
 } from "./buckets";
@@ -78,10 +77,10 @@ function computeWeaponDamage(item: Item, config: DamageConfig): number {
 // ─── Skill damage coefficient ─────────────────────────────────────────────────
 
 /**
- * Computes the skill's damage coefficient at a given rank.
- * Formula: coeff = scaleValue + rankScale × (rank - 1)
- * Returns the coefficient for the first scaling attribute whose attribute
- * maps to a damage bucket.
+ * Computes the skill's total damage coefficient at a given rank.
+ * Formula per attribute: coeff = scaleValue + rankScale × (rank - 1)
+ * Sums coefficients from ALL scaling attributes whose attribute maps
+ * to a damage bucket (additive, distinct_mult, or conditional_mult).
  *
  * Returns 0 if no damage attribute is found (non-damaging skill).
  */
@@ -92,6 +91,7 @@ function computeSkillDamageCoeff(
 ): number {
   if (!skill.scalingAttributes) return 0;
 
+  let totalCoeff = 0;
   for (const sa of skill.scalingAttributes) {
     const bucketEntry = config.attributeToBucket[sa.attribute];
     if (!bucketEntry) continue;
@@ -99,10 +99,10 @@ function computeSkillDamageCoeff(
     // A skill is damaging if its scaling attribute resolves to additive or distinct_mult bucket
     if (type === "additive" || type === "distinct_mult" || type === "conditional_mult") {
       const actualRank = Math.max(1, rank);
-      return sa.scaleValue + sa.rankScale * (actualRank - 1);
+      totalCoeff += sa.scaleValue + sa.rankScale * (actualRank - 1);
     }
   }
-  return 0;
+  return totalCoeff;
 }
 
 /**
