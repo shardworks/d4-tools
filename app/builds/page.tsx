@@ -71,14 +71,20 @@ export default async function BuildsListPage() {
 
           {builds.map((build) => {
             const char = charById[build.characterId];
+            // Row is a sibling layout, not nested links: the four data cells live
+            // inside one Link (display:contents lets them participate as direct
+            // grid items), and the Edit cell is a separate sibling with its own
+            // Link. This avoids the prior nested-Link + onClick stopPropagation
+            // pattern, which is invalid in a server component (event handlers
+            // cannot be passed across the server→client boundary).
             return (
-              <Link
+              <div
                 key={build.id}
-                href={`/builds/${build.id}`}
-                className="no-underline"
+                className="grid grid-cols-[1fr_180px_100px_80px_80px] px-3 py-[10px] rounded-md border border-stone-800 bg-surface-2 items-center cursor-pointer transition-[border-color,background] duration-100 hover:border-stone-600 hover:bg-surface-1"
               >
-                <div
-                  className="grid grid-cols-[1fr_180px_100px_80px_80px] px-3 py-[10px] rounded-md border border-stone-800 bg-surface-2 items-center cursor-pointer transition-[border-color,background] duration-100 hover:border-stone-600 hover:bg-surface-1"
+                <Link
+                  href={`/builds/${build.id}`}
+                  className="contents no-underline"
                 >
                   <div>
                     <div className="text-sm font-semibold text-stone-100">
@@ -95,25 +101,24 @@ export default async function BuildsListPage() {
                   <span className="text-xs text-stone-400 tabular-nums">
                     {char ? `P${char.paragonAllocation.paragonLevel}` : "—"}
                   </span>
-                  <div className="flex justify-end">
-                    <Link
-                      href={`/characters/${build.characterId}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="no-underline"
+                </Link>
+                <div className="flex justify-end">
+                  <Link
+                    href={`/characters/${build.characterId}`}
+                    className="no-underline"
+                  >
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="gap-1 text-[11px] h-[26px] px-2"
+                      title="Edit character"
                     >
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="gap-1 text-[11px] h-[26px] px-2"
-                        title="Edit character"
-                      >
-                        <PenSquare size={12} />
-                        Edit
-                      </Button>
-                    </Link>
-                  </div>
+                      <PenSquare size={12} />
+                      Edit
+                    </Button>
+                  </Link>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>
