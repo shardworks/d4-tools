@@ -1,8 +1,13 @@
 "use client";
 
+import { useMemo } from "react";
 import type { Character, Build, Item } from "@/lib/schema";
 import { GearSlotGrid } from "./GearSlotGrid";
 import { StatBlock } from "./StatBlock";
+import { SkillDpsSection, formatDps } from "./SkillDpsSection";
+import { computeBuildDps } from "@/lib/damage";
+import { baseConfig } from "@/lib/damage/client-config";
+import { getSkillsForClass, affixes, aspects } from "@/lib/catalog";
 
 interface BuildSummaryViewProps {
   character: Character;
@@ -28,6 +33,27 @@ export function BuildSummaryView({
     { label: "Paragon", value: String(character.paragonAllocation.paragonLevel) },
   ];
 
+  // Compute DPS at render-time (D23). Pure-functional — no I/O, no side effects.
+  // Catches unmapped-attribute errors (D30) and returns null for graceful null state (D28).
+  const dpsResult = useMemo(() => {
+    const catalog = {
+      skills: getSkillsForClass(character.class),
+      affixes,
+      aspects,
+    };
+    try {
+      return computeBuildDps(build, character, catalog, baseConfig);
+    } catch {
+      return null;
+    }
+  }, [build, character]);
+
+  // Aggregate DPS chip label (D36)
+  const dpsChip =
+    dpsResult && dpsResult.aggregate > 0
+      ? `Sustained boss DPS: ${formatDps(dpsResult.aggregate)}`
+      : null;
+
   return (
     <div className="flex flex-col gap-6 max-w-[1200px]">
       {/* Build header */}
@@ -47,8 +73,13 @@ export function BuildSummaryView({
           <span className="text-sm text-stone-400 tabular-nums">
             Paragon {character.paragonAllocation.paragonLevel}
           </span>
+          {/* D36: DPS chip replaces placeholder "Power score: —" */}
           <span className="text-stone-600">·</span>
-          <span className="text-xs text-stone-600 italic">Power score: —</span>
+          {dpsChip ? (
+            <span className="text-xs text-stone-300 tabular-nums font-mono">{dpsChip}</span>
+          ) : (
+            <span className="text-xs text-stone-600 italic">Sustained boss DPS: —</span>
+          )}
         </div>
       </div>
 
@@ -70,6 +101,11 @@ export function BuildSummaryView({
           <StatBlock stats={placeholderStats} />
         </div>
       </div>
+
+      {/* D35: Full-width per-skill DPS section below gear grid + StatBlock */}
+      {dpsResult && dpsResult.perSkill.length > 0 && (
+        <SkillDpsSection result={dpsResult} />
+      )}
     </div>
   );
 }

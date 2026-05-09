@@ -5,6 +5,7 @@
  */
 
 import type { UniqueEntry } from "../../../lib/catalog/index";
+// UniqueEntry is used for intrinsicAffixes type reference below
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { CLASS_MAP } from "../mappings";
@@ -40,12 +41,22 @@ function itemTypeToSlot(eItemType: string): string {
 
 // ─── Raw datamine item shape ──────────────────────────────────────────────────
 
+interface RawItemAffixAttribute {
+  tAttribute: { eAttribute: string; nParam: number };
+  afValue: number[];
+}
+
 interface RawItem {
   __fileName__: string;
   __snoID__: number;
   eItemType: string;
   eQualityLevel: string;
   arClassesAllowed: string[];
+  /**
+   * v15 (D8): Intrinsic affix attributes for unique item powers.
+   * Mirrors the RawAffixAttribute shape used by regular affixes.
+   */
+  ptItemAffixAttributes?: RawItemAffixAttribute[];
 }
 
 // ─── Transformer ──────────────────────────────────────────────────────────────
@@ -105,6 +116,20 @@ export function transformUniques(
       curationRecord?.catalogId ?? `unique_${toSnakeCase(fileName)}`;
     const label = curationRecord?.label ?? szLabel;
 
+    // v15 (D8): extract intrinsic-affix attribute references from the datamine
+    const intrinsicAffixes: UniqueEntry["intrinsicAffixes"] = [];
+    for (const attr of item.ptItemAffixAttributes ?? []) {
+      const minVal = attr.afValue[0] ?? 0;
+      const maxVal = attr.afValue[1] ?? minVal;
+      intrinsicAffixes.push({
+        attribute: {
+          eAttribute: attr.tAttribute.eAttribute,
+          nParam: attr.tAttribute.nParam,
+        },
+        valueRange: [minVal, maxVal],
+      });
+    }
+
     const entry: UniqueEntry = {
       id: catalogId,
       label,
@@ -112,6 +137,7 @@ export function transformUniques(
       classRestrictions,
       bnetId: item.__snoID__,
       bnetFileName: fileName,
+      ...(intrinsicAffixes.length > 0 ? { intrinsicAffixes } : {}),
     };
 
     if (curationRecord?.action === "deprecated") {

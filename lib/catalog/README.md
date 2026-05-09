@@ -31,18 +31,83 @@ two (`["Wrath", "Dominance"]`). All eight classes have this field populated as o
 
 ```typescript
 interface SkillEntry {
-  id: string;           // e.g. "pal_holy_bolt"
-  label: string;        // e.g. "Holy Bolt"
-  category: string;     // e.g. "basic", "core", "aura", "valor", "justice", "ultimate"
-  maxRank: number;      // 5 for most skills, 1 for ultimates
-  bnetId?: number;      // datamine snoID
-  bnetFileName?: string // datamine Power file name without extension
+  id: string;             // e.g. "pal_holy_bolt"
+  label: string;          // e.g. "Holy Bolt"
+  category: string;       // e.g. "basic", "core", "aura", "valor", "justice", "ultimate"
+  maxRank: number;        // 5 for most skills, 1 for ultimates
+  bnetId?: number;        // datamine snoID
+  bnetFileName?: string;  // datamine Power file name without extension
+
+  // v15: damage engine fields (populated from Power file arScalingAttributes)
+  scalingAttributes?: SkillScalingAttribute[]; // damage coefficients per rank
+  tags?: string[];              // e.g. ["Fire", "Projectile"] from arTagsGranted
+  resourceCostPerCast?: number; // from fResourceCost
+  cooldownSeconds?: number;     // from fCooldownDuration
+}
+
+interface SkillScalingAttribute {
+  attribute: string;  // e.g. "Attr_Skill_Damage_Percent"
+  scaleValue: number; // base coefficient at rank 1
+  rankScale: number;  // additional coefficient per rank beyond rank 1
 }
 ```
 
 All class skill entries carry `bnetId` and `bnetFileName` traceable to
 `DiabloTools/d4data` build `3.0.1.71747`. See `docs/datamine-import-3.0.1.71747.md` (generated
 by the import tool) for the per-entry audit trail.
+
+`scalingAttributes` is populated when the datamine import can dereference the skill's Power file.
+The damage engine uses entries whose `attribute` maps to a damage bucket to classify a skill as
+"damaging" and to compute its base damage coefficient at a given rank.
+
+### `AffixEntry`
+
+```typescript
+interface AffixEntry {
+  // ... existing fields ...
+
+  // v15: damage engine field
+  attribute?: { eAttribute: string; nParam: number };
+}
+```
+
+`attribute` is populated from the first `ptItemAffixAttributes` entry in the datamine affix file.
+The damage engine uses `eAttribute` to route the affix into the correct damage bucket. Multi-attribute
+affixes use the first attribute only per D6 (curation handles edge cases).
+
+### `AspectEntry`
+
+```typescript
+interface AspectEntry {
+  // ... existing fields ...
+
+  // v15: damage engine fields
+  attribute?: { eAttribute: string; nParam: number };
+  isDistinctMultiplier?: boolean;
+}
+```
+
+`isDistinctMultiplier` is set via the curation record's `isDistinctMultiplier` field. When `true`,
+this aspect is a `[×]`-tagged distinct multiplicative source — the engine multiplies it into its
+own independent bucket.
+
+### `UniqueEntry`
+
+```typescript
+interface UniqueEntry {
+  // ... existing fields ...
+
+  // v15: damage engine fields
+  intrinsicAffixes?: Array<{
+    attribute: { eAttribute: string; nParam: number };
+    valueRange: [number, number];
+  }>;
+}
+```
+
+`intrinsicAffixes` contains the unique item's power-affix attribute references (from
+`ptItemAffixAttributes` in the datamine). The damage engine uses these to compute DPS contributions
+from unique item intrinsic powers.
 
 ### `ParagonBoardEntry` / `ParagonGlyphEntry`
 

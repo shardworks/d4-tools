@@ -140,6 +140,11 @@ export function transformAffixes(
       classRestrictions,
       bnetId: affix.__snoID__,
       bnetFileName: fileName,
+      // v15 (D6): emit attribute reference for damage engine bucket routing
+      attribute: {
+        eAttribute: firstAttr.tAttribute.eAttribute,
+        nParam: firstAttr.tAttribute.nParam,
+      },
     };
 
     if (curationRecord?.action === "deprecated") {

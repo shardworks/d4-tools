@@ -69,6 +69,12 @@ d4data/json/base/meta/Power/
 The `arScalingAttributes` array contains the per-rank scaling for damage and other values.
 `nRankScale` describes how the value changes per skill point invested.
 
+**v15 implementation note:** `tools/datamine-import/` now dereferences each skill's Power file
+during import. `arScalingAttributes` → `scalingAttributes`, `arTagsGranted` → `tags`,
+`fResourceCost` → `resourceCostPerCast`, `fCooldownDuration` → `cooldownSeconds` are extracted
+and stored on `SkillEntry` in the catalog. The damage engine (`lib/damage/`) uses `scalingAttributes`
+to compute per-skill DPS coefficients. See `lib/catalog/README.md` and `lib/damage/README.md`.
+
 **ToS:** See `08-datamine-extracts.md §2.1`.
 
 ---

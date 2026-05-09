@@ -10,6 +10,7 @@ import type { CacheEntry, ResolvedItem, AffixMatchResult, AspectMatchResult } fr
 import type { ResolvedItemOverrides } from "./ParsedItemCard";
 import { ParsedItemCard } from "./ParsedItemCard";
 import { ComparisonPanel } from "./ComparisonPanel";
+import { DpsDeltaSection } from "./DpsDeltaSection";
 import { SlotPicker } from "./SlotPicker";
 import { slots } from "@/lib/catalog";
 
@@ -360,6 +361,20 @@ export function DetailPane({
               slot={slotEntry}
             />
           )}
+
+          {/* DPS delta (D37): shown when character, build, and slot are all available */}
+          {character && activeBuild && effectiveSlotId && (() => {
+            const tentativeItem = buildItem(activeItem, effectiveSlotId, itemOverrides);
+            if (!tentativeItem) return null;
+            return (
+              <DpsDeltaSection
+                character={character}
+                build={activeBuild}
+                newItem={tentativeItem}
+                slotId={effectiveSlotId}
+              />
+            );
+          })()}
 
           {/* Wear action */}
           <div className="flex items-center gap-3">

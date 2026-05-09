@@ -3,5 +3,11 @@
   "__snoID__": 3000001,
   "eItemType": "ITEM_TYPE_SWORD",
   "eQualityLevel": "ITEM_QUALITY_UNIQUE",
-  "arClassesAllowed": []
+  "arClassesAllowed": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
+      "afValue": [0.20, 0.40]
+    }
+  ]
 }

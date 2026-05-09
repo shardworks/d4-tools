@@ -88,6 +88,41 @@ This file lists every imported entry, excluded entries, and needs-curation entri
 - `exclude` — omit from catalog entirely
 - `deprecated` — keep in catalog with `deprecated: true` flag
 
+## v15: Damage Engine Fields
+
+The v15 commission added extraction of damage-engine fields from the datamine:
+
+### Affix `attribute` field
+
+Each affix file's first `ptItemAffixAttributes` entry is extracted as `attribute: { eAttribute, nParam }`.
+The damage engine uses `eAttribute` to route the affix contribution into the correct bucket via
+`lib/damage/config.json → attributeToBucket`. Multi-attribute affixes use the first attribute only.
+
+### Aspect `attribute` and `isDistinctMultiplier` fields
+
+Aspects extract an optional `attribute` from `ptItemAffixAttributes` (same as affixes). The
+`isDistinctMultiplier` flag comes from the curation record and marks `[×]`-tagged aspects as
+distinct multiplicative sources in the damage engine.
+
+### Unique `intrinsicAffixes` field
+
+Unique items extract `intrinsicAffixes` from `ptItemAffixAttributes` — the item's power-based
+affix attributes with their value ranges. These are the intrinsic bonuses unique to that item.
+
+### Skill `scalingAttributes`, `tags`, `resourceCostPerCast`, `cooldownSeconds`
+
+The skill transformer (`sections/skills.ts`) dereferences each skill's Power file to extract:
+- `arScalingAttributes` → `scalingAttributes` (damage coefficients per rank)
+- `arTagsGranted` → `tags` (skill type tags)
+- `fResourceCost` → `resourceCostPerCast`
+- `fCooldownDuration` → `cooldownSeconds`
+
+The Power file is looked up by `tPower.__fileName__` in the powers map built from all
+`Power/*.pow.json` files in the datamine. Skills whose Power file cannot be found emit a warning
+and continue with no scaling attributes.
+
+---
+
 ## Multi-Value Affixes
 
 Some affixes carry two independent value ranges in the datamine (e.g. a label like `[{VALUE:1}]%–[{VALUE:2}]% Bonus Damage`). These are affixes where the stat has both a minimum roll and a maximum roll expressed as separate datamine attributes, rather than the tool's usual single `[min, max]` value range.

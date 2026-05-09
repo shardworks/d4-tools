@@ -54,6 +54,12 @@ frame tables.
 **Season 13 gap:** Paladin and Warlock class breakpoints are not covered; the article predates their
 release. Until a Season 13 update is published, breakpoints for these classes are unknown.
 
+**v15 implementation note:** The Maxroll Season 11 breakpoint tables for Barbarian (1H/2H),
+Druid, Necromancer, Rogue, Sorcerer, and Spiritborn are encoded in `lib/damage/config.json`
+under the `breakpoints` key. Paladin and Warlock use linear APS (no frame quantization) until
+Season 13 tables become available — see `lib/damage/README.md §Config` and
+`docs/damage-engine-research-summary.md §2.3`.
+
 **ToS:** Read-only reference. Maxroll ToS prohibit scraping.
 
 ---

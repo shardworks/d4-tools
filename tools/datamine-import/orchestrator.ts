@@ -16,6 +16,7 @@ import {
   loadParagonBoards,
   loadParagonGlyphs,
   loadStringTable,
+  loadAllPowers,
 } from "./reader";
 import { transformAffixes } from "./sections/affixes";
 import { transformAspects } from "./sections/aspects";
@@ -98,10 +99,22 @@ export async function runImport(
     const rawGlyphs = loadParagonGlyphs(datamineRoot);
     const stringTable = loadStringTable(datamineRoot);
 
+    // v15 (D5): load all powers (not just legendary aspects) for skill Power-file dereferencing.
+    // Index by __fileName__ for O(1) lookup in the skills transformer.
+    const allPowersList = loadAllPowers(datamineRoot);
+    const powersMap = new Map<string, unknown>();
+    for (const p of allPowersList) {
+      const rec = p as Record<string, unknown>;
+      if (typeof rec["__fileName__"] === "string") {
+        powersMap.set(rec["__fileName__"] as string, p);
+      }
+    }
+
     console.log(
       `Loaded: ${rawAffixes.length} affixes, ${rawPowers.length} aspects, ` +
       `${rawItems.length} items, ${skillKits.size} skill kits, ` +
-      `${rawBoards.length} boards, ${rawGlyphs.length} glyphs`
+      `${rawBoards.length} boards, ${rawGlyphs.length} glyphs, ` +
+      `${powersMap.size} powers (all types for skill dereferencing)`
     );
 
     // 3. Run transformers
@@ -110,8 +123,9 @@ export async function runImport(
     const aspectSummary = transformAspects(rawPowers, stringTable, curation);
     const uniqueSummary = transformUniques(rawItems, stringTable, curation);
 
+    // v15 (D5): pass powersMap to skills transformer for Power-file dereferencing
     const skillsByClass: ReturnType<typeof transformAllSkills> =
-      transformAllSkills(skillKits, stringTable, curation);
+      transformAllSkills(skillKits, stringTable, curation, powersMap);
 
     const paragonByClass: Record<
       string,

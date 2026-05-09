@@ -29,6 +29,8 @@ export function serializeAffix(entry: AffixEntry): Record<string, unknown> {
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.deprecated) obj.deprecated = true;
+  // v15 (D6): attribute reference for damage engine bucket routing
+  if (entry.attribute !== undefined) obj.attribute = entry.attribute;
   return obj;
 }
 
@@ -46,6 +48,9 @@ export function serializeAspect(entry: AspectEntry): Record<string, unknown> {
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.deprecated) obj.deprecated = true;
+  // v15 (D7, D16): optional attribute reference + distinct-multiplier flag
+  if (entry.attribute !== undefined) obj.attribute = entry.attribute;
+  if (entry.isDistinctMultiplier) obj.isDistinctMultiplier = true;
   return obj;
 }
 
@@ -59,6 +64,10 @@ export function serializeUnique(entry: UniqueEntry): Record<string, unknown> {
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.deprecated) obj.deprecated = true;
+  // v15 (D8): intrinsic affix attribute references for unique items
+  if (entry.intrinsicAffixes && entry.intrinsicAffixes.length > 0) {
+    obj.intrinsicAffixes = entry.intrinsicAffixes;
+  }
   return obj;
 }
 
@@ -71,6 +80,11 @@ export function serializeSkill(entry: SkillEntry): Record<string, unknown> {
   };
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
+  // v15 (D5): scaling attributes, tags, resource cost, cooldown
+  if (entry.scalingAttributes !== undefined) obj.scalingAttributes = entry.scalingAttributes;
+  if (entry.tags !== undefined) obj.tags = entry.tags;
+  if (entry.resourceCostPerCast !== undefined) obj.resourceCostPerCast = entry.resourceCostPerCast;
+  if (entry.cooldownSeconds !== undefined) obj.cooldownSeconds = entry.cooldownSeconds;
   return obj;
 }
 

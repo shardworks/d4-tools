@@ -82,6 +82,12 @@ export interface AffixEntry {
   /** Datamine file-name (without `.aff.json` extension) for this affix — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
   deprecated?: boolean;
+  /**
+   * v15: Datamine attribute reference for this affix (first attribute only — multi-attribute
+   * affixes use the first attribute per D6; curation handles edge cases).
+   * Used by the damage engine to route affix contributions to the correct bucket.
+   */
+  attribute?: { eAttribute: string; nParam: number };
 }
 
 export interface AspectEntry {
@@ -99,6 +105,17 @@ export interface AspectEntry {
   /** Datamine file-name (without `.asp.json` extension) for this aspect — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
   deprecated?: boolean;
+  /**
+   * v15: Optional datamine attribute reference. Mechanical aspects (e.g. movement-speed,
+   * utility) may not have an attribute reference — skip-when-unset is legitimate state (D7).
+   */
+  attribute?: { eAttribute: string; nParam: number };
+  /**
+   * v15: True when this aspect is a [×]-tagged distinct multiplicative source in-game.
+   * Set via curation record's `isDistinctMultiplier` field (D16).
+   * Engine multiplies each distinct-multiplicative aspect into its own bucket.
+   */
+  isDistinctMultiplier?: boolean;
 }
 
 export interface UniqueEntry {
@@ -109,6 +126,24 @@ export interface UniqueEntry {
   bnetId?: number;
   bnetFileName?: string;
   deprecated?: boolean;
+  /**
+   * v15: Intrinsic affix attribute references extracted from the datamine (D8).
+   * Each entry carries the attribute reference and the value range [min, max].
+   * Used by the damage engine to compute DPS contributions from unique intrinsic powers.
+   */
+  intrinsicAffixes?: Array<{
+    attribute: { eAttribute: string; nParam: number };
+    valueRange: [number, number];
+  }>;
+}
+
+export interface SkillScalingAttribute {
+  /** Normalized attribute name (e.g. "Attr_Skill_Damage_Percent"). Hungarian prefix removed per D5. */
+  attribute: string;
+  /** Base damage coefficient at rank 1 (normalized from `fScaleValue`). */
+  scaleValue: number;
+  /** Additional coefficient per rank beyond rank 1 (normalized from `nRankScale`). */
+  rankScale: number;
 }
 
 export interface SkillEntry {
@@ -120,6 +155,22 @@ export interface SkillEntry {
   bnetId?: number;
   /** Datamine file-name (without `.pow.json` extension) for this skill — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
+  /**
+   * v15: Scaling attributes extracted from the Power file (D5).
+   * Each entry carries a normalized attribute name, base coefficient, and per-rank coefficient.
+   * The damage engine uses entries whose attribute maps to a damage bucket to classify the
+   * skill as "damaging" (D17) and to compute its base damage contribution.
+   */
+  scalingAttributes?: SkillScalingAttribute[];
+  /**
+   * v15: Skill tags from `arTagsGranted` in the Power file (e.g. ["Fire", "Projectile"]).
+   * Used for tag-conditional damage bucket routing in a future engine pass.
+   */
+  tags?: string[];
+  /** v15: Resource cost per cast (normalized from `fResourceCost`). */
+  resourceCostPerCast?: number;
+  /** v15: Cooldown in seconds (normalized from `fCooldownDuration`). */
+  cooldownSeconds?: number;
 }
 
 export interface ParagonBoardEntry {

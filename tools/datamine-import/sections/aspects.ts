@@ -24,6 +24,11 @@ function toSnakeCase(s: string): string {
 
 // ─── Raw datamine power shape ─────────────────────────────────────────────────
 
+interface RawPowerAttribute {
+  tAttribute: { eAttribute: string; nParam: number };
+  afValue: number[];
+}
+
 interface RawPower {
   __fileName__: string;
   __snoID__: number;
@@ -31,6 +36,8 @@ interface RawPower {
   arItemTypesAllowed: string[];
   arClassesAllowed: string[];
   afMagnitude?: number[];
+  /** v15: first attribute reference for damage engine routing (D7) */
+  ptItemAffixAttributes?: RawPowerAttribute[];
 }
 
 // ─── Transformer ──────────────────────────────────────────────────────────────
@@ -110,6 +117,18 @@ export function transformAspects(
     const aspectSource: "legendary" | "codex" =
       curationRecord?.source ?? "legendary";
 
+    // v15 (D7): optional attribute reference from first ptItemAffixAttributes entry.
+    // Mechanical aspects (utility, movement) may not have one — omit-when-absent is
+    // legitimate state.
+    const firstAttr = power.ptItemAffixAttributes?.[0];
+    const attributeRef = firstAttr
+      ? { eAttribute: firstAttr.tAttribute.eAttribute, nParam: firstAttr.tAttribute.nParam }
+      : undefined;
+
+    // v15 (D16): isDistinctMultiplier set from curation record only — the [×] tag is
+    // visible in-game tooltip, not derivable from datamine.
+    const isDistinctMultiplier = curationRecord?.isDistinctMultiplier ?? false;
+
     const entry: AspectEntry = {
       id: catalogId,
       label,
@@ -121,6 +140,8 @@ export function transformAspects(
       source: aspectSource,
       bnetId: power.__snoID__,
       bnetFileName: fileName,
+      ...(attributeRef !== undefined ? { attribute: attributeRef } : {}),
+      isDistinctMultiplier,
     };
 
     if (curationRecord?.action === "deprecated") {

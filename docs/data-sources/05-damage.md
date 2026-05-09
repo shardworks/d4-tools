@@ -117,6 +117,13 @@ guides rather than published separately.
 
 ---
 
+**v15 implementation note:** The v1 damage engine at `lib/damage/` encodes the Maxroll Position A
+formula as the canonical baseline. Attribute → bucket routing is in `lib/damage/config.json`
+(`attributeToBucket` map). The Position A/B dispute is handled via config override (no engine code
+change needed). See `lib/damage/README.md` and `docs/damage-engine-research-summary.md`.
+
+---
+
 ## 3. Bucket Assignments (Community-Disputed Positions)
 
 The bucket assignment for specific affixes is the primary area of community dispute. The following

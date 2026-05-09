@@ -452,4 +452,91 @@ describe("Case 4: Schema compliance", () => {
     expect(doc).toContain("## Skills by Class");
     expect(doc).toContain("## Paragon by Class");
   });
+
+  // ─── v15: new field shape assertions ──────────────────────────────────────
+
+  it("v15 D6: affix entries carry attribute field with eAttribute and nParam", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const maxLife = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_max_life"
+    );
+    expect(maxLife).toBeTruthy();
+    expect(maxLife.attribute).toBeDefined();
+    expect(maxLife.attribute.eAttribute).toBe("Attr_Max_Life");
+    expect(typeof maxLife.attribute.nParam).toBe("number");
+  });
+
+  it("v15 D6: multi-attribute affix carries first attribute's eAttribute", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const critDmg = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_crit_damage"
+    );
+    expect(critDmg).toBeTruthy();
+    // First attribute is Attr_Crit_Damage_Percent (D6: first-only)
+    expect(critDmg.attribute.eAttribute).toBe("Attr_Crit_Damage_Percent");
+  });
+
+  it("v15 D7: aspect entries carry isDistinctMultiplier field (defaults false)", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "aspects.json"), "utf8")
+    );
+    const disobedience = data.aspects.find(
+      (a: { id: string }) => a.id === "aspect_of_disobedience"
+    );
+    expect(disobedience).toBeTruthy();
+    // No curation isDistinctMultiplier set → false (not emitted when false per serializer)
+    expect(disobedience.isDistinctMultiplier).toBeFalsy();
+  });
+
+  it("v15 D8: unique items carry intrinsicAffixes when ptItemAffixAttributes present", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "uniques.json"), "utf8")
+    );
+    const sword = data.uniques.find(
+      (u: { id: string }) => u.id === "unique_sword_test"
+    );
+    expect(sword).toBeTruthy();
+    expect(Array.isArray(sword.intrinsicAffixes)).toBe(true);
+    expect(sword.intrinsicAffixes).toHaveLength(1);
+    expect(sword.intrinsicAffixes[0].attribute.eAttribute).toBe("Attr_Skill_Damage_Percent");
+    expect(Array.isArray(sword.intrinsicAffixes[0].valueRange)).toBe(true);
+    expect(sword.intrinsicAffixes[0].valueRange).toHaveLength(2);
+  });
+
+  it("v15 D5: Barbarian Bash carries scalingAttributes extracted from Power file", () => {
+    const skillsPath = path.join(catalogRoot, "skills", "Barbarian.json");
+    expect(fs.existsSync(skillsPath)).toBe(true);
+    const data = JSON.parse(fs.readFileSync(skillsPath, "utf8"));
+    const bash = data.skills.find((s: { id: string }) => s.id === "barb_bash");
+    expect(bash).toBeTruthy();
+    expect(Array.isArray(bash.scalingAttributes)).toBe(true);
+    expect(bash.scalingAttributes).toHaveLength(1);
+    // Normalized field names (not fScaleValue / nRankScale)
+    expect(bash.scalingAttributes[0].attribute).toBe("Attr_Skill_Damage_Percent");
+    expect(bash.scalingAttributes[0].scaleValue).toBeCloseTo(0.40);
+    expect(bash.scalingAttributes[0].rankScale).toBeCloseTo(0.04);
+  });
+
+  it("v15 D5: Barbarian Bash carries tags from Power file", () => {
+    const skillsPath = path.join(catalogRoot, "skills", "Barbarian.json");
+    const data = JSON.parse(fs.readFileSync(skillsPath, "utf8"));
+    const bash = data.skills.find((s: { id: string }) => s.id === "barb_bash");
+    expect(bash).toBeTruthy();
+    expect(Array.isArray(bash.tags)).toBe(true);
+    expect(bash.tags).toContain("Physical");
+    expect(bash.tags).toContain("Basic");
+  });
+
+  it("v15 D5: Barbarian Bash carries resourceCostPerCast and cooldownSeconds", () => {
+    const skillsPath = path.join(catalogRoot, "skills", "Barbarian.json");
+    const data = JSON.parse(fs.readFileSync(skillsPath, "utf8"));
+    const bash = data.skills.find((s: { id: string }) => s.id === "barb_bash");
+    expect(bash).toBeTruthy();
+    expect(bash.resourceCostPerCast).toBe(0.0);
+    expect(bash.cooldownSeconds).toBe(0.0);
+  });
 });

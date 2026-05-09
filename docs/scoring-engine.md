@@ -329,6 +329,46 @@ decisions were made and superseded.
 
 ---
 
+## 11. v1 Implementation Status (2026-05-09)
+
+The v1 damage engine is implemented at `lib/damage/`. It computes sustained boss DPS per skill
+and an aggregate (max skill) number. The surface is wired to:
+
+- **Build detail page** (`components/d4/BuildSummaryView.tsx`): aggregate DPS chip in the header
+  (replacing the placeholder "Power score: —") and per-skill DPS breakdown table below the gear grid.
+- **Triage detail pane** (`components/triage/DpsDeltaSection.tsx`): DPS delta when previewing
+  an item — "Equipping this item adds X DPS (Y%)".
+
+### What's implemented
+
+| Spec section | Status |
+|---|---|
+| §5 Damage model — multiplicative buckets | ✅ implemented |
+| §5 Crit EV: 1 + CSC × (0.5 + CSD), CSC ≤ 100% | ✅ implemented |
+| §5 Vulnerable EV: 1 + 0.90 × (0.20 + rolledBonus) | ✅ implemented |
+| §5 Distinct multipliers (`[×]`-tagged aspects) | ✅ implemented |
+| §5 Conditional uptime (cc=0, elite=1, vulnerable=0.90) | ✅ implemented |
+| §5 AS breakpoints — 60fps frame quantization per class/weapon | ✅ implemented |
+| §5 Position A/B — switchable via config override | ✅ implemented |
+| §6 Per-skill DPS + aggregate output | ✅ implemented |
+| §8 Comparison — DPS delta in triage pane | ✅ implemented |
+
+### What's excluded (v1)
+
+- Overpower (D24) — OP = 0
+- Paragon/glyph contributions (D25) — `paragonAllocation` ignored
+- Movement speed threshold (D31) — not modeled
+- Resource economy (D27) — optimistic sustain assumed
+- AoE / multi-target / non-boss content — out of scope
+
+### Config
+
+`lib/damage/config.json` is the upstream theorycraft baseline. Override values without touching
+engine code by creating `data/damage-config.local.json` (deep-merged at call time). See
+`lib/damage/README.md` for details.
+
+---
+
 ## 10. Open questions
 
 Carried forward as known unknowns. None block v1 design; all need

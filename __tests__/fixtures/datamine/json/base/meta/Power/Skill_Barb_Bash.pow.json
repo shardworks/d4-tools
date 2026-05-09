@@ -3,5 +3,16 @@
   "__snoID__": 200765,
   "ePowerType": "POWER_TYPE_ACTIVE",
   "arItemTypesAllowed": [],
-  "arClassesAllowed": ["CLASS_BARBARIAN"]
+  "arClassesAllowed": ["CLASS_BARBARIAN"],
+  "arScalingAttributes": [
+    {
+      "eAttribute": "Attr_Skill_Damage_Percent",
+      "fScaleValue": 0.40,
+      "nRankScale": 0.04
+    }
+  ],
+  "arTagsGranted": ["Physical", "Basic"],
+  "fResourceCost": 0.0,
+  "fCooldownDuration": 0.0,
+  "nMaxRank": 5
 }

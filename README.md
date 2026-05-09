@@ -33,6 +33,8 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 
 **Persistence:** File-based via Next.js Route Handlers (`app/api/characters/route.ts`). The `lib/persistence/` module reads/writes JSON files from `DATA_DIR`. No database dependency for v1.
 
+**Damage engine:** `lib/damage/` provides a pure-functional sustained boss DPS calculator encoding D4's multiplicative-bucket damage formula. Called at render-time (no I/O); results are wired to the build detail page (DPS chip in the header + per-skill breakdown table) and triage pane (DPS delta when previewing a new item). See `lib/damage/README.md`.
+
 **Character import / Triage:** Screenshots arrive via the upload pipeline: the gaming machine runs a foreground PowerShell watcher (`bin/screenshot-watcher.ps1`) that watches the D4 screenshot folder and POSTs new files to `POST /api/triage/upload`. The server saves each image under `SCREENSHOT_DIR`, calls the Anthropic Vision API synchronously, caches the result, and returns the parse outcome. The `/triage` gallery displays all uploaded screenshots with their parse results and a fallback Parse button. Manual entry via `/characters/new` remains the primary character-setup path; triage is used for loot evaluation. See [`docs/triage-deployment.md`](docs/triage-deployment.md) for cross-host topology and networking options.
 
 **Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new`. Triage loot screenshots from `/triage`.
@@ -44,6 +46,8 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 | `docs/vision.md` | Product vision, target users, non-goals |
 | `docs/visual-spec.md` | Design system, color tokens, typography, layout |
 | `docs/scoring-engine.md` | Build scoring algorithm spec (provisional) |
+| `docs/damage-engine-research-summary.md` | Damage engine research, decisions, and open items |
+| `lib/damage/README.md` | Damage engine API, formula, config, and module layout |
 | `docs/data-sources/` | Catalog of D4 data sources available for integration |
 | `tools/datamine-import/README.md` | Datamine import tool — patch update workflow and curation guide |
 

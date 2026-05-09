@@ -2,9 +2,11 @@
  * Skills section transformer.
  *
  * Transforms raw SkillKit data → SkillEntry[] per class.
+ * v15: Dereferences tPower.__fileName__ against the all-powers map to extract
+ * scaling attributes, tags, resource cost, and cooldown (D5).
  */
 
-import type { SkillEntry } from "../../../lib/catalog/index";
+import type { SkillEntry, SkillScalingAttribute } from "../../../lib/catalog/index";
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import type { TransformerSummary } from "./types";
@@ -24,16 +26,43 @@ interface RawSkillKit {
   arActiveSkillEntries: RawSkillEntry[];
 }
 
+interface RawScalingAttribute {
+  /** Attribute name (e.g. "Attr_Skill_Damage_Percent") */
+  eAttribute: string;
+  /** Base damage coefficient (Hungarian: fScaleValue → normalized: scaleValue) */
+  fScaleValue: number;
+  /** Per-rank coefficient (Hungarian: nRankScale → normalized: rankScale) */
+  nRankScale: number;
+}
+
+interface RawPower {
+  __fileName__: string;
+  __snoID__: number;
+  ePowerType?: string;
+  arScalingAttributes?: RawScalingAttribute[];
+  arTagsGranted?: string[];
+  /** Resource cost per cast (Hungarian: fResourceCost → normalized: resourceCostPerCast) */
+  fResourceCost?: number;
+  /** Cooldown in seconds (Hungarian: fCooldownDuration → normalized: cooldownSeconds) */
+  fCooldownDuration?: number;
+  nMaxRank?: number;
+}
+
 // ─── Transformer ──────────────────────────────────────────────────────────────
 
 /**
  * Transforms skills for a single class from its SkillKit entry.
  * Returns a TransformerSummary<SkillEntry> for the given class.
+ *
+ * v15: Accepts `powersMap` to dereference tPower.__fileName__ → Power JSON
+ * and extract scaling attributes, tags, resource cost, and cooldown (D5).
+ * Hungarian-prefixed datamine names are normalized to clean identifiers on extraction.
  */
 export function transformSkillsForClass(
   skillKit: unknown,
   stringTable: Map<string, string>,
-  curation: CurationFile
+  curation: CurationFile,
+  powersMap?: Map<string, unknown>
 ): TransformerSummary<SkillEntry> {
   const entries: SkillEntry[] = [];
   const needsCuration: Array<{ bnetFileName: string; reason: string }> = [];
@@ -92,6 +121,37 @@ export function transformSkillsForClass(
     const catalogId = curationRecord?.catalogId ?? `skill_${fileName.toLowerCase()}`;
     const label = curationRecord?.label ?? szLabel;
 
+    // v15 (D5): dereference Power file for scaling attributes, tags, resource cost, cooldown.
+    // Hungarian-prefixed datamine field names are normalized on extraction:
+    //   fScaleValue → scaleValue, nRankScale → rankScale, fResourceCost → resourceCostPerCast,
+    //   fCooldownDuration → cooldownSeconds
+    let scalingAttributes: SkillScalingAttribute[] | undefined;
+    let tags: string[] | undefined;
+    let resourceCostPerCast: number | undefined;
+    let cooldownSeconds: number | undefined;
+
+    if (powersMap) {
+      const rawPower = powersMap.get(fileName) as RawPower | undefined;
+      if (rawPower) {
+        if (rawPower.arScalingAttributes && rawPower.arScalingAttributes.length > 0) {
+          scalingAttributes = rawPower.arScalingAttributes.map((sa) => ({
+            attribute: sa.eAttribute,
+            scaleValue: sa.fScaleValue,
+            rankScale: sa.nRankScale,
+          }));
+        }
+        if (rawPower.arTagsGranted && rawPower.arTagsGranted.length > 0) {
+          tags = rawPower.arTagsGranted;
+        }
+        if (rawPower.fResourceCost !== undefined) {
+          resourceCostPerCast = rawPower.fResourceCost;
+        }
+        if (rawPower.fCooldownDuration !== undefined) {
+          cooldownSeconds = rawPower.fCooldownDuration;
+        }
+      }
+    }
+
     const entry: SkillEntry = {
       id: catalogId,
       label,
@@ -99,6 +159,10 @@ export function transformSkillsForClass(
       maxRank,
       bnetId: power.__snoID__,
       bnetFileName: fileName,
+      ...(scalingAttributes !== undefined ? { scalingAttributes } : {}),
+      ...(tags !== undefined ? { tags } : {}),
+      ...(resourceCostPerCast !== undefined ? { resourceCostPerCast } : {}),
+      ...(cooldownSeconds !== undefined ? { cooldownSeconds } : {}),
     };
 
     entries.push(entry);
@@ -110,16 +174,19 @@ export function transformSkillsForClass(
 /**
  * Transforms skills for all classes from their SkillKit entries.
  * Returns a map of className → TransformerSummary<SkillEntry>.
+ *
+ * v15: Accepts optional `powersMap` (indexed by __fileName__) for D5 Power-file dereferencing.
  */
 export function transformAllSkills(
   skillKits: Map<string, unknown>,
   stringTable: Map<string, string>,
-  curation: CurationFile
+  curation: CurationFile,
+  powersMap?: Map<string, unknown>
 ): Record<string, TransformerSummary<SkillEntry>> {
   const result: Record<string, TransformerSummary<SkillEntry>> = {};
 
   for (const [className, kit] of skillKits) {
-    result[className] = transformSkillsForClass(kit, stringTable, curation);
+    result[className] = transformSkillsForClass(kit, stringTable, curation, powersMap);
   }
 
   return result;

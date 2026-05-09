@@ -25,6 +25,12 @@ export interface CurationRecord {
   category?: string;
   /** For skills: maxRank override */
   maxRank?: number;
+  /**
+   * v15 — For aspects: true when this aspect is a [×]-tagged distinct multiplicative
+   * source in-game (D16). Set via curation; not derivable from the datamine alone
+   * since the [×] tag appears only in the in-game tooltip.
+   */
+  isDistinctMultiplier?: boolean;
 }
 
 export interface CurationFile {

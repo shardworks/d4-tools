@@ -1,0 +1,633 @@
+{
+  "_comment": "Theorycraft config for the D4 sustained boss-DPS engine (v15). Every entry cites its source, season, and access date. Override individual entries via data/damage-config.local.json (deep-merged at engine-call time per D4).",
+
+  "_sources": {
+    "maxroll_damage_s9": "Maxroll In-Depth Damage Guide, Season 9 (June 29, 2025). Not yet updated for Season 13. URL: https://maxroll.gg/d4/resources/damage-explained. Accessed: 2026-05-08.",
+    "maxroll_as_s11": "Maxroll Attack Speed Mechanics, Season 11 (January 7, 2026). Breakpoint tables do not yet include Paladin/Warlock. URL: https://maxroll.gg/d4/resources/attack-speed-explained. Accessed: 2026-05-08.",
+    "rob2628_s13": "Rob2628 Season 13 Cheat Sheet on D4Builds.gg. Accessed: 2026-05-08.",
+    "mekuna_s13": "Mekuna Season 13 guides on Mobalytics (Paladin, Warlock, Sorcerer). Accessed: 2026-05-08.",
+    "community_general": "Community general knowledge, widely cited, multiple sources.",
+    "datamine_d4data": "DiabloTools/d4data, patch 3.0.1.71747, accessed 2026-05-08."
+  },
+
+  "attributeToBucket": {
+    "_comment": "Maps eAttribute names (from datamine) to engine buckets. 'conditional' field drives uptime weighting under boss-DPS framing. Position A (D9, Maxroll S9): Core Skill Damage and Skill-Specific Damage share the same additive bucket.",
+
+    "Attr_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "General skill damage bonus — applies to all skills. Also used as skill scaling coefficient in Power files (base damage coeff per D5)."
+    },
+    "Attr_Core_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Position A (D9): Core Skill Damage in same additive bucket as other skill damage. Position B alternative: set bucket to 'skill_specific_mult' (distinct multiplicative) via local override."
+    },
+    "Attr_Basic_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Basic Skill damage bonus — additive bucket (Position A)."
+    },
+    "Attr_Defensive_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Defensive Skill damage bonus — additive bucket."
+    },
+    "Attr_Ultimate_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Ultimate Skill damage bonus — additive bucket."
+    },
+    "Attr_Brawling_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Brawling Skill damage (Barbarian) — additive bucket."
+    },
+    "Attr_Weapon_Mastery_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Weapon Mastery Skill damage (Barbarian) — additive bucket."
+    },
+    "Attr_Companion_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Companion Skill damage (Druid) — additive bucket."
+    },
+    "Attr_Wererform_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Wereform Skill damage (Druid) — additive bucket."
+    },
+    "Attr_Macabre_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Macabre Skill damage (Necromancer) — additive bucket."
+    },
+    "Attr_Curse_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Curse Skill damage (Necromancer) — additive bucket."
+    },
+    "Attr_Subterfuge_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Subterfuge Skill damage (Rogue) — additive bucket."
+    },
+    "Attr_Imbuement_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Imbuement Skill damage (Rogue) — additive bucket."
+    },
+    "Attr_Conjuration_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Conjuration Skill damage (Sorcerer) — additive bucket."
+    },
+    "Attr_Pyromancy_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Pyromancy (Sorcerer Fire) skill damage — additive bucket."
+    },
+    "Attr_Shock_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Shock (Sorcerer Lightning) skill damage — additive bucket."
+    },
+    "Attr_Frost_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Frost (Sorcerer Cold) skill damage — additive bucket."
+    },
+    "Attr_Aura_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Aura Skill damage (Paladin) — additive bucket."
+    },
+    "Attr_Valor_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Valor Skill damage (Paladin) — additive bucket."
+    },
+    "Attr_Justice_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Justice Skill damage (Paladin) — additive bucket."
+    },
+    "Attr_Archfiend_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Archfiend Skill damage (Warlock) — additive bucket."
+    },
+    "Attr_Sigil_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Sigil Skill damage (Warlock) — additive bucket."
+    },
+    "Attr_Eagle_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Eagle Spirit damage (Spiritborn) — additive bucket."
+    },
+    "Attr_Jaguar_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Jaguar Spirit damage (Spiritborn) — additive bucket."
+    },
+    "Attr_Gorilla_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Gorilla Spirit damage (Spiritborn) — additive bucket."
+    },
+    "Attr_Centipede_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Centipede Spirit damage (Spiritborn) — additive bucket."
+    },
+
+    "Attr_Close_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "distance-close",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Close enemies. Applied if class default distance is 'close' (D12)."
+    },
+    "Attr_Distant_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "distance-distant",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Distant enemies. Applied if class default distance is 'distant' (D12)."
+    },
+
+    "Attr_Damage_Percent_Bonus_With_Crowd_Control": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to CC'd enemies. Zeroed under boss-DPS framing (boss immune to CC, D15)."
+    },
+    "Attr_Vs_Slowed_Chilled_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Slowed/Chilled enemies. Zeroed under boss-DPS framing."
+    },
+    "Attr_Vs_Stunned_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Stunned enemies. Zeroed under boss-DPS framing."
+    },
+    "Attr_Vs_Frozen_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Frozen enemies. Zeroed under boss-DPS framing."
+    },
+    "Attr_Vs_Burning_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Burning enemies. While bosses can burn, treated as CC-conditional and zeroed for safe conservative estimate."
+    },
+    "Attr_Vs_Poisoned_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Poisoned enemies. Zeroed under boss-DPS framing."
+    },
+
+    "Attr_Elite_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "elite",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Elites — full uptime vs boss (boss is an elite). conditional:elite maps to uptime 1.0."
+    },
+    "Attr_Damage_Percent_Bonus_To_Elites": {
+      "bucket": "additive",
+      "conditional": "elite",
+      "source": "maxroll_damage_s9",
+      "notes": "Damage to Elites — full uptime vs boss."
+    },
+
+    "Attr_Vuln_Damage_Percent": {
+      "bucket": "vulnerable",
+      "conditional": "vulnerable",
+      "source": "maxroll_damage_s9",
+      "notes": "Vulnerable Damage bonus. Baseline ×1.20 (Season 9, D13). Uptime 0.90 (D10). Verify for Season 13."
+    },
+    "Attr_Vulnerable_Damage_Percent": {
+      "bucket": "vulnerable",
+      "conditional": "vulnerable",
+      "source": "maxroll_damage_s9",
+      "notes": "Vulnerable Damage bonus (alt attribute name). Same treatment as Attr_Vuln_Damage_Percent."
+    },
+
+    "Attr_Crit_Strike_Chance_Percent": {
+      "bucket": "crit_chance",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Critical Strike Chance. Hard cap 100%. Used in EV formula: critMult = 1 + CSC × CSD (D11)."
+    },
+    "Attr_Crit_Chance_Percent": {
+      "bucket": "crit_chance",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Critical Strike Chance (alt attribute name). Same treatment as Attr_Crit_Strike_Chance_Percent."
+    },
+    "Attr_Crit_Damage_Percent": {
+      "bucket": "crit_damage",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Critical Strike Damage bonus. Base 50% CSD (constants.csBaseline). Used in EV formula."
+    },
+    "Attr_Crit_Strike_Damage_Percent": {
+      "bucket": "crit_damage",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Critical Strike Damage bonus (alt attribute name). Same treatment as Attr_Crit_Damage_Percent."
+    },
+
+    "Attr_Attacks_Per_Second_Percent_Bonus": {
+      "bucket": "attack_speed",
+      "conditional": "unconditional",
+      "source": "maxroll_as_s11",
+      "notes": "Attack Speed bonus (additive with other AS affixes before breakpoint lookup)."
+    },
+    "Attr_Attacks_Per_Second_Item_Percent": {
+      "bucket": "attack_speed",
+      "conditional": "unconditional",
+      "source": "maxroll_as_s11",
+      "notes": "Attack Speed bonus from item (treated same as Attr_Attacks_Per_Second_Percent_Bonus)."
+    },
+
+    "Attr_Cooldown_Reduction_Percent": {
+      "bucket": "cdr",
+      "conditional": "unconditional",
+      "source": "maxroll_damage_s9",
+      "notes": "Cooldown Reduction. Hyperbolic formula: Effective CDR = CDR/(CDR+1.0) (D14, Position A). Reduces cooldown for cooldown-gated skills."
+    },
+
+    "Attr_Strength_Item": {
+      "bucket": "primary_stat",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Strength stat from items. Primary stat for Barbarian and Paladin. +0.1% damage per point (D33)."
+    },
+    "Attr_Intelligence_Item": {
+      "bucket": "primary_stat",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Intelligence stat from items. Primary stat for Sorcerer, Necromancer, and Warlock."
+    },
+    "Attr_Willpower_Item": {
+      "bucket": "primary_stat",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Willpower stat from items. Primary stat for Druid and Spiritborn."
+    },
+    "Attr_Dexterity_Item": {
+      "bucket": "primary_stat",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Dexterity stat from items. Primary stat for Rogue."
+    },
+    "Attr_All_Stats": {
+      "bucket": "primary_stat",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "All Stats affix — contributes to the class's primary stat. Engine adds full value to primary stat pool."
+    },
+
+    "Attr_Max_Life": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Life — no DPS contribution. v1 does not model survivability."
+    },
+    "Attr_Life_Percent_Bonus": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Life % bonus — no DPS contribution."
+    },
+    "Attr_All_Resistances": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "All Resistances — no DPS contribution."
+    },
+    "Attr_Armor_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Armor — no DPS contribution."
+    },
+    "Attr_Block_Chance_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Block Chance — no DPS contribution."
+    },
+    "Attr_Lucky_Hit_Chance_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Lucky Hit Chance — no DPS contribution in v1 (proc chains excluded per brief)."
+    },
+    "Attr_Dodge_Rating": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Dodge Rating — no DPS contribution."
+    },
+    "Attr_Movement_Speed_Bonus_Pct": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Movement Speed — no DPS contribution (D31, MS excluded from v1 engine)."
+    },
+    "Attr_Resource_Cost_Reduction_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Resource Cost Reduction — no direct DPS contribution in v1."
+    },
+    "Attr_Life_On_Kill": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Life on Kill — no DPS contribution."
+    },
+    "Attr_Life_On_Hit": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Life on Hit — no DPS contribution."
+    },
+    "Attr_Thorns": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Thorns damage — not counted in sustained boss DPS (requires enemies to hit you)."
+    },
+    "Attr_Overpower_Damage_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Overpower Damage — excluded from v1 engine (D24). OP requires Life+Fortify state not on schema."
+    }
+  },
+
+  "buckets": {
+    "_comment": "Defines the type and description for each bucket referenced in attributeToBucket.",
+    "additive": {
+      "type": "additive",
+      "description": "Additive damage bucket — all contributing values sum. Applied as (1 + sum)."
+    },
+    "crit_chance": {
+      "type": "stat",
+      "description": "Critical Strike Chance — summed across all items, hard-capped at 100%. Used as EV weight in critMult = 1 + CSC × CSD."
+    },
+    "crit_damage": {
+      "type": "stat",
+      "description": "Critical Strike Damage — summed across all items, added to csBaseline. Used in EV formula."
+    },
+    "attack_speed": {
+      "type": "stat",
+      "description": "Attack Speed — all additive AS affixes sum before breakpoint lookup (except Paladin/Warlock which use linear AS per D34)."
+    },
+    "vulnerable": {
+      "type": "conditional_mult",
+      "description": "Vulnerable damage — separate multiplicative bucket applied at vulnerableBaseline × uptime."
+    },
+    "skill_specific_mult": {
+      "type": "distinct_mult",
+      "description": "Position B only: Skill-Specific damage as a distinct multiplicative bucket. Use via local override to flip Attr_Core_Skill_Damage_Percent from additive to this bucket."
+    },
+    "cdr": {
+      "type": "stat",
+      "description": "Cooldown Reduction — hyperbolic formula: Effective CDR = CDR/(CDR+1.0). Reduces cooldown-gated skill cycle time."
+    },
+    "primary_stat": {
+      "type": "stat",
+      "description": "Primary stat (Strength/Intelligence/Willpower/Dexterity). Each point adds primaryStatScalar to damage. Only the class's primary stat is counted."
+    },
+    "non_damaging": {
+      "type": "ignored",
+      "description": "Non-damaging stat — no DPS contribution in the engine."
+    }
+  },
+
+  "constants": {
+    "_comment": "Formula constants. All values verified against cited sources; patch-staleness flagged where known.",
+    "csBaseline": 0.50,
+    "_csBaseline_notes": "Base Critical Strike Damage: 50% bonus when critting. Source: maxroll_damage_s9. Widely verified; believed stable across seasons.",
+    "vulnerableBaseline": 0.20,
+    "_vulnerableBaseline_notes": "Vulnerable damage multiplier bonus: +20% (total ×1.20). Source: maxroll_damage_s9 (Season 9). PATCH-STALE WARNING: Season 13 changes unverified. Override via data/damage-config.local.json when confirmed. Decision D13.",
+    "critBaseChance": 0.05,
+    "_critBaseChance_notes": "Base Critical Strike Chance before any affixes: 5%. Source: community_general. Stable across seasons.",
+    "enemyDefenseMultiplier": 1.0,
+    "_enemyDefenseMultiplier_notes": "Enemy defense/armor/resistance reduction factor (placeholder 1.0 = no reduction for v1). TODO: populate with boss-level DR formula when datamine source confirmed. Source: not yet implemented."
+  },
+
+  "breakpoints": {
+    "_comment": "Attack speed breakpoint tables per class and weapon type. Source: maxroll_as_s11 (Season 11). Tables are approximate and may need updating for Season 13. Paladin and Warlock are OMITTED per D34 — those classes use linear AS without frame quantization. Each tier: { minMultiplier, framesPerAttack } where minMultiplier is the minimum (1 + total AS%) to reach this tier. 60 fps base rate. Effective APS = 60 / framesPerAttack.",
+    "_paladin_warlock_note": "Paladin and Warlock breakpoint tables intentionally omitted (D34). Their frame-timing mechanics are unverified in Season 13. The engine falls back to linear AS for these classes: effectiveAps = baseAps × asMult.",
+    "Barbarian": {
+      "_note": "Barbarian has 4 weapon slots. Engine uses the highest-itemPower weapon. Breakpoints approximate from maxroll_as_s11.",
+      "1h": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 15 },
+        { "minMultiplier": 1.053, "framesPerAttack": 14 },
+        { "minMultiplier": 1.154, "framesPerAttack": 13 },
+        { "minMultiplier": 1.250, "framesPerAttack": 12 },
+        { "minMultiplier": 1.364, "framesPerAttack": 11 },
+        { "minMultiplier": 1.500, "framesPerAttack": 10 },
+        { "minMultiplier": 1.667, "framesPerAttack":  9 },
+        { "minMultiplier": 1.875, "framesPerAttack":  8 }
+      ],
+      "2h": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 20 },
+        { "minMultiplier": 1.053, "framesPerAttack": 19 },
+        { "minMultiplier": 1.111, "framesPerAttack": 18 },
+        { "minMultiplier": 1.176, "framesPerAttack": 17 },
+        { "minMultiplier": 1.250, "framesPerAttack": 16 },
+        { "minMultiplier": 1.333, "framesPerAttack": 15 },
+        { "minMultiplier": 1.429, "framesPerAttack": 14 },
+        { "minMultiplier": 1.538, "framesPerAttack": 13 }
+      ]
+    },
+    "Druid": {
+      "_note": "Druid uses staff or 1h+offhand. Breakpoints approximate from maxroll_as_s11.",
+      "default": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 18 },
+        { "minMultiplier": 1.059, "framesPerAttack": 17 },
+        { "minMultiplier": 1.125, "framesPerAttack": 16 },
+        { "minMultiplier": 1.200, "framesPerAttack": 15 },
+        { "minMultiplier": 1.286, "framesPerAttack": 14 },
+        { "minMultiplier": 1.385, "framesPerAttack": 13 },
+        { "minMultiplier": 1.500, "framesPerAttack": 12 },
+        { "minMultiplier": 1.636, "framesPerAttack": 11 }
+      ]
+    },
+    "Necromancer": {
+      "_note": "Necromancer uses scythes/swords/wands. Breakpoints approximate from maxroll_as_s11.",
+      "default": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 16 },
+        { "minMultiplier": 1.067, "framesPerAttack": 15 },
+        { "minMultiplier": 1.143, "framesPerAttack": 14 },
+        { "minMultiplier": 1.231, "framesPerAttack": 13 },
+        { "minMultiplier": 1.333, "framesPerAttack": 12 },
+        { "minMultiplier": 1.455, "framesPerAttack": 11 },
+        { "minMultiplier": 1.600, "framesPerAttack": 10 },
+        { "minMultiplier": 1.778, "framesPerAttack":  9 }
+      ]
+    },
+    "Rogue": {
+      "_note": "Rogue uses daggers/bows/crossbows. Breakpoints approximate from maxroll_as_s11.",
+      "default": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 14 },
+        { "minMultiplier": 1.077, "framesPerAttack": 13 },
+        { "minMultiplier": 1.167, "framesPerAttack": 12 },
+        { "minMultiplier": 1.273, "framesPerAttack": 11 },
+        { "minMultiplier": 1.400, "framesPerAttack": 10 },
+        { "minMultiplier": 1.556, "framesPerAttack":  9 },
+        { "minMultiplier": 1.750, "framesPerAttack":  8 },
+        { "minMultiplier": 2.000, "framesPerAttack":  7 }
+      ]
+    },
+    "Sorcerer": {
+      "_note": "Sorcerer uses staves/wands. Breakpoints approximate from maxroll_as_s11.",
+      "default": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 17 },
+        { "minMultiplier": 1.063, "framesPerAttack": 16 },
+        { "minMultiplier": 1.133, "framesPerAttack": 15 },
+        { "minMultiplier": 1.214, "framesPerAttack": 14 },
+        { "minMultiplier": 1.308, "framesPerAttack": 13 },
+        { "minMultiplier": 1.417, "framesPerAttack": 12 },
+        { "minMultiplier": 1.545, "framesPerAttack": 11 },
+        { "minMultiplier": 1.700, "framesPerAttack": 10 }
+      ]
+    },
+    "Spiritborn": {
+      "_note": "Spiritborn uses polearms/staves. Breakpoints approximate from maxroll_as_s11.",
+      "default": [
+        { "minMultiplier": 0.0,   "framesPerAttack": 18 },
+        { "minMultiplier": 1.059, "framesPerAttack": 17 },
+        { "minMultiplier": 1.125, "framesPerAttack": 16 },
+        { "minMultiplier": 1.200, "framesPerAttack": 15 },
+        { "minMultiplier": 1.286, "framesPerAttack": 14 },
+        { "minMultiplier": 1.385, "framesPerAttack": 13 },
+        { "minMultiplier": 1.500, "framesPerAttack": 12 },
+        { "minMultiplier": 1.636, "framesPerAttack": 11 }
+      ]
+    }
+  },
+
+  "drCoefficients": {
+    "_comment": "Diminishing returns coefficients for non-linear stats.",
+    "cdr": {
+      "formula": "hyperbolic",
+      "denominator": 1.0,
+      "source": "maxroll_damage_s9",
+      "notes": "CDR formula (Position A, D14): Effective CDR = CDR_stat / (CDR_stat + 1.0). E.g. 50% CDR stat → 33.3% effective reduction; 100% → 50%. Position B (some sources): different parameters post-VoH. Verify for Season 13."
+    }
+  },
+
+  "uptimes": {
+    "_comment": "Default uptime weights per conditional type under boss-DPS framing.",
+    "vulnerable": 0.90,
+    "_vulnerable_notes": "90% vulnerable uptime — middle of community 0.80–1.00 range (D10). Override to 1.0 for max-case or 0.0 to disable.",
+    "elite": 1.0,
+    "_elite_notes": "100% elite-damage uptime vs boss (boss is an elite). Elite-conditional affixes apply fully.",
+    "cc": 0.0,
+    "_cc_notes": "0% CC-conditional uptime vs boss. Bosses are immune to CC in D4 (D15). CC-conditional affixes contribute zero DPS.",
+    "distance-close": 1.0,
+    "_distance-close_notes": "Placeholder — actual application determined by distanceDefault per class. Engine zeroes this if class is 'distant'.",
+    "distance-distant": 1.0,
+    "_distance-distant_notes": "Placeholder — actual application determined by distanceDefault per class. Engine zeroes this if class is 'close'."
+  },
+
+  "distanceDefault": {
+    "_comment": "Per-class distance-conditional default for boss-DPS framing (D12). 'close' = always in melee range; 'distant' = always at range. Override per character via local config.",
+    "Barbarian": "close",
+    "Druid": "close",
+    "Necromancer": "distant",
+    "Rogue": "distant",
+    "Sorcerer": "distant",
+    "Spiritborn": "close",
+    "Paladin": "close",
+    "Warlock": "distant"
+  },
+
+  "primaryStatScalar": 0.001,
+  "_primaryStatScalar_notes": "Damage bonus per primary stat point: +0.1% per point. Source: docs/data-sources/02-stats.md. Only the class's primary stat is counted (Barbarian/Paladin=Strength, Sorcerer/Necromancer/Warlock=Intelligence, Druid/Spiritborn=Willpower, Rogue=Dexterity). Base stat (from level) is not included in v1 — only item-granted stat is summed (D33).",
+
+  "classPrimaryStats": {
+    "_comment": "Maps class name to its primary stat attribute name (D33). Used by engine to filter primary stat contributions.",
+    "Barbarian": "Attr_Strength_Item",
+    "Paladin": "Attr_Strength_Item",
+    "Sorcerer": "Attr_Intelligence_Item",
+    "Necromancer": "Attr_Intelligence_Item",
+    "Warlock": "Attr_Intelligence_Item",
+    "Druid": "Attr_Willpower_Item",
+    "Spiritborn": "Attr_Willpower_Item",
+    "Rogue": "Attr_Dexterity_Item"
+  },
+
+  "itemPowerFormula": {
+    "_comment": "Formula to derive weapon damage from Item.itemPower (D26). v1 uses a linear model. weaponDamage = baseAtIlvl0 + slopePerIlvl * itemPower. At itemPower 925 (max ancestral): ~1488 damage. This is a simplified placeholder — v2 will use proper weapon-damage modeling from equipped weapon stats.",
+    "type": "linear",
+    "slopePerIlvl": 1.5,
+    "baseAtIlvl0": 100,
+    "source": "community_general",
+    "notes": "Approximate linear model. Not validated against actual Season 13 weapon damage tables. Override slopePerIlvl and baseAtIlvl0 via local config if better values are known."
+  },
+
+  "weaponSlotsByClass": {
+    "_comment": "Maps class name to the slot IDs to check for weapon items (in priority order). Engine uses the first equipped slot with an item.",
+    "Barbarian": ["barb_2h_bludgeoning", "barb_2h_slashing", "barb_1h_main", "barb_1h_off"],
+    "Druid": ["weapon"],
+    "Necromancer": ["weapon"],
+    "Rogue": ["weapon"],
+    "Sorcerer": ["weapon"],
+    "Spiritborn": ["weapon"],
+    "Paladin": ["weapon"],
+    "Warlock": ["weapon"]
+  },
+
+  "weaponTypeBySlot": {
+    "_comment": "Maps slot ID to 1h or 2h category for breakpoint table lookup. Barbarian slots are explicit; non-Barbarian 'weapon' defaults to '1h' for breakpoint purposes.",
+    "weapon": "1h",
+    "barb_1h_main": "1h",
+    "barb_1h_off": "1h",
+    "barb_2h_bludgeoning": "2h",
+    "barb_2h_slashing": "2h"
+  },
+
+  "baseWeaponAps": 1.0,
+  "_baseWeaponAps_notes": "Base weapon attacks-per-second before any AS% affixes. v1 uses 1.0 (normalized). Breakpoints are relative: tiered from 1.0 baseline. v2 will use weapon-type-specific base APS from datamine."
+}
