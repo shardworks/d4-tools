@@ -1,0 +1,22 @@
+{
+  "affixes": {
+    "Affix_Str_AddLifePercent": { "action": "include", "catalogId": "affix_max_life_pct", "label": "Maximum Life %", "reason": "Hand-seed entry: affix_max_life_pct" },
+    "Affix_Str_MaxLife": { "action": "include", "catalogId": "affix_max_life", "label": "Maximum Life", "reason": "Hand-seed entry: affix_max_life" },
+    "Affix_Multi_CritDamage": { "action": "include", "catalogId": "affix_crit_damage", "label": "Critical Strike Damage", "reason": "Multi-attribute: using first attribute only per D18" }
+  },
+  "aspects": {
+    "Aspect_Disobedience": { "action": "include", "catalogId": "aspect_of_disobedience", "label": "Aspect of Disobedience", "reason": "Codex aspect, universal" }
+  },
+  "skills": {
+    "Barbarian_Bash": { "action": "include", "catalogId": "barb_bash", "label": "Bash", "reason": "Barbarian basic skill", "category": "basic", "maxRank": 5 }
+  },
+  "paragonBoards": {
+    "Paragon_Barb_00": { "action": "include", "catalogId": "barb_starter", "label": "Starter Board", "reason": "Barbarian starter paragon board" }
+  },
+  "paragonGlyphs": {
+    "Rare_011_Willpower_Side": { "action": "include", "catalogId": "glyph_imbiber", "label": "Imbiber", "reason": "Universal glyph" }
+  },
+  "uniques": {
+    "Unique_Sword_Test": { "action": "include", "catalogId": "unique_sword_test", "label": "Test Sword", "reason": "Test unique item" }
+  }
+}

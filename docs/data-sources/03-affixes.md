@@ -1,7 +1,7 @@
 # 03 — Affix Data
 
 ```
-Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch number unconfirmed — see Open Items / accessed 2026-05-07
+Verified against: Lord of Hatred expansion / Season 13 (Season of Reckoning) / patch 3.0.1.71747 / accessed 2026-05-07
 ```
 
 This document covers sources for item affix data: definitions, ID catalogs, slot pools, value
@@ -49,7 +49,7 @@ The authoritative source for affix IDs and definitions.
 **CASC path (observed):**
 
 ```
-d4data/extracted/base/meta/Affix/
+d4data/json/base/meta/Affix/
 ```
 
 **Representative example — affix definition (observed shape, not canonical):**
@@ -166,7 +166,7 @@ Tempered affixes are distinct from the regular affix pool.
 The `DiabloTools/d4data` repo should contain Temper Manual definitions under:
 
 ```
-d4data/extracted/base/meta/TemperManual/
+d4data/json/base/meta/TemperManual/
 ```
 
 **Observed shape (community-referenced):**

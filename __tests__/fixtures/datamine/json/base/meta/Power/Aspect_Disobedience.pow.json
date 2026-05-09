@@ -1,0 +1,8 @@
+{
+  "__fileName__": "Aspect_Disobedience",
+  "__snoID__": 2000001,
+  "ePowerType": "POWER_TYPE_LEGENDARY",
+  "arItemTypesAllowed": ["HELM", "CHEST", "GLOVES", "PANTS", "BOOTS", "AMULET", "WEAPON"],
+  "arClassesAllowed": [],
+  "afMagnitude": [0.25, 0.50]
+}

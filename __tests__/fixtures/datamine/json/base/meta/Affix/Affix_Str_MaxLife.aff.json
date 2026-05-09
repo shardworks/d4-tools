@@ -1,0 +1,14 @@
+{
+  "__fileName__": "Affix_Str_MaxLife",
+  "__snoID__": 1234568,
+  "eAffixType": "AFFIX_TYPE_REGULAR",
+  "arItemTypesAllowed": [],
+  "arClassesAllowed": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": { "eAttribute": "Attr_Max_Life", "nParam": 0 },
+      "afValue": [700, 2800]
+    }
+  ]
+}

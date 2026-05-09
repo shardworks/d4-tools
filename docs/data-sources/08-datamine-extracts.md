@@ -72,7 +72,7 @@ The repo provides JSON exports organized into directories matching internal game
 
 ```
 d4data/
-  extracted/
+  json/
     base/
       meta/
         Item/           ← item definitions (.itm.json files)

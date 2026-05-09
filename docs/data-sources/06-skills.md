@@ -40,7 +40,7 @@ The primary source for skill data. All skills are stored as Power definitions.
 **CASC path:**
 
 ```
-d4data/extracted/base/meta/Power/
+d4data/json/base/meta/Power/
 ```
 
 **Representative example — skill definition (observed shape, not canonical):**
@@ -157,7 +157,7 @@ Paladin and Warlock.
 Paragon boards extend the skill system via board nodes, sockets for Glyphs, and rare/magic nodes.
 Glyph definitions are a separate data type from Power definitions.
 
-- CASC path (inferred): `d4data/extracted/base/meta/ParagonGlyph/` or similar
+- CASC path (inferred): `d4data/json/base/meta/ParagonGlyph/` or similar
 - provenance: `datamined`
 - verification: `unverified — see Open Items`
 

@@ -178,7 +178,7 @@ theorycraft to verify bucket assignments.
 
 Relevant data paths:
 ```
-d4data/extracted/base/meta/
+d4data/json/base/meta/
   Attribute/              ← attribute type definitions, stacking behavior
   DamageFormula/          ← internal formula definitions (if present)
   Power/                  ← skill/power definitions with damage coefficients

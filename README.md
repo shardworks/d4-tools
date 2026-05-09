@@ -45,6 +45,7 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 | `docs/visual-spec.md` | Design system, color tokens, typography, layout |
 | `docs/scoring-engine.md` | Build scoring algorithm spec (provisional) |
 | `docs/data-sources/` | Catalog of D4 data sources available for integration |
+| `tools/datamine-import/README.md` | Datamine import tool — patch update workflow and curation guide |
 
 ## For Downstream Agents
 

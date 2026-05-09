@@ -1,0 +1,7 @@
+{
+  "__fileName__": "Barbarian",
+  "__snoID__": 300001,
+  "arActiveSkillEntries": [
+    { "tPower": { "__snoID__": 200765, "__fileName__": "Barbarian_Bash" } }
+  ]
+}

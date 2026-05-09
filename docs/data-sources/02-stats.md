@@ -146,7 +146,7 @@ The complete catalog of game attributes (internal IDs, value types, min/max rang
 `DiabloTools/d4data` extracted files:
 
 ```
-d4data/extracted/base/meta/
+d4data/json/base/meta/
   Attribute/              ← attribute definitions
   AttributeComponent/     ← compound attributes
   ItemType/               ← item type / slot definitions

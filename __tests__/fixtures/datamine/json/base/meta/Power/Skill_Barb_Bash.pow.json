@@ -1,0 +1,7 @@
+{
+  "__fileName__": "Barbarian_Bash",
+  "__snoID__": 200765,
+  "ePowerType": "POWER_TYPE_ACTIVE",
+  "arItemTypesAllowed": [],
+  "arClassesAllowed": ["CLASS_BARBARIAN"]
+}

@@ -1,0 +1,18 @@
+{
+  "__fileName__": "Affix_Multi_CritDamage",
+  "__snoID__": 1234569,
+  "eAffixType": "AFFIX_TYPE_REGULAR",
+  "arItemTypesAllowed": ["GLOVES", "AMULET", "RING", "WEAPON"],
+  "arClassesAllowed": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": { "eAttribute": "Attr_Crit_Damage_Percent", "nParam": 0 },
+      "afValue": [0.20, 0.50]
+    },
+    {
+      "tAttribute": { "eAttribute": "Attr_Crit_Chance_Percent", "nParam": 0 },
+      "afValue": [0.03, 0.075]
+    }
+  ]
+}

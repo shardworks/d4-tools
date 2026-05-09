@@ -45,7 +45,7 @@ All crafting recipe data is in the `DiabloTools/d4data` extracted files.
 **CASC paths (observed from community references):**
 
 ```
-d4data/extracted/base/meta/
+d4data/json/base/meta/
   Recipe/               ← crafting recipes
   CraftingTune/         ← masterworking upgrade tables
   TemperManual/         ← temper manual definitions (see 03-affixes.md §5)

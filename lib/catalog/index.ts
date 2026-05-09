@@ -1,15 +1,18 @@
 /**
- * Catalog loader for the hand-curated D4 data catalog.
+ * Catalog loader for the D4 data catalog.
  *
  * All data is imported as JSON (resolveJsonModule) — no runtime fs access.
  * Every catalog file carries a `verifiedAgainst` stamp following the
  * docs/data-sources/ convention (expansion, season, patch, accessedDate).
+ * Catalog files are regenerated from the DiabloTools/d4data datamine
+ * by `tools/datamine-import/`.
  */
 
 import classesCatalog from "./classes.json";
 import slotsCatalog from "./slots.json";
 import affixesCatalog from "./affixes.json";
 import aspectsCatalog from "./aspects.json";
+import uniquesCatalog from "./uniques.json";
 import gameMath from "./game-math.json";
 
 // Per-class skill catalogs
@@ -78,6 +81,7 @@ export interface AffixEntry {
   bnetId?: number;
   /** Datamine file-name (without `.aff.json` extension) for this affix — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
+  deprecated?: boolean;
 }
 
 export interface AspectEntry {
@@ -94,6 +98,17 @@ export interface AspectEntry {
   bnetId?: number;
   /** Datamine file-name (without `.asp.json` extension) for this aspect — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
+  deprecated?: boolean;
+}
+
+export interface UniqueEntry {
+  id: string;
+  label: string;
+  slot: string;
+  classRestrictions: string[];
+  bnetId?: number;
+  bnetFileName?: string;
+  deprecated?: boolean;
 }
 
 export interface SkillEntry {
@@ -145,6 +160,9 @@ export const affixes: AffixEntry[] = affixesCatalog.affixes as unknown as AffixE
 
 /** All aspects. */
 export const aspects: AspectEntry[] = aspectsCatalog.aspects as unknown as AspectEntry[];
+
+/** All unique items. */
+export const uniques: UniqueEntry[] = uniquesCatalog.uniques as unknown as UniqueEntry[];
 
 /** Game-math constants (skill points, paragon points, item power thresholds). */
 export const gameMathConstants = gameMath;

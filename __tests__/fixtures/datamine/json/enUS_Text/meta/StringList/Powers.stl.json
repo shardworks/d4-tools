@@ -1,0 +1,12 @@
+{
+  "__fileName__": "Powers",
+  "__snoID__": 4000002,
+  "arStrings": [
+    { "szLabel": "Aspect of Disobedience", "hLabel": 200001, "id": "Aspect_Disobedience" },
+    { "szLabel": "Bash", "hLabel": 200002, "id": "Barbarian_Bash" },
+    { "szLabel": "Starter Board", "hLabel": 200003, "id": "Paragon_Barb_00" },
+    { "szLabel": "Imbiber", "hLabel": 200004, "id": "Rare_011_Willpower_Side" },
+    { "szLabel": "[WIP] All Zero", "hLabel": 200005, "id": "Rare_AllZero" },
+    { "szLabel": "Test Sword", "hLabel": 200006, "id": "Unique_Sword_Test" }
+  ]
+}

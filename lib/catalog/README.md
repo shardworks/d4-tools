@@ -1,7 +1,8 @@
 # lib/catalog
 
-Hand-curated D4 game-data catalog consumed by the D4 Tools application. All data is imported as
-static JSON (TypeScript `resolveJsonModule`) — no runtime filesystem access, no fetch calls.
+D4 game-data catalog, regenerated from the DiabloTools/d4data datamine by `tools/datamine-import/`.
+All data is imported as static JSON (TypeScript `resolveJsonModule`) — no runtime filesystem access,
+no fetch calls.
 
 ---
 
@@ -39,9 +40,9 @@ interface SkillEntry {
 }
 ```
 
-Paladin and Warlock skill entries carry `bnetId` and `bnetFileName` traceable to
-`DiabloTools/d4data` build `3.0.1.71747`. See `docs/datamine-verification-2026-05-08.md` for the
-full per-entry audit trail.
+All class skill entries carry `bnetId` and `bnetFileName` traceable to
+`DiabloTools/d4data` build `3.0.1.71747`. See `docs/datamine-import-3.0.1.71747.md` (generated
+by the import tool) for the per-entry audit trail.
 
 ### `ParagonBoardEntry` / `ParagonGlyphEntry`
 
@@ -102,14 +103,16 @@ Math helpers derived from `game-math.json` constants.
 | `skills/{Class}.json` | Per-class skill list with category, maxRank, bnetId, bnetFileName |
 | `paragon/{Class}.json` | Per-class paragon boards and glyphs with bnetId, bnetFileName |
 | `slots.json` | Gear slot definitions |
-| `affixes.json` | Affix catalog |
-| `aspects.json` | Aspect catalog |
+| `affixes.json` | Affix catalog (all 8 classes, bnetId/bnetFileName coverage) |
+| `aspects.json` | Aspect catalog (all 8 classes, bnetId/bnetFileName coverage) |
+| `uniques.json` | Unique item catalog |
 | `game-math.json` | Skill points, paragon points, item-power thresholds |
 
 ---
 
 ## Data Source
 
-Paladin and Warlock catalog entries are verified against **DiabloTools/d4data** at build
-`3.0.1.71747` (accessed 2026-05-08). See `docs/data-sources/06-skills.md` and
-`docs/datamine-verification-2026-05-08.md` for details.
+Catalog files are regenerated from **DiabloTools/d4data** at build `3.0.1.71747` using
+`tools/datamine-import/`. The import tool is the supported regeneration path — do not edit
+catalog JSON files directly. See `tools/datamine-import/README.md` for the patch update workflow
+and `docs/data-sources/06-skills.md` for background on skill data sources.
