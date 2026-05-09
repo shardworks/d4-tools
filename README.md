@@ -47,6 +47,21 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 | `docs/data-sources/` | Catalog of D4 data sources available for integration |
 | `tools/datamine-import/README.md` | Datamine import tool — patch update workflow and curation guide |
 
+## Data Sources
+
+The game catalog (`lib/catalog/`) is regenerated from the [DiabloTools/d4data](https://github.com/DiabloTools/d4data) datamine using the import pipeline in `tools/datamine-import/`. **This is the supported path for all catalog updates** — do not edit `lib/catalog/*.json` directly.
+
+Run the import tool to regenerate the catalog from a local datamine clone:
+
+```bash
+git clone https://github.com/DiabloTools/d4data.git /path/to/d4data
+pnpm import:datamine --build 3.0.1.71747 --datamine /path/to/d4data
+```
+
+See `tools/datamine-import/README.md` for the full patch-update workflow, curation guide, and exit code reference.
+
+> **Note:** The per-class skill and paragon catalog entries were previously verified by manual audit across v6–v9 (`docs/datamine-verification-*.md`). That manual audit pattern is now subsumed by the import tool, which regenerates skills and paragon alongside affixes, aspects, and uniques in a single idempotent pass.
+
 ## For Downstream Agents
 
 Schemas in `lib/schema/` (Zod + inferred types) are the canonical shape for all domain types — `Character`, `Item`, `Affix`, `Build`, `D4Class`, `ItemRarity`. Persistence and route handlers in `lib/persistence/` and `app/api/` read/write through these schemas. Component prop types compose from `lib/schema` rather than inlining.

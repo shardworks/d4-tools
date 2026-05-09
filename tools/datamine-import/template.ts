@@ -36,16 +36,13 @@ export function parseTemplate(szLabel: string): {
     labelTemplate = labelTemplate.replace(/\{VALUE:\d+\}/g, "{value}");
   }
 
-  // Strip surrounding [] brackets around value tokens
+  // Strip surrounding [] brackets around value tokens only.
   // e.g. "[{value}]" → "{value}", "[{value1}]" → "{value1}"
+  // This pass is intentionally narrow: it only matches the exact pattern
+  // [{valueN}] so that legitimate bracketed content (e.g. [Fire Damage]) is
+  // preserved. A broader strip-all-brackets pass was previously present here
+  // and was removed because it silently mangled non-value bracket content.
   labelTemplate = labelTemplate.replace(/\[\{(value\d*)\}\]/g, "{$1}");
-
-  // Also strip any remaining bare [] brackets that were wrapping value tokens
-  // but weren't caught above (e.g. "[" before and "]" after on different positions)
-  labelTemplate = labelTemplate.replace(/\[([^\]]*)\]/g, (_, inner) => {
-    // Only strip if inner doesn't contain the bracket chars themselves
-    return inner;
-  });
 
   return { labelTemplate, isMultiValue };
 }

@@ -7,7 +7,6 @@
 
 import * as path from "node:path";
 import * as fs from "node:fs";
-
 import { loadCuration } from "./curation";
 import {
   loadAffixes,
@@ -31,7 +30,11 @@ import {
   writeSkills,
   writeParagon,
 } from "./writer";
-import type { VerifiedAgainst } from "../../lib/catalog/index";
+import type {
+  VerifiedAgainst,
+  AffixEntry,
+  AspectEntry,
+} from "../../lib/catalog/index";
 
 // ─── Options ──────────────────────────────────────────────────────────────────
 
@@ -127,13 +130,25 @@ export async function runImport(
       );
     }
 
-    // 4. Check for disappeared entries (D13)
-    const disappearedWarnings = checkDisappearedEntries(
-      catalogRoot,
-      affixSummary.entries.map((e) => e.id),
-      aspectSummary.entries.map((e) => e.id),
-      curation
-    );
+    // 4. Check for disappeared entries (D13).
+    // Entries that are in the existing catalog but absent from the new datamine
+    // are either:
+    //   (a) curated as deprecated → emitted with deprecated:true (spec case 3)
+    //   (b) curated as excluded   → silently omitted
+    //   (c) uncurated             → warn and exit 1 until decision recorded
+    const { warnings: disappearedWarnings, deprecatedAffixes, deprecatedAspects } =
+      collectDisappearedEntries(
+        catalogRoot,
+        affixSummary.entries.map((e) => e.id),
+        aspectSummary.entries.map((e) => e.id),
+        curation
+      );
+
+    // Merge deprecated-disappeared entries into the live summaries so they
+    // appear in catalog output and in the audit document.
+    for (const dep of deprecatedAffixes) affixSummary.entries.push(dep);
+    for (const dep of deprecatedAspects) aspectSummary.entries.push(dep);
+
     if (disappearedWarnings.length > 0) {
       for (const warning of disappearedWarnings) {
         console.warn(`[DISAPPEARED] ${warning}`);
@@ -141,7 +156,26 @@ export async function runImport(
       exitCode = Math.max(exitCode, 1);
     }
 
-    // 5. Generate audit doc
+    // 5. Check needs-curation exit code BEFORE generating audit doc or writing.
+    // Writing partial catalog output when entries are unresolved would silently
+    // shrink the catalog on reruns. Instead, abort writes and require the user
+    // to update curation.json first.
+    const anyNeedsCuration =
+      affixSummary.needsCuration.length > 0 ||
+      aspectSummary.needsCuration.length > 0 ||
+      uniqueSummary.needsCuration.length > 0 ||
+      Object.values(skillsByClass).some((s) => s.needsCuration.length > 0) ||
+      Object.values(paragonByClass).some(
+        (p) => p.boards.needsCuration.length > 0 || p.glyphs.needsCuration.length > 0
+      );
+
+    if (anyNeedsCuration) {
+      console.warn("Some entries need curation. See audit doc for details.");
+      exitCode = Math.max(exitCode, 1);
+    }
+
+    // 6. Generate audit doc (always, even on non-zero exit, so the user can
+    // see which entries need decisions without re-running the tool).
     const verifiedAgainst: VerifiedAgainst = {
       expansion: "Lord of Hatred",
       season: "Season 13 (Season of Reckoning)",
@@ -161,22 +195,17 @@ export async function runImport(
 
     writeAuditDoc(auditDoc, build, docsDir, dryRun);
 
-    // 6. Check needs-curation exit code
-    const anyNeedsCuration =
-      affixSummary.needsCuration.length > 0 ||
-      aspectSummary.needsCuration.length > 0 ||
-      uniqueSummary.needsCuration.length > 0 ||
-      Object.values(skillsByClass).some((s) => s.needsCuration.length > 0) ||
-      Object.values(paragonByClass).some(
-        (p) => p.boards.needsCuration.length > 0 || p.glyphs.needsCuration.length > 0
+    // 7. Write files — skipped when exit code is non-zero to avoid overwriting
+    // the existing catalog with an incomplete/partially-curated state.
+    if (exitCode > 0) {
+      console.warn(
+        "[skip-writes] Catalog files NOT written (exit code non-zero). " +
+        "Resolve all needs-curation entries in curation.json and re-run."
       );
-
-    if (anyNeedsCuration) {
-      console.warn("Some entries need curation. See audit doc for details.");
-      exitCode = Math.max(exitCode, 1);
+      printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonByClass);
+      return { exitCode };
     }
 
-    // 7. Write files
     console.log(dryRun ? "[dry-run] Skipping file writes." : "Writing catalog files...");
     writeAffixes(affixSummary, verifiedAgainst, catalogRoot, dryRun);
     writeAspects(aspectSummary, verifiedAgainst, catalogRoot, dryRun);
@@ -196,60 +225,81 @@ export async function runImport(
 
 // ─── Disappeared entries check (D13) ─────────────────────────────────────────
 
-function checkDisappearedEntries(
+/**
+ * For each catalog entry that is absent from the new datamine output, decides:
+ *   - "deprecated" curation → add to deprecatedAffixes / deprecatedAspects
+ *     so the entry is emitted with deprecated:true (spec case 3)
+ *   - "exclude" curation    → silently skip (no warning, intentionally removed)
+ *   - no curation record    → add to warnings, caller sets exit code 1
+ */
+function collectDisappearedEntries(
   catalogRoot: string,
   newAffixIds: string[],
   newAspectIds: string[],
-  curation: { affixes: Record<string, { action: string }>; aspects: Record<string, { action: string }> }
-): string[] {
+  curation: {
+    affixes: Record<string, { action: string; catalogId?: string }>;
+    aspects: Record<string, { action: string; catalogId?: string; source?: string }>;
+  }
+): {
+  warnings: string[];
+  deprecatedAffixes: AffixEntry[];
+  deprecatedAspects: AspectEntry[];
+} {
   const warnings: string[] = [];
+  const deprecatedAffixes: AffixEntry[] = [];
+  const deprecatedAspects: AspectEntry[] = [];
 
-  // Check existing affixes.json
+  // ── Affixes ────────────────────────────────────────────────────────────────
   const affixesPath = path.join(catalogRoot, "affixes.json");
   if (fs.existsSync(affixesPath)) {
     try {
       const data = JSON.parse(fs.readFileSync(affixesPath, "utf8"));
-      const existing: string[] = (data.affixes ?? []).map(
-        (a: { id: string }) => a.id
-      );
+      const existing: AffixEntry[] = data.affixes ?? [];
       const newIdSet = new Set(newAffixIds);
 
-      for (const existingId of existing) {
-        if (!newIdSet.has(existingId)) {
-          // Check if curated as deprecated/excluded
-          const bnetFileName = findBnetFileNameForId(curation.affixes, existingId);
-          const record = bnetFileName ? curation.affixes[bnetFileName] : undefined;
-          if (!record || (record.action !== "deprecated" && record.action !== "exclude")) {
-            warnings.push(
-              `Affix '${existingId}' exists in catalog but was not found in new datamine import`
-            );
-          }
+      for (const entry of existing) {
+        if (newIdSet.has(entry.id)) continue; // still present
+        const bnetFileName = findBnetFileNameForId(curation.affixes, entry.id);
+        const record = bnetFileName ? curation.affixes[bnetFileName] : undefined;
+
+        if (record?.action === "deprecated") {
+          deprecatedAffixes.push({ ...entry, deprecated: true });
+        } else if (record?.action === "exclude") {
+          // Intentionally excluded — no warning needed
+        } else {
+          warnings.push(
+            `Affix '${entry.id}' exists in catalog but was not found in new datamine import. ` +
+            `Add a curation record (action: "deprecated" or "exclude") to resolve.`
+          );
         }
       }
     } catch {
-      // Ignore read errors on first run
+      // Ignore read errors on first run (catalog file may not exist yet)
     }
   }
 
-  // Check existing aspects.json
+  // ── Aspects ────────────────────────────────────────────────────────────────
   const aspectsPath = path.join(catalogRoot, "aspects.json");
   if (fs.existsSync(aspectsPath)) {
     try {
       const data = JSON.parse(fs.readFileSync(aspectsPath, "utf8"));
-      const existing: string[] = (data.aspects ?? []).map(
-        (a: { id: string }) => a.id
-      );
+      const existing: AspectEntry[] = data.aspects ?? [];
       const newIdSet = new Set(newAspectIds);
 
-      for (const existingId of existing) {
-        if (!newIdSet.has(existingId)) {
-          const bnetFileName = findBnetFileNameForId(curation.aspects, existingId);
-          const record = bnetFileName ? curation.aspects[bnetFileName] : undefined;
-          if (!record || (record.action !== "deprecated" && record.action !== "exclude")) {
-            warnings.push(
-              `Aspect '${existingId}' exists in catalog but was not found in new datamine import`
-            );
-          }
+      for (const entry of existing) {
+        if (newIdSet.has(entry.id)) continue;
+        const bnetFileName = findBnetFileNameForId(curation.aspects, entry.id);
+        const record = bnetFileName ? curation.aspects[bnetFileName] : undefined;
+
+        if (record?.action === "deprecated") {
+          deprecatedAspects.push({ ...entry, deprecated: true });
+        } else if (record?.action === "exclude") {
+          // Intentionally excluded — no warning needed
+        } else {
+          warnings.push(
+            `Aspect '${entry.id}' exists in catalog but was not found in new datamine import. ` +
+            `Add a curation record (action: "deprecated" or "exclude") to resolve.`
+          );
         }
       }
     } catch {
@@ -257,7 +307,7 @@ function checkDisappearedEntries(
     }
   }
 
-  return warnings;
+  return { warnings, deprecatedAffixes, deprecatedAspects };
 }
 
 function findBnetFileNameForId(

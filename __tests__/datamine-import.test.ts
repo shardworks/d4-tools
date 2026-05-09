@@ -132,17 +132,12 @@ describe("Case 1: Idempotency", () => {
 
 describe("Case 2: New-entry-needs-curation", () => {
   it("exits with code 1 when a new entry is not in curation", async () => {
-    // Use curation that does NOT include Affix_WIP_TestEntry (it's excluded by WIP heuristic,
-    // but we can add a non-WIP entry by removing one from curation)
-    // Instead, create a datamine variant by removing Affix_Str_AddLifePercent from curation
-    const curationFile = makeTempCuration({
-      affixes: {
-        Affix_Str_AddLifePercent: undefined, // Remove from curation
-      },
-    });
-    // Rebuild curation without that key
+    // Affix_Multi_CritDamage is multi-attribute: without a curation record it is
+    // always flagged as needs-curation (D18), so removing it from curation guarantees
+    // exit code 1. Single-attribute clean affixes auto-accept and cannot be used here.
+    const curationFile = makeTempCuration({});
     const curationData = JSON.parse(fs.readFileSync(curationFile, "utf8"));
-    delete curationData.affixes["Affix_Str_AddLifePercent"];
+    delete curationData.affixes["Affix_Multi_CritDamage"];
     fs.writeFileSync(curationFile, JSON.stringify(curationData, null, 2), "utf8");
 
     const result = await runWithTempOutput(curationFile);
@@ -153,14 +148,15 @@ describe("Case 2: New-entry-needs-curation", () => {
     const auditPath = path.join(result.docsDir, "datamine-import-3.0.0.test.md");
     expect(fs.existsSync(auditPath)).toBe(true);
     const auditDoc = fs.readFileSync(auditPath, "utf8");
-    expect(auditDoc).toContain("Affix_Str_AddLifePercent");
+    expect(auditDoc).toContain("Affix_Multi_CritDamage");
     expect(auditDoc).toContain("Needs Curation");
   });
 
   it("audit doc includes the needs-curation entry with a reason", async () => {
+    // Remove Affix_Multi_CritDamage — multi-attribute, so always needs-curation without a record
     const curationFile = makeTempCuration({});
     const curationData = JSON.parse(fs.readFileSync(curationFile, "utf8"));
-    delete curationData.affixes["Affix_Str_MaxLife"];
+    delete curationData.affixes["Affix_Multi_CritDamage"];
     fs.writeFileSync(curationFile, JSON.stringify(curationData, null, 2), "utf8");
 
     const result = await runWithTempOutput(curationFile);
@@ -168,7 +164,7 @@ describe("Case 2: New-entry-needs-curation", () => {
 
     const auditPath = path.join(result.docsDir, "datamine-import-3.0.0.test.md");
     const auditDoc = fs.readFileSync(auditPath, "utf8");
-    expect(auditDoc).toContain("Affix_Str_MaxLife");
+    expect(auditDoc).toContain("Affix_Multi_CritDamage");
   });
 });
 

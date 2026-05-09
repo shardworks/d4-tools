@@ -39,6 +39,12 @@ pnpm import:datamine \
 | 1 | Needs curation — one or more entries need editorial decisions in `curation.json` |
 | 2 | Parse error / malformed input or missing required flags |
 
+### Catalog writes on exit code 1
+
+When the exit code is 1 (needs-curation), **catalog files are not written**. This is intentional: writing a partial catalog would silently shrink the existing data on every run until all entries are resolved, which is worse than leaving the catalog at its prior state. The audit doc is always written so the user can see which entries need decisions without re-running the tool.
+
+To unblock writes: open `tools/datamine-import/curation.json`, add `include`, `exclude`, or `deprecated` actions for every entry listed in the "Needs Curation" section of the latest `docs/datamine-import-*.md`, and re-run the tool.
+
 ## Audit Output
 
 Each run produces `docs/datamine-import-{build}.md` (e.g. `docs/datamine-import-3.0.1.71747.md`).
@@ -82,7 +88,32 @@ This file lists every imported entry, excluded entries, and needs-curation entri
 - `exclude` — omit from catalog entirely
 - `deprecated` — keep in catalog with `deprecated: true` flag
 
+## Multi-Value Affixes
+
+Some affixes carry two independent value ranges in the datamine (e.g. a label like `[{VALUE:1}]%–[{VALUE:2}]% Bonus Damage`). These are affixes where the stat has both a minimum roll and a maximum roll expressed as separate datamine attributes, rather than the tool's usual single `[min, max]` value range.
+
+**Chosen approach:** Multi-value affixes are flagged as `needs-curation` and excluded from catalog output until a human adds a curation record. The curation record must supply an explicit `catalogId` and `label`; the tool uses the first attribute's value range as the `valueRange` pair. This is documented in the curation record's `reason` field (e.g. `"Multi-attribute: using first attribute only per D18"`).
+
+**Rationale:** Silently truncating to the first attribute would produce incorrect value ranges for a class of affixes that the scoring engine needs to handle distinctly. Flagging them forces a human decision rather than publishing bad data.
+
+Multi-value affixes produce a `{value1}` / `{value2}` label template (e.g. `"{value1}%–{value2}% Bonus Damage"`) for display-string round-tripping, even though the catalog's `valueRange` is derived from the first attribute only.
+
 ## Internal Name Divergences
 
-Some datamine file names differ from their display names (e.g. `Barbarian_Maim` displays as "Flay").
-These are documented in the curation file's `reason` field and in the audit doc's internal-name-divergence notes.
+Some datamine file names differ from their display names (e.g. `Barbarian_Maim` displays as "Flay", `Paladin_LanceDive_OLD` maps to "Falling Star"). These are documented in the curation file's `reason` field and in the audit doc's internal-name-divergence notes. The `_OLD` suffix normally triggers the strict-heuristic auto-reject (D17d); entries like `Paladin_LanceDive_OLD` require an explicit `action: "include"` curation record with a reason to override the heuristic.
+
+## Curation File — Source Override for Aspects
+
+The `source` field in a curation record overrides the default aspect source (`"legendary"`). Without this override, every re-run would reclassify all aspects as `"legendary"`, violating idempotency for the 20 hand-curated codex aspects that were seeded before the datamine pipeline existed.
+
+```json
+"Aspect_Disobedience": {
+  "action": "include",
+  "catalogId": "aspect_of_disobedience",
+  "label": "Aspect of Disobedience",
+  "source": "codex",
+  "reason": "Codex aspect; preserve source across reruns"
+}
+```
+
+**Note on bnetFileName guesses for pre-pipeline aspects:** The 20 codex aspects in `curation.json` were seeded before the first datamine run using conventional naming (`Aspect_Disobedience`, `Aspect_Might`, etc.). The actual Power file names in `DiabloTools/d4data` may differ. On the first real datamine run, if a curation entry's bnetFileName doesn't match any Power file, the tool will surface those aspects as `needs-curation`. Update the keys in `curation.json` to the real bnetFileNames shown in the audit doc and re-run.

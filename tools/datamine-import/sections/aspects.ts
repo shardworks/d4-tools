@@ -103,6 +103,13 @@ export function transformAspects(
       curationRecord?.catalogId ?? `aspect_${toSnakeCase(fileName)}`;
     const label = curationRecord?.label ?? szLabel;
 
+    // D21: source defaults to "legendary" (conservative). A curation record
+    // with source: "codex" overrides this to preserve hand-curated codex
+    // aspects across reruns (without this override, all aspects would be
+    // re-classified as "legendary" on every run, violating idempotency).
+    const aspectSource: "legendary" | "codex" =
+      curationRecord?.source ?? "legendary";
+
     const entry: AspectEntry = {
       id: catalogId,
       label,
@@ -111,8 +118,7 @@ export function transformAspects(
       isPercent,
       slotRestrictions,
       classRestrictions,
-      // D21: conservative default; codex vs legendary requires Recipe table cross-reference
-      source: "legendary",
+      source: aspectSource,
       bnetId: power.__snoID__,
       bnetFileName: fileName,
     };

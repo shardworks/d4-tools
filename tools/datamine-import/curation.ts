@@ -16,6 +16,11 @@ export interface CurationRecord {
   catalogId?: string;
   label?: string;
   reason?: string;
+  /**
+   * For aspects: source override. Without this field the transformer defaults
+   * to "legendary". Set to "codex" to preserve codex aspects across reruns.
+   */
+  source?: "legendary" | "codex";
   /** For skills: category override (datamine has no category field) */
   category?: string;
   /** For skills: maxRank override */
