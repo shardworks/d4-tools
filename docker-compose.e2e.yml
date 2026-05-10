@@ -1,0 +1,76 @@
+# docker-compose.e2e.yml — one-command e2e bring-up (T8, D13, D14)
+#
+# Starts two services:
+#   app    — next dev on E2E_APP_PORT (default 3000)
+#   e2e    — Playwright UI on E2E_UI_PORT (default 9323); runs headless CI on demand
+#
+# Default ports (D14):
+#   App:        E2E_APP_PORT=3000
+#   Playwright UI: E2E_UI_PORT=9323
+#   HTML report:   E2E_REPORT_PORT=9324
+#
+# One-command bring-up: pnpm e2e:ui
+# Remote access: http://<host>:9323 for Playwright UI, http://<host>:3000 for the app
+#
+# After a run inside the container, serve the HTML report:
+#   docker compose -f docker-compose.e2e.yml exec e2e \
+#     playwright show-report --host 0.0.0.0 --port ${E2E_REPORT_PORT:-9324}
+
+version: "3.8"
+
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+      args:
+        PLAYWRIGHT_VERSION: "1.59.1"
+    image: d4-tools-e2e:1.59.1
+    # Bind-mount the workspace (D12)
+    volumes:
+      - .:/workspace:cached
+      # Separate volume for pnpm store to persist across container restarts
+      - pnpm-store:/root/.local/share/pnpm
+      # Separate volume for .next build cache
+      - next-cache:/workspace/.next
+    working_dir: /workspace
+    environment:
+      # App environment variables (D17)
+      DATA_DIR: /tmp/e2e-data
+      SCREENSHOT_DIR: /tmp/e2e-screenshots
+      ANTHROPIC_API_KEY: test-key-not-real
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: development
+
+      # Port configuration (D14)
+      E2E_APP_PORT: "${E2E_APP_PORT:-3000}"
+      E2E_UI_PORT: "${E2E_UI_PORT:-9323}"
+      E2E_REPORT_PORT: "${E2E_REPORT_PORT:-9324}"
+      PLAYWRIGHT_WORKERS: "${PLAYWRIGHT_WORKERS:-2}"
+
+      # UI mode: Playwright manages server lifecycle per-spec (D6)
+      # The docker-compose setup uses PLAYWRIGHT_NO_WEBSERVER=1 so the
+      # playwright.config.ts webServer block doesn't try to start a global server.
+      # Each spec's beforeAll handles its own next dev instance.
+      PLAYWRIGHT_NO_WEBSERVER: "1"
+
+    # Publish all three ports to the LAN (D14)
+    ports:
+      - "${E2E_APP_PORT:-3000}:3000"
+      - "${E2E_UI_PORT:-9323}:9323"
+      - "${E2E_REPORT_PORT:-9324}:9324"
+
+    # Install dependencies and start Playwright UI
+    command: >
+      sh -c "
+        pnpm install &&
+        pnpm exec playwright install chromium &&
+        pnpm exec playwright test --ui --ui-host=0.0.0.0 --ui-port=${E2E_UI_PORT:-9323}
+      "
+
+    # Give next dev enough memory for HMR
+    shm_size: "256mb"
+
+volumes:
+  pnpm-store:
+  next-cache:

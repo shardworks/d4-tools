@@ -1,0 +1,22 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Embossed Plate",
+      "itemType": "Chest Armor",
+      "rarity": "rare",
+      "itemPower": 875,
+      "isAncestral": false,
+      "implicits": [],
+      "explicits": [
+        { "label": "Max Life", "rolledValue": 2000 },
+        { "label": "Dmg Red", "rolledValue": 10 },
+        { "label": "Intelligence", "rolledValue": 150 },
+        { "label": "Lucky Hit Chance", "rolledValue": 8 }
+      ],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-10T00:00:00.000Z"
+}

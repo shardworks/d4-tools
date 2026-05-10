@@ -1,0 +1,23 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Harlequin Crest",
+      "itemType": "Helm",
+      "rarity": "unique",
+      "itemPower": 925,
+      "isAncestral": false,
+      "implicits": [],
+      "explicits": [
+        { "label": "Maximum Life", "rolledValue": 2800 },
+        { "label": "Intelligence", "rolledValue": 200 },
+        { "label": "Cooldown Reduction", "rolledValue": 8 },
+        { "label": "All Stats", "rolledValue": 60 }
+      ],
+      "tempered": [],
+      "aspect": { "label": "Shako Aspect", "rolledValue": 17 }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-10T00:00:00.000Z"
+}

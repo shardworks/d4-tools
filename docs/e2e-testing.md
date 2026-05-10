@@ -1,0 +1,217 @@
+# E2E Testing Guide
+
+This document covers the Playwright-based end-to-end test suite for d4-tools.
+
+The suite runs Chromium against every UI-facing feature — Radix dialogs, react-hook-form state, optimistic-update patterns, the triage funnel — in an offline-safe environment backed by a local Anthropic API mock. The same spec files run in three modes: local development, CI, and a remote-monitored Docker UI.
+
+---
+
+## Prerequisites
+
+- **pnpm** — install with `corepack enable && corepack prepare pnpm@latest --activate`
+- **Node 24** — `engines.node` is `>=24.15.0 <25`
+- **Chromium** (local dev only) — one-time install: `pnpm exec playwright install chromium`
+- **Docker + Docker Compose** (UI/remote mode only)
+
+---
+
+## Run Modes
+
+### 1. Local Development (headless)
+
+Runs the full suite headlessly against per-spec `next dev` instances:
+
+```bash
+# One-time setup (first checkout only)
+pnpm exec playwright install chromium
+
+# Run all specs
+pnpm test:e2e
+
+# Run a single spec
+pnpm exec playwright test e2e/builds-list.spec.ts
+
+# Open the HTML report after a run
+pnpm exec playwright show-report
+```
+
+**What happens:**
+- Playwright spawns 2 workers in parallel (override via `PLAYWRIGHT_WORKERS`)
+- Each spec file starts its own `next dev` on a random free port with isolated temp dirs
+- The Anthropic Vision API is intercepted by an in-process HTTP stub — no real API calls
+- Results write to `playwright-report/`
+
+### 2. CI (headless)
+
+Same as local dev — just set `CI=true` so Playwright enables retries and strict mode:
+
+```bash
+CI=true pnpm test:e2e
+```
+
+**CI steps (provider-agnostic):**
+
+```yaml
+# Install dependencies
+- run: pnpm install
+
+# Install Playwright browsers
+- run: pnpm exec playwright install chromium
+
+# Run the suite
+- run: CI=true pnpm test:e2e
+
+# Upload the HTML report (optional)
+- uses: actions/upload-artifact@v4
+  if: always()
+  with:
+    name: playwright-report
+    path: playwright-report/
+```
+
+### 3. Remote Monitor (Docker UI)
+
+Brings up a Docker container with Playwright's interactive UI accessible from any machine on the LAN:
+
+```bash
+pnpm e2e:ui
+```
+
+This runs `docker compose -f docker-compose.e2e.yml up`. The container:
+
+1. Installs pnpm dependencies
+2. Installs Playwright's Chromium browser
+3. Starts Playwright UI on `0.0.0.0:$E2E_UI_PORT`
+
+**Access URLs from a remote laptop:**
+
+| Service | Default URL | Override |
+|---------|-------------|----------|
+| Playwright UI | `http://<host>:9323` | `E2E_UI_PORT` |
+| d4-tools app | `http://<host>:3000` (per-spec) | `E2E_APP_PORT` |
+| HTML report | `http://<host>:9324` | `E2E_REPORT_PORT` |
+
+To view the HTML report from a remote machine after a run:
+
+```bash
+# Inside the container
+docker compose -f docker-compose.e2e.yml exec e2e \
+  playwright show-report --host 0.0.0.0 --port 9324
+```
+
+Then open `http://<host>:9324` in your browser.
+
+---
+
+## Port Configuration
+
+Three ports are published by the Docker setup (D14):
+
+| Port | Default | Override env var | Purpose |
+|------|---------|-----------------|---------|
+| 3000 | `3000` | `E2E_APP_PORT` | Per-spec next dev (each spec gets its own ephemeral port; this maps to the first spec's port) |
+| 9323 | `9323` | `E2E_UI_PORT` | Playwright interactive UI |
+| 9324 | `9324` | `E2E_REPORT_PORT` | HTML report server |
+
+Override ports by setting the env vars before starting:
+
+```bash
+E2E_UI_PORT=19323 E2E_REPORT_PORT=19324 pnpm e2e:ui
+```
+
+Or create `.env.e2e` from the template:
+
+```bash
+cp .env.e2e.example .env.e2e
+# Edit .env.e2e to set port overrides
+pnpm e2e:ui
+```
+
+---
+
+## Per-Spec Isolation Model
+
+Each spec file (`e2e/*.spec.ts`) owns its full environment:
+
+- **DATA_DIR**: a `mkdtemp`'d directory with seeded characters, builds, and screenshots
+- **SCREENSHOT_DIR**: a separate `mkdtemp`'d directory with fixture image files
+- **Anthropic stub**: an in-process HTTP server that returns pre-recorded fixtures instead of calling the real API
+- **next dev**: a dedicated process on an OS-assigned free port
+
+Setup/teardown happens in `beforeAll`/`afterAll`. Tests in the same spec share the server; cross-spec isolation is guaranteed by the separate processes.
+
+**Seeding** uses `lib/persistence/*` helpers (Zod-validated atomic writes), never hand-crafted JSON. Parse cache entries are pre-seeded via `writeCachedParse()`.
+
+**Screenshot ordering** is deterministic: `fs.utimes()` sets explicit mtimes on fixture files so the gallery's mtime-desc sort produces a stable test order (D29).
+
+---
+
+## Anthropic Mock Model
+
+The Anthropic Vision API is intercepted at the URL level (D9):
+
+- The app server is started with `ANTHROPIC_API_URL=http://127.0.0.1:<mockPort>/v1/messages`
+- An in-process HTTP stub serves that endpoint
+- Before clicking Parse in a test, the spec calls `ctx.mockServer.expect("fixture-name")`
+- The stub returns the corresponding `e2e/fixtures/screenshots/<name>-recorded.json` in Anthropic response format
+
+**Fixture names and their fixtures:**
+
+| Name | File | Parse result |
+|------|------|-------------|
+| `helm-sorcerer` | `helm-sorcerer-recorded.json` | `kind:"item"` — Magistrate's Cowl helm |
+| `ring-aspect` | `ring-aspect-recorded.json` | `kind:"item"` — Serpentine Ring with Conceited Aspect |
+| `ring-value-mismatch` | `ring-value-mismatch-recorded.json` | `kind:"item"` — ring with value-mismatch affix |
+| `no-item` | `no-item-recorded.json` | `kind:"no-item-detected"` |
+| `uncertain` | `uncertain-recorded.json` | `kind:"uncertain"` |
+| `unique-harlequin` | `unique-harlequin-recorded.json` | `kind:"item"` — Harlequin Crest unique |
+| `chest-synonym` | `chest-synonym-recorded.json` | `kind:"item"` — chest with synonym affix |
+
+To simulate an API error: `ctx.mockServer.expectError()`.
+
+The suite runs correctly with the network unplugged — it never contacts `api.anthropic.com`.
+
+---
+
+## Known Failing Test
+
+**`e2e/navigation.spec.ts` — "Go to Build… navigates to the active build"**
+
+This test is written to assert the correct behavior (URL navigation to `/builds/<id>`). It will fail until the `CommandPalette.tsx` "Go to Build…" routing bug is fixed (tracked under obs-1). The bug: the command routes through the `mode: "nav-build"` branch which triggers `exportBuild()` instead of navigating.
+
+This is intentional — the failing test is the regression signal for obs-1.
+
+---
+
+## Developing New Specs
+
+1. Create `e2e/<surface>.spec.ts`
+2. Import `createTestContext`, `destroyTestContext`, `dismissSoftGate` from `./fixtures`
+3. Use `beforeAll`/`afterAll` for server lifecycle
+4. Navigate with absolute URLs: `await page.goto(\`\${ctx.baseURL}/builds\`)`
+5. Call `dismissSoftGate(page)` at the start of each test (or in a `beforeEach`)
+6. For triage parse tests: call `ctx.mockServer.expect("fixture-name")` before clicking Parse
+
+All Playwright specs use the `.spec.ts` suffix, which is excluded from vitest's `*.test.ts` include glob. Vitest and Playwright coexist without configuration.
+
+---
+
+## Troubleshooting
+
+**`next dev` times out starting:**
+The per-spec server has a 120-second startup timeout. On slow machines, increase it in `e2e/fixtures/server.ts` (`READY_TIMEOUT_MS`).
+
+**Port conflicts:**
+If a test server port is in use, the OS will assign a different one — conflicts are handled automatically by the `getFreePort()` helper.
+
+**Flaky gallery ordering:**
+Gallery sort is mtime-based. If flakiness appears in order-sensitive tests, verify that `seeder.seedScreenshot()` calls include explicit `mtime` options (required for determinism per D29).
+
+**Orphaned `next dev` processes:**
+If a test run is killed mid-spec, orphaned `next dev` processes may linger. Kill them with: `pkill -f "next dev"`.
+
+**Docker image doesn't build:**
+The `mcr.microsoft.com/playwright:v1.59.1-jammy` base image requires Docker Hub access. Behind a corporate proxy, set `HTTP_PROXY` / `HTTPS_PROXY` in the build environment.
+
+**`tsconfig.json` accumulates `/tmp/d4-e2e-next-*` entries after test runs:**
+When `next dev` starts with `NEXT_DIST_DIR` set to a temp path, Next.js automatically appends that path to `tsconfig.json`'s `include` array. These entries are harmless (the paths are cleaned up after each test) but they accumulate over time. Before committing, strip any `/tmp/d4-e2e-next-*` and `/tmp/tmp.*` entries from the `include` array in `tsconfig.json`. Only `.next/types/**/*.ts` and `.next/dev/types/**/*.ts` belong in that array.

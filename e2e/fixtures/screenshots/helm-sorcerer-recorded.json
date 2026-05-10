@@ -1,0 +1,22 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Magistrate's Cowl",
+      "itemType": "Helm",
+      "rarity": "rare",
+      "itemPower": 850,
+      "isAncestral": false,
+      "implicits": [],
+      "explicits": [
+        { "label": "Maximum Life", "rolledValue": 2200 },
+        { "label": "Intelligence", "rolledValue": 175 },
+        { "label": "Critical Strike Chance", "rolledValue": 6 },
+        { "label": "Cooldown Reduction", "rolledValue": 6 }
+      ],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-10T00:00:00.000Z"
+}

@@ -20,7 +20,22 @@ import type { CacheEntry, LlmExtractedItem, SupportedImageMediaType } from "./ty
 /** Anthropic model snapshot — hardcoded, no env-var override (D8). */
 const ANTHROPIC_MODEL = "claude-sonnet-4-5-20250929";
 
+/**
+ * Resolve the Anthropic Vision API endpoint. Two env-var hooks are supported:
+ *
+ * - `ANTHROPIC_API_URL` — full endpoint override (used by the e2e Playwright
+ *   suite's per-worker mock server which advertises its own `/v1/messages`
+ *   path).
+ * - `ANTHROPIC_BASE_URL` — base origin override (used by the HTTP acceptance
+ *   harness's stub server which expects the canonical `/v1/messages` suffix
+ *   appended by this client).
+ *
+ * `ANTHROPIC_API_URL` wins when both are set. Production leaves both unset and
+ * falls back to the real Anthropic endpoint.
+ */
 function getAnthropicApiUrl(): string {
+  const fullOverride = process.env.ANTHROPIC_API_URL;
+  if (fullOverride && fullOverride.length > 0) return fullOverride;
   const base = (process.env.ANTHROPIC_BASE_URL ?? "https://api.anthropic.com").replace(/\/$/, "");
   return `${base}/v1/messages`;
 }

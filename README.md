@@ -21,6 +21,7 @@ The app runs at `http://localhost:3000`.
 | `DATA_DIR` | `./data/` | Production only | Directory for file-based character/build persistence. Required in production. |
 | `SCREENSHOT_DIR` | _(none)_ | Always | Destination directory for uploaded screenshots and the `/triage` gallery source. The upload endpoint writes here; the gallery reads here. No dev fallback — the app throws if unset whenever `/triage` is used. |
 | `ANTHROPIC_API_KEY` | _(none)_ | For `/triage` | Anthropic API key for Vision-LLM screenshot parsing. Server-side only — never exposed to the browser. |
+| `ANTHROPIC_API_URL` | `https://api.anthropic.com/v1/messages` | No | Override the Anthropic API endpoint. Used by the e2e test suite to redirect Vision API calls to a local mock server. Do not set in production. |
 | `UPLOAD_SECRET` | _(none)_ | Recommended for non-LAN | Optional shared secret for `POST /api/triage/upload`. Set to any strong random string when the endpoint is reachable beyond a private LAN. The PowerShell watcher sends this as `X-Upload-Token`. |
 
 In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY` are required to use the `/triage` workspace.
@@ -82,6 +83,35 @@ See `tools/datamine-import/README.md` for the full patch-update workflow, curati
 
 > **Note:** The per-class skill and paragon catalog entries were previously verified by manual audit across v6–v9 (`docs/datamine-verification-*.md`). That manual audit pattern is now subsumed by the import tool, which regenerates skills and paragon alongside affixes, aspects, and uniques in a single idempotent pass.
 
+## Testing
+
+### Unit / Integration Tests (vitest)
+
+```bash
+pnpm test
+```
+
+Runs the 18-file vitest suite covering persistence, triage extraction, resolver, damage engine, and schema validation. Test files live under `__tests__/` and match `*.test.ts`.
+
+### End-to-End Tests (Playwright)
+
+```bash
+# One-time browser install
+pnpm exec playwright install chromium
+
+# Run full suite headlessly
+pnpm test:e2e
+
+# Remote-monitor UI via Docker (opens browser on port 9323)
+pnpm e2e:ui
+```
+
+The e2e suite (`e2e/*.spec.ts`) drives every UI-facing feature in a real Chromium browser — Radix dialogs, react-hook-form state, optimistic-update patterns, and the triage parse → resolve → wear → delete funnel. It runs offline-safe against a local Anthropic API mock; no real API key is needed for testing.
+
+See [`docs/e2e-testing.md`](docs/e2e-testing.md) for the full guide: run modes, port configuration, the per-spec isolation model, the Anthropic mock, and known failing tests.
+
 ## For Downstream Agents
 
 Schemas in `lib/schema/` (Zod + inferred types) are the canonical shape for all domain types — `Character`, `Item`, `Affix`, `Build`, `D4Class`, `ItemRarity`. Persistence and route handlers in `lib/persistence/` and `app/api/` read/write through these schemas. Component prop types compose from `lib/schema` rather than inlining.
+
+The e2e fixture harness lives in `e2e/fixtures/` and exposes `createTestContext()` / `destroyTestContext()` for per-spec isolation. Tests that exercise the triage pipeline use `ctx.mockServer.expect("fixture-name")` to register mock Anthropic responses before triggering Parse actions.
