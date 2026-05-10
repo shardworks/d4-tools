@@ -13,10 +13,13 @@
  * D10 — generated filename when none supplied: <ISO8601>-<first-8-of-sha256>.<ext>
  * D11 — atomic binary write: temp path → rename
  * D12 — MIME-only image validation against SUPPORTED_IMAGE_TYPES
- * D13 — always save file before checking cache
+ * D13 — always save file before checking cache; cropper runs only on cache miss
  * D15 — 201 on success
+ * D17 — route response payload unchanged; crop telemetry is server-log only
  * D18 — timing-safe secret comparison via crypto.timingSafeEqual
  * D19 — filename containing / \ or .. → 400
+ * D20 — single [crop] log line per request; format: [crop] hash=… detected=… …
+ * D25 — cropper crops on full resolution but detects on downscaled
  */
 
 import { NextResponse } from "next/server";
@@ -27,6 +30,7 @@ import { getScreenshotDir } from "@/lib/persistence/paths";
 import { sha256 } from "@/lib/triage/hash";
 import { getCachedParse, writeCachedParse } from "@/lib/triage/cache";
 import { extractItemsFromImage } from "@/lib/triage/anthropic";
+import { cropForVision } from "@/lib/triage/crop";
 import { SUPPORTED_IMAGE_TYPES, type SupportedImageMediaType } from "@/lib/triage/types";
 
 // ─── Module-scoped latch: log the auth-disabled warning at most once (D6) ──
@@ -191,6 +195,8 @@ export async function POST(request: Request): Promise<NextResponse> {
   const finalPath = path.join(screenshotDir, finalFilename);
 
   // ── Atomic save — always before cache check (D11, D13) ───────────────────
+  // The on-disk original is byte-identical to the upload. The cropper is
+  // memory-only and never writes to this path.
   try {
     await atomicWriteBytes(finalPath, bytes);
   } catch (err) {
@@ -198,7 +204,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 
-  // ── Cache lookup — check after saving (D13) ───────────────────────────────
+  // ── Cache lookup — check after saving; hit short-circuits cropper (D5, D13) ─
   try {
     const cached = await getCachedParse(hash);
     if (cached) {
@@ -208,15 +214,25 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
   } catch (err) {
-    // Cache read failure is non-fatal — proceed to LLM
+    // Cache read failure is non-fatal — proceed to crop + LLM
     console.error("[upload] Cache read error:", err);
   }
+
+  // ── Tooltip detection + crop (D13, D20) ──────────────────────────────────
+  // Cropper runs only on cache miss. The original bytes are passed; the result
+  // is memory-only (D11). A single [crop] log line per request (D20).
+  const cropResult = await cropForVision(bytes, mediaType);
+  console.log(
+    `[crop] hash=${hash.slice(0, 8)} detected=${cropResult.detected} ` +
+      `regions=${cropResult.images.length} resized=${cropResult.resized} ` +
+      `bytes=${cropResult.encodedBytes}`
+  );
 
   // ── Synchronous LLM call (D5) ─────────────────────────────────────────────
   // On failure: return 200 (not 201) to signal "file accepted but parse failed"
   let entry;
   try {
-    entry = await extractItemsFromImage(bytes, mediaType);
+    entry = await extractItemsFromImage(cropResult.images);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Screenshot parsing failed";
     return NextResponse.json(

@@ -8,53 +8,42 @@
     starts a FileSystemWatcher on WatchDir, and on each Created event uploads
     the new file via multipart/form-data to UploadUrl.
 
+    On a successful upload (HTTP 2xx) the local file is deleted so that the
+    gaming machine's watch directory stays clean. The d4-tools host's
+    SCREENSHOT_DIR is the canonical archive. On upload failure the local file
+    is preserved so nothing is lost. A delete failure is logged as a warning
+    but does not surface as an upload failure (D10, D21).
+
     Targets PowerShell 5.1 (default on Windows 10/11). Does NOT require
     PowerShell 7 or any external modules.
 
     Decisions implemented:
     - D7  PS 5.1 compat: multipart boundary assembled manually with byte arrays
     - D8  Config from sibling JSON file
-    - D16 Local file is kept after upload (never deleted)
+    - D10 Delete-on-success: Remove-AfterUpload helper with Remove-Item inside
+          try/catch; warn on delete failure, never surface as upload failure
     - D17 Open-retry on IOException (file still being written by D4): short
           backoff loop until the file can be opened for read
+    - D21 Any HTTP 2xx triggers delete; upload failure preserves local file
     - D6/D18 UploadSecret sent as X-Upload-Token header when set
+
+.PESTER-TESTABILITY
+    Setting $__WatcherTestMode = $true before dot-sourcing this script causes
+    the script to return immediately after defining all helper functions, skipping
+    config loading and the FileSystemWatcher event loop. This allows Pester tests
+    to import and unit-test the helper functions in isolation.
+
+    Example:
+        $__WatcherTestMode = $true
+        . .\bin\screenshot-watcher.ps1
+        # Remove-AfterUpload and Upload-Screenshot are now available
 #>
 
 #Requires -Version 5.1
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-# ─── Load config ──────────────────────────────────────────────────────────────
-
-$ScriptDir  = Split-Path -Parent $MyInvocation.MyCommand.Path
-$ConfigPath = Join-Path $ScriptDir 'screenshot-watcher.config.json'
-
-if (-not (Test-Path $ConfigPath)) {
-    Write-Error "Config file not found: $ConfigPath`nCreate it by copying screenshot-watcher.config.json.example and filling in your values."
-    exit 1
-}
-
-$Config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
-
-$WatchDir     = $Config.WatchDir
-$UploadUrl    = $Config.UploadUrl
-$UploadSecret = if ($Config.PSObject.Properties['UploadSecret']) { $Config.UploadSecret } else { '' }
-$Filter       = if ($Config.PSObject.Properties['Filter'])       { $Config.Filter }       else { '*.png' }
-
-if ([string]::IsNullOrWhiteSpace($WatchDir)) {
-    Write-Error "WatchDir must be set in $ConfigPath"
-    exit 1
-}
-if ([string]::IsNullOrWhiteSpace($UploadUrl)) {
-    Write-Error "UploadUrl must be set in $ConfigPath"
-    exit 1
-}
-if (-not (Test-Path $WatchDir)) {
-    Write-Error "WatchDir does not exist: $WatchDir"
-    exit 1
-}
-
-# ─── Helpers ──────────────────────────────────────────────────────────────────
+# ─── Helper functions (defined first so they are available in test mode) ───────
 
 function Write-Log {
     param([string]$Message)
@@ -160,6 +149,9 @@ function Build-MultipartBody {
 .SYNOPSIS
     Uploads one file to the configured UploadUrl and logs the outcome.
     Returns $true on HTTP 2xx, $false otherwise.
+
+    $UploadUrl and $UploadSecret are read from script scope (set by config
+    loading below). In test mode they can be set before calling this function.
 #>
 function Upload-Screenshot {
     param([string]$FilePath)
@@ -220,6 +212,61 @@ function Upload-Screenshot {
     }
 }
 
+<#
+.SYNOPSIS
+    Deletes the local file after a successful upload (D10, D21).
+    On failure logs a warning and continues — delete failure is never surfaced
+    as an upload failure to the operator.
+#>
+function Remove-AfterUpload {
+    param([string]$FilePath)
+    $FileName = [System.IO.Path]::GetFileName($FilePath)
+    try {
+        Remove-Item -LiteralPath $FilePath -Force -ErrorAction Stop
+        Write-Log "  Deleted local file: $FileName"
+    }
+    catch {
+        Write-Log "  WARN: Local delete failed (upload still succeeded): $FileName — $($_.Exception.Message)"
+    }
+}
+
+# ─── Test-mode guard ──────────────────────────────────────────────────────────
+# When $__WatcherTestMode is $true the script was dot-sourced by a Pester test.
+# Return here so the test gets the function definitions without triggering config
+# loading or starting the FileSystemWatcher event loop.
+
+if ($__WatcherTestMode -eq $true) { return }
+
+# ─── Load config ──────────────────────────────────────────────────────────────
+
+$ScriptDir  = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ConfigPath = Join-Path $ScriptDir 'screenshot-watcher.config.json'
+
+if (-not (Test-Path $ConfigPath)) {
+    Write-Error "Config file not found: $ConfigPath`nCreate it by copying screenshot-watcher.config.json.example and filling in your values."
+    exit 1
+}
+
+$Config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
+
+$WatchDir     = $Config.WatchDir
+$UploadUrl    = $Config.UploadUrl
+$UploadSecret = if ($Config.PSObject.Properties['UploadSecret']) { $Config.UploadSecret } else { '' }
+$Filter       = if ($Config.PSObject.Properties['Filter'])       { $Config.Filter }       else { '*.png' }
+
+if ([string]::IsNullOrWhiteSpace($WatchDir)) {
+    Write-Error "WatchDir must be set in $ConfigPath"
+    exit 1
+}
+if ([string]::IsNullOrWhiteSpace($UploadUrl)) {
+    Write-Error "UploadUrl must be set in $ConfigPath"
+    exit 1
+}
+if (-not (Test-Path $WatchDir)) {
+    Write-Error "WatchDir does not exist: $WatchDir"
+    exit 1
+}
+
 # ─── FileSystemWatcher setup ──────────────────────────────────────────────────
 
 $Watcher                     = New-Object System.IO.FileSystemWatcher
@@ -268,8 +315,14 @@ try {
                 # Wait until D4 has finished writing the file (D17)
                 if (-not (Wait-FileReady -FilePath $FilePath)) { continue }
 
-                # Upload (D16: local file is kept regardless of outcome)
-                $null = Upload-Screenshot -FilePath $FilePath
+                # Upload; capture return value to decide on delete (D10, D21)
+                $Uploaded = Upload-Screenshot -FilePath $FilePath
+
+                if ($Uploaded) {
+                    # HTTP 2xx — delete local file; d4-tools host is the canonical archive (D21)
+                    Remove-AfterUpload -FilePath $FilePath
+                }
+                # On $false (upload failure) the file is preserved — nothing more to do
             }
         }
         Start-Sleep -Milliseconds 250

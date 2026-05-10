@@ -17,9 +17,12 @@ Next.js consumes and parses them via `POST /api/triage/upload`.
 │  screenshot-watcher.ps1          │  HTTP │    ↓                               │
 │    (FileSystemWatcher)  ─────────┼──────►│  SCREENSHOT_DIR/<filename>         │
 │                                  │       │    ↓                               │
-│  Local screenshots kept intact   │       │  Vision LLM (Anthropic)            │
-│  (never deleted)                 │       │    ↓                               │
-└──────────────────────────────────┘       │  DATA_DIR/screenshot-cache/<hash>  │
+│  Local screenshots deleted       │       │  Crop & Resize                     │
+│  on successful upload            │       │    (tooltip detect + byte-budget)  │
+│                                  │       │    ↓                               │
+└──────────────────────────────────┘       │  Vision LLM (Anthropic)            │
+                                           │    ↓                               │
+                                           │  DATA_DIR/screenshot-cache/<hash>  │
                                            │    ↓                               │
                                            │  /triage gallery                   │
                                            └────────────────────────────────────┘
@@ -29,8 +32,8 @@ Next.js consumes and parses them via `POST /api/triage/upload`.
 
 | Component | Host | Purpose |
 |---|---|---|
-| `bin/screenshot-watcher.ps1` | Gaming machine (Windows) | Watches the D4 screenshot folder; uploads new files via multipart HTTP POST |
-| `POST /api/triage/upload` | d4-tools host | Receives the file, saves it atomically under `SCREENSHOT_DIR`, calls the LLM, caches the result |
+| `bin/screenshot-watcher.ps1` | Gaming machine (Windows) | Watches the D4 screenshot folder; uploads new files via multipart HTTP POST; deletes local file on successful upload |
+| `POST /api/triage/upload` | d4-tools host | Receives the file, saves it atomically under `SCREENSHOT_DIR`, crops to detected tooltip, calls the LLM, caches the result |
 | `/triage` gallery | d4-tools host (browser) | Displays uploaded screenshots with parse results; Parse button available as fallback |
 
 Both machines can be the same computer (single-host setup). In that case
@@ -171,16 +174,29 @@ zero-config single-host setups.
 4. Server validates the `X-Upload-Token` header (if `UPLOAD_SECRET` is set).
 5. Server checks the MIME type, rejects non-image files.
 6. Server saves the file atomically under `SCREENSHOT_DIR` (collision suffix
-   appended if a file with the same name already exists).
+   appended if a file with the same name already exists). The on-disk file
+   is byte-identical to the upload and is never modified by later pipeline steps.
 7. Server computes SHA-256 of the file bytes.
 8. Server checks `DATA_DIR/screenshot-cache/<hash>.json` for a prior result.
-   - **Cache hit**: returns the cached `CacheEntry` in the response. LLM not called.
-   - **Cache miss**: calls the Anthropic Vision API synchronously.
+   - **Cache hit**: returns the cached `CacheEntry` in the response. Steps 8a–8c
+     and the LLM call are skipped entirely.
+   - **Cache miss**: continue to step 8a.
+8a. Server runs tooltip detection (color-threshold + connected-components) on a
+    downscaled working copy of the image to find the largest dark region.
+8b. The detected region (or the full image on detection failure) is cropped at
+    full resolution. The crop is then downscaled if needed to fit the Anthropic
+    5 MiB base64 input limit (JPEG fallback at quality 85).
+8c. The cropped/resized bytes are sent to the Vision LLM. A single `[crop]`
+    server log line is emitted with `detected`, `resized`, and `bytes` fields.
 9. On LLM success: writes the result to the cache; returns HTTP 201 with the
    full `CacheEntry`.
 10. On LLM failure: returns HTTP 200 (not 201) with `parseStatus: "error"` and
     the error message. The file remains on disk; the gallery's **Parse** button
     can retry.
+
+After a successful upload (HTTP 2xx), the watcher deletes the local file from
+`WatchDir`. On upload failure the local file is preserved. The d4-tools host's
+`SCREENSHOT_DIR` is the canonical archive.
 
 ---
 
@@ -188,5 +204,5 @@ zero-config single-host setups.
 
 The gallery at `/triage` lists all files under `SCREENSHOT_DIR`. Selecting any
 image and pressing **Parse** triggers the existing `POST /api/triage/parse`
-endpoint, which runs the same LLM flow on demand. Use this as a fallback when
-a watcher upload failed at the parse step.
+endpoint, which runs the same crop → LLM flow on demand. Use this as a fallback
+when a watcher upload failed at the parse step.

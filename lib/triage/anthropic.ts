@@ -6,6 +6,10 @@
  * - Tool-use with forced tool_choice for structured output (D7).
  * - Always emits aspect.source = 'legendary' (D11).
  * - ANTHROPIC_API_KEY is read here only — never in client code.
+ * - Input is an array of { bytes, mediaType } image entries (D15). The single-
+ *   image form has been removed — there is no backward-compat overload. Every
+ *   caller passes an array (length 1 in the common single-tooltip path) so that
+ *   multi-tooltip batching works uniformly (D6).
  */
 
 import type { CacheEntry, LlmExtractedItem, SupportedImageMediaType } from "./types";
@@ -119,14 +123,26 @@ interface AnthropicResponse {
   model: string;
 }
 
+/** One image input to the Anthropic Vision API. */
+export interface ImageInput {
+  bytes: Buffer;
+  mediaType: SupportedImageMediaType;
+}
+
 /**
- * Calls the Anthropic Vision API to extract item data from a screenshot.
+ * Calls the Anthropic Vision API to extract item data from one or more
+ * screenshot images.
+ *
+ * Input is an array of { bytes, mediaType } entries (D15). One image block
+ * per entry is emitted in the user message content array; the text prompt
+ * follows all image blocks (D6). For the common single-tooltip case, pass an
+ * array of length 1.
+ *
  * Returns a CacheEntry (item | no-item-detected | uncertain).
  * Errors are surfaced as thrown exceptions — they are NOT cached (D13).
  */
 export async function extractItemsFromImage(
-  imageBytes: Buffer,
-  mediaType: SupportedImageMediaType
+  images: ImageInput[]
 ): Promise<CacheEntry> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -135,7 +151,15 @@ export async function extractItemsFromImage(
     );
   }
 
-  const base64Image = imageBytes.toString("base64");
+  // Build one image content block per input entry (D6)
+  const imageBlocks = images.map(({ bytes, mediaType }) => ({
+    type: "image" as const,
+    source: {
+      type: "base64" as const,
+      media_type: mediaType,
+      data: bytes.toString("base64"),
+    },
+  }));
 
   const requestBody = {
     model: ANTHROPIC_MODEL,
@@ -146,14 +170,7 @@ export async function extractItemsFromImage(
       {
         role: "user",
         content: [
-          {
-            type: "image",
-            source: {
-              type: "base64",
-              media_type: mediaType,
-              data: base64Image,
-            },
-          },
+          ...imageBlocks,
           {
             type: "text",
             text: "Please analyze this Diablo 4 screenshot and extract all item tooltip information you can see. Record every item visible using the record_extracted_items tool. Include all affixes, their exact labels and numeric values as displayed. If no item tooltip is visible, call the tool with an empty items array.",

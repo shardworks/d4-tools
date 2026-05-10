@@ -1,3 +1,18 @@
+/**
+ * POST /api/triage/parse
+ * Body: { filename: string }
+ *
+ * Flow: filename → disk path → SHA-256 → cache hit/miss → crop → LLM → cache write → result.
+ * ANTHROPIC_API_KEY is only read inside extractItemsFromImage (server-side). (D24)
+ *
+ * Decisions implemented here:
+ * D3  — path-traversal protection via directory listing
+ * D5  — cropper runs only on cache miss (D13)
+ * D13 — cache hit short-circuits crop + LLM; cropper is cache-miss-only
+ * D17 — response payload unchanged; crop telemetry is server-log only
+ * D20 — single [crop] log line per request
+ */
+
 import { NextResponse } from "next/server";
 import * as fs from "fs/promises";
 import * as path from "path";
@@ -5,15 +20,9 @@ import { getScreenshotDir } from "@/lib/persistence/paths";
 import { sha256 } from "@/lib/triage/hash";
 import { getCachedParse, writeCachedParse } from "@/lib/triage/cache";
 import { extractItemsFromImage } from "@/lib/triage/anthropic";
+import { cropForVision } from "@/lib/triage/crop";
 import { SUPPORTED_IMAGE_TYPES } from "@/lib/triage/types";
 
-/**
- * POST /api/triage/parse
- * Body: { filename: string }
- *
- * Flow: filename → disk path → SHA-256 → cache hit/miss → LLM → cache write → result.
- * ANTHROPIC_API_KEY is only read inside extractItemsFromImage (server-side). (D24)
- */
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -72,21 +81,30 @@ export async function POST(request: Request) {
 
   const hash = sha256(bytes);
 
-  // Cache lookup (D15)
+  // Cache lookup — hit short-circuits crop + LLM (D13)
   try {
     const cached = await getCachedParse(hash);
     if (cached) {
       return NextResponse.json({ hash, cached: true, entry: cached });
     }
   } catch (err) {
-    // Cache read error is non-fatal — proceed to LLM
+    // Cache read error is non-fatal — proceed to crop + LLM
     console.error("Cache read error:", err);
   }
+
+  // Tooltip detection + crop (D13, D20)
+  // Cropper is cache-miss-only; original file on disk is not modified.
+  const cropResult = await cropForVision(bytes, mediaType);
+  console.log(
+    `[crop] hash=${hash.slice(0, 8)} detected=${cropResult.detected} ` +
+      `regions=${cropResult.images.length} resized=${cropResult.resized} ` +
+      `bytes=${cropResult.encodedBytes}`
+  );
 
   // LLM call — errors are NOT cached (D13)
   let entry;
   try {
-    entry = await extractItemsFromImage(bytes, mediaType);
+    entry = await extractItemsFromImage(cropResult.images);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Screenshot parsing failed";
     return NextResponse.json({ error: message }, { status: 500 });

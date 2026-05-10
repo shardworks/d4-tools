@@ -6,7 +6,14 @@ folder and uploads new screenshots to the d4-tools
 
 Run it on your **gaming machine** (Windows). Leave it running in a terminal
 while you play. Every time D4 saves a new screenshot, the watcher automatically
-uploads it to the d4-tools host for vision-LLM parsing.
+uploads it to the d4-tools host for vision-LLM parsing and then **deletes the
+local copy** so that your watch directory stays clean.
+
+> **v12 reversal (v16):** Previous versions of the watcher preserved local
+> files after upload. As of v16, successful uploads (HTTP 2xx) cause the local
+> file to be deleted from `WatchDir`. The d4-tools host's `SCREENSHOT_DIR` is
+> now the canonical archive. Files are only preserved locally when the upload
+> fails, so nothing is lost on a network error.
 
 ---
 
@@ -99,9 +106,15 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    boundary is constructed manually for PS 5.1 compatibility (PS 7's `-Form`
    parameter is not used).
 4. If `UploadSecret` is set, the `X-Upload-Token` header is sent.
-5. The local file is **never deleted** after upload — your screenshot archive
-   is preserved.
-6. Success and failure are logged to stdout with timestamps.
+5. **On a successful upload (HTTP 2xx):** the local file is deleted from
+   `WatchDir`. The d4-tools host's `SCREENSHOT_DIR` is the canonical archive.
+   If the delete itself fails (e.g. permissions, race condition), a `WARN` line
+   is logged and the upload is still considered successful — the operator is not
+   interrupted.
+6. **On a failed upload (non-2xx or network error):** the local file is
+   preserved in `WatchDir` unchanged. Nothing is lost; the operator can
+   investigate and re-upload manually.
+7. Success, failure, and warnings are logged to stdout with timestamps.
 
 ---
 
@@ -110,9 +123,9 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ### File uploaded but parse shows `error`
 
 The d4-tools server received the file but the LLM call failed. Check the
-server's console for `[upload]` log lines. Common causes: `ANTHROPIC_API_KEY`
-not set, API key exhausted, network error to Anthropic. You can re-parse from
-the `/triage` gallery's **Parse** button.
+server's console for `[upload]` and `[crop]` log lines. Common causes:
+`ANTHROPIC_API_KEY` not set, API key exhausted, network error to Anthropic.
+You can re-parse from the `/triage` gallery's **Parse** button.
 
 ### 401 Unauthorized
 
@@ -144,3 +157,9 @@ Test-NetConnection -ComputerName 192.168.1.50 -Port 3000
 
 See [`docs/triage-deployment.md`](../docs/triage-deployment.md) for networking
 topology guidance.
+
+### Local file was not deleted after upload
+
+If the delete fails (permissions, antivirus hold, etc.), the watcher logs a
+`WARN` line and continues. The file remains in `WatchDir` and should be safe
+to delete manually once the upload is confirmed successful on the server.

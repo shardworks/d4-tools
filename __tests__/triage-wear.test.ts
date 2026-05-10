@@ -199,7 +199,7 @@ describe("Anthropic fetch stubbing (D28 — no live HTTP)", () => {
 
     const { extractItemsFromImage } = await import("../lib/triage/anthropic");
     const bytes = Buffer.from("fake png bytes");
-    const result = await extractItemsFromImage(bytes, "image/png");
+    const result = await extractItemsFromImage([{ bytes, mediaType: "image/png" }]);
 
     // Verify fetch was called once
     expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -234,7 +234,7 @@ describe("Anthropic fetch stubbing (D28 — no live HTTP)", () => {
     }));
 
     const { extractItemsFromImage } = await import("../lib/triage/anthropic");
-    const result = await extractItemsFromImage(Buffer.from("empty"), "image/jpeg");
+    const result = await extractItemsFromImage([{ bytes: Buffer.from("empty"), mediaType: "image/jpeg" }]);
 
     expect(result.kind).toBe("no-item-detected");
 
@@ -252,7 +252,7 @@ describe("Anthropic fetch stubbing (D28 — no live HTTP)", () => {
 
     const { extractItemsFromImage } = await import("../lib/triage/anthropic");
     await expect(
-      extractItemsFromImage(Buffer.from("err"), "image/png")
+      extractItemsFromImage([{ bytes: Buffer.from("err"), mediaType: "image/png" }])
     ).rejects.toThrow("500");
 
     process.env.ANTHROPIC_API_KEY = undefined;
