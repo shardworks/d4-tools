@@ -44,8 +44,8 @@
       "label": "Aspect of Might",
       "labelTemplate": "Basic Skills grant {value}% Damage Reduction for 2 seconds.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -73,8 +73,8 @@
       "label": "Conceited Aspect",
       "labelTemplate": "Deal {value}% increased damage while you have a Barrier active.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -108,8 +108,8 @@
       "label": "Eluding Aspect",
       "labelTemplate": "Becoming Injured while Crowd Controlled grants you Unstoppable for {value} seconds.",
       "valueRange": [
-        3.0,
-        5.0
+        3,
+        5
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -131,8 +131,8 @@
       "label": "Aspect of the Elements",
       "labelTemplate": "Gain {value}% increased damage to a set of damage types for 7 seconds. This effect alternates between Fire, Ice, and Lightning damage types.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -154,8 +154,8 @@
       "label": "Aspect of Frozen Orbit",
       "labelTemplate": "Blizzard deals {value}% increased damage and will strike 1 additional time.",
       "valueRange": [
-        65.0,
-        100.0
+        65,
+        100
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -187,8 +187,8 @@
       "label": "Snowguard's Aspect",
       "labelTemplate": "While within your own Blizzard, you take {value}% less damage.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -214,8 +214,8 @@
       "label": "Prodigy's Aspect",
       "labelTemplate": "Using a Cooldown restores {value} Mana.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -242,8 +242,8 @@
       "label": "Aspect of Piercing Cold",
       "labelTemplate": "Ice Shards pierce {value} times, dealing 20% reduced damage each pierce.",
       "valueRange": [
-        3.0,
-        5.0
+        3,
+        5
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -271,8 +271,8 @@
       "label": "Flamethrower Aspect",
       "labelTemplate": "Incinerate forks into {value} additional streams.",
       "valueRange": [
-        2.0,
-        4.0
+        2,
+        4
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -291,15 +291,17 @@
         "Sorcerer"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetFileName": "legendary_sorc_139",
+      "bnetId": 1755013
     },
     {
       "id": "aspect_of_berserk_ripping",
       "label": "Aspect of Berserk Ripping",
       "labelTemplate": "Whenever you deal direct damage while Berserking, inflict {value}% of the Base damage dealt as additional Bleeding damage over 5 seconds.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -329,8 +331,8 @@
       "label": "Aspect of Anemia",
       "labelTemplate": "Lucky Hit: Direct damage against Bleeding enemies has up to a {value}% chance to Stun them for 2 seconds.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -360,8 +362,8 @@
       "label": "Aspect of Grasping Veins",
       "labelTemplate": "Gain {value}% increased Critical Strike Chance for 6 seconds when you cast Corpse Tendrils.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -391,8 +393,8 @@
       "label": "Blood Seeker's Aspect",
       "labelTemplate": "Blood Lance deals {value}% increased damage to its primary target for each other enemy it also hits.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -422,8 +424,8 @@
       "label": "Aspect of Explosive Verve",
       "labelTemplate": "Your Grenade skills count as Trap skills. Whenever you arm a Trap or drop Grenades, you gain {value}% increased Movement Speed for 3 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -451,8 +453,8 @@
       "label": "Rapid Aspect",
       "labelTemplate": "Basic Skills gain {value}% increased Attack Speed.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -484,8 +486,8 @@
       "label": "Aspect of the Unsatiated",
       "labelTemplate": "After killing an enemy with Shred, your next Werewolf Skill deals {value}% increased damage.",
       "valueRange": [
-        30.0,
-        50.0
+        30,
+        50
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -517,8 +519,8 @@
       "label": "Stormshifter's Aspect",
       "labelTemplate": "While Hurricane is active, Shred gains {value} additional Charge(s).",
       "valueRange": [
-        1.0,
-        2.0
+        1,
+        2
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -546,8 +548,8 @@
       "label": "Aspect of the Calm Breeze",
       "labelTemplate": "Lucky Hit: Wind Shear has up to a {value}% chance to fully restore your Spirit.",
       "valueRange": [
-        5.0,
-        15.0
+        5,
+        15
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -575,8 +577,8 @@
       "label": "Aspect of the Overflowing Energy",
       "labelTemplate": "Crackling Energy hits {value} additional enemy. Each time Crackling Energy hits an enemy, your Shock Skill Cooldowns are reduced by 0.1 second.",
       "valueRange": [
-        1.0,
-        2.0
+        1,
+        2
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -602,8 +604,8 @@
       "label": "Aspect of Star Power",
       "labelTemplate": "Lucky Hit: Critical Strikes have up to {value}% chance to temporarily increase your Critical Strike Damage by 30% for 5 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -631,8 +633,8 @@
       "label": "Windstriker Aspect",
       "labelTemplate": "Critical Strikes grant {value}% increased Movement Speed for 1 second, up to 6 seconds.",
       "valueRange": [
-        8.0,
-        16.0
+        8,
+        16
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -664,8 +666,8 @@
       "label": "Retribution Aspect",
       "labelTemplate": "Distant enemies have a {value}% chance to be Stunned when they damage you. You deal 20% increased damage to Stunned enemies.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -695,8 +697,8 @@
       "label": "Aspect of the Protector",
       "labelTemplate": "Damaging an Elite enemy grants you a Barrier absorbing up to {value}% of your Maximum Life for 10 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -720,8 +722,8 @@
       "label": "Aspect of Arrow Storms",
       "labelTemplate": "Lucky Hit: Your Bow skills have up to {value}% chance to create an arrow storm at the enemy's location, dealing Physical damage over 3 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -751,8 +753,8 @@
       "label": "Aspect of Numbing Wrath",
       "labelTemplate": "Each time you generate Primary Resource, gain {value}% Damage Reduction for 2 seconds.",
       "valueRange": [
-        3.0,
-        8.0
+        3,
+        8
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -782,8 +784,8 @@
       "label": "Cheat the Grave Aspect",
       "labelTemplate": "Evading through an enemy's attack makes it miss. This effect has a {value} second Cooldown.",
       "valueRange": [
-        5.0,
-        10.0
+        5,
+        10
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -805,8 +807,8 @@
       "label": "Aspect of Overwhelming Force",
       "labelTemplate": "Your Skills that Knock Back or Knock Down enemies deal {value}% increased damage for 5 seconds.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -838,8 +840,8 @@
       "label": "Smiting Aspect",
       "labelTemplate": "You have {value}% increased Critical Strike Chance against Injured enemies. While you are Healthy, you gain 20% increased Crowd Control Duration.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -873,8 +875,8 @@
       "label": "Aspect of Plunging Darkness",
       "labelTemplate": "Bone Prison spawns a pool of Blight that deals {value}% bonus damage over 6 seconds.",
       "valueRange": [
-        50.0,
-        100.0
+        50,
+        100
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -908,8 +910,8 @@
       "label": "Aspect of Shredding Blades",
       "labelTemplate": "Each blade from Twisting Blades adds {value} bonus Armor for 6 seconds, up to 3 blades.",
       "valueRange": [
-        100.0,
-        250.0
+        100,
+        250
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -941,8 +943,8 @@
       "label": "Aspect of the Long Shadow",
       "labelTemplate": "Your Shadow Imbuement Skills deal {value}% increased damage for 3 seconds after you enter Stealth.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -978,8 +980,8 @@
       "label": "Aspect of Bounding Condemnation",
       "labelTemplate": "While Berserking, your Critical Strikes deal {value}% of the damage dealt as additional Fire damage.",
       "valueRange": [
-        10.0,
-        25.0
+        10,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1013,8 +1015,8 @@
       "label": "Bul-Kathos's Conjuring Aspect",
       "labelTemplate": "While both hits of Double Swing hit the same enemy, you gain {value}% increased Fury generation and deal 35% more damage.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1048,8 +1050,8 @@
       "label": "Aspect of Limitless Rage",
       "labelTemplate": "Each point of Fury you generate while at Maximum Fury grants your next Core Skill {value}% increased damage.",
       "valueRange": [
-        1.0,
-        3.0
+        1,
+        3
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1085,8 +1087,8 @@
       "label": "Aspect of the Dire Whirlwind",
       "labelTemplate": "Whirlwind gains {value}% increased Critical Strike Chance for each second it's been channeling, up to 3 seconds.",
       "valueRange": [
-        3.0,
-        8.0
+        3,
+        8
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1122,8 +1124,8 @@
       "label": "Accursed Touch Aspect",
       "labelTemplate": "Lucky Hit: Up to {value}% chance to inflict Vampiric Curse on enemies. Enemies afflicted with Vampiric Curse are also Vulnerable.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1155,8 +1157,8 @@
       "label": "Iron Blood Aspect",
       "labelTemplate": "Gain {value}% Damage Reduction for each nearby Bleeding enemy, up to 3 enemies.",
       "valueRange": [
-        2.0,
-        4.0
+        2,
+        4
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1188,8 +1190,8 @@
       "label": "Aspect of Ancestral Echoes",
       "labelTemplate": "Lucky Hit: Active Shouts have up to {value}% chance to summon an Ancient to attack for 6 seconds.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1221,8 +1223,8 @@
       "label": "Relentless Berserker's Aspect",
       "labelTemplate": "Killing an enemy while Berserking has a {value}% chance to extend the duration of Berserking.",
       "valueRange": [
-        40.0,
-        60.0
+        40,
+        60
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1254,8 +1256,8 @@
       "label": "Aspect of Burning Rage",
       "labelTemplate": "While Berserking, you deal {value}% of your dealt damage as additional Fire damage.",
       "valueRange": [
-        35.0,
-        50.0
+        35,
+        50
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1291,8 +1293,8 @@
       "label": "Tidal Aspect",
       "labelTemplate": "Charged Bolts orbits you after its initial strike, but now has a {value} second cooldown.",
       "valueRange": [
-        5.0,
-        10.0
+        5,
+        10
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -1324,8 +1326,8 @@
       "label": "Vigorous Aspect",
       "labelTemplate": "Gain {value}% Damage Reduction while Shapeshifted into a Werewolf.",
       "valueRange": [
-        10.0,
-        18.0
+        10,
+        18
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1357,8 +1359,8 @@
       "label": "Aspect of the Three Curses",
       "labelTemplate": "Meteor deals {value}% increased Critical Strike Damage against Healthy enemies.",
       "valueRange": [
-        30.0,
-        60.0
+        30,
+        60
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1392,8 +1394,8 @@
       "label": "Aspect of Biting Cold",
       "labelTemplate": "When you Freeze an enemy, you have a {value}% chance to instantly Shatter them.",
       "valueRange": [
-        25.0,
-        45.0
+        25,
+        45
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1425,8 +1427,8 @@
       "label": "Aspect of the Steady Enigma",
       "labelTemplate": "Gain {value}% chance to get Teleport's Unstoppable buff when you take damage.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1456,8 +1458,8 @@
       "label": "Aspect of Singed Extremities",
       "labelTemplate": "After Immobilizing enemies, their Movement Speed is reduced by {value}% for 4 seconds.",
       "valueRange": [
-        50.0,
-        80.0
+        50,
+        80
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1489,8 +1491,8 @@
       "label": "Mangled Aspect",
       "labelTemplate": "When you are struck as a Werewolf, you have {value}% chance to automatically cast Maul at the attacker.",
       "valueRange": [
-        30.0,
-        50.0
+        30,
+        50
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1522,8 +1524,8 @@
       "label": "Everliving Aspect",
       "labelTemplate": "You take {value}% less damage from Crowd Controlled or Vulnerable enemies.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1555,8 +1557,8 @@
       "label": "Charged Aspect",
       "labelTemplate": "Collecting Crackling Energy increases your Movement Speed by {value}% for 4 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1592,8 +1594,8 @@
       "label": "Shivering Aspect",
       "labelTemplate": "Frost Nova grants {value}% Mana Regeneration for 4 seconds.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1625,8 +1627,8 @@
       "label": "Aspect of Volatile Shadows",
       "labelTemplate": "When a Dark Shroud shadow is removed, it detonates dealing {value}% of your Damage per Second as Physical damage.",
       "valueRange": [
-        100.0,
-        200.0
+        100,
+        200
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1662,8 +1664,8 @@
       "label": "Glacial Aspect",
       "labelTemplate": "When you cast Blizzard it will Periodically spawn Icy Spike on the ground that deals {value}% of your damage per second.",
       "valueRange": [
-        120.0,
-        180.0
+        120,
+        180
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1699,8 +1701,8 @@
       "label": "Aspect of Unbroken Tether",
       "labelTemplate": "Chain Lightning has a {value}% chance to chain {1} additional times.",
       "valueRange": [
-        25.0,
-        40.0
+        25,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1727,15 +1729,17 @@
       "attribute": {
         "eAttribute": "Attr_Lightning_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetFileName": "legendary_sorc_122",
+      "bnetId": 1225298
     },
     {
       "id": "aspect_of_conflagration",
       "label": "Aspect of Conflagration",
       "labelTemplate": "While Channeling Incinerate, your Burning damage is increased by {value}%.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1771,8 +1775,8 @@
       "label": "Aspect of Grim Harvest",
       "labelTemplate": "Consuming a Corpse generates {value} Essence.",
       "valueRange": [
-        3.0,
-        6.0
+        3,
+        6
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -1802,8 +1806,8 @@
       "label": "Aspect of Bursting Bones",
       "labelTemplate": "Each time a segment of Bone Prison is destroyed or expires, it deals {value}% damage in an area.",
       "valueRange": [
-        35.0,
-        60.0
+        35,
+        60
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1839,8 +1843,8 @@
       "label": "Aspect of Rathma's Chosen",
       "labelTemplate": "Whenever your Blood Golem damages an enemy, you gain {value}% Attack Speed for 3 seconds.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1876,8 +1880,8 @@
       "label": "Aspect of the Void",
       "labelTemplate": "Blight's defiled area now Pulls enemies to its center before detonating for {value}% increased Blight damage.",
       "valueRange": [
-        50.0,
-        100.0
+        50,
+        100
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1913,8 +1917,8 @@
       "label": "Unyielding Commander's Aspect",
       "labelTemplate": "While Army of the Dead is active, your Minions take {value}% reduced damage and deal 70% bonus damage.",
       "valueRange": [
-        50.0,
-        70.0
+        50,
+        70
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1950,8 +1954,8 @@
       "label": "Blighted Aspect",
       "labelTemplate": "You deal {value}% increased damage for 6 seconds after the Shadowblight Key Passive damages enemies 10 or more times.",
       "valueRange": [
-        70.0,
-        120.0
+        70,
+        120
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -1985,8 +1989,8 @@
       "label": "Aspect of Reanimation",
       "labelTemplate": "Your Skeletons gain {value}% increased Attack Speed while you are Healthy.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2022,8 +2026,8 @@
       "label": "Aspect of Exposed Flesh",
       "labelTemplate": "Lucky Hit: Up to {value}% chance to generate 30 Essence when you hit a Vulnerable enemy.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2055,8 +2059,8 @@
       "label": "Aspect of Branching Volleys",
       "labelTemplate": "Barrage's arrows have a {value}% chance to split into 2 additional arrows whenever they ricochet.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2090,8 +2094,8 @@
       "label": "Bladedancer's Aspect",
       "labelTemplate": "Twisting Blades orbit for a short time after they return to you, dealing {value}% of Twisting Blades damage per hit.",
       "valueRange": [
-        10.0,
-        25.0
+        10,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2127,8 +2131,8 @@
       "label": "Aspect of Echoing Fury",
       "labelTemplate": "Your Shout Skills generate {value} Fury each second while active.",
       "valueRange": [
-        2.0,
-        4.0
+        2,
+        4
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -2158,8 +2162,8 @@
       "label": "Aspect of Imitated Imbuement",
       "labelTemplate": "Flurry's Shadow Imbuement hits leave behind a Pyre that deals {value}% Shadow damage per second to nearby enemies.",
       "valueRange": [
-        35.0,
-        55.0
+        35,
+        55
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2195,8 +2199,8 @@
       "label": "Shadowslicer Aspect",
       "labelTemplate": "When you cast Dash, a Shadow Clone is spawned at your starting location that also casts Dash, dealing {value}% of the normal damage.",
       "valueRange": [
-        40.0,
-        60.0
+        40,
+        60
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2232,8 +2236,8 @@
       "label": "Toxic Alchemist's Aspect",
       "labelTemplate": "Lucky Hit: Shadow and Poison skills have up to {value}% chance to create a toxic pool at the enemy's location dealing 40% Poison damage over 3 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2269,8 +2273,8 @@
       "label": "Aspect of Lethal Dusk",
       "labelTemplate": "Evading through a Shadow Imbuement detonation makes you Stealthed for {value} seconds.",
       "valueRange": [
-        2.0,
-        4.0
+        2,
+        4
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -2302,8 +2306,8 @@
       "label": "Hemomancer's Aspect",
       "labelTemplate": "Your Hemorrhage crits cause the target to suffer {value}% increased Bleeding damage for 4 seconds.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2337,8 +2341,8 @@
       "label": "Aspect of the Rampaging Werebeast",
       "labelTemplate": "The duration of Grizzly Rage is increased by {value} seconds. In addition, killing an enemy while Grizzly Rage is active increases your Critical Strike Chance by 10% for the duration.",
       "valueRange": [
-        5.0,
-        10.0
+        5,
+        10
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -2374,8 +2378,8 @@
       "label": "Aspect of Natural Balance",
       "labelTemplate": "Casting a Storm Skill grants your Earth Skills {value}% bonus Critical Strike Chance for 4 seconds. Casting an Earth Skill increases the Critical Strike Damage of Storm Skills by {1}% for 4 seconds.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2411,8 +2415,8 @@
       "label": "Aspect of Unrelenting Fury",
       "labelTemplate": "Killing an enemy with a Core Skill refunds {value}% of its base Fury cost. Can only happen once per Skill cast.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2442,8 +2446,8 @@
       "label": "Crashstone Aspect",
       "labelTemplate": "Earth Skills deal {value}% increased Critical Strike Damage to Crowd Controlled enemies.",
       "valueRange": [
-        30.0,
-        50.0
+        30,
+        50
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2479,8 +2483,8 @@
       "label": "Aspect of the Moonrise",
       "labelTemplate": "Damaging an enemy with a Basic Skill grants you {value}% Attack Speed for 10 seconds, stacking up to 5 times.",
       "valueRange": [
-        5.0,
-        10.0
+        5,
+        10
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2516,8 +2520,8 @@
       "label": "Aspect of Mending Stone",
       "labelTemplate": "The duration of Earthen Bulwark is increased by {value} seconds. Killing an enemy with a Core Skill while Earthen Bulwark is active extends its duration by 2 seconds.",
       "valueRange": [
-        4.0,
-        8.0
+        4,
+        8
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -2549,8 +2553,8 @@
       "label": "Mighty Storm's Aspect",
       "labelTemplate": "The Earthen Might Key Passive also applies to Storm Skills.",
       "valueRange": [
-        0.0,
-        0.0
+        0,
+        0
       ],
       "isPercent": false,
       "slotRestrictions": [
@@ -2582,8 +2586,8 @@
       "label": "Aspect of the Tempest",
       "labelTemplate": "Hurricane damage is increased by {value}% each second while active.",
       "valueRange": [
-        7.0,
-        15.0
+        7,
+        15
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2619,8 +2623,8 @@
       "label": "Protector's Aspect",
       "labelTemplate": "After you take damage from an enemy, you deal {value}% increased damage for 3 seconds.",
       "valueRange": [
-        12.0,
-        22.0
+        12,
+        22
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2647,15 +2651,17 @@
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetFileName": "legendary_generic_011",
+      "bnetId": 578842
     },
     {
       "id": "spirit_bond_aspect",
       "label": "Spirit Bond Aspect",
       "labelTemplate": "Lucky Hit: Your Spirit Boon skills have up to {value}% chance to restore 20% of your Primary Resource.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2685,8 +2691,8 @@
       "label": "Hawk Flight Aspect",
       "labelTemplate": "Ravager has a {value}% chance to reset its Cooldown when it kills an enemy.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2716,8 +2722,8 @@
       "label": "Aspect of Venom",
       "labelTemplate": "Poison damage from your Centipede skills deals {value}% bonus damage against Healthy enemies.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2751,8 +2757,8 @@
       "label": "Ursine Strength Aspect",
       "labelTemplate": "Gain {value}% bonus Maximum Life while Healthy. While Healthy, your non-Fortified barrier is converted into Maximum Life for the duration.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2782,8 +2788,8 @@
       "label": "Aspect of the Stampede",
       "labelTemplate": "Your Eagle Skills deal {value}% increased damage per additional active Spirit Guardian, up to 4.",
       "valueRange": [
-        3.0,
-        6.0
+        3,
+        6
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2819,8 +2825,8 @@
       "label": "Predator's Aspect",
       "labelTemplate": "Ravager leaves a trail of fire that deals {value}% Fire damage per second to enemies who walk through it.",
       "valueRange": [
-        50.0,
-        90.0
+        50,
+        90
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2854,8 +2860,8 @@
       "label": "Aspect of Acute Zeal",
       "labelTemplate": "Your Eagle Skills generate {value}% more Ferocity.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2885,8 +2891,8 @@
       "label": "Invigorating Condemnation Aspect",
       "labelTemplate": "Your Consecration creates a zone that grants {value}% increased Valor Skill Damage for 5 seconds.",
       "valueRange": [
-        15.0,
-        30.0
+        15,
+        30
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2920,8 +2926,8 @@
       "label": "Wrath of the Heavens Aspect",
       "labelTemplate": "Your Justice Skills deal {value}% additional Holy Damage for 4 seconds after using an Aura Skill.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2955,8 +2961,8 @@
       "label": "Divine Protection Aspect",
       "labelTemplate": "Block generates {value}% Wrath.",
       "valueRange": [
-        5.0,
-        10.0
+        5,
+        10
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -2986,8 +2992,8 @@
       "label": "Crusader's Piety Aspect",
       "labelTemplate": "Casting Blessed Hammer reduces the cost of your next Core Skill by {value}%.",
       "valueRange": [
-        20.0,
-        40.0
+        20,
+        40
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3017,8 +3023,8 @@
       "label": "Aspect of Faith",
       "labelTemplate": "For each nearby Consecration, your Aura Skills deal {value}% increased damage.",
       "valueRange": [
-        8.0,
-        15.0
+        8,
+        15
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3052,8 +3058,8 @@
       "label": "Shield of Valor Aspect",
       "labelTemplate": "After Blocking, you gain a Barrier equal to {value}% of your Maximum Life for 5 seconds.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3083,8 +3089,8 @@
       "label": "Zealous Judgment Aspect",
       "labelTemplate": "Your Critical Strikes deal {value}% bonus Holy Damage.",
       "valueRange": [
-        15.0,
-        30.0
+        15,
+        30
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3118,8 +3124,8 @@
       "label": "Aspect of Consecrated Ground",
       "labelTemplate": "Enemies in your Consecration have their damage reduced by {value}%.",
       "valueRange": [
-        8.0,
-        15.0
+        8,
+        15
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3149,8 +3155,8 @@
       "label": "Sinister Pact Aspect",
       "labelTemplate": "Your Archfiend Skills deal {value}% increased damage while you have 3 or more Soul Shards.",
       "valueRange": [
-        25.0,
-        45.0
+        25,
+        45
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3184,8 +3190,8 @@
       "label": "Affliction Conduit Aspect",
       "labelTemplate": "Shadow damage from your Sigil Skills is increased by {value}% for each Affliction active on you.",
       "valueRange": [
-        5.0,
-        12.0
+        5,
+        12
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3219,8 +3225,8 @@
       "label": "Damnation Aspect",
       "labelTemplate": "Killing a Cursed enemy grants {value}% increased damage for 4 seconds.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3254,8 +3260,8 @@
       "label": "Aspect of Soul Devourer",
       "labelTemplate": "When you consume 3 or more Soul Shards at once, you restore {value}% of your Maximum Life.",
       "valueRange": [
-        10.0,
-        20.0
+        10,
+        20
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3285,8 +3291,8 @@
       "label": "Hexing Aspect",
       "labelTemplate": "Your Sigil Skills Slow enemies by an additional {value}% while you have 5 or more Afflictions active.",
       "valueRange": [
-        20.0,
-        35.0
+        20,
+        35
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3316,8 +3322,8 @@
       "label": "Aspect of the Dark Bargain",
       "labelTemplate": "Your Wrath generation is increased by {value}% when you are below 40% Life.",
       "valueRange": [
-        15.0,
-        25.0
+        15,
+        25
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3347,8 +3353,8 @@
       "label": "Malefic Aspect",
       "labelTemplate": "Enemies hit by Archfiend Skills suffer {value}% increased Poison damage for 5 seconds.",
       "valueRange": [
-        15.0,
-        30.0
+        15,
+        30
       ],
       "isPercent": true,
       "slotRestrictions": [
@@ -3382,8 +3388,8 @@
       "label": "Aspect of Arcane Torment",
       "labelTemplate": "Your Affliction effects deal {value}% increased damage.",
       "valueRange": [
-        15.0,
-        30.0
+        15,
+        30
       ],
       "isPercent": true,
       "slotRestrictions": [
