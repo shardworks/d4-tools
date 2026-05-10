@@ -1,13 +1,12 @@
 {
   "__fileName__": "Unique_Sword_Test",
   "__snoID__": 3000001,
-  "eItemType": "ITEM_TYPE_SWORD",
-  "eQualityLevel": "ITEM_QUALITY_UNIQUE",
-  "arClassesAllowed": [],
+  "eMagicType": 2,
+  "snoItemType": { "name": "Sword" },
+  "fUsableByClass": [],
   "ptItemAffixAttributes": [
     {
-      "tAttribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
-      "afValue": [0.20, 0.40]
+      "tAttribute": { "eAttribute": 0, "__eAttribute_name__": "Attr_Skill_Damage_Percent", "nParam": 0 }
     }
   ]
 }

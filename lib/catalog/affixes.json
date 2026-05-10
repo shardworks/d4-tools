@@ -20,7 +20,9 @@
       "attribute": {
         "eAttribute": "Attr_Max_Life",
         "nParam": 0
-      }
+      },
+      "bnetId": 577173,
+      "bnetFileName": "Life"
     },
     {
       "id": "affix_max_life_pct",
@@ -41,7 +43,9 @@
       "attribute": {
         "eAttribute": "Attr_Life_Percent_Bonus",
         "nParam": 0
-      }
+      },
+      "bnetId": 1320718,
+      "bnetFileName": "LifePercent"
     },
     {
       "id": "affix_str",
@@ -57,7 +61,9 @@
       "attribute": {
         "eAttribute": "Attr_Strength_Item",
         "nParam": 0
-      }
+      },
+      "bnetId": 583632,
+      "bnetFileName": "CoreStat_Strength"
     },
     {
       "id": "affix_int",
@@ -73,7 +79,9 @@
       "attribute": {
         "eAttribute": "Attr_Intelligence_Item",
         "nParam": 0
-      }
+      },
+      "bnetId": 583646,
+      "bnetFileName": "CoreStat_Intelligence"
     },
     {
       "id": "affix_wil",
@@ -89,7 +97,9 @@
       "attribute": {
         "eAttribute": "Attr_Willpower_Item",
         "nParam": 0
-      }
+      },
+      "bnetId": 583654,
+      "bnetFileName": "CoreStat_Willpower"
     },
     {
       "id": "affix_dex",
@@ -105,7 +115,9 @@
       "attribute": {
         "eAttribute": "Attr_Dexterity_Item",
         "nParam": 0
-      }
+      },
+      "bnetId": 583643,
+      "bnetFileName": "CoreStat_Dexterity"
     },
     {
       "id": "affix_crit_chance",
@@ -127,7 +139,9 @@
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577051,
+      "bnetFileName": "CritChance"
     },
     {
       "id": "affix_crit_damage",
@@ -154,7 +168,9 @@
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577177,
+      "bnetFileName": "CritDamage"
     },
     {
       "id": "affix_attack_speed",
@@ -175,7 +191,9 @@
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
         "nParam": 0
-      }
+      },
+      "bnetId": 583206,
+      "bnetFileName": "AttackSpeed"
     },
     {
       "id": "affix_movement_speed",
@@ -194,7 +212,9 @@
       "attribute": {
         "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
         "nParam": 0
-      }
+      },
+      "bnetId": 577213,
+      "bnetFileName": "Movement_Speed"
     },
     {
       "id": "affix_cdr",
@@ -214,7 +234,9 @@
       "attribute": {
         "eAttribute": "Attr_Cooldown_Reduction_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577021,
+      "bnetFileName": "CooldownReductionCDR"
     },
     {
       "id": "affix_rcr",
@@ -235,7 +257,9 @@
       "attribute": {
         "eAttribute": "Attr_Resource_Cost_Reduction_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577033,
+      "bnetFileName": "Resource_Cost_Reduction_Necromancer"
     },
     {
       "id": "affix_damage_reduction",
@@ -250,7 +274,9 @@
         "chest",
         "pants"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_damage_reduction_close",
@@ -266,7 +292,9 @@
         "pants",
         "amulet"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577149,
+      "bnetFileName": "DamageReductionClose"
     },
     {
       "id": "affix_damage_reduction_distant",
@@ -282,7 +310,9 @@
         "pants",
         "amulet"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577145,
+      "bnetFileName": "DamageReductionDistant"
     },
     {
       "id": "affix_all_res",
@@ -300,7 +330,9 @@
       "attribute": {
         "eAttribute": "Attr_All_Resistances",
         "nParam": 0
-      }
+      },
+      "bnetId": 609816,
+      "bnetFileName": "ElementalDamageReduction"
     },
     {
       "id": "affix_fire_res",
@@ -320,7 +352,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577081,
+      "bnetFileName": "Resistance_Single_Fire"
     },
     {
       "id": "affix_cold_res",
@@ -340,7 +374,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577083,
+      "bnetFileName": "Resistance_Single_Frost"
     },
     {
       "id": "affix_lightning_res",
@@ -360,7 +396,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577085,
+      "bnetFileName": "Resistance_Single_Lightning"
     },
     {
       "id": "affix_shadow_res",
@@ -380,7 +418,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577089,
+      "bnetFileName": "Resistance_Single_Shadow"
     },
     {
       "id": "affix_poison_res",
@@ -400,7 +440,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 577087,
+      "bnetFileName": "Resistance_Single_Poison"
     },
     {
       "id": "affix_lucky_hit_chance",
@@ -416,7 +458,9 @@
       "attribute": {
         "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577217,
+      "bnetFileName": "Luck"
     },
     {
       "id": "affix_vulnerable_damage",
@@ -436,7 +480,9 @@
       "attribute": {
         "eAttribute": "Attr_Vuln_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577111,
+      "bnetFileName": "Damage_to_Vulnerable"
     },
     {
       "id": "affix_overpower_damage",
@@ -463,7 +509,9 @@
       "attribute": {
         "eAttribute": "Attr_Overpower_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 577053,
+      "bnetFileName": "OverpowerDamage"
     },
     {
       "id": "affix_core_skill_damage",
@@ -488,7 +536,9 @@
       "attribute": {
         "eAttribute": "Attr_Core_Skill_Damage_Percent",
         "nParam": 0
-      }
+      },
+      "bnetId": 1085163,
+      "bnetFileName": "Damage_Category_Basics"
     },
     {
       "id": "affix_damage_vs_elites",
@@ -509,7 +559,9 @@
       "attribute": {
         "eAttribute": "Attr_Damage_Percent_Bonus_To_Elites",
         "nParam": 0
-      }
+      },
+      "bnetId": 577117,
+      "bnetFileName": "Damage_to_Elite"
     },
     {
       "id": "affix_dodge_chance",
@@ -528,7 +580,9 @@
       "attribute": {
         "eAttribute": "Attr_Dodge_Rating",
         "nParam": 0
-      }
+      },
+      "bnetId": 577221,
+      "bnetFileName": "Dodge"
     },
     {
       "id": "affix_armor",
@@ -550,7 +604,9 @@
       "attribute": {
         "eAttribute": "Attr_Armor_Item",
         "nParam": 0
-      }
+      },
+      "bnetId": 1501493,
+      "bnetFileName": "zzSMP_WishingWell_Stat_Armor"
     },
     {
       "id": "affix_ranks_all_skills",
@@ -569,7 +625,9 @@
         "boots",
         "amulet"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_ranks_basic_skills",
@@ -585,7 +643,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1047026,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Basic"
     },
     {
       "id": "affix_ranks_core_skills",
@@ -601,7 +661,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_ranks_defensive_skills",
@@ -617,7 +679,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1047055,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Defensive"
     },
     {
       "id": "affix_ranks_ultimate_skills",
@@ -633,7 +697,9 @@
         "ring1",
         "ring2"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1087398,
+      "bnetFileName": "Damage_Category_Ultimate"
     },
     {
       "id": "affix_sorcerer_mana_regen",
@@ -647,7 +713,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Sorcerer"
-      ]
+      ],
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen"
     },
     {
       "id": "affix_sorcerer_max_mana",
@@ -661,7 +729,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Sorcerer"
-      ]
+      ],
+      "bnetId": 577013,
+      "bnetFileName": "Resource_MaxMana"
     },
     {
       "id": "affix_sorcerer_mana_on_kill",
@@ -675,7 +745,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Sorcerer"
-      ]
+      ],
+      "bnetId": 1318302,
+      "bnetFileName": "Resource_On_Kill_Mana"
     },
     {
       "id": "affix_necromancer_essence_on_kill",
@@ -689,7 +761,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Necromancer"
-      ]
+      ],
+      "bnetId": 1318304,
+      "bnetFileName": "Resource_On_Kill_Essence"
     },
     {
       "id": "affix_druid_spirit_regen",
@@ -703,7 +777,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Druid"
-      ]
+      ],
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen"
     },
     {
       "id": "affix_rogue_energy_on_kill",
@@ -717,7 +793,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Rogue"
-      ]
+      ],
+      "bnetId": 1318300,
+      "bnetFileName": "Resource_On_Kill_Energy"
     },
     {
       "id": "affix_spiritborn_ferocity",
@@ -731,7 +809,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Spiritborn"
-      ]
+      ],
+      "bnetId": 577013,
+      "bnetFileName": "Resource_MaxMana"
     },
     {
       "id": "affix_barbarian_fury_on_kill",
@@ -745,7 +825,9 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Barbarian"
-      ]
+      ],
+      "bnetId": 1318298,
+      "bnetFileName": "Resource_On_Kill_Fury"
     },
     {
       "id": "affix_life_on_hit",
@@ -761,7 +843,9 @@
       "attribute": {
         "eAttribute": "Attr_Life_On_Hit",
         "nParam": 0
-      }
+      },
+      "bnetId": 577217,
+      "bnetFileName": "Luck"
     },
     {
       "id": "affix_healing_received",
@@ -777,7 +861,9 @@
         "chest",
         "amulet"
       ],
-      "classRestrictions": []
+      "classRestrictions": [],
+      "bnetId": 1083982,
+      "bnetFileName": "HealingPercent"
     },
     {
       "id": "affix_fire_damage",
@@ -790,8 +876,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451001,
-      "bnetFileName": "Affix_Pct_FireDamage",
+      "bnetId": 577065,
+      "bnetFileName": "Damage_Type_Bonus_Fire",
       "attribute": {
         "eAttribute": "Attr_Fire_Damage_Percent",
         "nParam": 0
@@ -808,8 +894,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451002,
-      "bnetFileName": "Affix_Pct_ColdDamage",
+      "bnetId": 577069,
+      "bnetFileName": "Damage_Type_Bonus_Cold",
       "attribute": {
         "eAttribute": "Attr_Cold_Damage_Percent",
         "nParam": 0
@@ -826,8 +912,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451003,
-      "bnetFileName": "Affix_Pct_LightningDamage",
+      "bnetId": 577073,
+      "bnetFileName": "Damage_Type_Bonus_Lightning",
       "attribute": {
         "eAttribute": "Attr_Lightning_Damage_Percent",
         "nParam": 0
@@ -844,8 +930,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451004,
-      "bnetFileName": "Affix_Pct_ShadowDamage",
+      "bnetId": 577079,
+      "bnetFileName": "Damage_Type_Bonus_Shadow",
       "attribute": {
         "eAttribute": "Attr_Shadow_Damage_Percent",
         "nParam": 0
@@ -862,8 +948,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451005,
-      "bnetFileName": "Affix_Pct_PoisonDamage",
+      "bnetId": 577075,
+      "bnetFileName": "Damage_Type_Bonus_Poison",
       "attribute": {
         "eAttribute": "Attr_Poison_Damage_Percent",
         "nParam": 0
@@ -880,8 +966,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451006,
-      "bnetFileName": "Affix_Pct_PhysicalDamage",
+      "bnetId": 577077,
+      "bnetFileName": "Damage_Type_Bonus_Physical",
       "attribute": {
         "eAttribute": "Attr_Physical_Damage_Percent",
         "nParam": 0
@@ -898,8 +984,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451007,
-      "bnetFileName": "Affix_Pct_AllDamage",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Damage_Percent_Bonus",
         "nParam": 0
@@ -916,8 +1002,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451008,
-      "bnetFileName": "Affix_Pct_NonPhysicalDamage",
+      "bnetId": 1290758,
+      "bnetFileName": "Damage_Type_Bonus_NonPhysical",
       "attribute": {
         "eAttribute": "Attr_Non_Physical_Damage_Percent",
         "nParam": 0
@@ -943,8 +1029,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451009,
-      "bnetFileName": "Affix_Pct_BasicSkillDamage",
+      "bnetId": 1085163,
+      "bnetFileName": "Damage_Category_Basics",
       "attribute": {
         "eAttribute": "Attr_Basic_Skill_Damage_Percent",
         "nParam": 0
@@ -970,8 +1056,6 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451010,
-      "bnetFileName": "Affix_Pct_DefensiveSkillDamage",
       "attribute": {
         "eAttribute": "Attr_Defensive_Skill_Damage_Percent",
         "nParam": 0
@@ -997,8 +1081,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451011,
-      "bnetFileName": "Affix_Pct_UltimateSkillDamage",
+      "bnetId": 1087398,
+      "bnetFileName": "Damage_Category_Ultimate",
       "attribute": {
         "eAttribute": "Attr_Ultimate_Skill_Damage_Percent",
         "nParam": 0
@@ -1017,8 +1101,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451012,
-      "bnetFileName": "Affix_Pct_WeaponMasteryDamage",
+      "bnetId": 1295786,
+      "bnetFileName": "Damage_Tag_WeaponMastery",
       "attribute": {
         "eAttribute": "Attr_Weapon_Mastery_Skill_Damage_Percent",
         "nParam": 0
@@ -1037,8 +1121,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451013,
-      "bnetFileName": "Affix_Pct_BrawlingDamage",
+      "bnetId": 1093776,
+      "bnetFileName": "Damage_Tag_Brawling",
       "attribute": {
         "eAttribute": "Attr_Brawling_Skill_Damage_Percent",
         "nParam": 0
@@ -1057,8 +1141,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451014,
-      "bnetFileName": "Affix_Pct_CompanionDamage",
+      "bnetId": 1093765,
+      "bnetFileName": "Damage_Tag_Companion",
       "attribute": {
         "eAttribute": "Attr_Companion_Skill_Damage_Percent",
         "nParam": 0
@@ -1077,8 +1161,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451015,
-      "bnetFileName": "Affix_Pct_WereformDamage",
+      "bnetId": 1093761,
+      "bnetFileName": "Damage_Tag_Werebear",
       "attribute": {
         "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
         "nParam": 0
@@ -1097,8 +1181,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451016,
-      "bnetFileName": "Affix_Pct_MacabreDamage",
+      "bnetId": 1093850,
+      "bnetFileName": "Damage_Tag_Darkness",
       "attribute": {
         "eAttribute": "Attr_Macabre_Skill_Damage_Percent",
         "nParam": 0
@@ -1117,8 +1201,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451017,
-      "bnetFileName": "Affix_Pct_CurseDamage",
+      "bnetId": 1093850,
+      "bnetFileName": "Damage_Tag_Darkness",
       "attribute": {
         "eAttribute": "Attr_Curse_Skill_Damage_Percent",
         "nParam": 0
@@ -1137,8 +1221,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451018,
-      "bnetFileName": "Affix_Pct_MinionDamage",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Minion_Damage_Percent",
         "nParam": 0
@@ -1157,8 +1241,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451019,
-      "bnetFileName": "Affix_Pct_SubterfugeDamage",
+      "bnetId": 1093689,
+      "bnetFileName": "Damage_Tag_Ranged",
       "attribute": {
         "eAttribute": "Attr_Subterfuge_Skill_Damage_Percent",
         "nParam": 0
@@ -1177,8 +1261,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451020,
-      "bnetFileName": "Affix_Pct_ImbuementDamage",
+      "bnetId": 1093716,
+      "bnetFileName": "Damage_Tag_Imbuements",
       "attribute": {
         "eAttribute": "Attr_Imbuement_Skill_Damage_Percent",
         "nParam": 0
@@ -1197,8 +1281,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451021,
-      "bnetFileName": "Affix_Pct_TrapDamage",
+      "bnetId": 1093697,
+      "bnetFileName": "Damage_Tag_Trap",
       "attribute": {
         "eAttribute": "Attr_Trap_Skill_Damage_Percent",
         "nParam": 0
@@ -1217,8 +1301,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451022,
-      "bnetFileName": "Affix_Pct_AgilityDamage",
+      "bnetId": 1093696,
+      "bnetFileName": "Damage_Tag_Melee",
       "attribute": {
         "eAttribute": "Attr_Agility_Skill_Damage_Percent",
         "nParam": 0
@@ -1237,8 +1321,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451023,
-      "bnetFileName": "Affix_Pct_ConjurationDamage",
+      "bnetId": 1093678,
+      "bnetFileName": "Damage_Tag_Conjuration",
       "attribute": {
         "eAttribute": "Attr_Conjuration_Skill_Damage_Percent",
         "nParam": 0
@@ -1257,8 +1341,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451024,
-      "bnetFileName": "Affix_Pct_PyromancyDamage",
+      "bnetId": 1093550,
+      "bnetFileName": "Damage_Tag_Pyromancy",
       "attribute": {
         "eAttribute": "Attr_Pyromancy_Skill_Damage_Percent",
         "nParam": 0
@@ -1277,8 +1361,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451025,
-      "bnetFileName": "Affix_Pct_ShockDamage",
+      "bnetId": 1093658,
+      "bnetFileName": "Damage_Tag_Shock",
       "attribute": {
         "eAttribute": "Attr_Shock_Skill_Damage_Percent",
         "nParam": 0
@@ -1297,8 +1381,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451026,
-      "bnetFileName": "Affix_Pct_FrostDamage",
+      "bnetId": 1093614,
+      "bnetFileName": "Damage_Tag_Frost",
       "attribute": {
         "eAttribute": "Attr_Frost_Skill_Damage_Percent",
         "nParam": 0
@@ -1317,8 +1401,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451027,
-      "bnetFileName": "Affix_Pct_EagleDamage",
+      "bnetId": 1093750,
+      "bnetFileName": "Damage_Tag_Storm",
       "attribute": {
         "eAttribute": "Attr_Eagle_Skill_Damage_Percent",
         "nParam": 0
@@ -1337,8 +1421,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451028,
-      "bnetFileName": "Affix_Pct_JaguarDamage",
+      "bnetId": 1093550,
+      "bnetFileName": "Damage_Tag_Pyromancy",
       "attribute": {
         "eAttribute": "Attr_Jaguar_Skill_Damage_Percent",
         "nParam": 0
@@ -1357,8 +1441,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451029,
-      "bnetFileName": "Affix_Pct_GorillaDamage",
+      "bnetId": 1093761,
+      "bnetFileName": "Damage_Tag_Werebear",
       "attribute": {
         "eAttribute": "Attr_Gorilla_Skill_Damage_Percent",
         "nParam": 0
@@ -1377,8 +1461,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451030,
-      "bnetFileName": "Affix_Pct_CentipedeDamage",
+      "bnetId": 1093834,
+      "bnetFileName": "Damage_Tag_Blood",
       "attribute": {
         "eAttribute": "Attr_Centipede_Skill_Damage_Percent",
         "nParam": 0
@@ -1397,8 +1481,8 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451031,
-      "bnetFileName": "Affix_Pct_AuraDamage",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Aura_Skill_Damage_Percent",
         "nParam": 0
@@ -1417,8 +1501,8 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451032,
-      "bnetFileName": "Affix_Pct_ValorDamage",
+      "bnetId": 1085163,
+      "bnetFileName": "Damage_Category_Basics",
       "attribute": {
         "eAttribute": "Attr_Valor_Skill_Damage_Percent",
         "nParam": 0
@@ -1437,8 +1521,8 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451033,
-      "bnetFileName": "Affix_Pct_JusticeDamage",
+      "bnetId": 1087398,
+      "bnetFileName": "Damage_Category_Ultimate",
       "attribute": {
         "eAttribute": "Attr_Justice_Skill_Damage_Percent",
         "nParam": 0
@@ -1457,8 +1541,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451034,
-      "bnetFileName": "Affix_Pct_ArchfiendDamage",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Archfiend_Skill_Damage_Percent",
         "nParam": 0
@@ -1477,8 +1561,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451035,
-      "bnetFileName": "Affix_Pct_SigilDamage",
+      "bnetId": 1093696,
+      "bnetFileName": "Damage_Tag_Melee",
       "attribute": {
         "eAttribute": "Attr_Sigil_Skill_Damage_Percent",
         "nParam": 0
@@ -1502,9 +1586,7 @@
       ],
       "classRestrictions": [
         "Sorcerer"
-      ],
-      "bnetId": 451036,
-      "bnetFileName": "Affix_Rank_IceShards"
+      ]
     },
     {
       "id": "affix_ranks_blizzard",
@@ -1525,8 +1607,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451037,
-      "bnetFileName": "Affix_Rank_Blizzard"
+      "bnetId": 761190,
+      "bnetFileName": "SkillRankBonus_Sorc_Special_Blizzard"
     },
     {
       "id": "affix_ranks_frozen_orb",
@@ -1547,8 +1629,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451038,
-      "bnetFileName": "Affix_Rank_FrozenOrb"
+      "bnetId": 1926985,
+      "bnetFileName": "S04_SkillRankBonus_Sorc_Core_6_FrozenOrb"
     },
     {
       "id": "affix_ranks_fireball",
@@ -1569,8 +1651,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451039,
-      "bnetFileName": "Affix_Rank_Fireball"
+      "bnetId": 761156,
+      "bnetFileName": "SkillRankBonus_Sorc_Core_1_Fireball"
     },
     {
       "id": "affix_ranks_meteor",
@@ -1591,8 +1673,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451040,
-      "bnetFileName": "Affix_Rank_Meteor"
+      "bnetId": 761191,
+      "bnetFileName": "SkillRankBonus_Sorc_Special_Meteor"
     },
     {
       "id": "affix_ranks_chain_lightning",
@@ -1613,8 +1695,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451041,
-      "bnetFileName": "Affix_Rank_ChainLightning"
+      "bnetId": 761158,
+      "bnetFileName": "SkillRankBonus_Sorc_Core_3_ChainLightning"
     },
     {
       "id": "affix_ranks_teleport",
@@ -1635,8 +1717,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451042,
-      "bnetFileName": "Affix_Rank_Teleport"
+      "bnetId": 761172,
+      "bnetFileName": "SkillRankBonus_Sorc_Special_Teleport"
     },
     {
       "id": "affix_ranks_firewall",
@@ -1657,8 +1739,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451043,
-      "bnetFileName": "Affix_Rank_Firewall"
+      "bnetId": 761189,
+      "bnetFileName": "SkillRankBonus_Sorc_Special_Firewall"
     },
     {
       "id": "affix_ranks_whirlwind",
@@ -1679,8 +1761,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451044,
-      "bnetFileName": "Affix_Rank_Whirlwind"
+      "bnetId": 761313,
+      "bnetFileName": "SkillRankBonus_Barb_Core_5_Slot01"
     },
     {
       "id": "affix_ranks_rend",
@@ -1701,8 +1783,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451045,
-      "bnetFileName": "Affix_Rank_Rend"
+      "bnetId": 761310,
+      "bnetFileName": "SkillRankBonus_Barb_Core_4_Slot01"
     },
     {
       "id": "affix_ranks_hammer_of_the_ancients",
@@ -1723,8 +1805,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451046,
-      "bnetFileName": "Affix_Rank_HammerOfTheAncients"
+      "bnetId": 761307,
+      "bnetFileName": "SkillRankBonus_Barb_Core_1_Slot01"
     },
     {
       "id": "affix_ranks_leap",
@@ -1745,8 +1827,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451047,
-      "bnetFileName": "Affix_Rank_Leap"
+      "bnetId": 761322,
+      "bnetFileName": "SkillRankBonus_Barb_Special_Leap"
     },
     {
       "id": "affix_ranks_rallying_cry",
@@ -1767,8 +1849,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451048,
-      "bnetFileName": "Affix_Rank_RallyingCry"
+      "bnetId": 761316,
+      "bnetFileName": "SkillRankBonus_Barb_Special_RallyingCry"
     },
     {
       "id": "affix_ranks_puncture",
@@ -1788,9 +1870,7 @@
       ],
       "classRestrictions": [
         "Rogue"
-      ],
-      "bnetId": 451049,
-      "bnetFileName": "Affix_Rank_Puncture"
+      ]
     },
     {
       "id": "affix_ranks_barrage",
@@ -1810,9 +1890,7 @@
       ],
       "classRestrictions": [
         "Rogue"
-      ],
-      "bnetId": 451050,
-      "bnetFileName": "Affix_Rank_Barrage"
+      ]
     },
     {
       "id": "affix_ranks_rapid_fire",
@@ -1833,8 +1911,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451051,
-      "bnetFileName": "Affix_Rank_RapidFire"
+      "bnetId": 1873211,
+      "bnetFileName": "S04_SkillRankBonus_Rogue_Core_RapidFire"
     },
     {
       "id": "affix_ranks_shadow_step",
@@ -1855,8 +1933,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451052,
-      "bnetFileName": "Affix_Rank_ShadowStep"
+      "bnetId": 762740,
+      "bnetFileName": "SkillRankBonus_Rogue_Special_ShadowStep"
     },
     {
       "id": "affix_ranks_bone_spear",
@@ -1876,9 +1954,7 @@
       ],
       "classRestrictions": [
         "Necromancer"
-      ],
-      "bnetId": 451053,
-      "bnetFileName": "Affix_Rank_BoneSpear"
+      ]
     },
     {
       "id": "affix_ranks_blood_surge",
@@ -1898,9 +1974,7 @@
       ],
       "classRestrictions": [
         "Necromancer"
-      ],
-      "bnetId": 451054,
-      "bnetFileName": "Affix_Rank_BloodSurge"
+      ]
     },
     {
       "id": "affix_ranks_corpse_explosion",
@@ -1920,9 +1994,7 @@
       ],
       "classRestrictions": [
         "Necromancer"
-      ],
-      "bnetId": 451055,
-      "bnetFileName": "Affix_Rank_CorpseExplosion"
+      ]
     },
     {
       "id": "affix_ranks_hurricane",
@@ -1943,8 +2015,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451056,
-      "bnetFileName": "Affix_Rank_Hurricane"
+      "bnetId": 757070,
+      "bnetFileName": "SkillRankBonus_Druid_Special_Hurricane"
     },
     {
       "id": "affix_ranks_tornado",
@@ -1965,8 +2037,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451057,
-      "bnetFileName": "Affix_Rank_Tornado"
+      "bnetId": 1884262,
+      "bnetFileName": "S04_SkillRankBonus_Druid_Core_Tornado"
     },
     {
       "id": "affix_ranks_shred",
@@ -1986,9 +2058,7 @@
       ],
       "classRestrictions": [
         "Druid"
-      ],
-      "bnetId": 451058,
-      "bnetFileName": "Affix_Rank_Shred"
+      ]
     },
     {
       "id": "affix_ranks_ravager",
@@ -2009,8 +2079,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451059,
-      "bnetFileName": "Affix_Rank_Ravager"
+      "bnetId": 2015513,
+      "bnetFileName": "X1_SkillRankBonus_Spiritborn_Special_Ravager"
     },
     {
       "id": "affix_ranks_quill_volley",
@@ -2031,8 +2101,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451060,
-      "bnetFileName": "Affix_Rank_QuillVolley"
+      "bnetId": 2014537,
+      "bnetFileName": "X1_SkillRankBonus_Spiritborn_Core_QuillVolley"
     },
     {
       "id": "affix_ranks_blessed_hammer",
@@ -2052,9 +2122,7 @@
       ],
       "classRestrictions": [
         "Paladin"
-      ],
-      "bnetId": 451061,
-      "bnetFileName": "Affix_Rank_BlessedHammer"
+      ]
     },
     {
       "id": "affix_barb_max_fury",
@@ -2069,8 +2137,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451062,
-      "bnetFileName": "Affix_Str_MaxFury",
+      "bnetId": 577017,
+      "bnetFileName": "Resource_MaxFury",
       "attribute": {
         "eAttribute": "Attr_Max_Fury_Item",
         "nParam": 0
@@ -2089,8 +2157,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451063,
-      "bnetFileName": "Affix_Str_FuryRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Fury_Regen_Per_Second",
         "nParam": 0
@@ -2109,8 +2177,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451064,
-      "bnetFileName": "Affix_Str_ManaOnCrit",
+      "bnetId": 1318302,
+      "bnetFileName": "Resource_On_Kill_Mana",
       "attribute": {
         "eAttribute": "Attr_Mana_On_Crit",
         "nParam": 0
@@ -2129,8 +2197,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451065,
-      "bnetFileName": "Affix_Str_MaxEssence",
+      "bnetId": 1084591,
+      "bnetFileName": "Resource_MaxEssence",
       "attribute": {
         "eAttribute": "Attr_Max_Essence_Item",
         "nParam": 0
@@ -2149,8 +2217,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451066,
-      "bnetFileName": "Affix_Str_EssenceRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Essence_Regen_Per_Second",
         "nParam": 0
@@ -2169,8 +2237,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451067,
-      "bnetFileName": "Affix_Str_MaxEnergy",
+      "bnetId": 1084593,
+      "bnetFileName": "Resource_MaxEnergy",
       "attribute": {
         "eAttribute": "Attr_Max_Energy_Item",
         "nParam": 0
@@ -2189,8 +2257,8 @@
       "classRestrictions": [
         "Rogue"
       ],
-      "bnetId": 451068,
-      "bnetFileName": "Affix_Str_EnergyRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Energy_Regen_Per_Second",
         "nParam": 0
@@ -2209,8 +2277,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451069,
-      "bnetFileName": "Affix_Str_MaxSpirit",
+      "bnetId": 1084592,
+      "bnetFileName": "Resource_MaxSpirit",
       "attribute": {
         "eAttribute": "Attr_Max_Spirit_Item",
         "nParam": 0
@@ -2229,8 +2297,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451070,
-      "bnetFileName": "Affix_Str_SpiritOnKill",
+      "bnetId": 1318296,
+      "bnetFileName": "Resource_On_Kill_Spirit",
       "attribute": {
         "eAttribute": "Attr_Spirit_On_Kill",
         "nParam": 0
@@ -2249,8 +2317,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451071,
-      "bnetFileName": "Affix_Str_FerocityRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Ferocity_Regen_Per_Second",
         "nParam": 0
@@ -2267,10 +2335,11 @@
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [
-        "Paladin"
+        "Paladin",
+        "Warlock"
       ],
-      "bnetId": 451072,
-      "bnetFileName": "Affix_Str_MaxWrath",
+      "bnetId": 577013,
+      "bnetFileName": "Resource_MaxMana",
       "attribute": {
         "eAttribute": "Attr_Max_Wrath_Item",
         "nParam": 0
@@ -2289,30 +2358,10 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451073,
-      "bnetFileName": "Affix_Str_WrathRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Wrath_Regen_Per_Second",
-        "nParam": 0
-      }
-    },
-    {
-      "id": "affix_wlk_max_wrath",
-      "label": "Maximum Wrath",
-      "labelTemplate": "+{value} Maximum Wrath",
-      "valueRange": [
-        5,
-        20
-      ],
-      "isPercent": false,
-      "slotRestrictions": [],
-      "classRestrictions": [
-        "Warlock"
-      ],
-      "bnetId": 451074,
-      "bnetFileName": "Affix_Str_WarlockMaxWrath",
-      "attribute": {
-        "eAttribute": "Attr_Max_Wrath_Item",
         "nParam": 0
       }
     },
@@ -2329,8 +2378,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451075,
-      "bnetFileName": "Affix_Str_WrathOnKill",
+      "bnetId": 1318302,
+      "bnetFileName": "Resource_On_Kill_Mana",
       "attribute": {
         "eAttribute": "Attr_Wrath_On_Kill",
         "nParam": 0
@@ -2349,8 +2398,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451076,
-      "bnetFileName": "Affix_Str_DominanceRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Dominance_Regen_Per_Second",
         "nParam": 0
@@ -2367,8 +2416,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451077,
-      "bnetFileName": "Affix_Pct_FortifyGeneration",
+      "bnetId": 1004945,
+      "bnetFileName": "FortifyBonus",
       "attribute": {
         "eAttribute": "Attr_Fortify_Generation_Percent",
         "nParam": 0
@@ -2385,8 +2434,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451078,
-      "bnetFileName": "Affix_Pct_BarrierGeneration",
+      "bnetId": 1210863,
+      "bnetFileName": "Barrier_Strength_Percent",
       "attribute": {
         "eAttribute": "Attr_Barrier_Generation_Percent",
         "nParam": 0
@@ -2407,8 +2456,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451079,
-      "bnetFileName": "Affix_Str_LifeRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Life_Regeneration",
         "nParam": 0
@@ -2429,8 +2478,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451080,
-      "bnetFileName": "Affix_Pct_LifeRegen",
+      "bnetId": 577201,
+      "bnetFileName": "LifeRegen",
       "attribute": {
         "eAttribute": "Attr_Life_Regeneration_Percent",
         "nParam": 0
@@ -2452,8 +2501,8 @@
         "barb_1h_off"
       ],
       "classRestrictions": [],
-      "bnetId": 451081,
-      "bnetFileName": "Affix_Pct_BlockChance",
+      "bnetId": 1729746,
+      "bnetFileName": "Block_Quarterstaff",
       "attribute": {
         "eAttribute": "Attr_Block_Chance_Percent",
         "nParam": 0
@@ -2476,8 +2525,8 @@
         "boots"
       ],
       "classRestrictions": [],
-      "bnetId": 451082,
-      "bnetFileName": "Affix_Str_Thorns",
+      "bnetId": 577225,
+      "bnetFileName": "Thorns",
       "attribute": {
         "eAttribute": "Attr_Thorns",
         "nParam": 0
@@ -2494,8 +2543,8 @@
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451083,
-      "bnetFileName": "Affix_Str_LifeOnKill",
+      "bnetId": 577197,
+      "bnetFileName": "Life_On_Kill",
       "attribute": {
         "eAttribute": "Attr_Life_On_Kill",
         "nParam": 0
@@ -2512,8 +2561,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451084,
-      "bnetFileName": "Affix_Pct_LifeSteal",
+      "bnetId": 1341733,
+      "bnetFileName": "Lifesteal_UBERUNIQUE",
       "attribute": {
         "eAttribute": "Attr_Life_Steal_Percent",
         "nParam": 0
@@ -2534,8 +2583,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451085,
-      "bnetFileName": "Affix_Dr_Burning"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_dr_crowd_control",
@@ -2551,8 +2600,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451086,
-      "bnetFileName": "Affix_Dr_Crowd_Control"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_dr_bleeding",
@@ -2569,8 +2618,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451087,
-      "bnetFileName": "Affix_Dr_Bleeding"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_armor_pct",
@@ -2589,8 +2638,8 @@
         "boots"
       ],
       "classRestrictions": [],
-      "bnetId": 451088,
-      "bnetFileName": "Affix_Pct_ArmorPct",
+      "bnetId": 1501493,
+      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
       "attribute": {
         "eAttribute": "Attr_Armor_Item_Percent",
         "nParam": 0
@@ -2607,8 +2656,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451089,
-      "bnetFileName": "Affix_Max_Life_While_Fortified"
+      "bnetId": 577173,
+      "bnetFileName": "Life"
     },
     {
       "id": "affix_crowd_control_duration",
@@ -2621,8 +2670,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451090,
-      "bnetFileName": "Affix_Pct_CrowdControlDuration",
+      "bnetId": 577049,
+      "bnetFileName": "CC_Duration",
       "attribute": {
         "eAttribute": "Attr_Crowd_Control_Duration_Percent",
         "nParam": 0
@@ -2642,8 +2691,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451091,
-      "bnetFileName": "Affix_Unstoppable_Dr"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_damage_vs_cc",
@@ -2660,8 +2709,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451092,
-      "bnetFileName": "Affix_Pct_DamageVsCc",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Damage_Percent_Bonus_With_Crowd_Control",
         "nParam": 0
@@ -2682,8 +2731,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451093,
-      "bnetFileName": "Affix_Pct_DamageVsBurning",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Vs_Burning_Percent",
         "nParam": 0
@@ -2704,8 +2753,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451094,
-      "bnetFileName": "Affix_Pct_DamageVsPoisoned",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Vs_Poisoned_Percent",
         "nParam": 0
@@ -2726,8 +2775,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451095,
-      "bnetFileName": "Affix_Pct_DamageVsStunned",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Vs_Stunned_Percent",
         "nParam": 0
@@ -2748,8 +2797,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451096,
-      "bnetFileName": "Affix_Pct_DamageVsFrozen",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Vs_Frozen_Percent",
         "nParam": 0
@@ -2770,8 +2819,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451097,
-      "bnetFileName": "Affix_Pct_DamageVsSlowed",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Vs_Slowed_Chilled_Percent",
         "nParam": 0
@@ -2798,8 +2847,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451098,
-      "bnetFileName": "Affix_Pct_BleedingDamage",
+      "bnetId": 1321856,
+      "bnetFileName": "Damage_Type_DoT_Bonus_Bleed",
       "attribute": {
         "eAttribute": "Attr_Bleeding_Damage_Percent",
         "nParam": 0
@@ -2820,8 +2869,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451099,
-      "bnetFileName": "Affix_Pct_CloseEnemyDamage",
+      "bnetId": 577185,
+      "bnetFileName": "Damage_to_Near",
       "attribute": {
         "eAttribute": "Attr_Close_Damage_Percent_Bonus",
         "nParam": 0
@@ -2842,8 +2891,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451100,
-      "bnetFileName": "Affix_Pct_DistantEnemyDamage",
+      "bnetId": 577181,
+      "bnetFileName": "Damage_to_Far",
       "attribute": {
         "eAttribute": "Attr_Distant_Damage_Percent_Bonus",
         "nParam": 0
@@ -2865,8 +2914,8 @@
         "chest"
       ],
       "classRestrictions": [],
-      "bnetId": 451101,
-      "bnetFileName": "Affix_Pct_EliteDamage",
+      "bnetId": 577117,
+      "bnetFileName": "Damage_to_Elite",
       "attribute": {
         "eAttribute": "Attr_Elite_Damage_Percent_Bonus",
         "nParam": 0
@@ -2883,8 +2932,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451102,
-      "bnetFileName": "Affix_Pct_GoldFind",
+      "bnetId": 577217,
+      "bnetFileName": "Luck",
       "attribute": {
         "eAttribute": "Attr_Gold_Find_Percent",
         "nParam": 0
@@ -2901,8 +2950,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451103,
-      "bnetFileName": "Affix_Pct_ExpBonus",
+      "bnetId": 577217,
+      "bnetFileName": "Luck",
       "attribute": {
         "eAttribute": "Attr_Experience_Bonus_Percent",
         "nParam": 0
@@ -2919,8 +2968,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451104,
-      "bnetFileName": "Affix_Lucky_Hit_Restore_Prim_Resource"
+      "bnetId": 1318302,
+      "bnetFileName": "Resource_On_Kill_Mana"
     },
     {
       "id": "affix_lucky_hit_heal",
@@ -2933,8 +2982,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451105,
-      "bnetFileName": "Affix_Lucky_Hit_Heal"
+      "bnetId": 1083982,
+      "bnetFileName": "HealingPercent"
     },
     {
       "id": "affix_ranks_passive_skills",
@@ -2949,8 +2998,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451106,
-      "bnetFileName": "Affix_Ranks_Passive_Skills"
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_all_stats",
@@ -2963,8 +3012,8 @@
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451107,
-      "bnetFileName": "Affix_Str_AllStats",
+      "bnetId": 583632,
+      "bnetFileName": "CoreStat_Strength",
       "attribute": {
         "eAttribute": "Attr_All_Stats",
         "nParam": 0
@@ -2981,8 +3030,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451108,
-      "bnetFileName": "Affix_Primary_Stat_Pct"
+      "bnetId": 583632,
+      "bnetFileName": "CoreStat_Strength"
     },
     {
       "id": "affix_potion_charges",
@@ -2999,8 +3048,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451109,
-      "bnetFileName": "Affix_Potion_Charges"
+      "bnetId": 1084130,
+      "bnetFileName": "PotionCharges"
     },
     {
       "id": "affix_potion_healing",
@@ -3017,8 +3066,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451110,
-      "bnetFileName": "Affix_Potion_Healing"
+      "bnetId": 1084130,
+      "bnetFileName": "PotionCharges"
     },
     {
       "id": "affix_evade_cooldown",
@@ -3034,8 +3083,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451111,
-      "bnetFileName": "Affix_Evade_Cooldown"
+      "bnetId": 577021,
+      "bnetFileName": "CooldownReductionCDR"
     },
     {
       "id": "affix_stagger_damage",
@@ -3048,8 +3097,8 @@
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "bnetId": 451112,
-      "bnetFileName": "Affix_Pct_StaggerDamage",
+      "bnetId": 672819,
+      "bnetFileName": "Damage_to_CCd",
       "attribute": {
         "eAttribute": "Attr_Stagger_Damage_Percent",
         "nParam": 0
@@ -3072,8 +3121,8 @@
         "ring2"
       ],
       "classRestrictions": [],
-      "bnetId": 451113,
-      "bnetFileName": "Affix_Crit_While_Fortified"
+      "bnetId": 577051,
+      "bnetFileName": "CritChance"
     },
     {
       "id": "affix_weapon_damage_pct",
@@ -3093,8 +3142,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451114,
-      "bnetFileName": "Affix_Pct_WeaponDamage",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Weapon_Damage_Percent",
         "nParam": 0
@@ -3118,8 +3167,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451115,
-      "bnetFileName": "Affix_Pct_CritDamageWeapon",
+      "bnetId": 577177,
+      "bnetFileName": "CritDamage",
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
         "nParam": 0
@@ -3143,8 +3192,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451116,
-      "bnetFileName": "Affix_Pct_AttackSpeedWeapon",
+      "bnetId": 583206,
+      "bnetFileName": "AttackSpeed",
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Item_Percent",
         "nParam": 0
@@ -3168,8 +3217,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451117,
-      "bnetFileName": "Affix_Pct_SkillDamageWeapon",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
         "nParam": 0
@@ -3193,8 +3242,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451118,
-      "bnetFileName": "Affix_Pct_OvepowerWeapon",
+      "bnetId": 577053,
+      "bnetFileName": "OverpowerDamage",
       "attribute": {
         "eAttribute": "Attr_Overpower_Damage_Percent",
         "nParam": 0
@@ -3218,8 +3267,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451119,
-      "bnetFileName": "Affix_Pct_LuckyHitWeapon",
+      "bnetId": 577217,
+      "bnetFileName": "Luck",
       "attribute": {
         "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
         "nParam": 0
@@ -3243,8 +3292,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451120,
-      "bnetFileName": "Affix_Str_DamagePerSecond",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Weapon_Damage_Per_Second",
         "nParam": 0
@@ -3268,8 +3317,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451121,
-      "bnetFileName": "Affix_Pct_PhysicalWeapon",
+      "bnetId": 577077,
+      "bnetFileName": "Damage_Type_Bonus_Physical",
       "attribute": {
         "eAttribute": "Attr_Physical_Damage_Percent",
         "nParam": 0
@@ -3293,8 +3342,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451122,
-      "bnetFileName": "Affix_Pct_CritChanceWeapon",
+      "bnetId": 577051,
+      "bnetFileName": "CritChance",
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
         "nParam": 0
@@ -3318,8 +3367,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451123,
-      "bnetFileName": "Affix_Pct_VulnerableWeapon",
+      "bnetId": 577111,
+      "bnetFileName": "Damage_to_Vulnerable",
       "attribute": {
         "eAttribute": "Attr_Vuln_Damage_Percent",
         "nParam": 0
@@ -3340,8 +3389,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451124,
-      "bnetFileName": "Affix_Pct_CritChanceRing",
+      "bnetId": 577051,
+      "bnetFileName": "CritChance",
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
         "nParam": 0
@@ -3362,8 +3411,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451125,
-      "bnetFileName": "Affix_Pct_CritDamageRing",
+      "bnetId": 577177,
+      "bnetFileName": "CritDamage",
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
         "nParam": 0
@@ -3384,8 +3433,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451126,
-      "bnetFileName": "Affix_Pct_AttackSpeedRing",
+      "bnetId": 583206,
+      "bnetFileName": "AttackSpeed",
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
         "nParam": 0
@@ -3405,8 +3454,8 @@
         "ring2"
       ],
       "classRestrictions": [],
-      "bnetId": 451127,
-      "bnetFileName": "Affix_Pct_AllResistanceRing",
+      "bnetId": 609816,
+      "bnetFileName": "ElementalDamageReduction",
       "attribute": {
         "eAttribute": "Attr_All_Resistances",
         "nParam": 0
@@ -3427,8 +3476,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451128,
-      "bnetFileName": "Affix_Pct_LuckyHitRing",
+      "bnetId": 1193773,
+      "bnetFileName": "LuckJewelry",
       "attribute": {
         "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
         "nParam": 0
@@ -3447,8 +3496,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451129,
-      "bnetFileName": "Affix_Pct_SkillDamageAmulet",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
         "nParam": 0
@@ -3467,8 +3516,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451130,
-      "bnetFileName": "Affix_Ranks_Amulet"
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_ranks_passive_amulet",
@@ -3483,28 +3532,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451131,
-      "bnetFileName": "Affix_Ranks_Passive_Amulet"
-    },
-    {
-      "id": "affix_necro_minion_damage",
-      "label": "Minion Damage",
-      "labelTemplate": "+{value}% Minion Damage",
-      "valueRange": [
-        15,
-        35
-      ],
-      "isPercent": true,
-      "slotRestrictions": [],
-      "classRestrictions": [
-        "Necromancer"
-      ],
-      "bnetId": 451132,
-      "bnetFileName": "Affix_Pct_NecroMinionDamage",
-      "attribute": {
-        "eAttribute": "Attr_Minion_Damage_Percent",
-        "nParam": 0
-      }
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_necro_minion_life",
@@ -3519,8 +3548,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451133,
-      "bnetFileName": "Affix_Pct_MinionLife",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Minion_Life_Percent",
         "nParam": 0
@@ -3539,8 +3568,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451134,
-      "bnetFileName": "Affix_Pct_GolemDamage",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Golem_Damage_Percent",
         "nParam": 0
@@ -3559,8 +3588,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451135,
-      "bnetFileName": "Affix_Pct_SkeletonDamage",
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning",
       "attribute": {
         "eAttribute": "Attr_Skeleton_Damage_Percent",
         "nParam": 0
@@ -3579,8 +3608,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451136,
-      "bnetFileName": "Affix_Pct_DruidCompanionDamage",
+      "bnetId": 1093765,
+      "bnetFileName": "Damage_Tag_Companion",
       "attribute": {
         "eAttribute": "Attr_Companion_Skill_Damage_Percent",
         "nParam": 0
@@ -3599,8 +3628,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451137,
-      "bnetFileName": "Affix_Druid_Wolf_Pack"
+      "bnetId": 1093765,
+      "bnetFileName": "Damage_Tag_Companion"
     },
     {
       "id": "affix_necro_corpse_toughness",
@@ -3615,8 +3644,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451138,
-      "bnetFileName": "Affix_Necro_Corpse_Toughness"
+      "bnetId": 1093834,
+      "bnetFileName": "Damage_Tag_Blood"
     },
     {
       "id": "affix_necro_blood_skills",
@@ -3631,8 +3660,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451139,
-      "bnetFileName": "Affix_Pct_BloodSkillDamage",
+      "bnetId": 1093834,
+      "bnetFileName": "Damage_Tag_Blood",
       "attribute": {
         "eAttribute": "Attr_Blood_Skill_Damage_Percent",
         "nParam": 0
@@ -3651,8 +3680,8 @@
         "helm"
       ],
       "classRestrictions": [],
-      "bnetId": 451140,
-      "bnetFileName": "Affix_Pct_SkillDamageHelm",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
         "nParam": 0
@@ -3671,8 +3700,8 @@
         "chest"
       ],
       "classRestrictions": [],
-      "bnetId": 451141,
-      "bnetFileName": "Affix_Chest_Damage_Reduction"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_gloves_crit_chance",
@@ -3687,8 +3716,8 @@
         "gloves"
       ],
       "classRestrictions": [],
-      "bnetId": 451142,
-      "bnetFileName": "Affix_Pct_CritChanceGloves",
+      "bnetId": 577051,
+      "bnetFileName": "CritChance",
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
         "nParam": 0
@@ -3707,8 +3736,8 @@
         "gloves"
       ],
       "classRestrictions": [],
-      "bnetId": 451143,
-      "bnetFileName": "Affix_Pct_CritDamageGloves",
+      "bnetId": 577177,
+      "bnetFileName": "CritDamage",
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
         "nParam": 0
@@ -3727,8 +3756,8 @@
         "gloves"
       ],
       "classRestrictions": [],
-      "bnetId": 451144,
-      "bnetFileName": "Affix_Pct_AttackSpeedGloves",
+      "bnetId": 583206,
+      "bnetFileName": "AttackSpeed",
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
         "nParam": 0
@@ -3747,8 +3776,8 @@
         "pants"
       ],
       "classRestrictions": [],
-      "bnetId": 451145,
-      "bnetFileName": "Affix_Pct_DodgePants",
+      "bnetId": 577221,
+      "bnetFileName": "Dodge",
       "attribute": {
         "eAttribute": "Attr_Dodge_Rating",
         "nParam": 0
@@ -3767,8 +3796,8 @@
         "boots"
       ],
       "classRestrictions": [],
-      "bnetId": 451146,
-      "bnetFileName": "Affix_Pct_MoveSpdBoots",
+      "bnetId": 577213,
+      "bnetFileName": "Movement_Speed",
       "attribute": {
         "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
         "nParam": 0
@@ -3787,8 +3816,8 @@
         "boots"
       ],
       "classRestrictions": [],
-      "bnetId": 451147,
-      "bnetFileName": "Affix_Boots_Evade_Charges"
+      "bnetId": 1084130,
+      "bnetFileName": "PotionCharges"
     },
     {
       "id": "affix_helm_armor",
@@ -3803,8 +3832,8 @@
         "helm"
       ],
       "classRestrictions": [],
-      "bnetId": 451148,
-      "bnetFileName": "Affix_Str_ArmorHelm",
+      "bnetId": 1501493,
+      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
       "attribute": {
         "eAttribute": "Attr_Armor_Item",
         "nParam": 0
@@ -3823,8 +3852,8 @@
         "chest"
       ],
       "classRestrictions": [],
-      "bnetId": 451149,
-      "bnetFileName": "Affix_Str_ArmorChest",
+      "bnetId": 1501493,
+      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
       "attribute": {
         "eAttribute": "Attr_Armor_Item",
         "nParam": 0
@@ -3843,8 +3872,8 @@
         "gloves"
       ],
       "classRestrictions": [],
-      "bnetId": 451150,
-      "bnetFileName": "Affix_Pct_LuckyHitGloves",
+      "bnetId": 577217,
+      "bnetFileName": "Luck",
       "attribute": {
         "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
         "nParam": 0
@@ -3863,8 +3892,8 @@
         "helm"
       ],
       "classRestrictions": [],
-      "bnetId": 451151,
-      "bnetFileName": "Affix_Helm_Ranks_Skills"
+      "bnetId": 1088076,
+      "bnetFileName": "SkillRankBonus_Generic_Category_Core"
     },
     {
       "id": "affix_implicit_armor_helm",
@@ -3879,8 +3908,8 @@
         "helm"
       ],
       "classRestrictions": [],
-      "bnetId": 451152,
-      "bnetFileName": "Implicit_Armor_Helm",
+      "bnetId": 1501493,
+      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
       "attribute": {
         "eAttribute": "Attr_Armor_Item",
         "nParam": 0
@@ -3899,8 +3928,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451153,
-      "bnetFileName": "Implicit_AllRes_Amulet",
+      "bnetId": 760524,
+      "bnetFileName": "Resistance_Jewelry_All",
       "attribute": {
         "eAttribute": "Attr_All_Resistances",
         "nParam": 0
@@ -3919,8 +3948,8 @@
         "offHand"
       ],
       "classRestrictions": [],
-      "bnetId": 451154,
-      "bnetFileName": "Implicit_Barrier_OffHand",
+      "bnetId": 1210863,
+      "bnetFileName": "Barrier_Strength_Percent",
       "attribute": {
         "eAttribute": "Attr_Barrier_Generation_Percent",
         "nParam": 0
@@ -3939,8 +3968,8 @@
         "amulet"
       ],
       "classRestrictions": [],
-      "bnetId": 451155,
-      "bnetFileName": "Implicit_CritChance_Amulet",
+      "bnetId": 577051,
+      "bnetFileName": "CritChance",
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
         "nParam": 0
@@ -3964,8 +3993,8 @@
         "barb_2h_slashing"
       ],
       "classRestrictions": [],
-      "bnetId": 451156,
-      "bnetFileName": "Implicit_WeaponDamage",
+      "bnetId": 577093,
+      "bnetFileName": "Damage",
       "attribute": {
         "eAttribute": "Attr_Core_Skill_Damage_Percent",
         "nParam": 0
@@ -3984,8 +4013,8 @@
         "chest"
       ],
       "classRestrictions": [],
-      "bnetId": 451157,
-      "bnetFileName": "Affix_Implicit_Damage_Reduction_Chest"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_implicit_lucky_hit_ring",
@@ -4001,8 +4030,8 @@
         "ring2"
       ],
       "classRestrictions": [],
-      "bnetId": 451158,
-      "bnetFileName": "Implicit_LuckyHit_Ring",
+      "bnetId": 1193773,
+      "bnetFileName": "LuckJewelry",
       "attribute": {
         "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
         "nParam": 0
@@ -4025,8 +4054,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451159,
-      "bnetFileName": "Affix_Ranks_Brawling_Skills"
+      "bnetId": 761341,
+      "bnetFileName": "SkillRankBonus_Barb_Category_Brawling"
     },
     {
       "id": "affix_ranks_companion_skills",
@@ -4045,8 +4074,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451160,
-      "bnetFileName": "Affix_Ranks_Companion_Skills"
+      "bnetId": 761368,
+      "bnetFileName": "SkillRankBonus_Druid_Category_Companion"
     },
     {
       "id": "affix_ranks_bone_skills",
@@ -4064,9 +4093,7 @@
       ],
       "classRestrictions": [
         "Necromancer"
-      ],
-      "bnetId": 451161,
-      "bnetFileName": "Affix_Ranks_Bone_Skills"
+      ]
     },
     {
       "id": "affix_barb_berserk_duration",
@@ -4081,8 +4108,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451162,
-      "bnetFileName": "Affix_Barb_Berserk_Duration"
+      "bnetId": 1290697,
+      "bnetFileName": "Berserk_Duration"
     },
     {
       "id": "affix_barb_damage_while_berserk",
@@ -4097,8 +4124,8 @@
       "classRestrictions": [
         "Barbarian"
       ],
-      "bnetId": 451163,
-      "bnetFileName": "Affix_Pct_BerserkDamage",
+      "bnetId": 1290704,
+      "bnetFileName": "Berserk_Damage",
       "attribute": {
         "eAttribute": "Attr_Berserk_Damage_Percent",
         "nParam": 0
@@ -4117,8 +4144,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451164,
-      "bnetFileName": "Affix_Sorc_Damage_Per_Mana"
+      "bnetId": 577093,
+      "bnetFileName": "Damage"
     },
     {
       "id": "affix_sorc_mana_cost_reduction",
@@ -4133,8 +4160,8 @@
       "classRestrictions": [
         "Sorcerer"
       ],
-      "bnetId": 451165,
-      "bnetFileName": "Affix_Pct_ManaCostReduction",
+      "bnetId": 577036,
+      "bnetFileName": "Resource_Cost_Reduction_Sorcerer",
       "attribute": {
         "eAttribute": "Attr_Mana_Cost_Reduction_Percent",
         "nParam": 0
@@ -4153,8 +4180,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451166,
-      "bnetFileName": "Affix_Necro_Damage_Vs_Healthy"
+      "bnetId": 577127,
+      "bnetFileName": "Damage_to_LowLife"
     },
     {
       "id": "affix_necro_damage_vs_injured",
@@ -4169,8 +4196,8 @@
       "classRestrictions": [
         "Necromancer"
       ],
-      "bnetId": 451167,
-      "bnetFileName": "Affix_Necro_Damage_Vs_Injured"
+      "bnetId": 577127,
+      "bnetFileName": "Damage_to_LowLife"
     },
     {
       "id": "affix_rogue_damage_with_trap",
@@ -4184,9 +4211,7 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Rogue"
-      ],
-      "bnetId": 451168,
-      "bnetFileName": "Affix_Rogue_Damage_With_Trap"
+      ]
     },
     {
       "id": "affix_rogue_critical_while_stealthed",
@@ -4200,9 +4225,7 @@
       "slotRestrictions": [],
       "classRestrictions": [
         "Rogue"
-      ],
-      "bnetId": 451169,
-      "bnetFileName": "Affix_Rogue_Critical_While_Stealthed"
+      ]
     },
     {
       "id": "affix_druid_nature_magic_damage",
@@ -4217,8 +4240,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451170,
-      "bnetFileName": "Affix_Pct_NatureMagicDamage",
+      "bnetId": 1093750,
+      "bnetFileName": "Damage_Tag_Storm",
       "attribute": {
         "eAttribute": "Attr_Nature_Magic_Damage_Percent",
         "nParam": 0
@@ -4237,8 +4260,8 @@
       "classRestrictions": [
         "Druid"
       ],
-      "bnetId": 451171,
-      "bnetFileName": "Affix_Druid_Shapeshifting_Damage"
+      "bnetId": 1093761,
+      "bnetFileName": "Damage_Tag_Werebear"
     },
     {
       "id": "affix_sb_spirit_guardian_damage",
@@ -4253,8 +4276,8 @@
       "classRestrictions": [
         "Spiritborn"
       ],
-      "bnetId": 451172,
-      "bnetFileName": "Affix_Sb_Spirit_Guardian_Damage"
+      "bnetId": 1064575,
+      "bnetFileName": "Damage_Tag_Summoning"
     },
     {
       "id": "affix_pal_holy_damage",
@@ -4269,8 +4292,6 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451173,
-      "bnetFileName": "Affix_Pct_HolyDamage",
       "attribute": {
         "eAttribute": "Attr_Holy_Damage_Percent",
         "nParam": 0
@@ -4289,8 +4310,8 @@
       "classRestrictions": [
         "Paladin"
       ],
-      "bnetId": 451174,
-      "bnetFileName": "Affix_Pal_Block_Damage_Reduction"
+      "bnetId": 577161,
+      "bnetFileName": "DamageReduction"
     },
     {
       "id": "affix_wlk_affliction_damage",
@@ -4305,8 +4326,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451175,
-      "bnetFileName": "Affix_Pct_AfflictionDamage",
+      "bnetId": 1093850,
+      "bnetFileName": "Damage_Tag_Darkness",
       "attribute": {
         "eAttribute": "Attr_Affliction_Damage_Percent",
         "nParam": 0
@@ -4325,8 +4346,8 @@
       "classRestrictions": [
         "Warlock"
       ],
-      "bnetId": 451176,
-      "bnetFileName": "Affix_Wlk_Soul_Harvest"
+      "bnetId": 1093850,
+      "bnetFileName": "Damage_Tag_Darkness"
     }
   ]
 }

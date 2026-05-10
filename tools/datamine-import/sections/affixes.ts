@@ -2,14 +2,21 @@
  * Affix section transformer.
  *
  * Transforms raw datamine affix data → AffixEntry[] with curation applied.
+ *
+ * Actual datamine format (DiabloTools/d4data):
+ *   eAffixType: integer — 2 = regular player-rollable affixes
+ *   arAllowedItemLabels: integer[] — item label IDs (not strings)
+ *   fAllowedForPlayerClass: number[] — bit flags, index 0-7 per AFFIX_CLASS_ORDER
+ *   ptItemAffixAttributes[0].tAttribute.__eAttribute_name__: string attribute name
+ *   No afValue field — value ranges come from curation record's valueRange field
  */
 
 import type { AffixEntry } from "../../../lib/catalog/index";
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
-import { SLOT_MAP, BARB_WEAPON_SLOTS, CLASS_MAP } from "../mappings";
+import { LABEL_TO_SLOTS, AFFIX_CLASS_ORDER } from "../mappings";
 import { parseTemplate } from "../template";
-import { detectIsPercent, scaleValue } from "../percent";
+import { detectIsPercent } from "../percent";
 import type { TransformerSummary } from "./types";
 
 // ─── Helper: snakeCasify a bnetFileName to a catalog id ──────────────────────
@@ -24,17 +31,22 @@ function toSnakeCase(s: string): string {
 
 // ─── Raw datamine affix shape ─────────────────────────────────────────────────
 
+interface RawAffixAttributeSpec {
+  eAttribute: number;
+  __eAttribute_name__?: string;
+  nParam: number;
+}
+
 interface RawAffixAttribute {
-  tAttribute: { eAttribute: string; nParam: number };
-  afValue: number[];
+  tAttribute: RawAffixAttributeSpec;
 }
 
 interface RawAffix {
   __fileName__: string;
   __snoID__: number;
-  eAffixType: string;
-  arItemTypesAllowed: string[];
-  arClassesAllowed: string[];
+  eAffixType: number;
+  arAllowedItemLabels: number[];
+  fAllowedForPlayerClass: number[];
   ptItemAffixAttributes: RawAffixAttribute[];
 }
 
@@ -54,12 +66,18 @@ export function transformAffixes(
     const affix = raw as RawAffix;
     const fileName = affix.__fileName__;
 
-    // D8: filter to AFFIX_TYPE_REGULAR only
-    if (affix.eAffixType !== "AFFIX_TYPE_REGULAR") {
+    // D8: filter to eAffixType === 2 (regular player-rollable affixes only)
+    if (affix.eAffixType !== 2) {
       continue;
     }
 
-    const szLabel = stringTable.get(fileName) ?? "";
+    // Look up the display label from the per-file string table.
+    // For regular affixes the stl typically has "Name_Prefix"/"Name_Suffix" keys.
+    // Use "Name_Suffix" as the primary label (e.g. "of Vigor"), falling back to
+    // "Name_Prefix" (e.g. "Vigorous"), then the attribute name.
+    const szLabelSuffix = stringTable.get(`${fileName}::Name_Suffix`) ?? "";
+    const szLabelPrefix = stringTable.get(`${fileName}::Name_Prefix`) ?? "";
+    const szLabel = szLabelSuffix || szLabelPrefix;
 
     // Apply strict heuristics (D17)
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
@@ -100,28 +118,42 @@ export function transformAffixes(
     }
 
     const firstAttr = affix.ptItemAffixAttributes[0];
-    const attributeName = firstAttr.tAttribute.eAttribute;
-    const afValue = firstAttr.afValue;
 
-    // Percent detection (D27)
-    const { isPercent } = detectIsPercent(attributeName, szLabel);
+    // The numeric eAttribute has a companion string name field __eAttribute_name__.
+    const attributeName = firstAttr.tAttribute.__eAttribute_name__ ?? String(firstAttr.tAttribute.eAttribute);
 
-    // Scale values (D19)
-    const minVal = scaleValue(afValue[0] ?? 0, isPercent, attributeName);
-    const maxVal = scaleValue(afValue[1] ?? afValue[0] ?? 0, isPercent, attributeName);
+    // Percent detection (D27) — use attribute name and label
+    const { isPercent: isPercentDetected } = detectIsPercent(attributeName, szLabel);
+    const isPercent = curationRecord?.isPercent ?? isPercentDetected;
 
-    // Template parsing
+    // Value range: no afValue field in real datamine — use curation record's valueRange.
+    // If neither is available, push to needsCuration.
+    const curatedRange = curationRecord?.valueRange;
+    if (!curatedRange) {
+      if (!curationRecord) {
+        // Will already be in needsCuration or entries depending on heuristic
+        // Only add if not already there
+      }
+      needsCuration.push({
+        bnetFileName: fileName,
+        reason: "no-value-range: add valueRange to curation",
+      });
+      // Don't emit the entry without a value range
+      continue;
+    }
+
+    const [minVal, maxVal] = curatedRange;
+
+    // Template parsing — use szLabel or attribute name as fallback
     const { labelTemplate } = parseTemplate(szLabel || `{value}`);
 
-    // Slot mapping
-    const rawSlots = affix.arItemTypesAllowed ?? [];
-    const slotRestrictions = mapSlots(rawSlots, fileName);
+    // Slot mapping via integer label intersection
+    const rawLabels: number[] = affix.arAllowedItemLabels ?? [];
+    const slotRestrictions = mapSlotsFromLabels(rawLabels);
 
-    // Class mapping
-    const rawClasses = affix.arClassesAllowed ?? [];
-    const classRestrictions = rawClasses
-      .map((c) => CLASS_MAP[c])
-      .filter(Boolean) as string[];
+    // Class mapping via fAllowedForPlayerClass bit array
+    const classBits: number[] = affix.fAllowedForPlayerClass ?? [];
+    const classRestrictions = mapClassesFromBits(classBits);
 
     // Derive catalogId
     const catalogId =
@@ -142,7 +174,7 @@ export function transformAffixes(
       bnetFileName: fileName,
       // v15 (D6): emit attribute reference for damage engine bucket routing
       attribute: {
-        eAttribute: firstAttr.tAttribute.eAttribute,
+        eAttribute: attributeName,
         nParam: firstAttr.tAttribute.nParam,
       },
     };
@@ -158,36 +190,48 @@ export function transformAffixes(
 }
 
 /**
- * Maps datamine slot keys → catalog slot IDs.
- * RING → both ring1 and ring2.
- * WEAPON → barb weapon fan-out included (as additional slots).
+ * Maps integer arAllowedItemLabels → catalog slot IDs using LABEL_TO_SLOTS.
+ * Unions all slots from all provided labels, deduplicating.
+ * An empty label array means the affix is allowed on all slots (return []).
  */
-function mapSlots(rawSlots: string[], _fileName: string): string[] {
-  if (rawSlots.length === 0) return [];
+function mapSlotsFromLabels(labels: number[]): string[] {
+  if (labels.length === 0) return [];
 
-  const result: string[] = [];
-  let hasWeapon = false;
+  const result = new Set<string>();
 
-  for (const raw of rawSlots) {
-    if (raw === "RING") {
-      result.push("ring1", "ring2");
-    } else if (raw === "WEAPON") {
-      hasWeapon = true;
-      result.push("weapon");
-    } else {
-      const mapped = SLOT_MAP[raw];
-      if (mapped) result.push(mapped);
-    }
-  }
-
-  // D16: barb weapon fan-out for weapon-slot affixes
-  if (hasWeapon) {
-    for (const barbSlot of BARB_WEAPON_SLOTS) {
-      if (!result.includes(barbSlot)) {
-        result.push(barbSlot);
+  for (const label of labels) {
+    const slots = LABEL_TO_SLOTS[label];
+    if (slots !== undefined) {
+      for (const slot of slots) {
+        result.add(slot);
       }
     }
+    // Unknown label → ignore (affix may be for a slot type we don't model)
   }
 
-  return [...new Set(result)];
+  return [...result];
+}
+
+/**
+ * Maps fAllowedForPlayerClass bit array → class name array.
+ * Index 0 = Sorcerer, 1 = Druid, ..., per AFFIX_CLASS_ORDER.
+ * An empty array or all-zeros means all classes allowed (return []).
+ */
+function mapClassesFromBits(bits: number[]): string[] {
+  if (bits.length === 0) return [];
+
+  const allSet = bits.every((b) => b === 0);
+  if (allSet) return []; // all-zeros → unrestricted
+
+  const result: string[] = [];
+  for (let i = 0; i < bits.length && i < AFFIX_CLASS_ORDER.length; i++) {
+    if (bits[i]) {
+      result.push(AFFIX_CLASS_ORDER[i]);
+    }
+  }
+
+  // If all 8 flags are set → unrestricted (same as all-zeros)
+  if (result.length === AFFIX_CLASS_ORDER.length) return [];
+
+  return result;
 }

@@ -1,12 +1,12 @@
 {
   "affixes": {
-    "Affix_Str_AddLifePercent": { "action": "include", "catalogId": "affix_max_life_pct", "label": "Maximum Life %", "reason": "Hand-seed entry: affix_max_life_pct" },
-    "Affix_Str_MaxLife": { "action": "include", "catalogId": "affix_max_life", "label": "Maximum Life", "reason": "Hand-seed entry: affix_max_life" },
-    "Affix_Multi_CritDamage": { "action": "include", "catalogId": "affix_crit_damage", "label": "Critical Strike Damage", "reason": "Multi-attribute: using first attribute only per D18" },
+    "Affix_Str_AddLifePercent": { "action": "include", "catalogId": "affix_max_life_pct", "label": "Maximum Life %", "valueRange": [8.0, 14.0], "isPercent": true, "reason": "Hand-seed entry: affix_max_life_pct" },
+    "Affix_Str_MaxLife": { "action": "include", "catalogId": "affix_max_life", "label": "Maximum Life", "valueRange": [700, 2800], "reason": "Hand-seed entry: affix_max_life" },
+    "Affix_Multi_CritDamage": { "action": "include", "catalogId": "affix_crit_damage", "label": "Critical Strike Damage", "valueRange": [20.0, 50.0], "isPercent": true, "reason": "Multi-attribute: using first attribute only per D18" },
     "Affix_WIP_TestEntry": { "action": "exclude", "reason": "WIP test entry — synthetic fixture only, no live game presence" }
   },
   "aspects": {
-    "Aspect_Disobedience": { "action": "include", "catalogId": "aspect_of_disobedience", "label": "Aspect of Disobedience", "source": "codex", "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred from naming convention — verify on first datamine run." },
+    "legendary_disobedience": { "action": "include", "catalogId": "aspect_of_disobedience", "label": "Aspect of Disobedience", "source": "codex", "valueRange": [25.0, 40.0], "isPercent": true, "reason": "Codex aspect; bnetFileName matches real datamine legendary_ prefix convention." },
     "Aspect_Might": { "action": "include", "catalogId": "aspect_of_might", "label": "Aspect of Might", "source": "codex", "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run." },
     "Aspect_Conceited": { "action": "include", "catalogId": "conceited_aspect", "label": "Conceited Aspect", "source": "codex", "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run." },
     "Aspect_Eluding": { "action": "include", "catalogId": "eluding_aspect", "label": "Eluding Aspect", "source": "codex", "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run." },

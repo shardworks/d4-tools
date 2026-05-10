@@ -142,7 +142,7 @@ Some datamine file names differ from their display names (e.g. `Barbarian_Maim` 
 The `source` field in a curation record overrides the default aspect source (`"legendary"`). Without this override, every re-run would reclassify all aspects as `"legendary"`, violating idempotency for the 20 hand-curated codex aspects that were seeded before the datamine pipeline existed.
 
 ```json
-"Aspect_Disobedience": {
+"legendary_disobedience": {
   "action": "include",
   "catalogId": "aspect_of_disobedience",
   "label": "Aspect of Disobedience",
@@ -151,4 +151,4 @@ The `source` field in a curation record overrides the default aspect source (`"l
 }
 ```
 
-**Note on bnetFileName guesses for pre-pipeline aspects:** The 20 codex aspects in `curation.json` were seeded before the first datamine run using conventional naming (`Aspect_Disobedience`, `Aspect_Might`, etc.). The actual Power file names in `DiabloTools/d4data` may differ. On the first real datamine run, if a curation entry's bnetFileName doesn't match any Power file, the tool will surface those aspects as `needs-curation`. Update the keys in `curation.json` to the real bnetFileNames shown in the audit doc and re-run.
+**Aspect curation keys are Affix `__fileName__` values** (e.g. `legendary_disobedience`, `legendary_barb_001`). Aspects live in `Affix/*.aff.json` files where `eAffixType === 1` and the filename matches `legendary_*` or `S\d+_legendary_*`. On the first real datamine run, surface the actual file base names from the audit doc and use those as keys in `curation.json`.

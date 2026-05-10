@@ -35,7 +35,9 @@
         "eAttribute": "Attr_Armor_Item",
         "nParam": 0
       },
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578792,
+      "bnetFileName": "legendary_generic_036"
     },
     {
       "id": "aspect_of_might",
@@ -62,7 +64,9 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578708,
+      "bnetFileName": "legendary_generic_009"
     },
     {
       "id": "conceited_aspect",
@@ -95,7 +99,9 @@
         "eAttribute": "Attr_Skill_Damage_Percent",
         "nParam": 0
       },
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578845,
+      "bnetFileName": "legendary_generic_027"
     },
     {
       "id": "eluding_aspect",
@@ -116,7 +122,9 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1223890,
+      "bnetFileName": "legendary_generic_103"
     },
     {
       "id": "aspect_of_elements",
@@ -170,7 +178,9 @@
         "eAttribute": "Attr_Frost_Skill_Damage_Percent",
         "nParam": 0
       },
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578927,
+      "bnetFileName": "legendary_sorc_035"
     },
     {
       "id": "snowguards_aspect",
@@ -195,7 +205,9 @@
         "Sorcerer"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578919,
+      "bnetFileName": "legendary_sorc_006"
     },
     {
       "id": "prodigys_aspect",
@@ -221,7 +233,9 @@
         "Sorcerer"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1214116,
+      "bnetFileName": "legendary_sorc_125"
     },
     {
       "id": "aspect_of_piercing_cold",
@@ -248,7 +262,9 @@
         "Sorcerer"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1212506,
+      "bnetFileName": "legendary_sorc_110"
     },
     {
       "id": "flamethrower_aspect",
@@ -304,7 +320,9 @@
         "Barbarian"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578706,
+      "bnetFileName": "legendary_barb_001"
     },
     {
       "id": "aspect_of_anemia",
@@ -333,7 +351,9 @@
         "Barbarian"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1201315,
+      "bnetFileName": "legendary_barb_102"
     },
     {
       "id": "aspect_of_grasping_veins",
@@ -422,7 +442,9 @@
         "Rogue"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1218948,
+      "bnetFileName": "legendary_rogue_102"
     },
     {
       "id": "rapid_aspect",
@@ -453,7 +475,9 @@
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
         "nParam": 0
       },
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578710,
+      "bnetFileName": "legendary_generic_043"
     },
     {
       "id": "aspect_of_the_unsatiated",
@@ -484,7 +508,9 @@
         "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
         "nParam": 0
       },
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 579704,
+      "bnetFileName": "legendary_druid_002"
     },
     {
       "id": "stormshifters_aspect",
@@ -511,7 +537,9 @@
         "Druid"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 1202541,
+      "bnetFileName": "legendary_druid_109"
     },
     {
       "id": "aspect_of_the_calm_breeze",
@@ -538,7 +566,9 @@
         "Spiritborn"
       ],
       "source": "codex",
-      "isDistinctMultiplier": false
+      "isDistinctMultiplier": false,
+      "bnetId": 578814,
+      "bnetFileName": "legendary_druid_010"
     },
     {
       "id": "aspect_of_the_overflowing_energy",
@@ -594,8 +624,6 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "bnetId": 930001,
-      "bnetFileName": "Power_StarPower",
       "isDistinctMultiplier": false
     },
     {
@@ -625,8 +653,6 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "bnetId": 930002,
-      "bnetFileName": "Power_Windstriker",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
@@ -660,8 +686,8 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "bnetId": 930003,
-      "bnetFileName": "Power_Retribution",
+      "bnetId": 578784,
+      "bnetFileName": "legendary_generic_038",
       "isDistinctMultiplier": false
     },
     {
@@ -685,8 +711,8 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "bnetId": 930004,
-      "bnetFileName": "Power_TheProtector",
+      "bnetId": 578842,
+      "bnetFileName": "legendary_generic_011",
       "isDistinctMultiplier": false
     },
     {
@@ -716,8 +742,8 @@
       ],
       "classRestrictions": [],
       "source": "codex",
-      "bnetId": 930005,
-      "bnetFileName": "Power_ArrowStorms",
+      "bnetId": 578874,
+      "bnetFileName": "legendary_rogue_028",
       "isDistinctMultiplier": false
     },
     {
@@ -747,8 +773,8 @@
       ],
       "classRestrictions": [],
       "source": "legendary",
-      "bnetId": 930006,
-      "bnetFileName": "Power_NumbingWrath",
+      "bnetId": 578723,
+      "bnetFileName": "legendary_barb_017",
       "isDistinctMultiplier": false
     },
     {
@@ -772,8 +798,6 @@
       ],
       "classRestrictions": [],
       "source": "legendary",
-      "bnetId": 930007,
-      "bnetFileName": "Power_CheatTheGrave",
       "isDistinctMultiplier": false
     },
     {
@@ -803,8 +827,6 @@
       ],
       "classRestrictions": [],
       "source": "legendary",
-      "bnetId": 930008,
-      "bnetFileName": "Power_MightLegendary",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -838,8 +860,8 @@
       ],
       "classRestrictions": [],
       "source": "legendary",
-      "bnetId": 930009,
-      "bnetFileName": "Power_Smiting",
+      "bnetId": 578703,
+      "bnetFileName": "legendary_generic_109",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
@@ -875,8 +897,6 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930010,
-      "bnetFileName": "Power_PlungingDarkness",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -912,8 +932,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930011,
-      "bnetFileName": "Power_ShreddingBlades",
+      "bnetId": 1743946,
+      "bnetFileName": "legendary_sorc_138",
       "isDistinctMultiplier": false
     },
     {
@@ -945,8 +965,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930012,
-      "bnetFileName": "Power_TheLongShadow",
+      "bnetId": 1622847,
+      "bnetFileName": "legendary_necro_124",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Imbuement_Skill_Damage_Percent",
@@ -982,8 +1002,6 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930013,
-      "bnetFileName": "Power_Gore",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Fire_Damage_Percent",
@@ -1019,8 +1037,6 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930014,
-      "bnetFileName": "Power_BulKathosConjuring",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Brawling_Skill_Damage_Percent",
@@ -1056,8 +1072,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930015,
-      "bnetFileName": "Power_LimitlessRage",
+      "bnetId": 578755,
+      "bnetFileName": "Legendary_Barb_110",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Core_Skill_Damage_Percent",
@@ -1093,8 +1109,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930016,
-      "bnetFileName": "Power_TheDireWhirlwind",
+      "bnetId": 578735,
+      "bnetFileName": "legendary_barb_025",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
@@ -1130,8 +1146,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930017,
-      "bnetFileName": "Power_AccursedTouch",
+      "bnetId": 1867840,
+      "bnetFileName": "legendary_generic_122",
       "isDistinctMultiplier": false
     },
     {
@@ -1163,8 +1179,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930018,
-      "bnetFileName": "Power_IronBlood",
+      "bnetId": 578749,
+      "bnetFileName": "legendary_barb_005",
       "isDistinctMultiplier": false
     },
     {
@@ -1196,8 +1212,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930019,
-      "bnetFileName": "Power_AncestralEchoes",
+      "bnetId": 578765,
+      "bnetFileName": "legendary_barb_014",
       "isDistinctMultiplier": false
     },
     {
@@ -1229,8 +1245,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930020,
-      "bnetFileName": "Power_RelentlessBerserkers",
+      "bnetId": 578699,
+      "bnetFileName": "legendary_barb_011",
       "isDistinctMultiplier": false
     },
     {
@@ -1262,8 +1278,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930021,
-      "bnetFileName": "Power_BurningRage",
+      "bnetId": 578738,
+      "bnetFileName": "Legendary_Barb_108",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Fire_Damage_Percent",
@@ -1299,8 +1315,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930022,
-      "bnetFileName": "Power_Tidal",
+      "bnetId": 1223790,
+      "bnetFileName": "legendary_necro_109",
       "isDistinctMultiplier": false
     },
     {
@@ -1332,8 +1348,8 @@
         "Barbarian"
       ],
       "source": "legendary",
-      "bnetId": 930023,
-      "bnetFileName": "Power_Vigorous",
+      "bnetId": 1206400,
+      "bnetFileName": "legendary_druid_100",
       "isDistinctMultiplier": false
     },
     {
@@ -1365,8 +1381,6 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930024,
-      "bnetFileName": "Power_TheThreeCurses",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
@@ -1402,8 +1416,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930025,
-      "bnetFileName": "Power_BitingCold",
+      "bnetId": 2575334,
+      "bnetFileName": "legendary_coldUser_003_x2",
       "isDistinctMultiplier": false
     },
     {
@@ -1435,8 +1449,6 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930026,
-      "bnetFileName": "Power_TheSteadyEnigma",
       "isDistinctMultiplier": false
     },
     {
@@ -1468,8 +1480,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930027,
-      "bnetFileName": "Power_SingedExtremities",
+      "bnetId": 1213812,
+      "bnetFileName": "legendary_sorc_104",
       "isDistinctMultiplier": false
     },
     {
@@ -1501,8 +1513,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930028,
-      "bnetFileName": "Power_Mangled",
+      "bnetId": 578807,
+      "bnetFileName": "legendary_druid_005",
       "isDistinctMultiplier": false
     },
     {
@@ -1534,8 +1546,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930029,
-      "bnetFileName": "Power_Everliving",
+      "bnetId": 2574530,
+      "bnetFileName": "legendary_generic_130_x2",
       "isDistinctMultiplier": false
     },
     {
@@ -1567,8 +1579,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930030,
-      "bnetFileName": "Power_Charged",
+      "bnetId": 578914,
+      "bnetFileName": "legendary_sorc_027",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
@@ -1604,8 +1616,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930031,
-      "bnetFileName": "Power_Shivering",
+      "bnetId": 2249121,
+      "bnetFileName": "legendary_sorc_147",
       "isDistinctMultiplier": false
     },
     {
@@ -1637,8 +1649,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930032,
-      "bnetFileName": "Power_VolatileShadows",
+      "bnetId": 578854,
+      "bnetFileName": "legendary_rogue_013",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Physical_Damage_Percent",
@@ -1674,8 +1686,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930033,
-      "bnetFileName": "Power_Glacial",
+      "bnetId": 1212318,
+      "bnetFileName": "legendary_sorc_107",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Cold_Damage_Percent",
@@ -1711,8 +1723,6 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930034,
-      "bnetFileName": "Power_UnbrokenTether",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Lightning_Damage_Percent",
@@ -1748,8 +1758,8 @@
         "Sorcerer"
       ],
       "source": "legendary",
-      "bnetId": 930035,
-      "bnetFileName": "Power_Conflagration",
+      "bnetId": 1212474,
+      "bnetFileName": "legendary_sorc_100",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Fire_Damage_Percent",
@@ -1785,8 +1795,6 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930036,
-      "bnetFileName": "Power_GrimHarvest",
       "isDistinctMultiplier": false
     },
     {
@@ -1818,8 +1826,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930037,
-      "bnetFileName": "Power_BurstingBones",
+      "bnetId": 1221426,
+      "bnetFileName": "legendary_necro_101",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -1855,8 +1863,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930038,
-      "bnetFileName": "Power_RathmasChosen",
+      "bnetId": 1221702,
+      "bnetFileName": "legendary_necro_111",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
@@ -1892,8 +1900,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930039,
-      "bnetFileName": "Power_TheVoid",
+      "bnetId": 610216,
+      "bnetFileName": "legendary_necro_017",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -1929,8 +1937,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930040,
-      "bnetFileName": "Power_UnyieldingCommanders",
+      "bnetId": 616486,
+      "bnetFileName": "legendary_necro_053",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Minion_Damage_Percent",
@@ -1966,8 +1974,6 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930041,
-      "bnetFileName": "Power_Blighted",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Shadow_Damage_Percent",
@@ -2003,8 +2009,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930042,
-      "bnetFileName": "Power_Reanimation",
+      "bnetId": 1223323,
+      "bnetFileName": "legendary_necro_118",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
@@ -2040,8 +2046,8 @@
         "Necromancer"
       ],
       "source": "legendary",
-      "bnetId": 930043,
-      "bnetFileName": "Power_ExposedFlesh",
+      "bnetId": 1220424,
+      "bnetFileName": "legendary_necro_103",
       "isDistinctMultiplier": false
     },
     {
@@ -2073,8 +2079,6 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930044,
-      "bnetFileName": "Power_BranchingVolleys",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -2110,8 +2114,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930045,
-      "bnetFileName": "Power_Bladedancers",
+      "bnetId": 578876,
+      "bnetFileName": "legendary_rogue_021",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -2147,8 +2151,6 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930046,
-      "bnetFileName": "Power_EchoingFury",
       "isDistinctMultiplier": false
     },
     {
@@ -2180,8 +2182,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930047,
-      "bnetFileName": "Power_ImitatedImbuement",
+      "bnetId": 578880,
+      "bnetFileName": "legendary_rogue_003",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Shadow_Damage_Percent",
@@ -2217,8 +2219,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930048,
-      "bnetFileName": "Power_Shadowslicer",
+      "bnetId": 578878,
+      "bnetFileName": "legendary_rogue_026",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -2254,8 +2256,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930049,
-      "bnetFileName": "Power_ToxicAlchemist",
+      "bnetId": 578882,
+      "bnetFileName": "legendary_rogue_023",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Poison_Damage_Percent",
@@ -2291,8 +2293,8 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930050,
-      "bnetFileName": "Power_LethalDusk",
+      "bnetId": 1301761,
+      "bnetFileName": "legendary_rogue_120",
       "isDistinctMultiplier": false
     },
     {
@@ -2324,8 +2326,6 @@
         "Rogue"
       ],
       "source": "legendary",
-      "bnetId": 930051,
-      "bnetFileName": "Power_Hemomancer",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Bleeding_Damage_Percent",
@@ -2361,8 +2361,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930052,
-      "bnetFileName": "Power_TheRampagingWerebeast",
+      "bnetId": 1205995,
+      "bnetFileName": "legendary_druid_104",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
@@ -2398,8 +2398,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930053,
-      "bnetFileName": "Power_NaturalBalance",
+      "bnetId": 578816,
+      "bnetFileName": "legendary_druid_029",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Strike_Chance_Percent",
@@ -2435,8 +2435,6 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930054,
-      "bnetFileName": "Power_UnrelentingFury",
       "isDistinctMultiplier": false
     },
     {
@@ -2468,8 +2466,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930055,
-      "bnetFileName": "Power_Crashstone",
+      "bnetId": 1206645,
+      "bnetFileName": "legendary_druid_023",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Crit_Damage_Percent",
@@ -2505,8 +2503,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930056,
-      "bnetFileName": "Power_TheMoonrise",
+      "bnetId": 1860795,
+      "bnetFileName": "legendary_generic_120",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
@@ -2542,8 +2540,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930057,
-      "bnetFileName": "Power_MendingStone",
+      "bnetId": 579688,
+      "bnetFileName": "legendary_druid_026",
       "isDistinctMultiplier": false
     },
     {
@@ -2575,8 +2573,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930058,
-      "bnetFileName": "Power_MightyStorm",
+      "bnetId": 579682,
+      "bnetFileName": "legendary_druid_112",
       "isDistinctMultiplier": false
     },
     {
@@ -2608,8 +2606,8 @@
         "Druid"
       ],
       "source": "legendary",
-      "bnetId": 930059,
-      "bnetFileName": "Power_TheTempest",
+      "bnetId": 880500,
+      "bnetFileName": "legendary_druid_013",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
@@ -2645,8 +2643,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930060,
-      "bnetFileName": "Power_TheProtectorSpirit",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -2682,8 +2678,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930061,
-      "bnetFileName": "Power_SpiritBond",
       "isDistinctMultiplier": false
     },
     {
@@ -2715,8 +2709,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930062,
-      "bnetFileName": "Power_HawkFlight",
       "isDistinctMultiplier": false
     },
     {
@@ -2748,8 +2740,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930063,
-      "bnetFileName": "Power_Venom",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Poison_Damage_Percent",
@@ -2785,8 +2775,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930064,
-      "bnetFileName": "Power_UrsineStrength",
       "isDistinctMultiplier": false
     },
     {
@@ -2818,8 +2806,8 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930065,
-      "bnetFileName": "Power_TheStampede",
+      "bnetId": 1222402,
+      "bnetFileName": "Legendary_Druid_117",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Eagle_Skill_Damage_Percent",
@@ -2855,8 +2843,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930066,
-      "bnetFileName": "Power_Predators",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Fire_Damage_Percent",
@@ -2892,8 +2878,6 @@
         "Spiritborn"
       ],
       "source": "legendary",
-      "bnetId": 930067,
-      "bnetFileName": "Power_AcuteZeal",
       "isDistinctMultiplier": false
     },
     {
@@ -2925,8 +2909,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930068,
-      "bnetFileName": "Power_InvigoratingCondemnation",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Valor_Skill_Damage_Percent",
@@ -2962,8 +2944,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930069,
-      "bnetFileName": "Power_WrathOfTheHeavens",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Justice_Skill_Damage_Percent",
@@ -2999,8 +2979,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930070,
-      "bnetFileName": "Power_DivineProtection",
       "isDistinctMultiplier": false
     },
     {
@@ -3032,8 +3010,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930071,
-      "bnetFileName": "Power_CrusadersPiety",
       "isDistinctMultiplier": false
     },
     {
@@ -3065,8 +3041,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930072,
-      "bnetFileName": "Power_Faith",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Aura_Skill_Damage_Percent",
@@ -3102,8 +3076,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930073,
-      "bnetFileName": "Power_ShieldOfValor",
       "isDistinctMultiplier": false
     },
     {
@@ -3135,8 +3107,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930074,
-      "bnetFileName": "Power_ZealousJudgment",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Holy_Damage_Percent",
@@ -3172,8 +3142,6 @@
         "Paladin"
       ],
       "source": "legendary",
-      "bnetId": 930075,
-      "bnetFileName": "Power_ConsecratedGround",
       "isDistinctMultiplier": false
     },
     {
@@ -3205,8 +3173,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930076,
-      "bnetFileName": "Power_SinisterPact",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Archfiend_Skill_Damage_Percent",
@@ -3242,8 +3208,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930077,
-      "bnetFileName": "Power_AfflictionConduit",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Shadow_Damage_Percent",
@@ -3279,8 +3243,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930078,
-      "bnetFileName": "Power_Damnation",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Skill_Damage_Percent",
@@ -3316,8 +3278,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930079,
-      "bnetFileName": "Power_SoulDevourer",
       "isDistinctMultiplier": false
     },
     {
@@ -3349,8 +3309,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930080,
-      "bnetFileName": "Power_Hexing",
       "isDistinctMultiplier": false
     },
     {
@@ -3382,8 +3340,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930081,
-      "bnetFileName": "Power_TheDarkBargain",
       "isDistinctMultiplier": false
     },
     {
@@ -3415,8 +3371,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930082,
-      "bnetFileName": "Power_Malefic",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Poison_Damage_Percent",
@@ -3452,8 +3406,6 @@
         "Warlock"
       ],
       "source": "legendary",
-      "bnetId": 930083,
-      "bnetFileName": "Power_ArcaneTorment",
       "isDistinctMultiplier": false,
       "attribute": {
         "eAttribute": "Attr_Shadow_Damage_Percent",

@@ -2,13 +2,18 @@
  * Uniques section transformer.
  *
  * Transforms raw datamine Item data → UniqueEntry[].
+ *
+ * Actual datamine format (DiabloTools/d4data):
+ *   eMagicType === 2 for unique items (not eQualityLevel)
+ *   snoItemType.name for the slot (e.g. "Helm", "ChestArmor", "Axe")
+ *   fUsableByClass: number[] — class restriction bit array per AFFIX_CLASS_ORDER
+ *   Name from: Item_{basename}.stl.json with "Name" szLabel
  */
 
 import type { UniqueEntry } from "../../../lib/catalog/index";
-// UniqueEntry is used for intrinsicAffixes type reference below
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
-import { CLASS_MAP } from "../mappings";
+import { AFFIX_CLASS_ORDER } from "../mappings";
 import type { TransformerSummary } from "./types";
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -21,40 +26,67 @@ function toSnakeCase(s: string): string {
     .toLowerCase();
 }
 
-/** Maps datamine item type string to a slot id */
-function itemTypeToSlot(eItemType: string): string {
-  const lower = eItemType.toLowerCase();
-  if (lower.includes("helm") || lower.includes("head")) return "helm";
-  if (lower.includes("chest") || lower.includes("torso")) return "chest";
-  if (lower.includes("gloves") || lower.includes("hand")) return "gloves";
-  if (lower.includes("pants") || lower.includes("legs")) return "pants";
-  if (lower.includes("boots") || lower.includes("feet")) return "boots";
-  if (lower.includes("amulet") || lower.includes("neck")) return "amulet";
-  if (lower.includes("ring")) return "ring1";
-  if (lower.includes("offhand") || lower.includes("shield") || lower.includes("focus") || lower.includes("totem")) return "offHand";
-  if (lower.includes("sword") || lower.includes("axe") || lower.includes("mace") || lower.includes("spear")
-    || lower.includes("staff") || lower.includes("bow") || lower.includes("crossbow")
-    || lower.includes("wand") || lower.includes("dagger") || lower.includes("scythe")
-    || lower.includes("flail") || lower.includes("polearm") || lower.includes("two_hand")) return "weapon";
+/**
+ * Maps snoItemType.name → catalog slot id.
+ * snoItemType.name comes from the base/meta/ItemType/*.itt file basename.
+ */
+function itemTypeNameToSlot(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower === "helm" || lower.includes("head")) return "helm";
+  if (lower === "chestarmor" || lower === "chest" || lower.includes("torso")) return "chest";
+  if (lower === "gloves" || lower.includes("hand")) return "gloves";
+  if (lower === "pants" || lower === "legs" || lower.includes("legs")) return "pants";
+  if (lower === "boots" || lower.includes("feet")) return "boots";
+  if (lower === "amulet" || lower.includes("neck")) return "amulet";
+  if (lower === "ring") return "ring1";
+  if (lower === "shield" || lower === "focus" || lower === "offhandtotem"
+    || lower.includes("offhand") || lower.includes("totem")) return "offHand";
+  // Weapon types
+  if (lower === "axe" || lower === "1haxe" || lower === "2haxe") return "weapon";
+  if (lower === "sword" || lower === "1hsword" || lower === "2hsword") return "weapon";
+  if (lower === "mace" || lower === "1hmace" || lower === "2hmace" || lower === "flail" || lower === "1hflail") return "weapon";
+  if (lower === "dagger" || lower === "1hdagger") return "weapon";
+  if (lower === "polearm" || lower === "2hpolearm") return "weapon";
+  if (lower === "staff" || lower === "2hstaff") return "weapon";
+  if (lower === "bow" || lower === "2hbow") return "weapon";
+  if (lower === "crossbow2h" || lower.includes("crossbow")) return "weapon";
+  if (lower === "scythe" || lower === "1hscythe" || lower === "2hscythe") return "weapon";
+  if (lower.includes("wand")) return "weapon";
+  if (lower.includes("sword") || lower.includes("axe") || lower.includes("mace")
+    || lower.includes("spear") || lower.includes("staff") || lower.includes("bow")
+    || lower.includes("dagger") || lower.includes("scythe") || lower.includes("polearm")
+    || lower.includes("two_hand") || lower.includes("2h")) return "weapon";
   return "weapon"; // fallback
 }
 
 // ─── Raw datamine item shape ──────────────────────────────────────────────────
 
+interface RawItemSnoItemType {
+  name: string;
+}
+
+interface RawItemAffixAttributeSpec {
+  eAttribute: number;
+  __eAttribute_name__?: string;
+  nParam: number;
+}
+
 interface RawItemAffixAttribute {
-  tAttribute: { eAttribute: string; nParam: number };
-  afValue: number[];
+  tAttribute: RawItemAffixAttributeSpec;
+  /** afValue does not exist in real datamine — omit from type */
 }
 
 interface RawItem {
   __fileName__: string;
   __snoID__: number;
-  eItemType: string;
-  eQualityLevel: string;
-  arClassesAllowed: string[];
+  /** eMagicType === 2 for unique items */
+  eMagicType: number;
+  snoItemType: RawItemSnoItemType;
+  /** fUsableByClass: class restriction bit array (same order as AFFIX_CLASS_ORDER) */
+  fUsableByClass: number[];
   /**
    * v15 (D8): Intrinsic affix attributes for unique item powers.
-   * Mirrors the RawAffixAttribute shape used by regular affixes.
+   * No afValue field in real datamine.
    */
   ptItemAffixAttributes?: RawItemAffixAttribute[];
 }
@@ -75,15 +107,13 @@ export function transformUniques(
     const item = raw as RawItem;
     const fileName = item.__fileName__;
 
-    // Filter to unique quality items
-    if (
-      !item.eQualityLevel?.includes("UNIQUE") &&
-      !item.eQualityLevel?.includes("MYTHIC")
-    ) {
+    // Filter to unique quality items: eMagicType === 2
+    if (item.eMagicType !== 2) {
       continue;
     }
 
-    const szLabel = stringTable.get(fileName) ?? "";
+    // Get name from per-file string table using "Name" szLabel
+    const szLabel = stringTable.get(`${fileName}::Name`) ?? "";
 
     // Strict heuristics
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
@@ -105,28 +135,29 @@ export function transformUniques(
       continue;
     }
 
-    const slot = itemTypeToSlot(item.eItemType ?? "");
+    // Slot from snoItemType.name
+    const slot = itemTypeNameToSlot(item.snoItemType?.name ?? "");
 
-    const rawClasses = item.arClassesAllowed ?? [];
-    const classRestrictions = rawClasses
-      .map((c) => CLASS_MAP[c])
-      .filter(Boolean) as string[];
+    // Class mapping via fUsableByClass bit array
+    const classBits: number[] = item.fUsableByClass ?? [];
+    const classRestrictions = mapClassesFromBits(classBits);
 
     const catalogId =
       curationRecord?.catalogId ?? `unique_${toSnakeCase(fileName)}`;
     const label = curationRecord?.label ?? szLabel;
 
-    // v15 (D8): extract intrinsic-affix attribute references from the datamine
+    // v15 (D8): extract intrinsic-affix attribute references from the datamine.
+    // Note: afValue does not exist in real datamine; omit valueRange from intrinsicAffixes.
     const intrinsicAffixes: UniqueEntry["intrinsicAffixes"] = [];
     for (const attr of item.ptItemAffixAttributes ?? []) {
-      const minVal = attr.afValue[0] ?? 0;
-      const maxVal = attr.afValue[1] ?? minVal;
+      const attrName = attr.tAttribute.__eAttribute_name__
+        ?? String(attr.tAttribute.eAttribute);
       intrinsicAffixes.push({
         attribute: {
-          eAttribute: attr.tAttribute.eAttribute,
+          eAttribute: attrName,
           nParam: attr.tAttribute.nParam,
         },
-        valueRange: [minVal, maxVal],
+        valueRange: [0, 0],
       });
     }
 
@@ -148,4 +179,26 @@ export function transformUniques(
   }
 
   return { entries, needsCuration, deprecated, excluded };
+}
+
+/**
+ * Maps fUsableByClass bit array → class name array per AFFIX_CLASS_ORDER.
+ * Returns [] if all zeros (unrestricted) or all flags set (unrestricted).
+ */
+function mapClassesFromBits(bits: number[]): string[] {
+  if (bits.length === 0) return [];
+
+  const allZero = bits.every((b) => b === 0);
+  if (allZero) return [];
+
+  const result: string[] = [];
+  for (let i = 0; i < bits.length && i < AFFIX_CLASS_ORDER.length; i++) {
+    if (bits[i]) {
+      result.push(AFFIX_CLASS_ORDER[i]);
+    }
+  }
+
+  if (result.length === AFFIX_CLASS_ORDER.length) return [];
+
+  return result;
 }

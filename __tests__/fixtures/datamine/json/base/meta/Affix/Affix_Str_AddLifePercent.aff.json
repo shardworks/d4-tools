@@ -1,14 +1,13 @@
 {
   "__fileName__": "Affix_Str_AddLifePercent",
   "__snoID__": 1234567,
-  "eAffixType": "AFFIX_TYPE_REGULAR",
-  "arItemTypesAllowed": ["HELM", "CHEST", "PANTS", "BOOTS"],
-  "arClassesAllowed": [],
+  "eAffixType": 2,
+  "arAllowedItemLabels": [16, 17, 30, 29],
+  "fAllowedForPlayerClass": [],
   "arAffixSkillTagRequirements": [],
   "ptItemAffixAttributes": [
     {
-      "tAttribute": { "eAttribute": "Attr_Max_Life_Percent", "nParam": 0 },
-      "afValue": [0.08, 0.14]
+      "tAttribute": { "eAttribute": 0, "__eAttribute_name__": "Attr_Max_Life_Percent", "nParam": 0 }
     }
   ]
 }

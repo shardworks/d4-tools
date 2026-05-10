@@ -52,11 +52,15 @@ export function loadAffixes(datamineRoot: string): unknown[] {
   return readJsonDir(metaDir(datamineRoot, "Affix"));
 }
 
-/** Reads power definitions from json/base/meta/Power/ filtered by legendary aspect type */
+/**
+ * Reads legendary aspect definitions from json/base/meta/Affix/ filtered by
+ * eAffixType === 1 (legendary). Power files do NOT contain ePowerType and are
+ * not used for aspects.
+ */
 export function loadAspects(datamineRoot: string): unknown[] {
-  const all = readJsonDir(metaDir(datamineRoot, "Power"));
+  const all = readJsonDir(metaDir(datamineRoot, "Affix"));
   return all.filter(
-    (p) => (p as Record<string, unknown>)["ePowerType"] === "POWER_TYPE_LEGENDARY"
+    (p) => (p as Record<string, unknown>)["eAffixType"] === 1
   );
 }
 
@@ -95,23 +99,108 @@ export function loadItems(datamineRoot: string): unknown[] {
 
 /**
  * Reads string tables from json/enUS_Text/meta/StringList/ and builds
- * a Map<id, szLabel>.
+ * a flat Map<key, szText> where:
+ *
+ * 1. For each Section_Basename.stl.json file, a primary entry is stored:
+ *      key = "base/meta/{Section}/{Basename}.{ext}"  →  value = "Name" szText
+ *    This allows skills.ts and paragon.ts to do stringTable.get(fileName)
+ *    using the base-data __fileName__ field as the lookup key.
+ *
+ * 2. For Affix_*.stl.json and Item_*.stl.json files, additional per-label
+ *    entries are stored using a "::" separator:
+ *      key = "base/meta/Affix/{Basename}.aff::{szLabel}"  →  szText
+ *      key = "base/meta/Item/{Basename}.itm::{szLabel}"   →  szText
+ *    Affix and item section transformers use stringTable.get(fileName + "::" + label)
+ *    to retrieve label-specific strings (e.g. "Desc", "Name", "Name_Prefix").
+ *
  * Gracefully handles missing directories (returns empty map).
  */
 export function loadStringTable(datamineRoot: string): Map<string, string> {
   const dir = stringListDir(datamineRoot);
-  const files = readJsonDir(dir);
   const table = new Map<string, string>();
 
-  for (const file of files) {
-    const rec = file as Record<string, unknown>;
-    const strings = rec["arStrings"];
-    if (!Array.isArray(strings)) continue;
+  if (!fs.existsSync(dir)) {
+    return table;
+  }
 
-    for (const entry of strings) {
-      const s = entry as Record<string, unknown>;
-      if (typeof s["id"] === "string" && typeof s["szLabel"] === "string") {
-        table.set(s["id"] as string, s["szLabel"] as string);
+  const entries = fs.readdirSync(dir);
+
+  for (const entry of entries) {
+    if (!entry.endsWith(".stl.json")) continue;
+
+    const filePath = path.join(dir, entry);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    } catch {
+      continue;
+    }
+
+    const rec = parsed as Record<string, unknown>;
+    const arStrings = rec["arStrings"];
+    if (!Array.isArray(arStrings)) continue;
+
+    // Build a label→text map for this stl file.
+    const labelMap = new Map<string, string>();
+    for (const s of arStrings) {
+      const entry2 = s as Record<string, unknown>;
+      if (typeof entry2["szLabel"] === "string" && typeof entry2["szText"] === "string") {
+        labelMap.set(entry2["szLabel"] as string, entry2["szText"] as string);
+      }
+    }
+
+    // Derive the base-file path key from the stl filename.
+    // stl filename pattern: {SectionPrefix}_{Basename}.stl.json
+    // e.g. Affix_Life.stl.json → section=Affix, basename=Life, ext=.aff
+    //      Item_1HAxe_Unique_Druid_100.stl.json → section=Item, basename=1HAxe_Unique_Druid_100, ext=.itm
+    //      ParagonBoard_Paragon_Barb_00.stl.json → section=ParagonBoard, basename=Paragon_Barb_00, ext=.pbd
+    //      ParagonGlyph_Rare_001_Intelligence_Main.stl.json → section=ParagonGlyph, basename=Rare_001_Intelligence_Main, ext=.gph
+    const stlBase = entry.replace(/\.stl\.json$/, "");
+
+    let section: string | undefined;
+    let basename: string | undefined;
+    let ext: string | undefined;
+
+    if (stlBase.startsWith("Affix_")) {
+      section = "Affix";
+      basename = stlBase.slice("Affix_".length);
+      ext = ".aff";
+    } else if (stlBase.startsWith("Item_")) {
+      section = "Item";
+      basename = stlBase.slice("Item_".length);
+      ext = ".itm";
+    } else if (stlBase.startsWith("ParagonBoard_")) {
+      section = "ParagonBoard";
+      basename = stlBase.slice("ParagonBoard_".length);
+      ext = ".pbd";
+    } else if (stlBase.startsWith("ParagonGlyph_")) {
+      section = "ParagonGlyph";
+      basename = stlBase.slice("ParagonGlyph_".length);
+      ext = ".gph";
+    } else if (stlBase.startsWith("Power_")) {
+      section = "Power";
+      basename = stlBase.slice("Power_".length);
+      ext = ".pow";
+    } else if (stlBase.startsWith("SkillKit_")) {
+      section = "SkillKit";
+      basename = stlBase.slice("SkillKit_".length);
+      ext = ".skl";
+    } else {
+      // Unknown prefix — skip or store without structured key
+      continue;
+    }
+
+    // Primary key: "base/meta/{Section}/{Basename}.{ext}" → "Name" szText
+    // Used by skills.ts and paragon.ts via stringTable.get(fileName).
+    const baseFileKey = `base/meta/${section}/${basename}${ext}`;
+    const nameText = labelMap.get("Name") ?? "";
+    table.set(baseFileKey, nameText);
+
+    // Per-label keys for Affix and Item sections.
+    // Transformers use: stringTable.get(fileName + "::" + szLabel)
+    if (section === "Affix" || section === "Item") {
+      for (const [label, text] of labelMap) {
+        table.set(`${baseFileKey}::${label}`, text);
       }
     }
   }

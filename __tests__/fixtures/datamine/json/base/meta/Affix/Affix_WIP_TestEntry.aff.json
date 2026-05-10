@@ -1,14 +1,13 @@
 {
   "__fileName__": "Affix_WIP_TestEntry",
   "__snoID__": 1234570,
-  "eAffixType": "AFFIX_TYPE_REGULAR",
-  "arItemTypesAllowed": [],
-  "arClassesAllowed": [],
+  "eAffixType": 2,
+  "arAllowedItemLabels": [],
+  "fAllowedForPlayerClass": [],
   "arAffixSkillTagRequirements": [],
   "ptItemAffixAttributes": [
     {
-      "tAttribute": { "eAttribute": "Attr_Test", "nParam": 0 },
-      "afValue": [1.0, 10.0]
+      "tAttribute": { "eAttribute": 0, "__eAttribute_name__": "Attr_Test", "nParam": 0 }
     }
   ]
 }

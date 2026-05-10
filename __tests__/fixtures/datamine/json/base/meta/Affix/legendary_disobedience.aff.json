@@ -1,0 +1,9 @@
+{
+  "__fileName__": "legendary_disobedience",
+  "__snoID__": 2000001,
+  "eAffixType": 1,
+  "arAllowedItemLabels": [16, 17, 28, 30, 29, 26, 1],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": []
+}

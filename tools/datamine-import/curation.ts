@@ -31,6 +31,19 @@ export interface CurationRecord {
    * since the [×] tag appears only in the in-game tooltip.
    */
   isDistinctMultiplier?: boolean;
+  /**
+   * For affixes and aspects: the [min, max] value range to use in the catalog.
+   * Required when the datamine formula cannot produce a simple numeric range
+   * (e.g. complex formulas, level-scaled values). When absent the transformer
+   * pushes the entry to needsCuration with reason "no-value-range".
+   */
+  valueRange?: [number, number];
+  /**
+   * For affixes and aspects: whether the value is a percentage (true) or a
+   * flat numeric value (false). Overrides the auto-detected isPercent from
+   * the attribute name and label heuristics.
+   */
+  isPercent?: boolean;
 }
 
 export interface CurationFile {

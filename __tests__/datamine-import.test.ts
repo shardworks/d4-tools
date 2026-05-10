@@ -397,7 +397,7 @@ describe("Case 4: Schema compliance", () => {
     );
     expect(disobedience).toBeTruthy();
     expect(disobedience.bnetId).toBe(2000001);
-    expect(disobedience.bnetFileName).toBe("Aspect_Disobedience");
+    expect(disobedience.bnetFileName).toBe("legendary_disobedience");
   });
 
   it("unique item is written to uniques.json with correct shape", () => {

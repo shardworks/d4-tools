@@ -74,7 +74,9 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
       expect(result.reason).toBe("out-of-range");
-      expect(result.affixId).toBe("affix_max_life");
+      if (result.reason === "out-of-range") {
+        expect(result.affixId).toBe("affix_max_life");
+      }
     }
   });
 
@@ -164,7 +166,9 @@ describe("resolveAspect — normalized-equality matching", () => {
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
       expect(result.reason).toBe("out-of-range");
-      expect(result.aspectId).toBe("conceited_aspect");
+      if (result.reason === "out-of-range") {
+        expect(result.aspectId).toBe("conceited_aspect");
+      }
     }
   });
 });
