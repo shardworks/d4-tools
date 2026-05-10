@@ -1,22 +1,28 @@
 /**
- * Cropper unit tests against committed D4 screenshot fixtures.
+ * Cropper unit tests.
  *
- * Fixture inventory (all in __tests__/fixtures/triage/):
- *   tooltip-single.png   – 1920×1080, dark tooltip on right side (should detect)
- *   tooltip-wide.png     – 1920×1080, wide dark tooltip covering ~37% of image (should detect)
- *   oversized.png        – 1920×1080, ~6 MB random background, no tooltip
- *                          (detection fails → fallback full image → resize-to-fit triggered)
- *   no-tooltip.png       – 1920×1080, solid bright background, no tooltip (no resize needed)
+ * Two tiers of fixtures:
  *
- * Ratchet assertion (D26): at least 2 of 4 fixtures must have detected=true.
+ *   1. Synthetic (legacy) — pure black rectangles on flat brown:
+ *        tooltip-single.png, tooltip-wide.png, oversized.png, no-tooltip.png
+ *      These act as smoke tests for the resize-to-fit pipeline. They do
+ *      not exercise the title-anchored detector meaningfully.
  *
- * Per-fixture assertions:
- *  (i)   detected/fallback outcome matches expectation
- *  (ii)  bounding-box plausibility for detected cases (area > MIN_REGION_AREA_FRACTION,
- *         aspect ratio in [MIN_ASPECT_RATIO, MAX_ASPECT_RATIO])
- *  (iii) final encodedBytes ≤ ANTHROPIC_BYTE_BUDGET for every fixture
- *  (iv)  for the oversized fixture: resized=true and encodedBytes ≤ ANTHROPIC_BYTE_BUDGET
- *  (v)   for the no-tooltip fixture: fallback used without throwing
+ *   2. Real (primary) — actual D4 screenshots covering all rarity tiers
+ *      and multi-tooltip cases:
+ *        diablo-4-tiabult-s-will.jpg   – Unique (amber)
+ *        Screenshot014.jpg              – Legendary (orange)
+ *        Screenshot016.jpg              – Rare (yellow)
+ *        Screenshot017.jpg              – 2× Rare side-by-side
+ *        Screenshot018.jpg              – Rare (single)
+ *        Screenshot019.jpg              – Magic (blue)
+ *        Screenshot020.jpg              – Legendary (Rathma's)
+ *        Screenshot021.jpg              – Unique + Magic side-by-side
+ *        Screenshot022.jpg              – Unique (Paingorger's)
+ *        Screenshot023.jpg              – Common (gray/white) — KNOWN MISS
+ *
+ * Detection ratchet (real fixtures): at least 10 of 11 distinct tooltips
+ * across the real fixtures must be detected (Common is the known miss).
  */
 
 import { describe, it, expect } from "vitest";
@@ -24,140 +30,180 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { cropForVision, ANTHROPIC_BYTE_BUDGET } from "../lib/triage/crop";
 
-const FIXTURE_DIR = path.join(__dirname, "fixtures/triage");
+const SYN_FIXTURE_DIR = path.join(__dirname, "fixtures/triage");
+const REAL_FIXTURE_DIR = path.join(__dirname, "fixtures/triage/real");
 
-// ─── Fixture definitions ─────────────────────────────────────────────────────
+// ─── Synthetic fixtures (smoke tests for the resize pipeline) ───────────────
 
-interface FixtureMeta {
+interface SyntheticFixture {
   file: string;
-  /** Whether we expect tooltip detection to succeed for this fixture. */
   expectDetected: boolean;
-  /** Whether resize is expected to be triggered. */
   expectResized: boolean;
 }
 
-const FIXTURES: FixtureMeta[] = [
-  {
-    file: "tooltip-single.png",
-    expectDetected: true,
-    expectResized: false,
-  },
-  {
-    file: "tooltip-wide.png",
-    expectDetected: true,
-    expectResized: false,
-  },
-  {
-    file: "oversized.png",
-    // Random background → detection fails → fallback full ~6 MB image → resize triggered
-    expectDetected: false,
-    expectResized: true,
-  },
-  {
-    file: "no-tooltip.png",
-    expectDetected: false,
-    expectResized: false,
-  },
+const SYNTHETIC_FIXTURES: SyntheticFixture[] = [
+  { file: "tooltip-single.png", expectDetected: false, expectResized: false },
+  { file: "tooltip-wide.png", expectDetected: false, expectResized: false },
+  // Random background ~6 MB; detection fails → fallback full-image → resize
+  { file: "oversized.png", expectDetected: false, expectResized: true },
+  { file: "no-tooltip.png", expectDetected: false, expectResized: false },
 ];
 
-// ─── Tests ───────────────────────────────────────────────────────────────────
-
-describe("cropForVision (fixture-based)", () => {
-  // Run the cropper against every fixture and collect results up-front so
-  // the ratchet assertion can inspect the whole set.
-
-  it("ratchet: at least 2 of 4 fixtures detect a tooltip successfully (D26)", async () => {
-    const results = await Promise.all(
-      FIXTURES.map(async ({ file }) => {
-        const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-        const result = await cropForVision(bytes, "image/png");
-        return { file, ...result };
-      })
-    );
-
-    const detectedCount = results.filter((r) => r.detected).length;
-
-    // Print outcomes for the crop.README.md to cite
-    console.log("\n[triage-cropper fixtures]");
-    for (const r of results) {
-      console.log(
-        `  ${r.file}: detected=${r.detected} resized=${r.resized} ` +
-          `encodedBytes=${r.encodedBytes} images=${r.images.length}`
-      );
-    }
-
-    expect(detectedCount).toBeGreaterThanOrEqual(2);
-  }, 60_000);
-
-  // ── Per-fixture assertions ──────────────────────────────────────────────
-
-  for (const { file, expectDetected, expectResized } of FIXTURES) {
+describe("cropForVision (synthetic smoke tests)", () => {
+  for (const { file, expectResized } of SYNTHETIC_FIXTURES) {
     describe(file, () => {
-      it("detected/fallback outcome matches expectation", async () => {
-        const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
+      it("does not throw", async () => {
+        const bytes = await fs.readFile(path.join(SYN_FIXTURE_DIR, file));
+        await expect(cropForVision(bytes, "image/png")).resolves.toBeDefined();
+      }, 60_000);
+
+      it("returns at least one image entry", async () => {
+        const bytes = await fs.readFile(path.join(SYN_FIXTURE_DIR, file));
         const result = await cropForVision(bytes, "image/png");
-        expect(result.detected).toBe(expectDetected);
+        expect(result.images.length).toBeGreaterThan(0);
+        for (const img of result.images) {
+          expect(img.bytes).toBeInstanceOf(Buffer);
+          expect(img.mediaType).toMatch(/^image\//);
+        }
       }, 60_000);
 
       it("encodedBytes ≤ ANTHROPIC_BYTE_BUDGET", async () => {
-        const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
+        const bytes = await fs.readFile(path.join(SYN_FIXTURE_DIR, file));
         const result = await cropForVision(bytes, "image/png");
         expect(result.encodedBytes).toBeLessThanOrEqual(ANTHROPIC_BYTE_BUDGET);
       }, 60_000);
 
-      it("returns exactly one image entry", async () => {
-        const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-        const result = await cropForVision(bytes, "image/png");
-        expect(result.images).toHaveLength(1);
-        expect(result.images[0].bytes).toBeInstanceOf(Buffer);
-        expect(result.images[0].mediaType).toMatch(/^image\//);
-      }, 60_000);
-
-      if (expectDetected) {
-        it("detected: crop bytes are non-empty", async () => {
-          const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-          const result = await cropForVision(bytes, "image/png");
-          expect(result.images[0].bytes.length).toBeGreaterThan(0);
-        }, 60_000);
-
-        it("detected: crop is smaller than the original image (tooltip, not full frame)", async () => {
-          const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-          const result = await cropForVision(bytes, "image/png");
-          // The crop should be smaller than the original (which is ~32 KB compressed
-          // but the tooltip region itself is re-encoded as PNG; it should be at
-          // most a fraction of the 1920×1080 frame).
-          expect(result.images[0].bytes.length).toBeLessThan(bytes.length);
-        }, 60_000);
-      }
-
       if (expectResized) {
         it("oversized: resize was triggered", async () => {
-          const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
+          const bytes = await fs.readFile(path.join(SYN_FIXTURE_DIR, file));
           const result = await cropForVision(bytes, "image/png");
           expect(result.resized).toBe(true);
         }, 60_000);
+      }
+    });
+  }
+});
 
-        it("oversized: final encodedBytes strictly ≤ ANTHROPIC_BYTE_BUDGET", async () => {
-          const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-          const result = await cropForVision(bytes, "image/png");
-          expect(result.encodedBytes).toBeLessThanOrEqual(ANTHROPIC_BYTE_BUDGET);
+// ─── Real-screenshot fixtures (primary detection tests) ─────────────────────
+
+interface RealFixture {
+  file: string;
+  /** Minimum number of detected tooltip crops expected. */
+  expectMin: number;
+  /** Maximum number of crops we'll tolerate (false-positive ceiling). */
+  expectMax: number;
+  /** Skip the "must detect" assertion (known miss). */
+  knownMiss?: boolean;
+  rarities: string[];
+}
+
+const REAL_FIXTURES: RealFixture[] = [
+  { file: "diablo-4-tiabult-s-will.jpg", expectMin: 1, expectMax: 1, rarities: ["unique"] },
+  { file: "Screenshot014.jpg", expectMin: 1, expectMax: 1, rarities: ["unique", "legendary"] },
+  { file: "Screenshot016.jpg", expectMin: 1, expectMax: 2, rarities: ["rare"] },
+  { file: "Screenshot017.jpg", expectMin: 2, expectMax: 3, rarities: ["rare"] },
+  { file: "Screenshot018.jpg", expectMin: 1, expectMax: 2, rarities: ["rare"] },
+  { file: "Screenshot019.jpg", expectMin: 1, expectMax: 2, rarities: ["magic"] },
+  { file: "Screenshot020.jpg", expectMin: 1, expectMax: 2, rarities: ["unique", "legendary"] },
+  { file: "Screenshot021.jpg", expectMin: 2, expectMax: 3, rarities: ["unique", "magic"] },
+  { file: "Screenshot022.jpg", expectMin: 1, expectMax: 2, rarities: ["unique"] },
+  // Common rarity is a known miss (white text on dark — too easily confused
+  // with HUD/scenery whites). Detection falls back to full-image.
+  { file: "Screenshot023.jpg", expectMin: 0, expectMax: 1, knownMiss: true, rarities: ["common"] },
+];
+
+describe("cropForVision (real D4 screenshots)", () => {
+  // ── Ratchet: at least 10 of 11 distinct tooltips across the bundle ──────
+  it("ratchet: detects ≥ 10 of 11 distinct tooltips across the real fixture bundle", async () => {
+    let totalDetected = 0;
+    const perFile: Array<{ file: string; n: number; bytes: number }> = [];
+    for (const fx of REAL_FIXTURES) {
+      const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+      const result = await cropForVision(bytes, "image/jpeg");
+      const n = result.detected ? result.images.length : 0;
+      totalDetected += n;
+      perFile.push({ file: fx.file, n, bytes: result.encodedBytes });
+    }
+
+    // Print diagnostic table
+    console.log("\n[real-fixtures detection report]");
+    for (const r of perFile) {
+      console.log(`  ${r.file}: ${r.n} crop(s), ${r.bytes} encoded bytes`);
+    }
+    console.log(`  TOTAL: ${totalDetected} crops`);
+
+    // Ratchet floor: ≥ 10 distinct tooltip detections across the bundle
+    expect(totalDetected).toBeGreaterThanOrEqual(10);
+  }, 120_000);
+
+  // ── Per-fixture assertions ──────────────────────────────────────────────
+  for (const fx of REAL_FIXTURES) {
+    describe(fx.file, () => {
+      it("does not throw", async () => {
+        const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+        await expect(cropForVision(bytes, "image/jpeg")).resolves.toBeDefined();
+      }, 60_000);
+
+      it("returns ≥ 1 image entry (detection or fallback)", async () => {
+        const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+        const result = await cropForVision(bytes, "image/jpeg");
+        expect(result.images.length).toBeGreaterThanOrEqual(1);
+      }, 60_000);
+
+      it("each image entry is a non-empty Buffer with image/* mediaType", async () => {
+        const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+        const result = await cropForVision(bytes, "image/jpeg");
+        for (const img of result.images) {
+          expect(img.bytes).toBeInstanceOf(Buffer);
+          expect(img.bytes.length).toBeGreaterThan(0);
+          expect(img.mediaType).toMatch(/^image\//);
+        }
+      }, 60_000);
+
+      it("total encodedBytes ≤ ANTHROPIC_BYTE_BUDGET × image count", async () => {
+        const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+        const result = await cropForVision(bytes, "image/jpeg");
+        // Per-crop budget — total can be up to N × budget
+        expect(result.encodedBytes).toBeLessThanOrEqual(
+          ANTHROPIC_BYTE_BUDGET * result.images.length
+        );
+      }, 60_000);
+
+      if (!fx.knownMiss) {
+        it(`detects between ${fx.expectMin} and ${fx.expectMax} tooltip(s)`, async () => {
+          const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+          const result = await cropForVision(bytes, "image/jpeg");
+          expect(result.detected).toBe(true);
+          expect(result.images.length).toBeGreaterThanOrEqual(fx.expectMin);
+          expect(result.images.length).toBeLessThanOrEqual(fx.expectMax);
+        }, 60_000);
+
+        it("detected crops have smaller pixel dimensions than the original", async () => {
+          const sharp = (await import("sharp")).default;
+          const bytes = await fs.readFile(path.join(REAL_FIXTURE_DIR, fx.file));
+          const origMeta = await sharp(bytes).metadata();
+          const origPixels = (origMeta.width ?? 0) * (origMeta.height ?? 0);
+          const result = await cropForVision(bytes, "image/jpeg");
+          if (result.detected) {
+            for (const img of result.images) {
+              const cropMeta = await sharp(img.bytes).metadata();
+              const cropPixels = (cropMeta.width ?? 0) * (cropMeta.height ?? 0);
+              // Must be strictly smaller (a crop is by definition a subset).
+              expect(cropPixels).toBeLessThan(origPixels);
+            }
+          }
         }, 60_000);
       }
-
-      it("does not throw", async () => {
-        const bytes = await fs.readFile(path.join(FIXTURE_DIR, file));
-        await expect(cropForVision(bytes, "image/png")).resolves.toBeDefined();
-      }, 60_000);
     });
   }
 
-  // ── No-tooltip fallback: never throws even on zero dark pixels ─────────
-
+  // ── Fallback contract: never throws on degenerate inputs ────────────────
   it("fallback: full synthetic all-white image returns detected=false without throwing", async () => {
-    // 10×10 white pixels — no dark channel below DARK_THRESHOLD
     const whitePixels = Buffer.alloc(10 * 10 * 3, 255);
     const sharp = (await import("sharp")).default;
-    const pngBytes = await sharp(whitePixels, { raw: { width: 10, height: 10, channels: 3 } })
+    const pngBytes = await sharp(whitePixels, {
+      raw: { width: 10, height: 10, channels: 3 },
+    })
       .png()
       .toBuffer();
 
