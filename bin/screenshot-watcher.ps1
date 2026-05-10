@@ -186,7 +186,7 @@ function Upload-Screenshot {
 
         $StatusCode = $Response.StatusCode
         if ($StatusCode -ge 200 -and $StatusCode -lt 300) {
-            Write-Log "OK ($StatusCode) — $FileName uploaded successfully."
+            Write-Log "OK ($StatusCode) - $FileName uploaded successfully."
             # Attempt to extract parseStatus from JSON response
             try {
                 $Json = $Response.Content | ConvertFrom-Json
@@ -208,10 +208,10 @@ function Upload-Screenshot {
             $StatusCode = [int]$_.Exception.Response.StatusCode
         }
         if ($StatusCode -eq 401) {
-            Write-Log "ERROR: 401 Unauthorized — check UploadSecret in $ConfigPath"
+            Write-Log "ERROR: 401 Unauthorized - check UploadSecret in $ConfigPath"
         }
         elseif ($StatusCode -ne $null) {
-            Write-Log "ERROR: HTTP $StatusCode uploading $FileName — $($_.Exception.Message)"
+            Write-Log "ERROR: HTTP $StatusCode uploading $FileName - $($_.Exception.Message)"
         }
         else {
             Write-Log "ERROR: Network error uploading ${FileName}: $($_.Exception.Message)"
@@ -241,26 +241,9 @@ Write-Log "  Auth     : $(if ([string]::IsNullOrWhiteSpace($UploadSecret)) { 'di
 Write-Log "Press Ctrl+C to stop."
 Write-Log "---"
 
-# ─── Event handler ────────────────────────────────────────────────────────────
+# ─── Event subscription (no -Action: handler runs in main loop where functions are in scope) ───
 
-$OnCreated = Register-ObjectEvent -InputObject $Watcher -EventName 'Created' -MessageData $AllowedExtensions -Action {
-    $FilePath = $Event.SourceEventArgs.FullPath
-    $FileName = $Event.SourceEventArgs.Name
-    $Ext      = [System.IO.Path]::GetExtension($FileName).ToLower()
-
-    # Extension filter (since FileSystemWatcher.Filter = '*.*')
-    # $Using: is NOT supported in Register-ObjectEvent action blocks (PS 5.1);
-    # the allowed-extensions array is passed via -MessageData and read here.
-    if ($Event.MessageData -notcontains $Ext) { return }
-
-    Write-Log "Detected: $FileName"
-
-    # Wait until D4 has finished writing the file (D17)
-    if (-not (Wait-FileReady -FilePath $FilePath)) { return }
-
-    # Upload (D16: local file is kept regardless of outcome)
-    $null = Upload-Screenshot -FilePath $FilePath
-}
+Register-ObjectEvent -InputObject $Watcher -EventName 'Created' -SourceIdentifier 'FSW.Created' | Out-Null
 
 $Watcher.EnableRaisingEvents = $true
 
@@ -268,12 +251,33 @@ $Watcher.EnableRaisingEvents = $true
 
 try {
     while ($true) {
-        Start-Sleep -Seconds 1
+        $Events = Get-Event -SourceIdentifier 'FSW.Created' -ErrorAction SilentlyContinue
+        if ($Events) {
+            foreach ($Evt in $Events) {
+                Remove-Event -EventIdentifier $Evt.EventIdentifier
+
+                $FilePath = $Evt.SourceEventArgs.FullPath
+                $FileName = $Evt.SourceEventArgs.Name
+                $Ext      = [System.IO.Path]::GetExtension($FileName).ToLower()
+
+                # Extension filter
+                if ($AllowedExtensions -notcontains $Ext) { continue }
+
+                Write-Log "Detected: $FileName"
+
+                # Wait until D4 has finished writing the file (D17)
+                if (-not (Wait-FileReady -FilePath $FilePath)) { continue }
+
+                # Upload (D16: local file is kept regardless of outcome)
+                $null = Upload-Screenshot -FilePath $FilePath
+            }
+        }
+        Start-Sleep -Milliseconds 250
     }
 }
 finally {
     $Watcher.EnableRaisingEvents = $false
-    Unregister-Event -SourceIdentifier $OnCreated.Name -ErrorAction SilentlyContinue
+    Unregister-Event -SourceIdentifier 'FSW.Created' -ErrorAction SilentlyContinue
     $Watcher.Dispose()
     Write-Log "Watcher stopped."
 }
