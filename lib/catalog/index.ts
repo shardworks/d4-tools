@@ -135,6 +135,25 @@ export interface UniqueEntry {
     attribute: { eAttribute: string; nParam: number };
     valueRange: [number, number];
   }>;
+  /**
+   * v17: Intrinsic aspect-like powers on unique items (D1).
+   * Carries the unique's intrinsic power text (for display), the catalogued aspect id
+   * if this power maps to an existing aspect, and the value range so the short-circuit
+   * resolver (D16) can emit a resolved AspectMatchResult without a full catalog scan.
+   * Used by resolveUnique() and (future) the damage engine for distinct-multiplier uniques.
+   */
+  intrinsicAspects?: Array<{
+    /** Matching catalog aspect id, if the power maps to an existing AspectEntry. */
+    aspectId?: string;
+    /** Human-readable label for the intrinsic power (display fallback when aspectId absent). */
+    label: string;
+    /** [min, max] value range for the power's numeric parameter. */
+    valueRange: [number, number];
+    /** Whether the value is expressed as a percent (mirrors AspectEntry.isPercent). */
+    isPercent: boolean;
+    /** Whether this power is a [×]-tagged distinct multiplicative source. */
+    isDistinctMultiplier?: boolean;
+  }>;
 }
 
 export interface SkillScalingAttribute {

@@ -17,7 +17,11 @@ import { slots } from "@/lib/catalog";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────
 
-/** Returns true if any resolved affix is still uncertain (blocks wear). */
+/**
+ * Returns true if any affix or aspect is still uncertain (blocks Wear button, D13).
+ * "ambiguous" reason is kind="uncertain" — intentionally blocks here per D13.
+ * "value-mismatch" reason is also kind="uncertain" — blocks until user confirms.
+ */
 function hasUncertainMatches(
   item: ResolvedItem,
   overrides: ResolvedItemOverrides

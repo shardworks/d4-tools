@@ -1,0 +1,13 @@
+{
+  "description": "Common helm for Sorcerer — 4 standard affixes, all should resolve to known catalog IDs",
+  "className": "Sorcerer",
+  "expectedSlot": "helm",
+  "expectedExplicits": [
+    { "label": "Maximum Life", "expectedAffixId": "affix_max_life", "expectedStatus": "resolved" },
+    { "label": "Intelligence", "expectedAffixId": "affix_int", "expectedStatus": "resolved" },
+    { "label": "Critical Strike Chance", "expectedAffixId": "affix_crit_chance", "expectedStatus": "resolved" },
+    { "label": "Cooldown Reduction", "expectedAffixId": "affix_cdr", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

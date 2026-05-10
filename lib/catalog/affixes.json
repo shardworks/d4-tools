@@ -2,417 +2,4331 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-10"
   },
   "affixes": [
     {
       "id": "affix_max_life",
       "label": "Maximum Life",
       "labelTemplate": "+{value} Maximum Life",
-      "valueRange": [700, 2800],
+      "valueRange": [
+        700,
+        2800
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Max_Life", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Max_Life",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_max_life_pct",
       "label": "Maximum Life %",
       "labelTemplate": "+{value}% Maximum Life",
-      "valueRange": [8.0, 14.0],
+      "valueRange": [
+        8,
+        14
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "pants", "boots"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "pants",
+        "boots"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Life_Percent_Bonus", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Life_Percent_Bonus",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_str",
       "label": "Strength",
       "labelTemplate": "+{value} Strength",
-      "valueRange": [60, 200],
+      "valueRange": [
+        60,
+        200
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Strength_Item", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Strength_Item",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_int",
       "label": "Intelligence",
       "labelTemplate": "+{value} Intelligence",
-      "valueRange": [60, 200],
+      "valueRange": [
+        60,
+        200
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Intelligence_Item", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Intelligence_Item",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_wil",
       "label": "Willpower",
       "labelTemplate": "+{value} Willpower",
-      "valueRange": [60, 200],
+      "valueRange": [
+        60,
+        200
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Willpower_Item", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Willpower_Item",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_dex",
       "label": "Dexterity",
       "labelTemplate": "+{value} Dexterity",
-      "valueRange": [60, 200],
+      "valueRange": [
+        60,
+        200
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Dexterity_Item", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Dexterity_Item",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_crit_chance",
       "label": "Critical Strike Chance",
       "labelTemplate": "+{value}% Critical Strike Chance",
-      "valueRange": [3.0, 7.5],
+      "valueRange": [
+        3,
+        7.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "gloves", "amulet", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Crit_Strike_Chance_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_crit_damage",
       "label": "Critical Strike Damage",
       "labelTemplate": "+{value}% Critical Strike Damage",
-      "valueRange": [20.0, 50.0],
+      "valueRange": [
+        20,
+        50
+      ],
       "isPercent": true,
-      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "gloves",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Crit_Damage_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_attack_speed",
       "label": "Attack Speed",
       "labelTemplate": "+{value}% Attack Speed",
-      "valueRange": [5.0, 10.5],
+      "valueRange": [
+        5,
+        10.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2"],
+      "slotRestrictions": [
+        "gloves",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_movement_speed",
       "label": "Movement Speed",
       "labelTemplate": "+{value}% Movement Speed",
-      "valueRange": [8.0, 18.0],
+      "valueRange": [
+        8,
+        18
+      ],
       "isPercent": true,
-      "slotRestrictions": ["boots", "amulet"],
+      "slotRestrictions": [
+        "boots",
+        "amulet"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Movement_Speed_Bonus_Pct", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_cdr",
       "label": "Cooldown Reduction",
       "labelTemplate": "+{value}% Cooldown Reduction",
-      "valueRange": [4.0, 10.5],
+      "valueRange": [
+        4,
+        10.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "gloves", "amulet"],
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "amulet"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Cooldown_Reduction_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Cooldown_Reduction_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_rcr",
       "label": "Resource Cost Reduction",
       "labelTemplate": "+{value}% Resource Cost Reduction",
-      "valueRange": [5.0, 12.0],
+      "valueRange": [
+        5,
+        12
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "amulet", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Resource_Cost_Reduction_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Resource_Cost_Reduction_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_damage_reduction",
       "label": "Damage Reduction",
       "labelTemplate": "+{value}% Damage Reduction",
-      "valueRange": [5.0, 13.5],
+      "valueRange": [
+        5,
+        13.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["chest", "pants"],
+      "slotRestrictions": [
+        "chest",
+        "pants"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_damage_reduction_close",
       "label": "Damage Reduction from Close Enemies",
       "labelTemplate": "+{value}% Damage Reduction from Close Enemies",
-      "valueRange": [6.0, 14.5],
+      "valueRange": [
+        6,
+        14.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["chest", "pants", "amulet"],
+      "slotRestrictions": [
+        "chest",
+        "pants",
+        "amulet"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_damage_reduction_distant",
       "label": "Damage Reduction from Distant Enemies",
       "labelTemplate": "+{value}% Damage Reduction from Distant Enemies",
-      "valueRange": [6.0, 14.5],
+      "valueRange": [
+        6,
+        14.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["chest", "pants", "amulet"],
+      "slotRestrictions": [
+        "chest",
+        "pants",
+        "amulet"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_all_res",
       "label": "Resistance to All Elements",
       "labelTemplate": "+{value}% Resistance to All Elements",
-      "valueRange": [8.0, 22.0],
+      "valueRange": [
+        8,
+        22
+      ],
       "isPercent": true,
-      "slotRestrictions": ["amulet"],
+      "slotRestrictions": [
+        "amulet"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_All_Resistances", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_All_Resistances",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_fire_res",
       "label": "Fire Resistance",
       "labelTemplate": "+{value}% Fire Resistance",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_cold_res",
       "label": "Cold Resistance",
       "labelTemplate": "+{value}% Cold Resistance",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_lightning_res",
       "label": "Lightning Resistance",
       "labelTemplate": "+{value}% Lightning Resistance",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_shadow_res",
       "label": "Shadow Resistance",
       "labelTemplate": "+{value}% Shadow Resistance",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_poison_res",
       "label": "Poison Resistance",
       "labelTemplate": "+{value}% Poison Resistance",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "ring1", "ring2"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_lucky_hit_chance",
       "label": "Lucky Hit Chance",
       "labelTemplate": "+{value}% Lucky Hit Chance",
-      "valueRange": [5.0, 12.0],
+      "valueRange": [
+        5,
+        12
+      ],
       "isPercent": true,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Lucky_Hit_Chance_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_vulnerable_damage",
       "label": "Vulnerable Damage",
       "labelTemplate": "+{value}% Vulnerable Damage",
-      "valueRange": [15.0, 35.0],
+      "valueRange": [
+        15,
+        35
+      ],
       "isPercent": true,
-      "slotRestrictions": ["ring1", "ring2", "amulet"],
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Vuln_Damage_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Vuln_Damage_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_overpower_damage",
       "label": "Overpower Damage",
       "labelTemplate": "+{value}% Overpower Damage",
-      "valueRange": [20.0, 45.0],
+      "valueRange": [
+        20,
+        45
+      ],
       "isPercent": true,
-      "slotRestrictions": ["gloves", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "gloves",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Overpower_Damage_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Overpower_Damage_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_core_skill_damage",
       "label": "Core Skill Damage",
       "labelTemplate": "+{value}% Core Skill Damage",
-      "valueRange": [20.0, 40.0],
+      "valueRange": [
+        20,
+        40
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "pants", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Core_Skill_Damage_Percent", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Core_Skill_Damage_Percent",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_damage_vs_elites",
       "label": "Damage vs. Elites",
       "labelTemplate": "+{value}% Damage vs. Elites",
-      "valueRange": [10.0, 30.0],
+      "valueRange": [
+        10,
+        30
+      ],
       "isPercent": true,
-      "slotRestrictions": ["chest", "amulet", "ring1", "ring2"],
+      "slotRestrictions": [
+        "chest",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Damage_Percent_Bonus_To_Elites", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Damage_Percent_Bonus_To_Elites",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_dodge_chance",
       "label": "Dodge Chance",
       "labelTemplate": "+{value}% Dodge Chance",
-      "valueRange": [4.0, 9.0],
+      "valueRange": [
+        4,
+        9
+      ],
       "isPercent": true,
-      "slotRestrictions": ["pants", "boots"],
+      "slotRestrictions": [
+        "pants",
+        "boots"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Dodge_Rating", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Dodge_Rating",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_armor",
       "label": "Armor",
       "labelTemplate": "+{value} Armor",
-      "valueRange": [500, 2500],
+      "valueRange": [
+        500,
+        2500
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots"
+      ],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Armor_Item", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_ranks_all_skills",
       "label": "Ranks to All Skills",
       "labelTemplate": "+{value} Ranks to All Skills",
-      "valueRange": [1, 4],
+      "valueRange": [
+        1,
+        4
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_ranks_basic_skills",
       "label": "Ranks to Basic Skills",
       "labelTemplate": "+{value} Ranks to Basic Skills",
-      "valueRange": [1, 3],
+      "valueRange": [
+        1,
+        3
+      ],
       "isPercent": false,
-      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_ranks_core_skills",
       "label": "Ranks to Core Skills",
       "labelTemplate": "+{value} Ranks to Core Skills",
-      "valueRange": [1, 3],
+      "valueRange": [
+        1,
+        3
+      ],
       "isPercent": false,
-      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_ranks_defensive_skills",
       "label": "Ranks to Defensive Skills",
       "labelTemplate": "+{value} Ranks to Defensive Skills",
-      "valueRange": [1, 3],
+      "valueRange": [
+        1,
+        3
+      ],
       "isPercent": false,
-      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_ranks_ultimate_skills",
       "label": "Ranks to Ultimate Skills",
       "labelTemplate": "+{value} Ranks to Ultimate Skills",
-      "valueRange": [1, 3],
+      "valueRange": [
+        1,
+        3
+      ],
       "isPercent": false,
-      "slotRestrictions": ["gloves", "ring1", "ring2"],
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
       "classRestrictions": []
     },
     {
       "id": "affix_sorcerer_mana_regen",
       "label": "Mana per Second",
       "labelTemplate": "+{value} Mana per Second",
-      "valueRange": [3.0, 9.0],
+      "valueRange": [
+        3,
+        9
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Sorcerer"]
+      "classRestrictions": [
+        "Sorcerer"
+      ]
     },
     {
       "id": "affix_sorcerer_max_mana",
       "label": "Maximum Mana",
       "labelTemplate": "+{value} Maximum Mana",
-      "valueRange": [15, 60],
+      "valueRange": [
+        15,
+        60
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Sorcerer"]
+      "classRestrictions": [
+        "Sorcerer"
+      ]
     },
     {
       "id": "affix_sorcerer_mana_on_kill",
       "label": "Mana on Kill",
       "labelTemplate": "+{value} Mana on Kill",
-      "valueRange": [2, 8],
+      "valueRange": [
+        2,
+        8
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Sorcerer"]
+      "classRestrictions": [
+        "Sorcerer"
+      ]
     },
     {
       "id": "affix_necromancer_essence_on_kill",
       "label": "Essence On Kill",
       "labelTemplate": "+{value} Essence On Kill",
-      "valueRange": [2, 6],
+      "valueRange": [
+        2,
+        6
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Necromancer"]
+      "classRestrictions": [
+        "Necromancer"
+      ]
     },
     {
       "id": "affix_druid_spirit_regen",
       "label": "Spirit Regeneration",
       "labelTemplate": "+{value} Spirit Regeneration",
-      "valueRange": [2, 8],
+      "valueRange": [
+        2,
+        8
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Druid"]
+      "classRestrictions": [
+        "Druid"
+      ]
     },
     {
       "id": "affix_rogue_energy_on_kill",
       "label": "Energy On Kill",
       "labelTemplate": "+{value} Energy On Kill",
-      "valueRange": [2, 6],
+      "valueRange": [
+        2,
+        6
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Rogue"]
+      "classRestrictions": [
+        "Rogue"
+      ]
     },
     {
       "id": "affix_spiritborn_ferocity",
       "label": "Ferocity",
       "labelTemplate": "+{value} Ferocity",
-      "valueRange": [1, 5],
+      "valueRange": [
+        1,
+        5
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Spiritborn"]
+      "classRestrictions": [
+        "Spiritborn"
+      ]
     },
     {
       "id": "affix_barbarian_fury_on_kill",
       "label": "Fury On Kill",
       "labelTemplate": "+{value} Fury On Kill",
-      "valueRange": [3, 8],
+      "valueRange": [
+        3,
+        8
+      ],
       "isPercent": false,
       "slotRestrictions": [],
-      "classRestrictions": ["Barbarian"]
+      "classRestrictions": [
+        "Barbarian"
+      ]
     },
     {
       "id": "affix_life_on_hit",
       "label": "Life On Hit",
       "labelTemplate": "+{value} Life On Hit",
-      "valueRange": [200, 800],
+      "valueRange": [
+        200,
+        800
+      ],
       "isPercent": false,
       "slotRestrictions": [],
       "classRestrictions": [],
-      "attribute": { "eAttribute": "Attr_Life_On_Hit", "nParam": 0 }
+      "attribute": {
+        "eAttribute": "Attr_Life_On_Hit",
+        "nParam": 0
+      }
     },
     {
       "id": "affix_healing_received",
       "label": "Healing Received",
       "labelTemplate": "+{value}% Healing Received",
-      "valueRange": [5.0, 15.0],
+      "valueRange": [
+        5,
+        15
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "amulet"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "amulet"
+      ],
       "classRestrictions": []
+    },
+    {
+      "id": "affix_fire_damage",
+      "label": "Fire Damage",
+      "labelTemplate": "+{value}% Fire Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451001,
+      "bnetFileName": "Affix_Pct_FireDamage",
+      "attribute": {
+        "eAttribute": "Attr_Fire_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_cold_damage",
+      "label": "Cold Damage",
+      "labelTemplate": "+{value}% Cold Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451002,
+      "bnetFileName": "Affix_Pct_ColdDamage",
+      "attribute": {
+        "eAttribute": "Attr_Cold_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_lightning_damage",
+      "label": "Lightning Damage",
+      "labelTemplate": "+{value}% Lightning Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451003,
+      "bnetFileName": "Affix_Pct_LightningDamage",
+      "attribute": {
+        "eAttribute": "Attr_Lightning_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_shadow_damage",
+      "label": "Shadow Damage",
+      "labelTemplate": "+{value}% Shadow Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451004,
+      "bnetFileName": "Affix_Pct_ShadowDamage",
+      "attribute": {
+        "eAttribute": "Attr_Shadow_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_poison_damage",
+      "label": "Poison Damage",
+      "labelTemplate": "+{value}% Poison Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451005,
+      "bnetFileName": "Affix_Pct_PoisonDamage",
+      "attribute": {
+        "eAttribute": "Attr_Poison_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_physical_damage",
+      "label": "Physical Damage",
+      "labelTemplate": "+{value}% Physical Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451006,
+      "bnetFileName": "Affix_Pct_PhysicalDamage",
+      "attribute": {
+        "eAttribute": "Attr_Physical_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_all_damage",
+      "label": "All Damage",
+      "labelTemplate": "+{value}% All Damage",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451007,
+      "bnetFileName": "Affix_Pct_AllDamage",
+      "attribute": {
+        "eAttribute": "Attr_Damage_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_non_physical_damage",
+      "label": "Non-Physical Damage",
+      "labelTemplate": "+{value}% Non-Physical Damage",
+      "valueRange": [
+        8,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451008,
+      "bnetFileName": "Affix_Pct_NonPhysicalDamage",
+      "attribute": {
+        "eAttribute": "Attr_Non_Physical_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_basic_skill_damage",
+      "label": "Basic Skill Damage",
+      "labelTemplate": "+{value}% Basic Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451009,
+      "bnetFileName": "Affix_Pct_BasicSkillDamage",
+      "attribute": {
+        "eAttribute": "Attr_Basic_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_defensive_skill_damage",
+      "label": "Defensive Skill Damage",
+      "labelTemplate": "+{value}% Defensive Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451010,
+      "bnetFileName": "Affix_Pct_DefensiveSkillDamage",
+      "attribute": {
+        "eAttribute": "Attr_Defensive_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_ultimate_skill_damage",
+      "label": "Ultimate Skill Damage",
+      "labelTemplate": "+{value}% Ultimate Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451011,
+      "bnetFileName": "Affix_Pct_UltimateSkillDamage",
+      "attribute": {
+        "eAttribute": "Attr_Ultimate_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_barb_weapon_mastery_damage",
+      "label": "Weapon Mastery Skill Damage",
+      "labelTemplate": "+{value}% Weapon Mastery Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451012,
+      "bnetFileName": "Affix_Pct_WeaponMasteryDamage",
+      "attribute": {
+        "eAttribute": "Attr_Weapon_Mastery_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_barb_brawling_damage",
+      "label": "Brawling Skill Damage",
+      "labelTemplate": "+{value}% Brawling Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451013,
+      "bnetFileName": "Affix_Pct_BrawlingDamage",
+      "attribute": {
+        "eAttribute": "Attr_Brawling_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_companion_skill_damage",
+      "label": "Companion Skill Damage",
+      "labelTemplate": "+{value}% Companion Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451014,
+      "bnetFileName": "Affix_Pct_CompanionDamage",
+      "attribute": {
+        "eAttribute": "Attr_Companion_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_wereform_damage",
+      "label": "Wereform Skill Damage",
+      "labelTemplate": "+{value}% Wereform Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451015,
+      "bnetFileName": "Affix_Pct_WereformDamage",
+      "attribute": {
+        "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_macabre_damage",
+      "label": "Macabre Skill Damage",
+      "labelTemplate": "+{value}% Macabre Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451016,
+      "bnetFileName": "Affix_Pct_MacabreDamage",
+      "attribute": {
+        "eAttribute": "Attr_Macabre_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_curse_damage",
+      "label": "Curse Skill Damage",
+      "labelTemplate": "+{value}% Curse Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451017,
+      "bnetFileName": "Affix_Pct_CurseDamage",
+      "attribute": {
+        "eAttribute": "Attr_Curse_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_summon_damage",
+      "label": "Minion Damage",
+      "labelTemplate": "+{value}% Minion Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451018,
+      "bnetFileName": "Affix_Pct_MinionDamage",
+      "attribute": {
+        "eAttribute": "Attr_Minion_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_subterfuge_damage",
+      "label": "Subterfuge Skill Damage",
+      "labelTemplate": "+{value}% Subterfuge Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451019,
+      "bnetFileName": "Affix_Pct_SubterfugeDamage",
+      "attribute": {
+        "eAttribute": "Attr_Subterfuge_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_imbuement_damage",
+      "label": "Imbuement Skill Damage",
+      "labelTemplate": "+{value}% Imbuement Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451020,
+      "bnetFileName": "Affix_Pct_ImbuementDamage",
+      "attribute": {
+        "eAttribute": "Attr_Imbuement_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_trap_damage",
+      "label": "Trap Skill Damage",
+      "labelTemplate": "+{value}% Trap Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451021,
+      "bnetFileName": "Affix_Pct_TrapDamage",
+      "attribute": {
+        "eAttribute": "Attr_Trap_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_agility_damage",
+      "label": "Agility Skill Damage",
+      "labelTemplate": "+{value}% Agility Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451022,
+      "bnetFileName": "Affix_Pct_AgilityDamage",
+      "attribute": {
+        "eAttribute": "Attr_Agility_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_conjuration_damage",
+      "label": "Conjuration Skill Damage",
+      "labelTemplate": "+{value}% Conjuration Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451023,
+      "bnetFileName": "Affix_Pct_ConjurationDamage",
+      "attribute": {
+        "eAttribute": "Attr_Conjuration_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_pyromancy_damage",
+      "label": "Pyromancy Skill Damage",
+      "labelTemplate": "+{value}% Pyromancy Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451024,
+      "bnetFileName": "Affix_Pct_PyromancyDamage",
+      "attribute": {
+        "eAttribute": "Attr_Pyromancy_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_shock_damage",
+      "label": "Shock Skill Damage",
+      "labelTemplate": "+{value}% Shock Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451025,
+      "bnetFileName": "Affix_Pct_ShockDamage",
+      "attribute": {
+        "eAttribute": "Attr_Shock_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_frost_damage",
+      "label": "Frost Skill Damage",
+      "labelTemplate": "+{value}% Frost Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451026,
+      "bnetFileName": "Affix_Pct_FrostDamage",
+      "attribute": {
+        "eAttribute": "Attr_Frost_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sb_eagle_damage",
+      "label": "Eagle Skill Damage",
+      "labelTemplate": "+{value}% Eagle Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451027,
+      "bnetFileName": "Affix_Pct_EagleDamage",
+      "attribute": {
+        "eAttribute": "Attr_Eagle_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sb_jaguar_damage",
+      "label": "Jaguar Skill Damage",
+      "labelTemplate": "+{value}% Jaguar Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451028,
+      "bnetFileName": "Affix_Pct_JaguarDamage",
+      "attribute": {
+        "eAttribute": "Attr_Jaguar_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sb_gorilla_damage",
+      "label": "Gorilla Skill Damage",
+      "labelTemplate": "+{value}% Gorilla Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451029,
+      "bnetFileName": "Affix_Pct_GorillaDamage",
+      "attribute": {
+        "eAttribute": "Attr_Gorilla_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sb_centipede_damage",
+      "label": "Centipede Skill Damage",
+      "labelTemplate": "+{value}% Centipede Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451030,
+      "bnetFileName": "Affix_Pct_CentipedeDamage",
+      "attribute": {
+        "eAttribute": "Attr_Centipede_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_aura_damage",
+      "label": "Aura Skill Damage",
+      "labelTemplate": "+{value}% Aura Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451031,
+      "bnetFileName": "Affix_Pct_AuraDamage",
+      "attribute": {
+        "eAttribute": "Attr_Aura_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_valor_damage",
+      "label": "Valor Skill Damage",
+      "labelTemplate": "+{value}% Valor Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451032,
+      "bnetFileName": "Affix_Pct_ValorDamage",
+      "attribute": {
+        "eAttribute": "Attr_Valor_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_justice_damage",
+      "label": "Justice Skill Damage",
+      "labelTemplate": "+{value}% Justice Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451033,
+      "bnetFileName": "Affix_Pct_JusticeDamage",
+      "attribute": {
+        "eAttribute": "Attr_Justice_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_archfiend_damage",
+      "label": "Archfiend Skill Damage",
+      "labelTemplate": "+{value}% Archfiend Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451034,
+      "bnetFileName": "Affix_Pct_ArchfiendDamage",
+      "attribute": {
+        "eAttribute": "Attr_Archfiend_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_sigil_damage",
+      "label": "Sigil Skill Damage",
+      "labelTemplate": "+{value}% Sigil Skill Damage",
+      "valueRange": [
+        20,
+        40
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451035,
+      "bnetFileName": "Affix_Pct_SigilDamage",
+      "attribute": {
+        "eAttribute": "Attr_Sigil_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_ranks_ice_shards",
+      "label": "Ranks to Ice Shards",
+      "labelTemplate": "+{value} Ranks to Ice Shards",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451036,
+      "bnetFileName": "Affix_Rank_IceShards"
+    },
+    {
+      "id": "affix_ranks_blizzard",
+      "label": "Ranks to Blizzard",
+      "labelTemplate": "+{value} Ranks to Blizzard",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451037,
+      "bnetFileName": "Affix_Rank_Blizzard"
+    },
+    {
+      "id": "affix_ranks_frozen_orb",
+      "label": "Ranks to Frozen Orb",
+      "labelTemplate": "+{value} Ranks to Frozen Orb",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451038,
+      "bnetFileName": "Affix_Rank_FrozenOrb"
+    },
+    {
+      "id": "affix_ranks_fireball",
+      "label": "Ranks to Fireball",
+      "labelTemplate": "+{value} Ranks to Fireball",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451039,
+      "bnetFileName": "Affix_Rank_Fireball"
+    },
+    {
+      "id": "affix_ranks_meteor",
+      "label": "Ranks to Meteor",
+      "labelTemplate": "+{value} Ranks to Meteor",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451040,
+      "bnetFileName": "Affix_Rank_Meteor"
+    },
+    {
+      "id": "affix_ranks_chain_lightning",
+      "label": "Ranks to Chain Lightning",
+      "labelTemplate": "+{value} Ranks to Chain Lightning",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451041,
+      "bnetFileName": "Affix_Rank_ChainLightning"
+    },
+    {
+      "id": "affix_ranks_teleport",
+      "label": "Ranks to Teleport",
+      "labelTemplate": "+{value} Ranks to Teleport",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451042,
+      "bnetFileName": "Affix_Rank_Teleport"
+    },
+    {
+      "id": "affix_ranks_firewall",
+      "label": "Ranks to Firewall",
+      "labelTemplate": "+{value} Ranks to Firewall",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451043,
+      "bnetFileName": "Affix_Rank_Firewall"
+    },
+    {
+      "id": "affix_ranks_whirlwind",
+      "label": "Ranks to Whirlwind",
+      "labelTemplate": "+{value} Ranks to Whirlwind",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451044,
+      "bnetFileName": "Affix_Rank_Whirlwind"
+    },
+    {
+      "id": "affix_ranks_rend",
+      "label": "Ranks to Rend",
+      "labelTemplate": "+{value} Ranks to Rend",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451045,
+      "bnetFileName": "Affix_Rank_Rend"
+    },
+    {
+      "id": "affix_ranks_hammer_of_the_ancients",
+      "label": "Ranks to Hammer of the Ancients",
+      "labelTemplate": "+{value} Ranks to Hammer of the Ancients",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451046,
+      "bnetFileName": "Affix_Rank_HammerOfTheAncients"
+    },
+    {
+      "id": "affix_ranks_leap",
+      "label": "Ranks to Leap",
+      "labelTemplate": "+{value} Ranks to Leap",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451047,
+      "bnetFileName": "Affix_Rank_Leap"
+    },
+    {
+      "id": "affix_ranks_rallying_cry",
+      "label": "Ranks to Rallying Cry",
+      "labelTemplate": "+{value} Ranks to Rallying Cry",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451048,
+      "bnetFileName": "Affix_Rank_RallyingCry"
+    },
+    {
+      "id": "affix_ranks_puncture",
+      "label": "Ranks to Puncture",
+      "labelTemplate": "+{value} Ranks to Puncture",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451049,
+      "bnetFileName": "Affix_Rank_Puncture"
+    },
+    {
+      "id": "affix_ranks_barrage",
+      "label": "Ranks to Barrage",
+      "labelTemplate": "+{value} Ranks to Barrage",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451050,
+      "bnetFileName": "Affix_Rank_Barrage"
+    },
+    {
+      "id": "affix_ranks_rapid_fire",
+      "label": "Ranks to Rapid Fire",
+      "labelTemplate": "+{value} Ranks to Rapid Fire",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451051,
+      "bnetFileName": "Affix_Rank_RapidFire"
+    },
+    {
+      "id": "affix_ranks_shadow_step",
+      "label": "Ranks to Shadow Step",
+      "labelTemplate": "+{value} Ranks to Shadow Step",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451052,
+      "bnetFileName": "Affix_Rank_ShadowStep"
+    },
+    {
+      "id": "affix_ranks_bone_spear",
+      "label": "Ranks to Bone Spear",
+      "labelTemplate": "+{value} Ranks to Bone Spear",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451053,
+      "bnetFileName": "Affix_Rank_BoneSpear"
+    },
+    {
+      "id": "affix_ranks_blood_surge",
+      "label": "Ranks to Blood Surge",
+      "labelTemplate": "+{value} Ranks to Blood Surge",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451054,
+      "bnetFileName": "Affix_Rank_BloodSurge"
+    },
+    {
+      "id": "affix_ranks_corpse_explosion",
+      "label": "Ranks to Corpse Explosion",
+      "labelTemplate": "+{value} Ranks to Corpse Explosion",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451055,
+      "bnetFileName": "Affix_Rank_CorpseExplosion"
+    },
+    {
+      "id": "affix_ranks_hurricane",
+      "label": "Ranks to Hurricane",
+      "labelTemplate": "+{value} Ranks to Hurricane",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451056,
+      "bnetFileName": "Affix_Rank_Hurricane"
+    },
+    {
+      "id": "affix_ranks_tornado",
+      "label": "Ranks to Tornado",
+      "labelTemplate": "+{value} Ranks to Tornado",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451057,
+      "bnetFileName": "Affix_Rank_Tornado"
+    },
+    {
+      "id": "affix_ranks_shred",
+      "label": "Ranks to Shred",
+      "labelTemplate": "+{value} Ranks to Shred",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451058,
+      "bnetFileName": "Affix_Rank_Shred"
+    },
+    {
+      "id": "affix_ranks_ravager",
+      "label": "Ranks to Ravager",
+      "labelTemplate": "+{value} Ranks to Ravager",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451059,
+      "bnetFileName": "Affix_Rank_Ravager"
+    },
+    {
+      "id": "affix_ranks_quill_volley",
+      "label": "Ranks to Quill Volley",
+      "labelTemplate": "+{value} Ranks to Quill Volley",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451060,
+      "bnetFileName": "Affix_Rank_QuillVolley"
+    },
+    {
+      "id": "affix_ranks_blessed_hammer",
+      "label": "Ranks to Blessed Hammer",
+      "labelTemplate": "+{value} Ranks to Blessed Hammer",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451061,
+      "bnetFileName": "Affix_Rank_BlessedHammer"
+    },
+    {
+      "id": "affix_barb_max_fury",
+      "label": "Maximum Fury",
+      "labelTemplate": "+{value} Maximum Fury",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451062,
+      "bnetFileName": "Affix_Str_MaxFury",
+      "attribute": {
+        "eAttribute": "Attr_Max_Fury_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_barb_fury_regen",
+      "label": "Fury Regeneration",
+      "labelTemplate": "+{value} Fury Regeneration",
+      "valueRange": [
+        1,
+        5
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451063,
+      "bnetFileName": "Affix_Str_FuryRegen",
+      "attribute": {
+        "eAttribute": "Attr_Fury_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_mana_on_crit",
+      "label": "Mana on Critical Strike",
+      "labelTemplate": "+{value} Mana on Critical Strike",
+      "valueRange": [
+        2,
+        6
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451064,
+      "bnetFileName": "Affix_Str_ManaOnCrit",
+      "attribute": {
+        "eAttribute": "Attr_Mana_On_Crit",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_max_essence",
+      "label": "Maximum Essence",
+      "labelTemplate": "+{value} Maximum Essence",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451065,
+      "bnetFileName": "Affix_Str_MaxEssence",
+      "attribute": {
+        "eAttribute": "Attr_Max_Essence_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_essence_regen",
+      "label": "Essence Regeneration",
+      "labelTemplate": "+{value} Essence Regeneration",
+      "valueRange": [
+        1,
+        4
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451066,
+      "bnetFileName": "Affix_Str_EssenceRegen",
+      "attribute": {
+        "eAttribute": "Attr_Essence_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_max_energy",
+      "label": "Maximum Energy",
+      "labelTemplate": "+{value} Maximum Energy",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451067,
+      "bnetFileName": "Affix_Str_MaxEnergy",
+      "attribute": {
+        "eAttribute": "Attr_Max_Energy_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_rogue_energy_regen",
+      "label": "Energy Regeneration",
+      "labelTemplate": "+{value} Energy Regeneration",
+      "valueRange": [
+        2,
+        8
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451068,
+      "bnetFileName": "Affix_Str_EnergyRegen",
+      "attribute": {
+        "eAttribute": "Attr_Energy_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_max_spirit",
+      "label": "Maximum Spirit",
+      "labelTemplate": "+{value} Maximum Spirit",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451069,
+      "bnetFileName": "Affix_Str_MaxSpirit",
+      "attribute": {
+        "eAttribute": "Attr_Max_Spirit_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_spirit_on_kill",
+      "label": "Spirit on Kill",
+      "labelTemplate": "+{value} Spirit on Kill",
+      "valueRange": [
+        2,
+        6
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451070,
+      "bnetFileName": "Affix_Str_SpiritOnKill",
+      "attribute": {
+        "eAttribute": "Attr_Spirit_On_Kill",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sb_ferocity_regen",
+      "label": "Ferocity Regeneration",
+      "labelTemplate": "+{value} Ferocity per Second",
+      "valueRange": [
+        0.5,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451071,
+      "bnetFileName": "Affix_Str_FerocityRegen",
+      "attribute": {
+        "eAttribute": "Attr_Ferocity_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_max_wrath",
+      "label": "Maximum Wrath",
+      "labelTemplate": "+{value} Maximum Wrath",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451072,
+      "bnetFileName": "Affix_Str_MaxWrath",
+      "attribute": {
+        "eAttribute": "Attr_Max_Wrath_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_wrath_regen",
+      "label": "Wrath Regeneration",
+      "labelTemplate": "+{value} Wrath per Second",
+      "valueRange": [
+        1,
+        4
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451073,
+      "bnetFileName": "Affix_Str_WrathRegen",
+      "attribute": {
+        "eAttribute": "Attr_Wrath_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_max_wrath",
+      "label": "Maximum Wrath",
+      "labelTemplate": "+{value} Maximum Wrath",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451074,
+      "bnetFileName": "Affix_Str_WarlockMaxWrath",
+      "attribute": {
+        "eAttribute": "Attr_Max_Wrath_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_wrath_on_kill",
+      "label": "Wrath on Kill",
+      "labelTemplate": "+{value} Wrath on Kill",
+      "valueRange": [
+        2,
+        6
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451075,
+      "bnetFileName": "Affix_Str_WrathOnKill",
+      "attribute": {
+        "eAttribute": "Attr_Wrath_On_Kill",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_dominance_regen",
+      "label": "Dominance Regeneration",
+      "labelTemplate": "+{value} Dominance per Second",
+      "valueRange": [
+        1,
+        4
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451076,
+      "bnetFileName": "Affix_Str_DominanceRegen",
+      "attribute": {
+        "eAttribute": "Attr_Dominance_Regen_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_fortify_generation",
+      "label": "Fortify Generation",
+      "labelTemplate": "+{value}% Fortify Generation",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451077,
+      "bnetFileName": "Affix_Pct_FortifyGeneration",
+      "attribute": {
+        "eAttribute": "Attr_Fortify_Generation_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_barrier_generation",
+      "label": "Barrier Generation",
+      "labelTemplate": "+{value}% Barrier Generation",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451078,
+      "bnetFileName": "Affix_Pct_BarrierGeneration",
+      "attribute": {
+        "eAttribute": "Attr_Barrier_Generation_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_life_regen",
+      "label": "Life Regeneration",
+      "labelTemplate": "+{value} Life Regeneration",
+      "valueRange": [
+        100,
+        500
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451079,
+      "bnetFileName": "Affix_Str_LifeRegen",
+      "attribute": {
+        "eAttribute": "Attr_Life_Regeneration",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_life_regen_pct",
+      "label": "Life Regeneration %",
+      "labelTemplate": "+{value}% Life Regeneration",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451080,
+      "bnetFileName": "Affix_Pct_LifeRegen",
+      "attribute": {
+        "eAttribute": "Attr_Life_Regeneration_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_block_chance",
+      "label": "Block Chance",
+      "labelTemplate": "+{value}% Block Chance",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451081,
+      "bnetFileName": "Affix_Pct_BlockChance",
+      "attribute": {
+        "eAttribute": "Attr_Block_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_thorns",
+      "label": "Thorns",
+      "labelTemplate": "+{value} Thorns",
+      "valueRange": [
+        500,
+        2000
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451082,
+      "bnetFileName": "Affix_Str_Thorns",
+      "attribute": {
+        "eAttribute": "Attr_Thorns",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_life_on_kill",
+      "label": "Life on Kill",
+      "labelTemplate": "+{value} Life on Kill",
+      "valueRange": [
+        150,
+        600
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451083,
+      "bnetFileName": "Affix_Str_LifeOnKill",
+      "attribute": {
+        "eAttribute": "Attr_Life_On_Kill",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_life_steal",
+      "label": "Life Steal",
+      "labelTemplate": "+{value}% Life Steal",
+      "valueRange": [
+        0.5,
+        2
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451084,
+      "bnetFileName": "Affix_Pct_LifeSteal",
+      "attribute": {
+        "eAttribute": "Attr_Life_Steal_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_dr_burning",
+      "label": "Damage Reduction from Burning",
+      "labelTemplate": "+{value}% Damage Reduction from Burning Enemies",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest",
+        "pants",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451085,
+      "bnetFileName": "Affix_Dr_Burning"
+    },
+    {
+      "id": "affix_dr_crowd_control",
+      "label": "Damage Reduction while Crowd Controlled",
+      "labelTemplate": "+{value}% Damage Reduction while Crowd Controlled",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest",
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451086,
+      "bnetFileName": "Affix_Dr_Crowd_Control"
+    },
+    {
+      "id": "affix_dr_bleeding",
+      "label": "Damage Reduction from Bleeding Enemies",
+      "labelTemplate": "+{value}% Damage Reduction from Bleeding",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest",
+        "pants",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451087,
+      "bnetFileName": "Affix_Dr_Bleeding"
+    },
+    {
+      "id": "affix_armor_pct",
+      "label": "Armor %",
+      "labelTemplate": "+{value}% Armor",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451088,
+      "bnetFileName": "Affix_Pct_ArmorPct",
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_max_life_while_fortified",
+      "label": "Maximum Life while Fortified",
+      "labelTemplate": "+{value}% Maximum Life while Fortified",
+      "valueRange": [
+        4,
+        10
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451089,
+      "bnetFileName": "Affix_Max_Life_While_Fortified"
+    },
+    {
+      "id": "affix_crowd_control_duration",
+      "label": "Crowd Control Duration",
+      "labelTemplate": "+{value}% Crowd Control Duration",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451090,
+      "bnetFileName": "Affix_Pct_CrowdControlDuration",
+      "attribute": {
+        "eAttribute": "Attr_Crowd_Control_Duration_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_unstoppable_dr",
+      "label": "Damage Reduction while Unstoppable",
+      "labelTemplate": "+{value}% Damage Reduction while Unstoppable",
+      "valueRange": [
+        8,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest",
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451091,
+      "bnetFileName": "Affix_Unstoppable_Dr"
+    },
+    {
+      "id": "affix_damage_vs_cc",
+      "label": "Damage to Crowd Controlled Enemies",
+      "labelTemplate": "+{value}% Damage to Crowd Controlled Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451092,
+      "bnetFileName": "Affix_Pct_DamageVsCc",
+      "attribute": {
+        "eAttribute": "Attr_Damage_Percent_Bonus_With_Crowd_Control",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_vs_burning",
+      "label": "Damage to Burning Enemies",
+      "labelTemplate": "+{value}% Damage to Burning Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451093,
+      "bnetFileName": "Affix_Pct_DamageVsBurning",
+      "attribute": {
+        "eAttribute": "Attr_Vs_Burning_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_vs_poisoned",
+      "label": "Damage to Poisoned Enemies",
+      "labelTemplate": "+{value}% Damage to Poisoned Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451094,
+      "bnetFileName": "Affix_Pct_DamageVsPoisoned",
+      "attribute": {
+        "eAttribute": "Attr_Vs_Poisoned_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_vs_stunned",
+      "label": "Damage to Stunned Enemies",
+      "labelTemplate": "+{value}% Damage to Stunned Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451095,
+      "bnetFileName": "Affix_Pct_DamageVsStunned",
+      "attribute": {
+        "eAttribute": "Attr_Vs_Stunned_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_vs_frozen",
+      "label": "Damage to Frozen Enemies",
+      "labelTemplate": "+{value}% Damage to Frozen Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451096,
+      "bnetFileName": "Affix_Pct_DamageVsFrozen",
+      "attribute": {
+        "eAttribute": "Attr_Vs_Frozen_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_vs_slowed",
+      "label": "Damage to Slowed or Chilled Enemies",
+      "labelTemplate": "+{value}% Damage to Slowed or Chilled Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451097,
+      "bnetFileName": "Affix_Pct_DamageVsSlowed",
+      "attribute": {
+        "eAttribute": "Attr_Vs_Slowed_Chilled_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_bleeding_damage",
+      "label": "Bleeding Damage",
+      "labelTemplate": "+{value}% Bleeding Damage",
+      "valueRange": [
+        20,
+        45
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451098,
+      "bnetFileName": "Affix_Pct_BleedingDamage",
+      "attribute": {
+        "eAttribute": "Attr_Bleeding_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_close",
+      "label": "Damage to Close Enemies",
+      "labelTemplate": "+{value}% Damage to Close Enemies",
+      "valueRange": [
+        8,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451099,
+      "bnetFileName": "Affix_Pct_CloseEnemyDamage",
+      "attribute": {
+        "eAttribute": "Attr_Close_Damage_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_distant",
+      "label": "Damage to Distant Enemies",
+      "labelTemplate": "+{value}% Damage to Distant Enemies",
+      "valueRange": [
+        8,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "pants",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451100,
+      "bnetFileName": "Affix_Pct_DistantEnemyDamage",
+      "attribute": {
+        "eAttribute": "Attr_Distant_Damage_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_elite",
+      "label": "Damage to Elites",
+      "labelTemplate": "+{value}% Damage to Elites",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "amulet",
+        "ring1",
+        "ring2",
+        "chest"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451101,
+      "bnetFileName": "Affix_Pct_EliteDamage",
+      "attribute": {
+        "eAttribute": "Attr_Elite_Damage_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_gold_find",
+      "label": "Gold Find",
+      "labelTemplate": "+{value}% Gold Find",
+      "valueRange": [
+        10,
+        30
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451102,
+      "bnetFileName": "Affix_Pct_GoldFind",
+      "attribute": {
+        "eAttribute": "Attr_Gold_Find_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_exp_bonus",
+      "label": "Experience Bonus",
+      "labelTemplate": "+{value}% Experience Bonus",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451103,
+      "bnetFileName": "Affix_Pct_ExpBonus",
+      "attribute": {
+        "eAttribute": "Attr_Experience_Bonus_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_lucky_hit_restore_prim_resource",
+      "label": "Lucky Hit: Restore Primary Resource",
+      "labelTemplate": "Lucky Hit: Up to {value}% Chance to Restore Primary Resource",
+      "valueRange": [
+        5,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451104,
+      "bnetFileName": "Affix_Lucky_Hit_Restore_Prim_Resource"
+    },
+    {
+      "id": "affix_lucky_hit_heal",
+      "label": "Lucky Hit: Chance to Heal",
+      "labelTemplate": "Lucky Hit: Up to {value}% Chance to Heal for a portion of Max Life",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451105,
+      "bnetFileName": "Affix_Lucky_Hit_Heal"
+    },
+    {
+      "id": "affix_ranks_passive_skills",
+      "label": "Ranks to Passive Skills",
+      "labelTemplate": "+{value} Ranks to Passive Skills",
+      "valueRange": [
+        1,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451106,
+      "bnetFileName": "Affix_Ranks_Passive_Skills"
+    },
+    {
+      "id": "affix_all_stats",
+      "label": "All Stats",
+      "labelTemplate": "+{value} to All Stats",
+      "valueRange": [
+        30,
+        100
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451107,
+      "bnetFileName": "Affix_Str_AllStats",
+      "attribute": {
+        "eAttribute": "Attr_All_Stats",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_primary_stat_pct",
+      "label": "Primary Attribute %",
+      "labelTemplate": "+{value}% Primary Attribute",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451108,
+      "bnetFileName": "Affix_Primary_Stat_Pct"
+    },
+    {
+      "id": "affix_potion_charges",
+      "label": "Maximum Potion Charges",
+      "labelTemplate": "+{value} Maximum Potion Charges",
+      "valueRange": [
+        1,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451109,
+      "bnetFileName": "Affix_Potion_Charges"
+    },
+    {
+      "id": "affix_potion_healing",
+      "label": "Potion Healing",
+      "labelTemplate": "+{value}% Potion Healing",
+      "valueRange": [
+        10,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451110,
+      "bnetFileName": "Affix_Potion_Healing"
+    },
+    {
+      "id": "affix_evade_cooldown",
+      "label": "Evade Cooldown Reduction",
+      "labelTemplate": "+{value}% Evade Cooldown Reduction",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "boots",
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451111,
+      "bnetFileName": "Affix_Evade_Cooldown"
+    },
+    {
+      "id": "affix_stagger_damage",
+      "label": "Stagger Damage",
+      "labelTemplate": "+{value}% Stagger Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [],
+      "bnetId": 451112,
+      "bnetFileName": "Affix_Pct_StaggerDamage",
+      "attribute": {
+        "eAttribute": "Attr_Stagger_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_crit_while_fortified",
+      "label": "Critical Strike Chance while Fortified",
+      "labelTemplate": "+{value}% Critical Strike Chance while Fortified",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "gloves",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451113,
+      "bnetFileName": "Affix_Crit_While_Fortified"
+    },
+    {
+      "id": "affix_weapon_damage_pct",
+      "label": "% Weapon Damage",
+      "labelTemplate": "+{value}% Weapon Damage",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451114,
+      "bnetFileName": "Affix_Pct_WeaponDamage",
+      "attribute": {
+        "eAttribute": "Attr_Weapon_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_crit_damage_weapon",
+      "label": "Critical Strike Damage (Weapon)",
+      "labelTemplate": "+{value}% Critical Strike Damage",
+      "valueRange": [
+        12,
+        30
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451115,
+      "bnetFileName": "Affix_Pct_CritDamageWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_attack_speed_weapon",
+      "label": "Attack Speed (Weapon)",
+      "labelTemplate": "+{value}% Attack Speed",
+      "valueRange": [
+        5,
+        10
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451116,
+      "bnetFileName": "Affix_Pct_AttackSpeedWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Item_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_skill_damage_weapon",
+      "label": "Skill Damage (Weapon)",
+      "labelTemplate": "+{value}% Skill Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451117,
+      "bnetFileName": "Affix_Pct_SkillDamageWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_overpower_weapon",
+      "label": "Overpower Damage (Weapon)",
+      "labelTemplate": "+{value}% Overpower Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451118,
+      "bnetFileName": "Affix_Pct_OvepowerWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Overpower_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_lucky_hit_weapon",
+      "label": "Lucky Hit Chance (Weapon)",
+      "labelTemplate": "+{value}% Lucky Hit Chance",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451119,
+      "bnetFileName": "Affix_Pct_LuckyHitWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_per_second",
+      "label": "Damage Per Second (Weapon)",
+      "labelTemplate": "+{value} Damage per Second",
+      "valueRange": [
+        500,
+        2500
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451120,
+      "bnetFileName": "Affix_Str_DamagePerSecond",
+      "attribute": {
+        "eAttribute": "Attr_Weapon_Damage_Per_Second",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_physical_damage_weapon",
+      "label": "Physical Damage (Weapon)",
+      "labelTemplate": "+{value}% Physical Damage",
+      "valueRange": [
+        8,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451121,
+      "bnetFileName": "Affix_Pct_PhysicalWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Physical_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_crit_chance_weapon",
+      "label": "Critical Strike Chance (Weapon)",
+      "labelTemplate": "+{value}% Critical Strike Chance",
+      "valueRange": [
+        2,
+        5
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451122,
+      "bnetFileName": "Affix_Pct_CritChanceWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_vulnerable_damage_weapon",
+      "label": "Vulnerable Damage (Weapon)",
+      "labelTemplate": "+{value}% Vulnerable Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451123,
+      "bnetFileName": "Affix_Pct_VulnerableWeapon",
+      "attribute": {
+        "eAttribute": "Attr_Vuln_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_crit_chance_ring",
+      "label": "Critical Strike Chance (Ring)",
+      "labelTemplate": "+{value}% Critical Strike Chance",
+      "valueRange": [
+        2,
+        5
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451124,
+      "bnetFileName": "Affix_Pct_CritChanceRing",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_crit_damage_ring",
+      "label": "Critical Strike Damage (Ring)",
+      "labelTemplate": "+{value}% Critical Strike Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451125,
+      "bnetFileName": "Affix_Pct_CritDamageRing",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_attack_speed_ring",
+      "label": "Attack Speed (Ring)",
+      "labelTemplate": "+{value}% Attack Speed",
+      "valueRange": [
+        4,
+        9
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451126,
+      "bnetFileName": "Affix_Pct_AttackSpeedRing",
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_all_res_ring",
+      "label": "Resistance to All Elements (Ring)",
+      "labelTemplate": "+{value}% Resistance to All Elements",
+      "valueRange": [
+        6,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451127,
+      "bnetFileName": "Affix_Pct_AllResistanceRing",
+      "attribute": {
+        "eAttribute": "Attr_All_Resistances",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_lucky_hit_ring",
+      "label": "Lucky Hit Chance (Ring)",
+      "labelTemplate": "+{value}% Lucky Hit Chance",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2",
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451128,
+      "bnetFileName": "Affix_Pct_LuckyHitRing",
+      "attribute": {
+        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_damage_amulet",
+      "label": "Skill Damage (Amulet)",
+      "labelTemplate": "+{value}% Skill Damage",
+      "valueRange": [
+        8,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451129,
+      "bnetFileName": "Affix_Pct_SkillDamageAmulet",
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_ranks_amulet",
+      "label": "Ranks to a Skill (Amulet)",
+      "labelTemplate": "+{value} Ranks to a Skill",
+      "valueRange": [
+        1,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451130,
+      "bnetFileName": "Affix_Ranks_Amulet"
+    },
+    {
+      "id": "affix_ranks_passive_amulet",
+      "label": "Ranks to a Passive Skill (Amulet)",
+      "labelTemplate": "+{value} Ranks to a Passive Skill",
+      "valueRange": [
+        1,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451131,
+      "bnetFileName": "Affix_Ranks_Passive_Amulet"
+    },
+    {
+      "id": "affix_necro_minion_damage",
+      "label": "Minion Damage",
+      "labelTemplate": "+{value}% Minion Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451132,
+      "bnetFileName": "Affix_Pct_NecroMinionDamage",
+      "attribute": {
+        "eAttribute": "Attr_Minion_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_minion_life",
+      "label": "Minion Life",
+      "labelTemplate": "+{value}% Minion Life",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451133,
+      "bnetFileName": "Affix_Pct_MinionLife",
+      "attribute": {
+        "eAttribute": "Attr_Minion_Life_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_golem_damage",
+      "label": "Golem Damage",
+      "labelTemplate": "+{value}% Golem Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451134,
+      "bnetFileName": "Affix_Pct_GolemDamage",
+      "attribute": {
+        "eAttribute": "Attr_Golem_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_skeleton_damage",
+      "label": "Skeleton Damage",
+      "labelTemplate": "+{value}% Skeleton Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451135,
+      "bnetFileName": "Affix_Pct_SkeletonDamage",
+      "attribute": {
+        "eAttribute": "Attr_Skeleton_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_companion_damage",
+      "label": "Companion Damage",
+      "labelTemplate": "+{value}% Companion Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451136,
+      "bnetFileName": "Affix_Pct_DruidCompanionDamage",
+      "attribute": {
+        "eAttribute": "Attr_Companion_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_wolf_pack",
+      "label": "Wolf Pack",
+      "labelTemplate": "+{value} Active Wolves",
+      "valueRange": [
+        1,
+        2
+      ],
+      "isPercent": false,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451137,
+      "bnetFileName": "Affix_Druid_Wolf_Pack"
+    },
+    {
+      "id": "affix_necro_corpse_toughness",
+      "label": "Corpse Toughness",
+      "labelTemplate": "Corpse Skills deal +{value}% increased damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451138,
+      "bnetFileName": "Affix_Necro_Corpse_Toughness"
+    },
+    {
+      "id": "affix_necro_blood_skills",
+      "label": "Blood Skill Damage",
+      "labelTemplate": "+{value}% Blood Skill Damage",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451139,
+      "bnetFileName": "Affix_Pct_BloodSkillDamage",
+      "attribute": {
+        "eAttribute": "Attr_Blood_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_helm_skill_damage",
+      "label": "Skill Damage (Helm)",
+      "labelTemplate": "+{value}% Skill Damage",
+      "valueRange": [
+        8,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451140,
+      "bnetFileName": "Affix_Pct_SkillDamageHelm",
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_chest_damage_reduction",
+      "label": "Damage Reduction (Chest)",
+      "labelTemplate": "+{value}% Damage Reduction",
+      "valueRange": [
+        4,
+        10
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451141,
+      "bnetFileName": "Affix_Chest_Damage_Reduction"
+    },
+    {
+      "id": "affix_gloves_crit_chance",
+      "label": "Critical Strike Chance (Gloves)",
+      "labelTemplate": "+{value}% Critical Strike Chance",
+      "valueRange": [
+        2,
+        5.5
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "gloves"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451142,
+      "bnetFileName": "Affix_Pct_CritChanceGloves",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_gloves_crit_damage",
+      "label": "Critical Strike Damage (Gloves)",
+      "labelTemplate": "+{value}% Critical Strike Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "gloves"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451143,
+      "bnetFileName": "Affix_Pct_CritDamageGloves",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_gloves_attack_speed",
+      "label": "Attack Speed (Gloves)",
+      "labelTemplate": "+{value}% Attack Speed",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "gloves"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451144,
+      "bnetFileName": "Affix_Pct_AttackSpeedGloves",
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pants_dodge",
+      "label": "Dodge Chance (Pants)",
+      "labelTemplate": "+{value}% Dodge Chance",
+      "valueRange": [
+        3,
+        7
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "pants"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451145,
+      "bnetFileName": "Affix_Pct_DodgePants",
+      "attribute": {
+        "eAttribute": "Attr_Dodge_Rating",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_boots_movement_speed",
+      "label": "Movement Speed (Boots)",
+      "labelTemplate": "+{value}% Movement Speed",
+      "valueRange": [
+        6,
+        14
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "boots"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451146,
+      "bnetFileName": "Affix_Pct_MoveSpdBoots",
+      "attribute": {
+        "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_boots_evade_charges",
+      "label": "Extra Evade Charge",
+      "labelTemplate": "+{value} Extra Evade Charge",
+      "valueRange": [
+        1,
+        1
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "boots"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451147,
+      "bnetFileName": "Affix_Boots_Evade_Charges"
+    },
+    {
+      "id": "affix_helm_armor",
+      "label": "Armor (Helm)",
+      "labelTemplate": "+{value} Armor",
+      "valueRange": [
+        400,
+        2000
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451148,
+      "bnetFileName": "Affix_Str_ArmorHelm",
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_chest_armor",
+      "label": "Armor (Chest)",
+      "labelTemplate": "+{value} Armor",
+      "valueRange": [
+        600,
+        3000
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "chest"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451149,
+      "bnetFileName": "Affix_Str_ArmorChest",
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_gloves_lucky_hit",
+      "label": "Lucky Hit Chance (Gloves)",
+      "labelTemplate": "+{value}% Lucky Hit Chance",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "gloves"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451150,
+      "bnetFileName": "Affix_Pct_LuckyHitGloves",
+      "attribute": {
+        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_helm_ranks_skills",
+      "label": "Ranks to All Skills (Helm)",
+      "labelTemplate": "+{value} Ranks to All Skills",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451151,
+      "bnetFileName": "Affix_Helm_Ranks_Skills"
+    },
+    {
+      "id": "affix_implicit_armor_helm",
+      "label": "Implicit Armor (Helm)",
+      "labelTemplate": "+{value} Armor",
+      "valueRange": [
+        700,
+        3000
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451152,
+      "bnetFileName": "Implicit_Armor_Helm",
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_implicit_all_res_amulet",
+      "label": "Implicit All Resistance (Amulet)",
+      "labelTemplate": "+{value}% Resistance to All Elements",
+      "valueRange": [
+        6,
+        20
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451153,
+      "bnetFileName": "Implicit_AllRes_Amulet",
+      "attribute": {
+        "eAttribute": "Attr_All_Resistances",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_implicit_barrier_offhand",
+      "label": "Implicit Barrier (Off-Hand)",
+      "labelTemplate": "+{value}% Barrier Generation",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "offHand"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451154,
+      "bnetFileName": "Implicit_Barrier_OffHand",
+      "attribute": {
+        "eAttribute": "Attr_Barrier_Generation_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_implicit_crit_chance_amulet",
+      "label": "Implicit Critical Strike Chance (Amulet)",
+      "labelTemplate": "+{value}% Critical Strike Chance",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "amulet"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451155,
+      "bnetFileName": "Implicit_CritChance_Amulet",
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_implicit_weapon_damage",
+      "label": "Implicit Weapon Damage",
+      "labelTemplate": "+{value}% Core Skill Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451156,
+      "bnetFileName": "Implicit_WeaponDamage",
+      "attribute": {
+        "eAttribute": "Attr_Core_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_implicit_damage_reduction_chest",
+      "label": "Implicit Damage Reduction (Chest)",
+      "labelTemplate": "+{value}% Damage Reduction",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "chest"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451157,
+      "bnetFileName": "Affix_Implicit_Damage_Reduction_Chest"
+    },
+    {
+      "id": "affix_implicit_lucky_hit_ring",
+      "label": "Implicit Lucky Hit (Ring)",
+      "labelTemplate": "+{value}% Lucky Hit Chance",
+      "valueRange": [
+        3,
+        7
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [],
+      "bnetId": 451158,
+      "bnetFileName": "Implicit_LuckyHit_Ring",
+      "attribute": {
+        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_ranks_brawling_skills",
+      "label": "Ranks to Brawling Skills",
+      "labelTemplate": "+{value} Ranks to Brawling Skills",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451159,
+      "bnetFileName": "Affix_Ranks_Brawling_Skills"
+    },
+    {
+      "id": "affix_ranks_companion_skills",
+      "label": "Ranks to Companion Skills",
+      "labelTemplate": "+{value} Ranks to Companion Skills",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451160,
+      "bnetFileName": "Affix_Ranks_Companion_Skills"
+    },
+    {
+      "id": "affix_ranks_bone_skills",
+      "label": "Ranks to Bone Skills",
+      "labelTemplate": "+{value} Ranks to Bone Skills",
+      "valueRange": [
+        1,
+        3
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "gloves",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451161,
+      "bnetFileName": "Affix_Ranks_Bone_Skills"
+    },
+    {
+      "id": "affix_barb_berserk_duration",
+      "label": "Berserking Duration",
+      "labelTemplate": "+{value}% Berserking Duration",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451162,
+      "bnetFileName": "Affix_Barb_Berserk_Duration"
+    },
+    {
+      "id": "affix_barb_damage_while_berserk",
+      "label": "Damage while Berserking",
+      "labelTemplate": "+{value}% Damage while Berserking",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 451163,
+      "bnetFileName": "Affix_Pct_BerserkDamage",
+      "attribute": {
+        "eAttribute": "Attr_Berserk_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_sorc_damage_per_mana",
+      "label": "Damage per Mana Spent",
+      "labelTemplate": "+{value}% Damage per 100 Mana Spent",
+      "valueRange": [
+        5,
+        12
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451164,
+      "bnetFileName": "Affix_Sorc_Damage_Per_Mana"
+    },
+    {
+      "id": "affix_sorc_mana_cost_reduction",
+      "label": "Mana Cost Reduction",
+      "labelTemplate": "+{value}% Mana Cost Reduction",
+      "valueRange": [
+        5,
+        15
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 451165,
+      "bnetFileName": "Affix_Pct_ManaCostReduction",
+      "attribute": {
+        "eAttribute": "Attr_Mana_Cost_Reduction_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_necro_damage_vs_healthy",
+      "label": "Damage to Healthy Enemies",
+      "labelTemplate": "+{value}% Damage to Healthy Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451166,
+      "bnetFileName": "Affix_Necro_Damage_Vs_Healthy"
+    },
+    {
+      "id": "affix_necro_damage_vs_injured",
+      "label": "Damage to Injured Enemies",
+      "labelTemplate": "+{value}% Damage to Injured Enemies",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 451167,
+      "bnetFileName": "Affix_Necro_Damage_Vs_Injured"
+    },
+    {
+      "id": "affix_rogue_damage_with_trap",
+      "label": "Damage with Traps",
+      "labelTemplate": "+{value}% Damage with Traps",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451168,
+      "bnetFileName": "Affix_Rogue_Damage_With_Trap"
+    },
+    {
+      "id": "affix_rogue_critical_while_stealthed",
+      "label": "Critical Strike Damage from Stealth",
+      "labelTemplate": "+{value}% Crit Damage from Stealth",
+      "valueRange": [
+        15,
+        35
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 451169,
+      "bnetFileName": "Affix_Rogue_Critical_While_Stealthed"
+    },
+    {
+      "id": "affix_druid_nature_magic_damage",
+      "label": "Nature Magic Damage",
+      "labelTemplate": "+{value}% Nature Magic Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451170,
+      "bnetFileName": "Affix_Pct_NatureMagicDamage",
+      "attribute": {
+        "eAttribute": "Attr_Nature_Magic_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_druid_shapeshifting_damage",
+      "label": "Shapeshifting Damage",
+      "labelTemplate": "+{value}% Shapeshifting Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 451171,
+      "bnetFileName": "Affix_Druid_Shapeshifting_Damage"
+    },
+    {
+      "id": "affix_sb_spirit_guardian_damage",
+      "label": "Spirit Guardian Damage",
+      "labelTemplate": "+{value}% Spirit Guardian Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 451172,
+      "bnetFileName": "Affix_Sb_Spirit_Guardian_Damage"
+    },
+    {
+      "id": "affix_pal_holy_damage",
+      "label": "Holy Damage",
+      "labelTemplate": "+{value}% Holy Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451173,
+      "bnetFileName": "Affix_Pct_HolyDamage",
+      "attribute": {
+        "eAttribute": "Attr_Holy_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_pal_block_damage_reduction",
+      "label": "Block Grants Damage Reduction",
+      "labelTemplate": "Blocking grants +{value}% Damage Reduction for 3 seconds",
+      "valueRange": [
+        8,
+        18
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 451174,
+      "bnetFileName": "Affix_Pal_Block_Damage_Reduction"
+    },
+    {
+      "id": "affix_wlk_affliction_damage",
+      "label": "Affliction Damage",
+      "labelTemplate": "+{value}% Affliction Damage",
+      "valueRange": [
+        10,
+        25
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451175,
+      "bnetFileName": "Affix_Pct_AfflictionDamage",
+      "attribute": {
+        "eAttribute": "Attr_Affliction_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affix_wlk_soul_harvest",
+      "label": "Soul Harvest",
+      "labelTemplate": "+{value}% Damage per Soul Shard",
+      "valueRange": [
+        3,
+        8
+      ],
+      "isPercent": true,
+      "slotRestrictions": [],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 451176,
+      "bnetFileName": "Affix_Wlk_Soul_Harvest"
     }
   ]
 }

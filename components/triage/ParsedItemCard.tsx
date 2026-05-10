@@ -43,12 +43,24 @@ function AffixResultRow({ result }: { result: AffixMatchResult }) {
     );
   }
 
-  // Uncertain — show yellow indicator
+  // Uncertain — reason-specific indicator
+  const { reason } = result;
+  const hintText =
+    reason === "ambiguous"
+      ? "ambiguous — pick below"
+      : reason === "value-mismatch"
+        ? "unit mismatch — confirm below"
+        : reason === "out-of-range"
+          ? "out of range — confirm below"
+          : "unresolved — select below";
+
   return (
     <div className="flex gap-[6px] items-baseline text-xs text-amber-400">
       <AlertTriangle size={11} className="shrink-0 mt-0.5" />
       <span className="font-mono tabular-nums shrink-0">{result.rolledValue}</span>
-      <span className="italic">{result.label} (uncertain)</span>
+      <span className="italic">
+        {result.label} <span className="text-amber-600">({hintText})</span>
+      </span>
     </div>
   );
 }

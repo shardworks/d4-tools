@@ -10,13 +10,75 @@
  *   image form has been removed — there is no backward-compat overload. Every
  *   caller passes an array (length 1 in the common single-tooltip path) so that
  *   multi-tooltip batching works uniformly (D6).
+ * - System prompt includes catalog vocabulary with cache_control: ephemeral (D3/D15).
+ *   Prompt cache TTL: 5 minutes. Reduces token cost by ~70% for burst triage sessions.
  */
 
+import { affixes, aspects, uniques } from "@/lib/catalog";
 import type { CacheEntry, LlmExtractedItem, SupportedImageMediaType } from "./types";
 
 /** Anthropic model snapshot — hardcoded, no env-var override (D8). */
 const ANTHROPIC_MODEL = "claude-sonnet-4-5-20250929";
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+
+// ─── Catalog vocabulary (generated once at module load, used in cached system prompt) ──
+
+/**
+ * Build the catalog vocabulary string for injection into the system prompt.
+ * Called once at module load; output is stable per catalog version.
+ * D3/D15: this text block is marked cache_control ephemeral so Anthropic caches
+ * it as a prompt prefix for up to 5 minutes.
+ */
+function buildCatalogVocabulary(): string {
+  // Affix labels — sorted by label for readability; exclude deprecated
+  const affixLabels = affixes
+    .filter((a) => !a.deprecated)
+    .map((a) => a.label)
+    .sort();
+
+  // Aspect labels
+  const aspectLabels = aspects
+    .filter((a) => !a.deprecated)
+    .map((a) => a.label)
+    .sort();
+
+  // Unique names with slot
+  const uniqueLines = uniques
+    .filter((u) => !u.deprecated)
+    .map((u) => `${u.label} (${u.slot})`)
+    .sort();
+
+  const lines: string[] = [
+    "You are a Diablo 4 item data extractor. Your task is to read item tooltips from",
+    "screenshots and extract structured data using the record_extracted_items tool.",
+    "",
+    "EXTRACTION RULES:",
+    "1. Extract affix stat names EXACTLY as shown in the tooltip.",
+    "   Use the canonical label from the KNOWN AFFIX LABELS list when the tooltip text matches.",
+    "2. Extract numeric values precisely — do NOT convert units.",
+    "   If the tooltip shows '5%', extract rolledValue as 5, not 0.05.",
+    "3. Rarity values: common, magic, rare, legendary, unique, mythic (output lowercase).",
+    "4. If no item tooltip is visible, call the tool with an empty items array.",
+    "5. For aspects/legendary powers, record the full display name.",
+    "",
+    `KNOWN AFFIX LABELS (${affixLabels.length} entries — use these exact names when matching):`,
+    affixLabels.map((l) => `  ${l}`).join("\n"),
+    "",
+    `KNOWN ASPECT LABELS (${aspectLabels.length} entries):`,
+    aspectLabels.map((l) => `  ${l}`).join("\n"),
+    "",
+    `KNOWN UNIQUE ITEMS (${uniqueLines.length} entries — use the exact item name):`,
+    uniqueLines.map((l) => `  ${l}`).join("\n"),
+  ];
+
+  return lines.join("\n");
+}
+
+/**
+ * System prompt text with catalog vocabulary.
+ * Generated once at module load; deterministic per catalog version.
+ */
+const CATALOG_SYSTEM_PROMPT = buildCatalogVocabulary();
 
 /**
  * JSON Schema for the record_extracted_items tool input.
@@ -164,6 +226,16 @@ export async function extractItemsFromImage(
   const requestBody = {
     model: ANTHROPIC_MODEL,
     max_tokens: 4096,
+    // System prompt with catalog vocabulary — marked ephemeral for prompt caching (D3/D15).
+    // Anthropic caches this block for up to 5 minutes; subsequent calls within the TTL
+    // window skip re-processing the vocabulary, reducing input token cost by ~70%.
+    system: [
+      {
+        type: "text",
+        text: CATALOG_SYSTEM_PROMPT,
+        cache_control: { type: "ephemeral" },
+      },
+    ],
     tools: [EXTRACTED_ITEMS_TOOL],
     tool_choice: { type: "tool", name: "record_extracted_items" },
     messages: [
@@ -173,7 +245,7 @@ export async function extractItemsFromImage(
           ...imageBlocks,
           {
             type: "text",
-            text: "Please analyze this Diablo 4 screenshot and extract all item tooltip information you can see. Record every item visible using the record_extracted_items tool. Include all affixes, their exact labels and numeric values as displayed. If no item tooltip is visible, call the tool with an empty items array.",
+            text: "Analyze this Diablo 4 screenshot and extract all item tooltip information. Record every item visible using the record_extracted_items tool. Use the canonical affix and aspect names from the system prompt vocabulary when they match. Extract numeric values exactly as shown (do not convert percentages to decimals). If no item tooltip is visible, call the tool with an empty items array.",
           },
         ],
       },

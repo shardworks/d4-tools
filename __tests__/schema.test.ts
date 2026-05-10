@@ -9,6 +9,8 @@ import {
   SkillSelectionSchema,
   PlaystyleConstraintSchema,
 } from "../lib/schema";
+import type { AffixMatchResult, AspectMatchResult } from "../lib/triage/types";
+import type { UniqueEntry } from "../lib/catalog";
 
 describe("AffixInstanceSchema", () => {
   it("accepts valid affix instance", () => {
@@ -271,5 +273,161 @@ describe("PlaystyleConstraintSchema", () => {
       hard: false,
     });
     expect(result.success).toBe(false);
+  });
+});
+
+// ─── v17: AffixMatchResult / AspectMatchResult union shape (D7) ──────────────
+
+describe("AffixMatchResult — v17 extended union (D7)", () => {
+  it("accepts resolved kind", () => {
+    const r: AffixMatchResult = { kind: "resolved", affixId: "affix_max_life", rolledValue: 2000 };
+    expect(r.kind).toBe("resolved");
+  });
+
+  it("accepts uncertain/out-of-range with affixId", () => {
+    const r: AffixMatchResult = {
+      kind: "uncertain",
+      label: "Maximum Life",
+      rolledValue: 99999,
+      reason: "out-of-range",
+      affixId: "affix_max_life",
+    };
+    expect(r.kind).toBe("uncertain");
+    if (r.kind === "uncertain") expect(r.reason).toBe("out-of-range");
+  });
+
+  it("accepts uncertain/no-match", () => {
+    const r: AffixMatchResult = {
+      kind: "uncertain",
+      label: "Unknown Stat",
+      rolledValue: 5,
+      reason: "no-match",
+    };
+    expect(r.kind).toBe("uncertain");
+    if (r.kind === "uncertain") expect(r.reason).toBe("no-match");
+  });
+
+  it("accepts uncertain/ambiguous with candidates (D5)", () => {
+    const r: AffixMatchResult = {
+      kind: "uncertain",
+      label: "Damage",
+      rolledValue: 20,
+      reason: "ambiguous",
+      candidates: ["affix_skill_damage", "affix_core_skill_damage"],
+    };
+    expect(r.kind).toBe("uncertain");
+    if (r.kind === "uncertain" && r.reason === "ambiguous") {
+      expect(r.candidates).toHaveLength(2);
+    }
+  });
+
+  it("accepts uncertain/value-mismatch with unitCorrected (D4)", () => {
+    const r: AffixMatchResult = {
+      kind: "uncertain",
+      label: "Critical Strike Chance",
+      rolledValue: 0.05,
+      reason: "value-mismatch",
+      affixId: "affix_crit_chance",
+      unitCorrected: 5,
+    };
+    expect(r.kind).toBe("uncertain");
+    if (r.kind === "uncertain" && r.reason === "value-mismatch") {
+      expect(r.unitCorrected).toBe(5);
+      expect(r.affixId).toBe("affix_crit_chance");
+    }
+  });
+});
+
+describe("AspectMatchResult — v17 extended union (D7)", () => {
+  it("accepts ambiguous with candidates", () => {
+    const r: AspectMatchResult = {
+      kind: "uncertain",
+      label: "Aspect of Power",
+      rolledValue: 30,
+      reason: "ambiguous",
+      candidates: ["conceited_aspect", "aspect_of_disobedience"],
+    };
+    expect(r.kind).toBe("uncertain");
+    if (r.kind === "uncertain" && r.reason === "ambiguous") {
+      expect(r.candidates).toContain("conceited_aspect");
+    }
+  });
+
+  it("accepts value-mismatch", () => {
+    const r: AspectMatchResult = {
+      kind: "uncertain",
+      label: "Conceited Aspect",
+      rolledValue: 0.20,
+      reason: "value-mismatch",
+      aspectId: "conceited_aspect",
+      unitCorrected: 20,
+    };
+    if (r.kind === "uncertain" && r.reason === "value-mismatch") {
+      expect(r.unitCorrected).toBe(20);
+    }
+  });
+});
+
+// ─── v17: UniqueEntry.intrinsicAspects shape (D1) ────────────────────────────
+
+describe("UniqueEntry.intrinsicAspects — v17 shape (D1)", () => {
+  it("accepts a UniqueEntry with intrinsicAspects", () => {
+    const entry: UniqueEntry = {
+      id: "harlequin_crest",
+      label: "Harlequin Crest",
+      slot: "helm",
+      classRestrictions: [],
+      bnetId: 12345,
+      bnetFileName: "Unique_Helm_HarlequinCrest",
+      intrinsicAffixes: [],
+      intrinsicAspects: [
+        {
+          label: "Gain [15-20]% Damage Reduction.",
+          valueRange: [15, 20],
+          isPercent: true,
+          isDistinctMultiplier: false,
+        },
+      ],
+    };
+    expect(entry.intrinsicAspects).toHaveLength(1);
+    expect(entry.intrinsicAspects![0].isPercent).toBe(true);
+  });
+
+  it("accepts a UniqueEntry with intrinsicAspects carrying an aspectId", () => {
+    const entry: UniqueEntry = {
+      id: "shako",
+      label: "Harlequin Crest",
+      slot: "helm",
+      classRestrictions: [],
+      intrinsicAspects: [
+        {
+          aspectId: "conceited_aspect",
+          label: "Conceited Aspect power",
+          valueRange: [15, 25],
+          isPercent: true,
+        },
+      ],
+    };
+    expect(entry.intrinsicAspects![0].aspectId).toBe("conceited_aspect");
+  });
+
+  it("accepts a UniqueEntry with no intrinsicAspects (optional field)", () => {
+    const entry: UniqueEntry = {
+      id: "some_unique",
+      label: "Some Unique",
+      slot: "chest",
+      classRestrictions: [],
+    };
+    expect(entry.intrinsicAspects).toBeUndefined();
+  });
+
+  it("AspectInstanceSchema source enum remains legendary | codex (D18)", () => {
+    // Third value must NOT be accepted
+    const legResult = AspectInstanceSchema.safeParse({ aspectId: "x", rolledValue: 5, source: "legendary" });
+    const codResult = AspectInstanceSchema.safeParse({ aspectId: "x", rolledValue: 5, source: "codex" });
+    const badResult = AspectInstanceSchema.safeParse({ aspectId: "x", rolledValue: 5, source: "unique-intrinsic" });
+    expect(legResult.success).toBe(true);
+    expect(codResult.success).toBe(true);
+    expect(badResult.success).toBe(false);
   });
 });

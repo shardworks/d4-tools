@@ -399,6 +399,292 @@
       "conditional": "unconditional",
       "source": "datamine_d4data",
       "notes": "Overpower Damage — excluded from v1 engine (D24). OP requires Life+Fortify state not on schema."
+    },
+
+    "_comment_v17": "v17 entries added 2026-05-10 for expanded affix/aspect catalog (D8 of v17 commission).",
+
+    "Attr_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Generic Damage % bonus — applies to all damage dealt. Additive bucket alongside skill-category damage bonuses."
+    },
+    "Attr_Physical_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Physical Damage % bonus — additive with other elemental/skill damage bonuses."
+    },
+    "Attr_Fire_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Fire Damage % bonus — additive bucket (elemental damage type)."
+    },
+    "Attr_Cold_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Cold Damage % bonus — additive bucket (elemental damage type)."
+    },
+    "Attr_Lightning_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Lightning Damage % bonus — additive bucket (elemental damage type)."
+    },
+    "Attr_Shadow_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Shadow Damage % bonus — additive bucket (elemental damage type)."
+    },
+    "Attr_Poison_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Poison Damage % bonus — additive bucket. Poison is a damage-over-time type; treated as elemental-equivalent in v1 engine."
+    },
+    "Attr_Bleeding_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Bleeding Damage % bonus — additive bucket. Bleeding is a damage-over-time type; treated as elemental-equivalent in v1 engine."
+    },
+    "Attr_Holy_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Holy Damage % bonus (Paladin) — additive bucket (elemental damage type for Paladin builds)."
+    },
+    "Attr_Non_Physical_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Non-Physical Damage % bonus — additive bucket. Applies when attack does not deal Physical damage."
+    },
+    "Attr_Nature_Magic_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Nature Magic Damage % bonus (Druid) — additive bucket (Storm and Earth skill damage type)."
+    },
+    "Attr_Weapon_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Weapon Damage % bonus — additive bucket. Scales base weapon damage contribution."
+    },
+    "Attr_Weapon_Damage_Per_Second": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Weapon Damage Per Second — additive bucket. This is the flat weapon DPS stat (not a % bonus). Engine treats as additive for affix comparison purposes."
+    },
+    "Attr_Berserk_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Damage while Berserk (Barbarian) — approximated as unconditional for optimised Barbarian builds where Berserk uptime approaches 100%. Conservative builds should override to 'cc' (0 uptime) via data/damage-config.local.json."
+    },
+    "Attr_Minion_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Minion Damage % bonus (general, primarily Necromancer) — additive bucket. Applies to all minion/summon damage types."
+    },
+    "Attr_Golem_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Golem Damage % bonus (Necromancer) — additive bucket (subset of minion damage)."
+    },
+    "Attr_Skeleton_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Skeleton Damage % bonus (Necromancer) — additive bucket (subset of minion damage)."
+    },
+    "Attr_Blood_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Blood Skill Damage % (Necromancer Blood skill category) — additive bucket."
+    },
+    "Attr_Affliction_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Affliction Skill Damage % (Warlock Affliction skill category) — additive bucket."
+    },
+    "Attr_Agility_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Agility Skill Damage % (Rogue Agility skill category) — additive bucket."
+    },
+    "Attr_Trap_Skill_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "unconditional",
+      "source": "community_general",
+      "notes": "Trap Skill Damage % (Rogue trap-type skills) — additive bucket."
+    },
+    "Attr_Stagger_Damage_Percent": {
+      "bucket": "additive",
+      "conditional": "cc",
+      "source": "community_general",
+      "notes": "Damage to Staggered enemies — treated as cc-conditional (uptime 0.0 under boss-DPS framing). Bosses do have stagger phases, but duration is episodic and not modeled in v1."
+    },
+
+    "Attr_Fury_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Fury regeneration rate (Barbarian) — no DPS contribution in v1 (resource economy excluded)."
+    },
+    "Attr_Energy_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Energy regeneration rate (Rogue) — no DPS contribution in v1."
+    },
+    "Attr_Essence_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Essence regeneration rate (Necromancer) — no DPS contribution in v1."
+    },
+    "Attr_Mana_Cost_Reduction_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Mana Cost Reduction % (Sorcerer) — no direct DPS contribution in v1 (resource economy excluded)."
+    },
+    "Attr_Mana_On_Crit": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Mana restored on Critical Strike (Sorcerer) — no DPS contribution in v1."
+    },
+    "Attr_Wrath_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Wrath regeneration rate (Paladin/Warlock) — no DPS contribution in v1."
+    },
+    "Attr_Wrath_On_Kill": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Wrath on Kill (Paladin/Warlock) — no DPS contribution in v1 (resource economy excluded)."
+    },
+    "Attr_Dominance_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Dominance regeneration rate (Warlock secondary resource) — no DPS contribution in v1."
+    },
+    "Attr_Ferocity_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Ferocity regeneration rate (Spiritborn) — no DPS contribution in v1."
+    },
+    "Attr_Spirit_On_Kill": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Spirit on Kill (Druid/Spiritborn) — no DPS contribution in v1."
+    },
+    "Attr_Max_Fury_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Fury (Barbarian) — no DPS contribution in v1."
+    },
+    "Attr_Max_Energy_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Energy (Rogue) — no DPS contribution in v1."
+    },
+    "Attr_Max_Essence_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Essence (Necromancer) — no DPS contribution in v1."
+    },
+    "Attr_Max_Wrath_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Wrath (Paladin/Warlock) — no DPS contribution in v1."
+    },
+    "Attr_Max_Spirit_Item": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Maximum Spirit (Druid/Spiritborn) — no DPS contribution in v1."
+    },
+    "Attr_Life_Regeneration": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Life Regeneration (flat) — no DPS contribution in v1."
+    },
+    "Attr_Life_Regeneration_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Life Regeneration % — no DPS contribution in v1."
+    },
+    "Attr_Life_Steal_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Life Steal % — no DPS contribution in v1."
+    },
+    "Attr_Fortify_Generation_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Fortify Generation % — no DPS contribution in v1 (defensive mechanic)."
+    },
+    "Attr_Barrier_Generation_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Barrier Generation % — no DPS contribution in v1 (defensive mechanic)."
+    },
+    "Attr_Armor_Item_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Armor % bonus — no DPS contribution in v1."
+    },
+    "Attr_Minion_Life_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Minion Life % bonus — no DPS contribution in v1 (survivability stat)."
+    },
+    "Attr_Crowd_Control_Duration_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Crowd Control Duration % — no direct DPS contribution in v1 (affects CC window, not raw damage)."
+    },
+    "Attr_Experience_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Experience Bonus % — no DPS contribution (progression stat)."
+    },
+    "Attr_Gold_Find_Percent": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Gold Find % — no DPS contribution (economy stat)."
     }
   },
 

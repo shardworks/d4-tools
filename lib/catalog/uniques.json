@@ -2,8 +2,1086 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-10"
   },
-  "uniques": []
+  "uniques": [
+    {
+      "id": "harlequin_crest",
+      "label": "Harlequin Crest",
+      "slot": "helm",
+      "classRestrictions": [],
+      "bnetId": 1300001,
+      "bnetFileName": "Unique_Helm_HarlequinCrest",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Skill_Damage_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.12,
+            0.2
+          ]
+        }
+      ],
+      "intrinsicAspects": [
+        {
+          "label": "Gain [12-20]% Damage Reduction. In addition, gain +4 Ranks to all Skills.",
+          "valueRange": [
+            12.0,
+            20.0
+          ],
+          "isPercent": true,
+          "isDistinctMultiplier": false
+        }
+      ]
+    },
+    {
+      "id": "andariel_visage",
+      "label": "Andariel's Visage",
+      "slot": "helm",
+      "classRestrictions": [],
+      "bnetId": 1300002,
+      "bnetFileName": "Unique_Helm_AndarielsVisage",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Up to [15-25]% chance to trigger a poison nova dealing [30%] Poison damage over 5 seconds to nearby enemies.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "godslayer_crown",
+      "label": "Godslayer Crown",
+      "slot": "helm",
+      "classRestrictions": [],
+      "bnetId": 1300003,
+      "bnetFileName": "Unique_Helm_GodslayerCrown",
+      "intrinsicAspects": [
+        {
+          "label": "When you Stagger or kill a Boss, it triggers a Hellbreach for [5-8] seconds.",
+          "valueRange": [
+            5.0,
+            8.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "starfall_coronet",
+      "label": "Starfall Coronet",
+      "slot": "helm",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300004,
+      "bnetFileName": "Unique_Helm_StarfallCoronet",
+      "intrinsicAspects": [
+        {
+          "label": "Meteor Showers rain down on enemies in Meteor's impact area. Each Meteor deals [25-40]% of Meteor's damage.",
+          "valueRange": [
+            25.0,
+            40.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "tempest_roar",
+      "label": "Tempest Roar",
+      "slot": "helm",
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 1300005,
+      "bnetFileName": "Unique_Helm_TempestRoar",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Storm Skills have up to [15-25]% chance to grant 3 Spirit. Your Storm Skills are now also Werewolf Skills.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "flickerstep",
+      "label": "Flickerstep",
+      "slot": "boots",
+      "classRestrictions": [],
+      "bnetId": 1300006,
+      "bnetFileName": "Unique_Boots_Flickerstep",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.05,
+            0.1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tibaults_will",
+      "label": "Tibault's Will",
+      "slot": "pants",
+      "classRestrictions": [],
+      "bnetId": 1300007,
+      "bnetFileName": "Unique_Pants_TibaultsWill",
+      "intrinsicAspects": [
+        {
+          "label": "You deal [20-30]% increased damage while Unstoppable and for 4 seconds after.",
+          "valueRange": [
+            20.0,
+            30.0
+          ],
+          "isPercent": true,
+          "isDistinctMultiplier": true
+        }
+      ]
+    },
+    {
+      "id": "iceheart_brais",
+      "label": "Iceheart Brais",
+      "slot": "pants",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300008,
+      "bnetFileName": "Unique_Pants_IceheartBrais",
+      "intrinsicAspects": [
+        {
+          "label": "Enemies that die while Frozen have a [10-20]% chance to unleash a Frost Nova.",
+          "valueRange": [
+            10.0,
+            20.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "tyrael_might",
+      "label": "Tyael's Might",
+      "slot": "chest",
+      "classRestrictions": [],
+      "bnetId": 1300009,
+      "bnetFileName": "Unique_Chest_TyaelsMight",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Armor_Item",
+            "nParam": 0
+          },
+          "valueRange": [
+            1000,
+            2500
+          ]
+        },
+        {
+          "attribute": {
+            "eAttribute": "Attr_All_Resistances",
+            "nParam": 0
+          },
+          "valueRange": [
+            10.0,
+            20.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shroud_of_false_death",
+      "label": "Shroud of False Death",
+      "slot": "chest",
+      "classRestrictions": [],
+      "bnetId": 1300010,
+      "bnetFileName": "Unique_Chest_ShroudofFalseDeath",
+      "intrinsicAspects": [
+        {
+          "label": "You become Immune for [5-7] seconds after falling below 35% Life.",
+          "valueRange": [
+            5.0,
+            7.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "raiment_of_the_infinite",
+      "label": "Raiment of the Infinite",
+      "slot": "chest",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300011,
+      "bnetFileName": "Unique_Chest_RaimentoftheInfinite",
+      "intrinsicAspects": [
+        {
+          "label": "After using Teleport, Close enemies are Pulled to you and Stunned for [2-3] seconds.",
+          "valueRange": [
+            2.0,
+            3.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "rage_of_harrogath",
+      "label": "Rage of Harrogath",
+      "slot": "chest",
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 1300012,
+      "bnetFileName": "Unique_Chest_RageofHarrogath",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Up to [20-40]% chance to reduce Cooldowns of non-Ultimate Skills by 1 second when inflicting Bleeding on Elites.",
+          "valueRange": [
+            20.0,
+            40.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "soulbrand",
+      "label": "Soulbrand",
+      "slot": "chest",
+      "classRestrictions": [],
+      "bnetId": 1300013,
+      "bnetFileName": "Unique_Chest_Soulbrand",
+      "intrinsicAspects": [
+        {
+          "label": "Your Healing Potion grants a Barrier for [75-125]% of its healing for 6 seconds instead of instantly healing.",
+          "valueRange": [
+            75.0,
+            125.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "razorplate",
+      "label": "Razorplate",
+      "slot": "chest",
+      "classRestrictions": [],
+      "bnetId": 1300014,
+      "bnetFileName": "Unique_Chest_Razorplate",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Thorns",
+            "nParam": 0
+          },
+          "valueRange": [
+            10000,
+            20000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blood_artisans_cuirass",
+      "label": "Blood Artisan's Cuirass",
+      "slot": "chest",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300015,
+      "bnetFileName": "Unique_Chest_BloodArtisansCuirass",
+      "intrinsicAspects": [
+        {
+          "label": "When you pick up [5-15] Blood Orbs, a free Bone Spirit is spawned.",
+          "valueRange": [
+            5.0,
+            15.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "axial_conduit",
+      "label": "Axial Conduit",
+      "slot": "chest",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300016,
+      "bnetFileName": "Unique_Chest_AxialConduit",
+      "intrinsicAspects": [
+        {
+          "label": "Ball Lightning orbits around you while channeling and [15-30]% faster each second.",
+          "valueRange": [
+            15.0,
+            30.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "gohr_devastating_grips",
+      "label": "Gohr's Devastating Grips",
+      "slot": "gloves",
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 1300017,
+      "bnetFileName": "Unique_Gloves_GohrsDevastatingGrips",
+      "intrinsicAspects": [
+        {
+          "label": "Whirlwind explodes after it ends, dealing [16-26]% of the total damage it dealt as Fire damage to surrounding enemies.",
+          "valueRange": [
+            16.0,
+            26.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "fists_of_fate",
+      "label": "Fists of Fate",
+      "slot": "gloves",
+      "classRestrictions": [],
+      "bnetId": 1300018,
+      "bnetFileName": "Unique_Gloves_FistsofFate",
+      "intrinsicAspects": [
+        {
+          "label": "Your attacks randomly deal [1-300]% of their normal damage.",
+          "valueRange": [
+            1.0,
+            300.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "howl_from_below",
+      "label": "Howl from Below",
+      "slot": "gloves",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300019,
+      "bnetFileName": "Unique_Gloves_HowlfromBelow",
+      "intrinsicAspects": [
+        {
+          "label": "Instead of detonating immediately, Corpse Explosion summons a Volatile Skeleton that charges at a random enemy. Corpse Explosion damage is increased by [30-50]%.",
+          "valueRange": [
+            30.0,
+            50.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "grasp_of_shadow",
+      "label": "Grasp of Shadow",
+      "slot": "gloves",
+      "classRestrictions": [
+        "Necromancer",
+        "Rogue"
+      ],
+      "bnetId": 1300020,
+      "bnetFileName": "Unique_Gloves_GraspofShadow",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Damaging a Vulnerable enemy with a Darkness or Shadow skill has up to [15-25]% chance to summon a Shadow Clone that mimics your attack.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "ring_of_starless_skies",
+      "label": "Ring of Starless Skies",
+      "slot": "ring1",
+      "classRestrictions": [],
+      "bnetId": 1300021,
+      "bnetFileName": "Unique_Ring1_RingofStarlessSkies",
+      "intrinsicAspects": [
+        {
+          "label": "Each consecutive Core Skill cast reduces the Resource cost of your next Core Skill by [8-12]%, up to 40% maximum.",
+          "valueRange": [
+            8.0,
+            12.0
+          ],
+          "isPercent": true,
+          "isDistinctMultiplier": true
+        }
+      ]
+    },
+    {
+      "id": "talus_lock",
+      "label": "Talus Lock",
+      "slot": "ring1",
+      "classRestrictions": [],
+      "bnetId": 1300022,
+      "bnetFileName": "Unique_Ring1_TalusLock",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.08,
+            0.15
+          ]
+        }
+      ]
+    },
+    {
+      "id": "melted_heart_of_selig",
+      "label": "Melted Heart of Selig",
+      "slot": "amulet",
+      "classRestrictions": [],
+      "bnetId": 1300023,
+      "bnetFileName": "Unique_Amulet_MeltedHeartofSelig",
+      "intrinsicAspects": [
+        {
+          "label": "Gain [30-60]% Maximum Primary Resource. When you take damage, drain [3-6] Primary Resource for every 1% of Life you would have lost.",
+          "valueRange": [
+            30.0,
+            60.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "deathspeakers_pendant",
+      "label": "Deathspeaker's Pendant",
+      "slot": "amulet",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300024,
+      "bnetFileName": "Unique_Amulet_DeathspeakersPendant",
+      "intrinsicAspects": [
+        {
+          "label": "Blood Surge casts a mini nova on your minions, dealing [30-40]% of its normal damage.",
+          "valueRange": [
+            30.0,
+            40.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "fractured_winterglass",
+      "label": "Fractured Winterglass",
+      "slot": "amulet",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300025,
+      "bnetFileName": "Unique_Amulet_FracturedWinterglass",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Conjuration skills have up to [15-25]% chance to conjure a Frost Nova.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "band_of_first_flame",
+      "label": "Band of First Flame",
+      "slot": "amulet",
+      "classRestrictions": [],
+      "bnetId": 1300026,
+      "bnetFileName": "Unique_Amulet_BandofFirstFlame",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Fire_Damage_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.2,
+            0.35
+          ]
+        }
+      ],
+      "intrinsicAspects": [
+        {
+          "label": "Fire skills deal [20-35]% increased damage. Burning enemies explode for [150%] Fire damage when they die.",
+          "valueRange": [
+            20.0,
+            35.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "the_grandfather",
+      "label": "The Grandfather",
+      "slot": "weapon",
+      "classRestrictions": [],
+      "bnetId": 1300027,
+      "bnetFileName": "Unique_Weapon_TheGrandfather",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Crit_Damage_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.6,
+            1.0
+          ]
+        },
+        {
+          "attribute": {
+            "eAttribute": "Attr_Max_Life",
+            "nParam": 0
+          },
+          "valueRange": [
+            500,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "doombringer",
+      "label": "Doombringer",
+      "slot": "weapon",
+      "classRestrictions": [],
+      "bnetId": 1300028,
+      "bnetFileName": "Unique_Weapon_Doombringer",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Up to [20-40]% chance to deal [0.5-1.0]x Base damage to surrounding enemies and reduce their damage done by 25% for 5 seconds.",
+          "valueRange": [
+            20.0,
+            40.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "azurewrath",
+      "label": "Azurewrath",
+      "slot": "weapon",
+      "classRestrictions": [],
+      "bnetId": 1300029,
+      "bnetFileName": "Unique_Weapon_Azurewrath",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Cold_Damage_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.2,
+            0.4
+          ]
+        }
+      ],
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Up to [15-25]% chance to Freeze enemies for 2 seconds and deal [150-250]% Frost damage.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "ahavarion_spear_of_lycander",
+      "label": "Ahavarion, Spear of Lycander",
+      "slot": "weapon",
+      "classRestrictions": [],
+      "bnetId": 1300030,
+      "bnetFileName": "Unique_Weapon_AhavarionSpearofLycander",
+      "intrinsicAspects": [
+        {
+          "label": "Gain a random Shrine effect for [10-20] seconds after killing an Elite enemy. Can only occur once every 30 seconds.",
+          "valueRange": [
+            10.0,
+            20.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "black_river",
+      "label": "Black River",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300031,
+      "bnetFileName": "Unique_Weapon_BlackRiver",
+      "intrinsicAspects": [
+        {
+          "label": "Corpse Explosion consumes up to [3-5] additional Corpses around the initial Corpse, dealing [20%] increased damage per additional Corpse.",
+          "valueRange": [
+            3.0,
+            5.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "fields_of_crimson",
+      "label": "Fields of Crimson",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 1300032,
+      "bnetFileName": "Unique_Weapon_FieldsofCrimson",
+      "intrinsicAspects": [
+        {
+          "label": "While Two-Handed Sword is equipped as your Slashing weapon, Rend creates a [6-10] meter pool of blood lasting 6 seconds.",
+          "valueRange": [
+            6.0,
+            10.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "skyhunter",
+      "label": "Skyhunter",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 1300033,
+      "bnetFileName": "Unique_Weapon_Skyhunter",
+      "intrinsicAspects": [
+        {
+          "label": "Your first direct damage each second applies [10-20]% of Rapid Fire's maximum damage as an additional shot.",
+          "valueRange": [
+            10.0,
+            20.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "windforce",
+      "label": "Windforce",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 1300034,
+      "bnetFileName": "Unique_Weapon_Windforce",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: Hits with this weapon have up to [10-20]% chance to deal double damage and Knock Back the enemy.",
+          "valueRange": [
+            10.0,
+            20.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "condemnation",
+      "label": "Condemnation",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 1300035,
+      "bnetFileName": "Unique_Weapon_Condemnation",
+      "intrinsicAspects": [
+        {
+          "label": "Your Core Skills deal [20-30]% increased damage when spending 3 Combo Points.",
+          "valueRange": [
+            20.0,
+            30.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "bloodless_scream",
+      "label": "Bloodless Scream",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300036,
+      "bnetFileName": "Unique_Weapon_BloodlessScream",
+      "intrinsicAspects": [
+        {
+          "label": "Your Darkness skills Chill enemies for up to [20-30]% and can Freeze enemies. Darkness skills deal [10-20]% bonus damage.",
+          "valueRange": [
+            20.0,
+            30.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "deathwish",
+      "label": "Deathwish",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "bnetId": 1300037,
+      "bnetFileName": "Unique_Weapon_Deathwish",
+      "intrinsicAspects": [
+        {
+          "label": "While Bone Storm is active, you deal [30-50]% of your Maximum Essence as bonus Overpower Damage.",
+          "valueRange": [
+            30.0,
+            50.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "waxing_gibbous",
+      "label": "Waxing Gibbous",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 1300038,
+      "bnetFileName": "Unique_Weapon_WaxingGibbous",
+      "intrinsicAspects": [
+        {
+          "label": "Gain Stealth for [2-4] seconds when you kill an enemy while in Werewolf form. Breaking Stealth grants [20%] Attack Speed for 5 seconds.",
+          "valueRange": [
+            2.0,
+            4.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "twin_fangs",
+      "label": "Twin Fangs",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 1300039,
+      "bnetFileName": "Unique_Weapon_TwinFangs",
+      "intrinsicAspects": [
+        {
+          "label": "Shred's third strike causes a Viper to leap and attack the primary target for [100-180]% Poison damage.",
+          "valueRange": [
+            100.0,
+            180.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "fleshrender",
+      "label": "Fleshrender",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Druid"
+      ],
+      "bnetId": 1300040,
+      "bnetFileName": "Unique_Weapon_Fleshrender",
+      "intrinsicAspects": [
+        {
+          "label": "Debilitating Roar and Blood Howl are now Werewolf Skills. Debilitating Roar instantly kills Injured Puppets and deals [35-50]% damage to Injured non-Bosses.",
+          "valueRange": [
+            35.0,
+            50.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "niamyes_pillar",
+      "label": "Niamye's Pillar of Transcendence",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300041,
+      "bnetFileName": "Unique_Weapon_NiamyesPillarofTranscendence",
+      "intrinsicAspects": [
+        {
+          "label": "Hydra's heads attach and orbit around you. Hydra also has [30-50]% increased duration.",
+          "valueRange": [
+            30.0,
+            50.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "lidless_wall",
+      "label": "Lidless Wall",
+      "slot": "offHand",
+      "classRestrictions": [],
+      "bnetId": 1300042,
+      "bnetFileName": "Unique_Offhand_LidlessWall",
+      "intrinsicAspects": [
+        {
+          "label": "Lucky Hit: While you have an active Barrier, incoming damage has a [15-25]% chance to be absorbed by your Barrier.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "mirrorball",
+      "label": "Mirrorball",
+      "slot": "offHand",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300043,
+      "bnetFileName": "Unique_Offhand_Mirrorball",
+      "intrinsicAspects": [
+        {
+          "label": "Magic Missile fires [2-4] additional projectiles and can Slow enemies by 30% for 3 seconds.",
+          "valueRange": [
+            2.0,
+            4.0
+          ],
+          "isPercent": false
+        }
+      ]
+    },
+    {
+      "id": "heavens_fury",
+      "label": "Heaven's Fury",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "bnetId": 1300044,
+      "bnetFileName": "Unique_Weapon_HeavensFury",
+      "intrinsicAspects": [
+        {
+          "label": "Your Aura Skills deal [20-35]% increased Holy Damage for 4 seconds after you use a Justice Skill.",
+          "valueRange": [
+            20.0,
+            35.0
+          ],
+          "isPercent": true,
+          "aspectId": "aspect_of_faith"
+        }
+      ]
+    },
+    {
+      "id": "diabolic_codex",
+      "label": "Diabolic Codex",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "bnetId": 1300045,
+      "bnetFileName": "Unique_Weapon_DiabolicCodex",
+      "intrinsicAspects": [
+        {
+          "label": "Your Archfiend Skills deal [20-30]% increased Shadow damage. Each hit gains a Soul Shard.",
+          "valueRange": [
+            20.0,
+            30.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "uriels_fire",
+      "label": "Uriel's Fire",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "bnetId": 1300046,
+      "bnetFileName": "Unique_Weapon_UrielsFire",
+      "intrinsicAspects": [
+        {
+          "label": "Your Eagle skills deal [15-25]% bonus Fire damage and can Burn enemies for [100%] of their damage over 3 seconds.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "asheara_khanjar",
+      "label": "Asheara's Khanjar",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 1300047,
+      "bnetFileName": "Unique_Weapon_AshearasKhanjar",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.15,
+            0.25
+          ]
+        }
+      ],
+      "intrinsicAspects": [
+        {
+          "label": "Hits with this weapon increase your Attack Speed by [1-2]% for 4 seconds, up to [15-20]%.",
+          "valueRange": [
+            1.0,
+            2.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "eaglehorn",
+      "label": "Eaglehorn",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "bnetId": 1300048,
+      "bnetFileName": "Unique_Weapon_Eaglehorn",
+      "intrinsicAspects": [
+        {
+          "label": "Penetrating Shot has a [15-25]% chance to fire an arrow that bounces off walls and scenery.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "orobos_ring",
+      "label": "Orobo's Ring",
+      "slot": "ring1",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300049,
+      "bnetFileName": "Unique_Ring1_OrobosRing",
+      "intrinsicAspects": [
+        {
+          "label": "Your Hydra has a [15-25]% chance to shoot an additional head, dealing [100]% bonus damage.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "staff_of_lam_esen",
+      "label": "Staff of Lam Esen",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "bnetId": 1300050,
+      "bnetFileName": "Unique_Weapon_StaffofLamEsen",
+      "intrinsicAspects": [
+        {
+          "label": "Charged Bolts are attracted to Frozen enemies and deal [15-25]% increased damage to them.",
+          "valueRange": [
+            15.0,
+            25.0
+          ],
+          "isPercent": true
+        }
+      ]
+    },
+    {
+      "id": "barbs_2h_uragult",
+      "label": "Uragult's Iron Barbs",
+      "slot": "weapon",
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "bnetId": 1300051,
+      "bnetFileName": "Unique_Weapon_UragultsIronBarbs",
+      "intrinsicAffixes": [
+        {
+          "attribute": {
+            "eAttribute": "Attr_Crit_Damage_Percent",
+            "nParam": 0
+          },
+          "valueRange": [
+            0.3,
+            0.6
+          ]
+        }
+      ],
+      "intrinsicAspects": [
+        {
+          "label": "Killing Elites with Weapon Mastery Skills increases your Maximum Fury by 10 for 10 seconds.",
+          "valueRange": [
+            10.0,
+            20.0
+          ],
+          "isPercent": false
+        }
+      ]
+    }
+  ]
 }

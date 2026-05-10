@@ -1,0 +1,23 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Serpentine Ring",
+      "itemType": "Ring",
+      "rarity": "legendary",
+      "itemPower": 900,
+      "isAncestral": true,
+      "implicits": [],
+      "explicits": [
+        { "label": "Maximum Life", "rolledValue": 1800 },
+        { "label": "Critical Strike Chance", "rolledValue": 6 },
+        { "label": "Critical Strike Damage", "rolledValue": 35 },
+        { "label": "Vulnerable Damage", "rolledValue": 30 }
+      ],
+      "tempered": [],
+      "aspect": { "label": "Conceited Aspect", "rolledValue": 22.5 }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-10T00:00:00.000Z"
+}

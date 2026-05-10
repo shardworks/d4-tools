@@ -8,6 +8,7 @@ import {
   slots,
   affixes,
   aspects,
+  uniques,
   getSkillsForClass,
   getParagonCatalogForClass,
   getSlotsForClass,
@@ -103,6 +104,11 @@ describe("slots catalog", () => {
 });
 
 describe("affixes catalog", () => {
+  it("has at least 200 entries (v17 comprehensive coverage)", () => {
+    // v17 expanded catalog target: 200+ affixes across all classes and slots
+    expect(affixes.length).toBeGreaterThanOrEqual(200);
+  });
+
   it("has affixes with required fields", () => {
     for (const affix of affixes) {
       expect(affix).toHaveProperty("id");
@@ -136,6 +142,11 @@ describe("affixes catalog", () => {
 });
 
 describe("aspects catalog", () => {
+  it("has at least 100 entries (v17 comprehensive coverage)", () => {
+    // v17 expanded catalog target: 100+ aspects across all classes
+    expect(aspects.length).toBeGreaterThanOrEqual(100);
+  });
+
   it("has aspects with required fields", () => {
     for (const aspect of aspects) {
       expect(aspect).toHaveProperty("id");
@@ -151,6 +162,43 @@ describe("aspects catalog", () => {
     // Sorcerer-specific aspects shouldn't appear for Barbarian
     expect(sorcAspects).toContain("aspect_of_frozen_orbit");
     expect(barbAspects).not.toContain("aspect_of_frozen_orbit");
+  });
+});
+
+describe("uniques catalog", () => {
+  it("has at least 50 entries (v17 comprehensive coverage)", () => {
+    // v17 expanded catalog target: 50+ unique items across all slots and classes
+    expect(uniques.length).toBeGreaterThanOrEqual(50);
+  });
+
+  it("has uniques with required fields", () => {
+    for (const unique of uniques) {
+      expect(unique).toHaveProperty("id");
+      expect(unique).toHaveProperty("label");
+      expect(unique).toHaveProperty("slot");
+      expect(unique).toHaveProperty("classRestrictions");
+      expect(Array.isArray(unique.classRestrictions)).toBe(true);
+    }
+  });
+
+  it("contains well-known uniques (D1 spot-check)", () => {
+    const ids = uniques.map((u) => u.id);
+    expect(ids).toContain("harlequin_crest");
+    expect(ids).toContain("ring_of_starless_skies");
+  });
+
+  it("uniques with intrinsicAspects carry correct shape (D1)", () => {
+    const withAspects = uniques.filter((u) => u.intrinsicAspects && u.intrinsicAspects.length > 0);
+    // At least some uniques should have intrinsicAspects
+    expect(withAspects.length).toBeGreaterThan(0);
+    for (const u of withAspects) {
+      for (const ia of u.intrinsicAspects!) {
+        expect(ia).toHaveProperty("label");
+        expect(ia).toHaveProperty("valueRange");
+        expect(ia).toHaveProperty("isPercent");
+        expect(ia.valueRange).toHaveLength(2);
+      }
+    }
   });
 });
 

@@ -1,0 +1,28 @@
+{
+  "description": "Ring where percent values were extracted as decimals (0.07 instead of 7%) — value-mismatch auto-correct (D4)",
+  "className": "Sorcerer",
+  "expectedSlotKind": "ambiguous",
+  "expectedSlotCandidates": ["ring1", "ring2"],
+  "expectedExplicits": [
+    {
+      "label": "Critical Strike Chance",
+      "expectedStatus": "uncertain",
+      "expectedReason": "value-mismatch",
+      "expectedUnitCorrected": 7
+    },
+    {
+      "label": "Vulnerable Damage",
+      "expectedStatus": "uncertain",
+      "expectedReason": "value-mismatch",
+      "expectedUnitCorrected": 28
+    },
+    { "label": "Maximum Life", "expectedAffixId": "affix_max_life", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": {
+    "expectedStatus": "uncertain",
+    "expectedReason": "value-mismatch",
+    "expectedAspectId": "conceited_aspect",
+    "expectedUnitCorrected": 20
+  },
+  "minResolvedRate": 0.2
+}

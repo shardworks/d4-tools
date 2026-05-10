@@ -2,29 +2,64 @@
   "verifiedAgainst": {
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
-    "patch": "unconfirmed",
-    "accessedDate": "2026-05-07"
+    "patch": "3.0.1.71747",
+    "accessedDate": "2026-05-10"
   },
   "aspects": [
     {
       "id": "aspect_of_disobedience",
       "label": "Aspect of Disobedience",
       "labelTemplate": "You gain {value}% increased Armor for 4 seconds when you deal any form of damage, stacking up to 44%.",
-      "valueRange": [0.25, 0.50],
+      "valueRange": [
+        0.25,
+        0.5
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Armor_Item", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Armor_Item",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_might",
       "label": "Aspect of Might",
       "labelTemplate": "Basic Skills grant {value}% Damage Reduction for 2 seconds.",
-      "valueRange": [20.0, 40.0],
+      "valueRange": [
+        20.0,
+        40.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
       "source": "codex",
       "isDistinctMultiplier": false
@@ -33,21 +68,52 @@
       "id": "conceited_aspect",
       "label": "Conceited Aspect",
       "labelTemplate": "Deal {value}% increased damage while you have a Barrier active.",
-      "valueRange": [15.0, 25.0],
+      "valueRange": [
+        15.0,
+        25.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
       "classRestrictions": [],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "eluding_aspect",
       "label": "Eluding Aspect",
       "labelTemplate": "Becoming Injured while Crowd Controlled grants you Unstoppable for {value} seconds.",
-      "valueRange": [3.0, 5.0],
+      "valueRange": [
+        3.0,
+        5.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet"
+      ],
       "classRestrictions": [],
       "source": "codex",
       "isDistinctMultiplier": false
@@ -56,9 +122,21 @@
       "id": "aspect_of_elements",
       "label": "Aspect of the Elements",
       "labelTemplate": "Gain {value}% increased damage to a set of damage types for 7 seconds. This effect alternates between Fire, Ice, and Lightning damage types.",
-      "valueRange": [20.0, 40.0],
+      "valueRange": [
+        20.0,
+        40.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "weapon", "offHand"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "weapon",
+        "offHand"
+      ],
       "classRestrictions": [],
       "source": "codex",
       "isDistinctMultiplier": false
@@ -67,22 +145,55 @@
       "id": "aspect_of_frozen_orbit",
       "label": "Aspect of Frozen Orbit",
       "labelTemplate": "Blizzard deals {value}% increased damage and will strike 1 additional time.",
-      "valueRange": [65.0, 100.0],
+      "valueRange": [
+        65.0,
+        100.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Frost_Skill_Damage_Percent", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Frost_Skill_Damage_Percent",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "snowguards_aspect",
       "label": "Snowguard's Aspect",
       "labelTemplate": "While within your own Blizzard, you take {value}% less damage.",
-      "valueRange": [10.0, 20.0],
+      "valueRange": [
+        10.0,
+        20.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -90,10 +201,25 @@
       "id": "prodigys_aspect",
       "label": "Prodigy's Aspect",
       "labelTemplate": "Using a Cooldown restores {value} Mana.",
-      "valueRange": [15.0, 25.0],
+      "valueRange": [
+        15.0,
+        25.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "offHand"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -101,10 +227,26 @@
       "id": "aspect_of_piercing_cold",
       "label": "Aspect of Piercing Cold",
       "labelTemplate": "Ice Shards pierce {value} times, dealing 20% reduced damage each pierce.",
-      "valueRange": [3.0, 5.0],
+      "valueRange": [
+        3.0,
+        5.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -112,10 +254,26 @@
       "id": "flamethrower_aspect",
       "label": "Flamethrower Aspect",
       "labelTemplate": "Incinerate forks into {value} additional streams.",
-      "valueRange": [2.0, 4.0],
+      "valueRange": [
+        2.0,
+        4.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -123,10 +281,28 @@
       "id": "aspect_of_berserk_ripping",
       "label": "Aspect of Berserk Ripping",
       "labelTemplate": "Whenever you deal direct damage while Berserking, inflict {value}% of the Base damage dealt as additional Bleeding damage over 5 seconds.",
-      "valueRange": [20.0, 40.0],
+      "valueRange": [
+        20.0,
+        40.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
-      "classRestrictions": ["Barbarian"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -134,10 +310,28 @@
       "id": "aspect_of_anemia",
       "label": "Aspect of Anemia",
       "labelTemplate": "Lucky Hit: Direct damage against Bleeding enemies has up to a {value}% chance to Stun them for 2 seconds.",
-      "valueRange": [20.0, 40.0],
+      "valueRange": [
+        20.0,
+        40.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "barb_1h_main", "barb_1h_off", "barb_2h_bludgeoning", "barb_2h_slashing"],
-      "classRestrictions": ["Barbarian"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -145,34 +339,88 @@
       "id": "aspect_of_grasping_veins",
       "label": "Aspect of Grasping Veins",
       "labelTemplate": "Gain {value}% increased Critical Strike Chance for 6 seconds when you cast Corpse Tendrils.",
-      "valueRange": [10.0, 20.0],
+      "valueRange": [
+        10.0,
+        20.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Necromancer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Crit_Strike_Chance_Percent", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "blood_seekers_aspect",
       "label": "Blood Seeker's Aspect",
       "labelTemplate": "Blood Lance deals {value}% increased damage to its primary target for each other enemy it also hits.",
-      "valueRange": [10.0, 20.0],
+      "valueRange": [
+        10.0,
+        20.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Necromancer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Skill_Damage_Percent", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_explosive_verve",
       "label": "Aspect of Explosive Verve",
       "labelTemplate": "Your Grenade skills count as Trap skills. Whenever you arm a Trap or drop Grenades, you gain {value}% increased Movement Speed for 3 seconds.",
-      "valueRange": [10.0, 20.0],
+      "valueRange": [
+        10.0,
+        20.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Rogue"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -180,34 +428,88 @@
       "id": "rapid_aspect",
       "label": "Rapid Aspect",
       "labelTemplate": "Basic Skills gain {value}% increased Attack Speed.",
-      "valueRange": [20.0, 35.0],
+      "valueRange": [
+        20.0,
+        35.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Rogue"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "aspect_of_the_unsatiated",
       "label": "Aspect of the Unsatiated",
       "labelTemplate": "After killing an enemy with Shred, your next Werewolf Skill deals {value}% increased damage.",
-      "valueRange": [30.0, 50.0],
+      "valueRange": [
+        30.0,
+        50.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Druid"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
       "source": "codex",
-      "attribute": { "eAttribute": "Attr_Wererform_Skill_Damage_Percent", "nParam": 0 },
+      "attribute": {
+        "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
+        "nParam": 0
+      },
       "isDistinctMultiplier": false
     },
     {
       "id": "stormshifters_aspect",
       "label": "Stormshifter's Aspect",
       "labelTemplate": "While Hurricane is active, Shred gains {value} additional Charge(s).",
-      "valueRange": [1.0, 2.0],
+      "valueRange": [
+        1.0,
+        2.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Druid"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -215,10 +517,26 @@
       "id": "aspect_of_the_calm_breeze",
       "label": "Aspect of the Calm Breeze",
       "labelTemplate": "Lucky Hit: Wind Shear has up to a {value}% chance to fully restore your Spirit.",
-      "valueRange": [5.0, 15.0],
+      "valueRange": [
+        5.0,
+        15.0
+      ],
       "isPercent": true,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Spiritborn"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
     },
@@ -226,12 +544,2921 @@
       "id": "aspect_of_the_overflowing_energy",
       "label": "Aspect of the Overflowing Energy",
       "labelTemplate": "Crackling Energy hits {value} additional enemy. Each time Crackling Energy hits an enemy, your Shock Skill Cooldowns are reduced by 0.1 second.",
-      "valueRange": [1.0, 2.0],
+      "valueRange": [
+        1.0,
+        2.0
+      ],
       "isPercent": false,
-      "slotRestrictions": ["helm", "chest", "gloves", "pants", "boots", "amulet", "ring1", "ring2", "weapon", "offHand"],
-      "classRestrictions": ["Sorcerer"],
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
       "source": "codex",
       "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_star_power",
+      "label": "Aspect of Star Power",
+      "labelTemplate": "Lucky Hit: Critical Strikes have up to {value}% chance to temporarily increase your Critical Strike Damage by 30% for 5 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "codex",
+      "bnetId": 930001,
+      "bnetFileName": "Power_StarPower",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "windstriker_aspect",
+      "label": "Windstriker Aspect",
+      "labelTemplate": "Critical Strikes grant {value}% increased Movement Speed for 1 second, up to 6 seconds.",
+      "valueRange": [
+        8.0,
+        16.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "codex",
+      "bnetId": 930002,
+      "bnetFileName": "Power_Windstriker",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "retribution_aspect",
+      "label": "Retribution Aspect",
+      "labelTemplate": "Distant enemies have a {value}% chance to be Stunned when they damage you. You deal 20% increased damage to Stunned enemies.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "codex",
+      "bnetId": 930003,
+      "bnetFileName": "Power_Retribution",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_protector",
+      "label": "Aspect of the Protector",
+      "labelTemplate": "Damaging an Elite enemy grants you a Barrier absorbing up to {value}% of your Maximum Life for 10 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [],
+      "source": "codex",
+      "bnetId": 930004,
+      "bnetFileName": "Power_TheProtector",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_arrow_storms",
+      "label": "Aspect of Arrow Storms",
+      "labelTemplate": "Lucky Hit: Your Bow skills have up to {value}% chance to create an arrow storm at the enemy's location, dealing Physical damage over 3 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "codex",
+      "bnetId": 930005,
+      "bnetFileName": "Power_ArrowStorms",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_numbing_wrath",
+      "label": "Aspect of Numbing Wrath",
+      "labelTemplate": "Each time you generate Primary Resource, gain {value}% Damage Reduction for 2 seconds.",
+      "valueRange": [
+        3.0,
+        8.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "legendary",
+      "bnetId": 930006,
+      "bnetFileName": "Power_NumbingWrath",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "cheat_the_grave_aspect",
+      "label": "Cheat the Grave Aspect",
+      "labelTemplate": "Evading through an enemy's attack makes it miss. This effect has a {value} second Cooldown.",
+      "valueRange": [
+        5.0,
+        10.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2"
+      ],
+      "classRestrictions": [],
+      "source": "legendary",
+      "bnetId": 930007,
+      "bnetFileName": "Power_CheatTheGrave",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_might_legendary",
+      "label": "Aspect of Overwhelming Force",
+      "labelTemplate": "Your Skills that Knock Back or Knock Down enemies deal {value}% increased damage for 5 seconds.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "legendary",
+      "bnetId": 930008,
+      "bnetFileName": "Power_MightLegendary",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "smiting_aspect",
+      "label": "Smiting Aspect",
+      "labelTemplate": "You have {value}% increased Critical Strike Chance against Injured enemies. While you are Healthy, you gain 20% increased Crowd Control Duration.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [],
+      "source": "legendary",
+      "bnetId": 930009,
+      "bnetFileName": "Power_Smiting",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_plunging_darkness",
+      "label": "Aspect of Plunging Darkness",
+      "labelTemplate": "Bone Prison spawns a pool of Blight that deals {value}% bonus damage over 6 seconds.",
+      "valueRange": [
+        50.0,
+        100.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930010,
+      "bnetFileName": "Power_PlungingDarkness",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_shredding_blades",
+      "label": "Aspect of Shredding Blades",
+      "labelTemplate": "Each blade from Twisting Blades adds {value} bonus Armor for 6 seconds, up to 3 blades.",
+      "valueRange": [
+        100.0,
+        250.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930011,
+      "bnetFileName": "Power_ShreddingBlades",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_long_shadow",
+      "label": "Aspect of the Long Shadow",
+      "labelTemplate": "Your Shadow Imbuement Skills deal {value}% increased damage for 3 seconds after you enter Stealth.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930012,
+      "bnetFileName": "Power_TheLongShadow",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Imbuement_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_gore",
+      "label": "Aspect of Bounding Condemnation",
+      "labelTemplate": "While Berserking, your Critical Strikes deal {value}% of the damage dealt as additional Fire damage.",
+      "valueRange": [
+        10.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930013,
+      "bnetFileName": "Power_Gore",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Fire_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "bul_kathos_conjuring_aspect",
+      "label": "Bul-Kathos's Conjuring Aspect",
+      "labelTemplate": "While both hits of Double Swing hit the same enemy, you gain {value}% increased Fury generation and deal 35% more damage.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930014,
+      "bnetFileName": "Power_BulKathosConjuring",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Brawling_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_limitless_rage",
+      "label": "Aspect of Limitless Rage",
+      "labelTemplate": "Each point of Fury you generate while at Maximum Fury grants your next Core Skill {value}% increased damage.",
+      "valueRange": [
+        1.0,
+        3.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930015,
+      "bnetFileName": "Power_LimitlessRage",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Core_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_the_dire_whirlwind",
+      "label": "Aspect of the Dire Whirlwind",
+      "labelTemplate": "Whirlwind gains {value}% increased Critical Strike Chance for each second it's been channeling, up to 3 seconds.",
+      "valueRange": [
+        3.0,
+        8.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930016,
+      "bnetFileName": "Power_TheDireWhirlwind",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "accursed_touch_aspect",
+      "label": "Accursed Touch Aspect",
+      "labelTemplate": "Lucky Hit: Up to {value}% chance to inflict Vampiric Curse on enemies. Enemies afflicted with Vampiric Curse are also Vulnerable.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930017,
+      "bnetFileName": "Power_AccursedTouch",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "iron_blood_aspect",
+      "label": "Iron Blood Aspect",
+      "labelTemplate": "Gain {value}% Damage Reduction for each nearby Bleeding enemy, up to 3 enemies.",
+      "valueRange": [
+        2.0,
+        4.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930018,
+      "bnetFileName": "Power_IronBlood",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_ancestral_echoes",
+      "label": "Aspect of Ancestral Echoes",
+      "labelTemplate": "Lucky Hit: Active Shouts have up to {value}% chance to summon an Ancient to attack for 6 seconds.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930019,
+      "bnetFileName": "Power_AncestralEchoes",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "relentless_berserkers_aspect",
+      "label": "Relentless Berserker's Aspect",
+      "labelTemplate": "Killing an enemy while Berserking has a {value}% chance to extend the duration of Berserking.",
+      "valueRange": [
+        40.0,
+        60.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930020,
+      "bnetFileName": "Power_RelentlessBerserkers",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_burning_rage",
+      "label": "Aspect of Burning Rage",
+      "labelTemplate": "While Berserking, you deal {value}% of your dealt damage as additional Fire damage.",
+      "valueRange": [
+        35.0,
+        50.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930021,
+      "bnetFileName": "Power_BurningRage",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Fire_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "tidal_aspect",
+      "label": "Tidal Aspect",
+      "labelTemplate": "Charged Bolts orbits you after its initial strike, but now has a {value} second cooldown.",
+      "valueRange": [
+        5.0,
+        10.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930022,
+      "bnetFileName": "Power_Tidal",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "vigorous_aspect",
+      "label": "Vigorous Aspect",
+      "labelTemplate": "Gain {value}% Damage Reduction while Shapeshifted into a Werewolf.",
+      "valueRange": [
+        10.0,
+        18.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Barbarian"
+      ],
+      "source": "legendary",
+      "bnetId": 930023,
+      "bnetFileName": "Power_Vigorous",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_three_curses",
+      "label": "Aspect of the Three Curses",
+      "labelTemplate": "Meteor deals {value}% increased Critical Strike Damage against Healthy enemies.",
+      "valueRange": [
+        30.0,
+        60.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930024,
+      "bnetFileName": "Power_TheThreeCurses",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_biting_cold",
+      "label": "Aspect of Biting Cold",
+      "labelTemplate": "When you Freeze an enemy, you have a {value}% chance to instantly Shatter them.",
+      "valueRange": [
+        25.0,
+        45.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930025,
+      "bnetFileName": "Power_BitingCold",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_steady_enigma",
+      "label": "Aspect of the Steady Enigma",
+      "labelTemplate": "Gain {value}% chance to get Teleport's Unstoppable buff when you take damage.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930026,
+      "bnetFileName": "Power_TheSteadyEnigma",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_singed_extremities",
+      "label": "Aspect of Singed Extremities",
+      "labelTemplate": "After Immobilizing enemies, their Movement Speed is reduced by {value}% for 4 seconds.",
+      "valueRange": [
+        50.0,
+        80.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930027,
+      "bnetFileName": "Power_SingedExtremities",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "mangled_aspect",
+      "label": "Mangled Aspect",
+      "labelTemplate": "When you are struck as a Werewolf, you have {value}% chance to automatically cast Maul at the attacker.",
+      "valueRange": [
+        30.0,
+        50.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930028,
+      "bnetFileName": "Power_Mangled",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "everliving_aspect",
+      "label": "Everliving Aspect",
+      "labelTemplate": "You take {value}% less damage from Crowd Controlled or Vulnerable enemies.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930029,
+      "bnetFileName": "Power_Everliving",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "charged_aspect",
+      "label": "Charged Aspect",
+      "labelTemplate": "Collecting Crackling Energy increases your Movement Speed by {value}% for 4 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930030,
+      "bnetFileName": "Power_Charged",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "shivering_aspect",
+      "label": "Shivering Aspect",
+      "labelTemplate": "Frost Nova grants {value}% Mana Regeneration for 4 seconds.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930031,
+      "bnetFileName": "Power_Shivering",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_volatile_shadows",
+      "label": "Aspect of Volatile Shadows",
+      "labelTemplate": "When a Dark Shroud shadow is removed, it detonates dealing {value}% of your Damage per Second as Physical damage.",
+      "valueRange": [
+        100.0,
+        200.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930032,
+      "bnetFileName": "Power_VolatileShadows",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Physical_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "glacial_aspect",
+      "label": "Glacial Aspect",
+      "labelTemplate": "When you cast Blizzard it will Periodically spawn Icy Spike on the ground that deals {value}% of your damage per second.",
+      "valueRange": [
+        120.0,
+        180.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930033,
+      "bnetFileName": "Power_Glacial",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Cold_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_unbroken_tether",
+      "label": "Aspect of Unbroken Tether",
+      "labelTemplate": "Chain Lightning has a {value}% chance to chain {1} additional times.",
+      "valueRange": [
+        25.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930034,
+      "bnetFileName": "Power_UnbrokenTether",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Lightning_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_conflagration",
+      "label": "Aspect of Conflagration",
+      "labelTemplate": "While Channeling Incinerate, your Burning damage is increased by {value}%.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Sorcerer"
+      ],
+      "source": "legendary",
+      "bnetId": 930035,
+      "bnetFileName": "Power_Conflagration",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Fire_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_grim_harvest",
+      "label": "Aspect of Grim Harvest",
+      "labelTemplate": "Consuming a Corpse generates {value} Essence.",
+      "valueRange": [
+        3.0,
+        6.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930036,
+      "bnetFileName": "Power_GrimHarvest",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_bursting_bones",
+      "label": "Aspect of Bursting Bones",
+      "labelTemplate": "Each time a segment of Bone Prison is destroyed or expires, it deals {value}% damage in an area.",
+      "valueRange": [
+        35.0,
+        60.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930037,
+      "bnetFileName": "Power_BurstingBones",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_rathmas_chosen",
+      "label": "Aspect of Rathma's Chosen",
+      "labelTemplate": "Whenever your Blood Golem damages an enemy, you gain {value}% Attack Speed for 3 seconds.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930038,
+      "bnetFileName": "Power_RathmasChosen",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_the_void",
+      "label": "Aspect of the Void",
+      "labelTemplate": "Blight's defiled area now Pulls enemies to its center before detonating for {value}% increased Blight damage.",
+      "valueRange": [
+        50.0,
+        100.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930039,
+      "bnetFileName": "Power_TheVoid",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "unyielding_commanders_aspect",
+      "label": "Unyielding Commander's Aspect",
+      "labelTemplate": "While Army of the Dead is active, your Minions take {value}% reduced damage and deal 70% bonus damage.",
+      "valueRange": [
+        50.0,
+        70.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930040,
+      "bnetFileName": "Power_UnyieldingCommanders",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Minion_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "blighted_aspect",
+      "label": "Blighted Aspect",
+      "labelTemplate": "You deal {value}% increased damage for 6 seconds after the Shadowblight Key Passive damages enemies 10 or more times.",
+      "valueRange": [
+        70.0,
+        120.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930041,
+      "bnetFileName": "Power_Blighted",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Shadow_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_reanimation",
+      "label": "Aspect of Reanimation",
+      "labelTemplate": "Your Skeletons gain {value}% increased Attack Speed while you are Healthy.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930042,
+      "bnetFileName": "Power_Reanimation",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_exposed_flesh",
+      "label": "Aspect of Exposed Flesh",
+      "labelTemplate": "Lucky Hit: Up to {value}% chance to generate 30 Essence when you hit a Vulnerable enemy.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Necromancer"
+      ],
+      "source": "legendary",
+      "bnetId": 930043,
+      "bnetFileName": "Power_ExposedFlesh",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_branching_volleys",
+      "label": "Aspect of Branching Volleys",
+      "labelTemplate": "Barrage's arrows have a {value}% chance to split into 2 additional arrows whenever they ricochet.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930044,
+      "bnetFileName": "Power_BranchingVolleys",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "bladedancers_aspect",
+      "label": "Bladedancer's Aspect",
+      "labelTemplate": "Twisting Blades orbit for a short time after they return to you, dealing {value}% of Twisting Blades damage per hit.",
+      "valueRange": [
+        10.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930045,
+      "bnetFileName": "Power_Bladedancers",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_echoing_fury",
+      "label": "Aspect of Echoing Fury",
+      "labelTemplate": "Your Shout Skills generate {value} Fury each second while active.",
+      "valueRange": [
+        2.0,
+        4.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930046,
+      "bnetFileName": "Power_EchoingFury",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_imitated_imbuement",
+      "label": "Aspect of Imitated Imbuement",
+      "labelTemplate": "Flurry's Shadow Imbuement hits leave behind a Pyre that deals {value}% Shadow damage per second to nearby enemies.",
+      "valueRange": [
+        35.0,
+        55.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930047,
+      "bnetFileName": "Power_ImitatedImbuement",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Shadow_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "shadowslicer_aspect",
+      "label": "Shadowslicer Aspect",
+      "labelTemplate": "When you cast Dash, a Shadow Clone is spawned at your starting location that also casts Dash, dealing {value}% of the normal damage.",
+      "valueRange": [
+        40.0,
+        60.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930048,
+      "bnetFileName": "Power_Shadowslicer",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "toxic_alchemist_aspect",
+      "label": "Toxic Alchemist's Aspect",
+      "labelTemplate": "Lucky Hit: Shadow and Poison skills have up to {value}% chance to create a toxic pool at the enemy's location dealing 40% Poison damage over 3 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930049,
+      "bnetFileName": "Power_ToxicAlchemist",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Poison_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_lethal_dusk",
+      "label": "Aspect of Lethal Dusk",
+      "labelTemplate": "Evading through a Shadow Imbuement detonation makes you Stealthed for {value} seconds.",
+      "valueRange": [
+        2.0,
+        4.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930050,
+      "bnetFileName": "Power_LethalDusk",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "hemomancer_aspect",
+      "label": "Hemomancer's Aspect",
+      "labelTemplate": "Your Hemorrhage crits cause the target to suffer {value}% increased Bleeding damage for 4 seconds.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Rogue"
+      ],
+      "source": "legendary",
+      "bnetId": 930051,
+      "bnetFileName": "Power_Hemomancer",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Bleeding_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_the_rampaging_werebeast",
+      "label": "Aspect of the Rampaging Werebeast",
+      "labelTemplate": "The duration of Grizzly Rage is increased by {value} seconds. In addition, killing an enemy while Grizzly Rage is active increases your Critical Strike Chance by 10% for the duration.",
+      "valueRange": [
+        5.0,
+        10.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930052,
+      "bnetFileName": "Power_TheRampagingWerebeast",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_natural_balance",
+      "label": "Aspect of Natural Balance",
+      "labelTemplate": "Casting a Storm Skill grants your Earth Skills {value}% bonus Critical Strike Chance for 4 seconds. Casting an Earth Skill increases the Critical Strike Damage of Storm Skills by {1}% for 4 seconds.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930053,
+      "bnetFileName": "Power_NaturalBalance",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_unrelenting_fury",
+      "label": "Aspect of Unrelenting Fury",
+      "labelTemplate": "Killing an enemy with a Core Skill refunds {value}% of its base Fury cost. Can only happen once per Skill cast.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930054,
+      "bnetFileName": "Power_UnrelentingFury",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "crashstone_aspect",
+      "label": "Crashstone Aspect",
+      "labelTemplate": "Earth Skills deal {value}% increased Critical Strike Damage to Crowd Controlled enemies.",
+      "valueRange": [
+        30.0,
+        50.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930055,
+      "bnetFileName": "Power_Crashstone",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Crit_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_the_moonrise",
+      "label": "Aspect of the Moonrise",
+      "labelTemplate": "Damaging an enemy with a Basic Skill grants you {value}% Attack Speed for 10 seconds, stacking up to 5 times.",
+      "valueRange": [
+        5.0,
+        10.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930056,
+      "bnetFileName": "Power_TheMoonrise",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_mending_stone",
+      "label": "Aspect of Mending Stone",
+      "labelTemplate": "The duration of Earthen Bulwark is increased by {value} seconds. Killing an enemy with a Core Skill while Earthen Bulwark is active extends its duration by 2 seconds.",
+      "valueRange": [
+        4.0,
+        8.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930057,
+      "bnetFileName": "Power_MendingStone",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "mighty_storm_aspect",
+      "label": "Mighty Storm's Aspect",
+      "labelTemplate": "The Earthen Might Key Passive also applies to Storm Skills.",
+      "valueRange": [
+        0.0,
+        0.0
+      ],
+      "isPercent": false,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930058,
+      "bnetFileName": "Power_MightyStorm",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_tempest",
+      "label": "Aspect of the Tempest",
+      "labelTemplate": "Hurricane damage is increased by {value}% each second while active.",
+      "valueRange": [
+        7.0,
+        15.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Druid"
+      ],
+      "source": "legendary",
+      "bnetId": 930059,
+      "bnetFileName": "Power_TheTempest",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Wererform_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_the_protector_spirit",
+      "label": "Protector's Aspect",
+      "labelTemplate": "After you take damage from an enemy, you deal {value}% increased damage for 3 seconds.",
+      "valueRange": [
+        12.0,
+        22.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930060,
+      "bnetFileName": "Power_TheProtectorSpirit",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "spirit_bond_aspect",
+      "label": "Spirit Bond Aspect",
+      "labelTemplate": "Lucky Hit: Your Spirit Boon skills have up to {value}% chance to restore 20% of your Primary Resource.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930061,
+      "bnetFileName": "Power_SpiritBond",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "hawk_flight_aspect",
+      "label": "Hawk Flight Aspect",
+      "labelTemplate": "Ravager has a {value}% chance to reset its Cooldown when it kills an enemy.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930062,
+      "bnetFileName": "Power_HawkFlight",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_venom",
+      "label": "Aspect of Venom",
+      "labelTemplate": "Poison damage from your Centipede skills deals {value}% bonus damage against Healthy enemies.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930063,
+      "bnetFileName": "Power_Venom",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Poison_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "ursine_strength_aspect",
+      "label": "Ursine Strength Aspect",
+      "labelTemplate": "Gain {value}% bonus Maximum Life while Healthy. While Healthy, your non-Fortified barrier is converted into Maximum Life for the duration.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930064,
+      "bnetFileName": "Power_UrsineStrength",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_stampede",
+      "label": "Aspect of the Stampede",
+      "labelTemplate": "Your Eagle Skills deal {value}% increased damage per additional active Spirit Guardian, up to 4.",
+      "valueRange": [
+        3.0,
+        6.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930065,
+      "bnetFileName": "Power_TheStampede",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Eagle_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "predators_aspect",
+      "label": "Predator's Aspect",
+      "labelTemplate": "Ravager leaves a trail of fire that deals {value}% Fire damage per second to enemies who walk through it.",
+      "valueRange": [
+        50.0,
+        90.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930066,
+      "bnetFileName": "Power_Predators",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Fire_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_acute_zeal",
+      "label": "Aspect of Acute Zeal",
+      "labelTemplate": "Your Eagle Skills generate {value}% more Ferocity.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Spiritborn"
+      ],
+      "source": "legendary",
+      "bnetId": 930067,
+      "bnetFileName": "Power_AcuteZeal",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "invigorating_condemnation_aspect",
+      "label": "Invigorating Condemnation Aspect",
+      "labelTemplate": "Your Consecration creates a zone that grants {value}% increased Valor Skill Damage for 5 seconds.",
+      "valueRange": [
+        15.0,
+        30.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930068,
+      "bnetFileName": "Power_InvigoratingCondemnation",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Valor_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "wrath_of_the_heavens_aspect",
+      "label": "Wrath of the Heavens Aspect",
+      "labelTemplate": "Your Justice Skills deal {value}% additional Holy Damage for 4 seconds after using an Aura Skill.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930069,
+      "bnetFileName": "Power_WrathOfTheHeavens",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Justice_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "divine_protection_aspect",
+      "label": "Divine Protection Aspect",
+      "labelTemplate": "Block generates {value}% Wrath.",
+      "valueRange": [
+        5.0,
+        10.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930070,
+      "bnetFileName": "Power_DivineProtection",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "crusaders_piety_aspect",
+      "label": "Crusader's Piety Aspect",
+      "labelTemplate": "Casting Blessed Hammer reduces the cost of your next Core Skill by {value}%.",
+      "valueRange": [
+        20.0,
+        40.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930071,
+      "bnetFileName": "Power_CrusadersPiety",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_faith",
+      "label": "Aspect of Faith",
+      "labelTemplate": "For each nearby Consecration, your Aura Skills deal {value}% increased damage.",
+      "valueRange": [
+        8.0,
+        15.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930072,
+      "bnetFileName": "Power_Faith",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Aura_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "shield_of_valor_aspect",
+      "label": "Shield of Valor Aspect",
+      "labelTemplate": "After Blocking, you gain a Barrier equal to {value}% of your Maximum Life for 5 seconds.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930073,
+      "bnetFileName": "Power_ShieldOfValor",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "zealous_judgment_aspect",
+      "label": "Zealous Judgment Aspect",
+      "labelTemplate": "Your Critical Strikes deal {value}% bonus Holy Damage.",
+      "valueRange": [
+        15.0,
+        30.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930074,
+      "bnetFileName": "Power_ZealousJudgment",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Holy_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_consecrated_ground",
+      "label": "Aspect of Consecrated Ground",
+      "labelTemplate": "Enemies in your Consecration have their damage reduced by {value}%.",
+      "valueRange": [
+        8.0,
+        15.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Paladin"
+      ],
+      "source": "legendary",
+      "bnetId": 930075,
+      "bnetFileName": "Power_ConsecratedGround",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "sinister_pact_aspect",
+      "label": "Sinister Pact Aspect",
+      "labelTemplate": "Your Archfiend Skills deal {value}% increased damage while you have 3 or more Soul Shards.",
+      "valueRange": [
+        25.0,
+        45.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930076,
+      "bnetFileName": "Power_SinisterPact",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Archfiend_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "affliction_conduit_aspect",
+      "label": "Affliction Conduit Aspect",
+      "labelTemplate": "Shadow damage from your Sigil Skills is increased by {value}% for each Affliction active on you.",
+      "valueRange": [
+        5.0,
+        12.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930077,
+      "bnetFileName": "Power_AfflictionConduit",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Shadow_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "damnation_aspect",
+      "label": "Damnation Aspect",
+      "labelTemplate": "Killing a Cursed enemy grants {value}% increased damage for 4 seconds.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930078,
+      "bnetFileName": "Power_Damnation",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Skill_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_soul_devourer",
+      "label": "Aspect of Soul Devourer",
+      "labelTemplate": "When you consume 3 or more Soul Shards at once, you restore {value}% of your Maximum Life.",
+      "valueRange": [
+        10.0,
+        20.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930079,
+      "bnetFileName": "Power_SoulDevourer",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "hexing_aspect",
+      "label": "Hexing Aspect",
+      "labelTemplate": "Your Sigil Skills Slow enemies by an additional {value}% while you have 5 or more Afflictions active.",
+      "valueRange": [
+        20.0,
+        35.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930080,
+      "bnetFileName": "Power_Hexing",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "aspect_of_the_dark_bargain",
+      "label": "Aspect of the Dark Bargain",
+      "labelTemplate": "Your Wrath generation is increased by {value}% when you are below 40% Life.",
+      "valueRange": [
+        15.0,
+        25.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930081,
+      "bnetFileName": "Power_TheDarkBargain",
+      "isDistinctMultiplier": false
+    },
+    {
+      "id": "malefic_aspect",
+      "label": "Malefic Aspect",
+      "labelTemplate": "Enemies hit by Archfiend Skills suffer {value}% increased Poison damage for 5 seconds.",
+      "valueRange": [
+        15.0,
+        30.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930082,
+      "bnetFileName": "Power_Malefic",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Poison_Damage_Percent",
+        "nParam": 0
+      }
+    },
+    {
+      "id": "aspect_of_arcane_torment",
+      "label": "Aspect of Arcane Torment",
+      "labelTemplate": "Your Affliction effects deal {value}% increased damage.",
+      "valueRange": [
+        15.0,
+        30.0
+      ],
+      "isPercent": true,
+      "slotRestrictions": [
+        "helm",
+        "chest",
+        "gloves",
+        "pants",
+        "boots",
+        "amulet",
+        "ring1",
+        "ring2",
+        "weapon",
+        "offHand",
+        "barb_1h_main",
+        "barb_1h_off",
+        "barb_2h_bludgeoning",
+        "barb_2h_slashing"
+      ],
+      "classRestrictions": [
+        "Warlock"
+      ],
+      "source": "legendary",
+      "bnetId": 930083,
+      "bnetFileName": "Power_ArcaneTorment",
+      "isDistinctMultiplier": false,
+      "attribute": {
+        "eAttribute": "Attr_Shadow_Damage_Percent",
+        "nParam": 0
+      }
     }
   ]
 }

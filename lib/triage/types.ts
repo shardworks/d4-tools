@@ -81,9 +81,19 @@ export type CacheEntry = z.infer<typeof CacheEntrySchema>;
 
 /**
  * Result of resolving a single affix display-name → catalog ID.
- * 'resolved' = confident catalog match within range.
- * 'uncertain' = matched by name but rolled value is out-of-range, or
- *               no match found at all (label preserved for inline picker).
+ *
+ * - 'resolved'       = confident catalog match within range.
+ * - 'uncertain'      = could not confidently resolve; reason details the failure mode:
+ *   - 'out-of-range'   : name matched a catalog entry but the rolled value is outside
+ *                        [min, max]; affixId carries the matched entry id.
+ *   - 'no-match'       : no catalog entry matched the label.
+ *   - 'ambiguous'      : multiple catalog entries scored above the fuzzy threshold;
+ *                        candidates[] carries the top affix ids for user disambiguation.
+ *   - 'value-mismatch' : the value was auto-corrected for unit format (e.g. 0.08 → 8
+ *                        when isPercent and value ∈ [0,1]); unitCorrected carries the
+ *                        corrected value; affixId carries the matched entry.
+ *
+ * D7: flat reason union — no nested discriminated union.
  */
 export type AffixMatchResult =
   | { kind: "resolved"; affixId: string; rolledValue: number }
@@ -93,10 +103,30 @@ export type AffixMatchResult =
       rolledValue: number;
       reason: "out-of-range" | "no-match";
       affixId?: string; // present when reason is out-of-range (name matched, value didn't)
+    }
+  | {
+      kind: "uncertain";
+      label: string;
+      rolledValue: number;
+      reason: "ambiguous";
+      /** Top candidate affix ids for user disambiguation (D5). */
+      candidates: string[];
+    }
+  | {
+      kind: "uncertain";
+      label: string;
+      rolledValue: number;
+      reason: "value-mismatch";
+      /** The matched catalog affix id. */
+      affixId: string;
+      /** The auto-corrected value (e.g. 0.08 → 8). */
+      unitCorrected: number;
     };
 
 /**
  * Result of resolving an aspect display-name → catalog ID.
+ *
+ * Same reason taxonomy as AffixMatchResult (D7).
  */
 export type AspectMatchResult =
   | { kind: "resolved"; aspectId: string; rolledValue: number }
@@ -106,6 +136,24 @@ export type AspectMatchResult =
       rolledValue: number;
       reason: "out-of-range" | "no-match";
       aspectId?: string; // present when reason is out-of-range
+    }
+  | {
+      kind: "uncertain";
+      label: string;
+      rolledValue: number;
+      reason: "ambiguous";
+      /** Top candidate aspect ids for user disambiguation (D5). */
+      candidates: string[];
+    }
+  | {
+      kind: "uncertain";
+      label: string;
+      rolledValue: number;
+      reason: "value-mismatch";
+      /** The matched catalog aspect id. */
+      aspectId: string;
+      /** The auto-corrected value. */
+      unitCorrected: number;
     };
 
 /**

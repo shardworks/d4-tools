@@ -1,7 +1,11 @@
 # Datamine Verification — v15 Schema Extension
 
-**Date:** 2026-05-09  
-**Commission:** D4 Tools damage formula engine (v15)  
+> **Superseded by v17** — The comprehensive catalog expansion in v17 (2026-05-10) extends
+> all schema fields documented here. See
+> `docs/datamine-verification-comprehensive-2026-05-10.md` for the current coverage record.
+
+**Date:** 2026-05-09
+**Commission:** D4 Tools damage formula engine (v15)
 **Author:** Artificer pass (revision per review)
 
 ---

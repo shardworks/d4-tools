@@ -102,12 +102,29 @@ interface UniqueEntry {
     attribute: { eAttribute: string; nParam: number };
     valueRange: [number, number];
   }>;
+
+  // v17: intrinsic aspect-like powers (D1)
+  intrinsicAspects?: Array<{
+    aspectId?: string;       // matching catalog aspect id (if mappable)
+    label: string;           // display label for the power
+    valueRange: [number, number];
+    isPercent: boolean;
+    isDistinctMultiplier?: boolean;
+  }>;
 }
 ```
 
 `intrinsicAffixes` contains the unique item's power-affix attribute references (from
 `ptItemAffixAttributes` in the datamine). The damage engine uses these to compute DPS contributions
 from unique item intrinsic powers.
+
+`intrinsicAspects` (v17) carries intrinsic powers that are aspect-shaped rather than
+affix-shaped — i.e., powers that grant a legendary-style buff. The triage resolver's
+`resolveUnique()` short-circuit (D16) sources these directly from `UniqueEntry` when an item
+name normalises to a known unique. `aspectId` is populated when the power maps 1-to-1 to an
+existing `AspectEntry`; otherwise `label` provides the display fallback. The `AspectEntry.source`
+enum is unchanged at `"legendary" | "codex"` (D18) — unique intrinsic aspects do not introduce
+a third source value.
 
 ### `ParagonBoardEntry` / `ParagonGlyphEntry`
 
@@ -162,16 +179,16 @@ Math helpers derived from `game-math.json` constants.
 
 ## Source Files
 
-| File | Contents |
-|------|----------|
-| `classes.json` | All 8 classes with `resources`, `primaryStat`, `bnetClassName`, `bnetClassId` |
-| `skills/{Class}.json` | Per-class skill list with category, maxRank, bnetId, bnetFileName |
-| `paragon/{Class}.json` | Per-class paragon boards and glyphs with bnetId, bnetFileName |
-| `slots.json` | Gear slot definitions |
-| `affixes.json` | Affix catalog (all 8 classes, bnetId/bnetFileName coverage) |
-| `aspects.json` | Aspect catalog (all 8 classes, bnetId/bnetFileName coverage) |
-| `uniques.json` | Unique item catalog |
-| `game-math.json` | Skill points, paragon points, item-power thresholds |
+| File | Contents | Entry count (v17) |
+|------|----------|-------------------|
+| `classes.json` | All 8 classes with `resources`, `primaryStat`, `bnetClassName`, `bnetClassId` | 8 |
+| `skills/{Class}.json` | Per-class skill list with category, maxRank, bnetId, bnetFileName | varies |
+| `paragon/{Class}.json` | Per-class paragon boards and glyphs with bnetId, bnetFileName | varies |
+| `slots.json` | Gear slot definitions | 14 |
+| `affixes.json` | Affix catalog (all 8 classes, bnetId/bnetFileName coverage) | 200+ |
+| `aspects.json` | Aspect catalog (all 8 classes, bnetId/bnetFileName coverage) | 100+ |
+| `uniques.json` | Unique item catalog | 50+ |
+| `game-math.json` | Skill points, paragon points, item-power thresholds | — |
 
 ---
 

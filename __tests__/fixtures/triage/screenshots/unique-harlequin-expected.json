@@ -1,0 +1,13 @@
+{
+  "description": "Harlequin Crest (Shako) — unique item, unique short-circuit (D16) should fire, slot=helm from catalog",
+  "className": "Sorcerer",
+  "expectedSlot": "helm",
+  "expectedUniqueShortCircuit": true,
+  "expectedExplicits": [
+    { "label": "Maximum Life", "expectedAffixId": "affix_max_life", "expectedStatus": "resolved" },
+    { "label": "Intelligence", "expectedAffixId": "affix_int", "expectedStatus": "resolved" },
+    { "label": "Cooldown Reduction", "expectedAffixId": "affix_cdr", "expectedStatus": "resolved" },
+    { "label": "All Stats", "expectedAffixId": "affix_all_stats", "expectedStatus": "resolved" }
+  ],
+  "minResolvedRate": 0.75
+}

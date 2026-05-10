@@ -1,0 +1,12 @@
+{
+  "description": "Chest with abbreviated affix labels (synonym expansion test) — 'Max Life' and 'Dmg Red' should resolve via synonyms.json",
+  "className": "Sorcerer",
+  "expectedSlot": "chest",
+  "expectedExplicits": [
+    { "label": "Max Life", "expectedAffixId": "affix_max_life", "expectedStatus": "resolved", "viaAlias": true },
+    { "label": "Dmg Red", "expectedAffixId": "affix_damage_reduction", "expectedStatus": "resolved", "viaAlias": true },
+    { "label": "Intelligence", "expectedAffixId": "affix_int", "expectedStatus": "resolved" },
+    { "label": "Lucky Hit Chance", "expectedAffixId": "affix_lucky_hit_chance", "expectedStatus": "resolved" }
+  ],
+  "minResolvedRate": 0.75
+}

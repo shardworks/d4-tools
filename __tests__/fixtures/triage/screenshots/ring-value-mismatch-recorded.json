@@ -1,0 +1,22 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Tarnished Band",
+      "itemType": "Ring",
+      "rarity": "legendary",
+      "itemPower": 920,
+      "isAncestral": false,
+      "implicits": [],
+      "explicits": [
+        { "label": "Critical Strike Chance", "rolledValue": 0.07 },
+        { "label": "Vulnerable Damage", "rolledValue": 0.28 },
+        { "label": "Maximum Life", "rolledValue": 1500 }
+      ],
+      "tempered": [],
+      "aspect": { "label": "Conceited Aspect", "rolledValue": 0.20 }
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-10T00:00:00.000Z"
+}

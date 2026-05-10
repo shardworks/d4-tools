@@ -1,0 +1,14 @@
+{
+  "description": "Legendary ring for Sorcerer — standard ring affixes + Conceited Aspect, slot ambiguous (ring1/ring2)",
+  "className": "Sorcerer",
+  "expectedSlotKind": "ambiguous",
+  "expectedSlotCandidates": ["ring1", "ring2"],
+  "expectedExplicits": [
+    { "label": "Maximum Life", "expectedAffixId": "affix_max_life", "expectedStatus": "resolved" },
+    { "label": "Critical Strike Chance", "expectedAffixId": "affix_crit_chance", "expectedStatus": "resolved" },
+    { "label": "Critical Strike Damage", "expectedAffixId": "affix_crit_damage", "expectedStatus": "resolved" },
+    { "label": "Vulnerable Damage", "expectedAffixId": "affix_vulnerable_damage", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": { "expectedAspectId": "conceited_aspect", "expectedStatus": "resolved" },
+  "minResolvedRate": 0.8
+}

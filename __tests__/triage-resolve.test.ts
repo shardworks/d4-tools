@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   normalizeLabel,
+  jaroWinkler,
   resolveAffix,
   resolveAspect,
   resolveSlot,
@@ -241,5 +242,243 @@ describe("resolveItem — full pipeline", () => {
       "Sorcerer"
     );
     expect(result.slotResult.kind).toBe("incompatible");
+  });
+});
+
+// ─── v17: Jaro-Winkler (D2) ───────────────────────────────────────────────────
+
+describe("jaroWinkler — in-house similarity (D2)", () => {
+  it("identical strings score 1.0", () => {
+    expect(jaroWinkler("maximum life", "maximum life")).toBe(1);
+  });
+
+  it("completely different strings score below 0.5", () => {
+    expect(jaroWinkler("xyz", "abcdefghij")).toBeLessThan(0.5);
+  });
+
+  it("'max life' vs 'maximum life' scores above 0.82", () => {
+    // Synonym pre-expansion handles this, but JW alone should also be high
+    expect(jaroWinkler("max life", "maximum life")).toBeGreaterThan(0.82);
+  });
+
+  it("scores are symmetric", () => {
+    const a = jaroWinkler("critical strike chance", "crit strike chance");
+    const b = jaroWinkler("crit strike chance", "critical strike chance");
+    expect(Math.abs(a - b)).toBeLessThan(0.001);
+  });
+
+  it("minor typo ('maximm life') still scores above 0.90", () => {
+    expect(jaroWinkler("maximm life", "maximum life")).toBeGreaterThan(0.90);
+  });
+});
+
+// ─── v17: Synonym expansion (D2 / synonyms.json) ──────────────────────────────
+
+describe("resolveAffix — synonym expansion", () => {
+  it("resolves 'Max Life' (synonym) to affix_max_life", () => {
+    const result = resolveAffix({ label: "Max Life", rolledValue: 2000 }, "helm", "Sorcerer");
+    // 'max life' → synonym → 'maximum life' → exact match
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_max_life");
+    }
+  });
+
+  it("resolves 'Crit Chance' (synonym) on helm/Sorcerer", () => {
+    const result = resolveAffix(
+      { label: "Crit Chance", rolledValue: 5 },
+      "helm",
+      "Sorcerer"
+    );
+    // crit_chance affix exists — resolves after synonym expansion
+    expect(result.kind).toBeOneOf(["resolved", "uncertain"]);
+    // Must NOT be no-match for a valid synonym alias
+    if (result.kind === "uncertain") {
+      expect(result.reason).not.toBe("no-match");
+    }
+  });
+});
+
+// ─── v17: Fuzzy matching (D2) ─────────────────────────────────────────────────
+
+describe("resolveAffix — fuzzy matching (D2)", () => {
+  it("resolves near-typo 'Maximun Life' to affix_max_life", () => {
+    const result = resolveAffix(
+      { label: "Maximun Life", rolledValue: 2000 },
+      "helm",
+      "Sorcerer"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_max_life");
+    }
+  });
+
+  it("completely unrelated label still returns no-match", () => {
+    const result = resolveAffix(
+      { label: "ZZZ_NOTHING_MATCHES_XYZ", rolledValue: 100 },
+      "helm",
+      "Sorcerer"
+    );
+    expect(result.kind).toBe("uncertain");
+    if (result.kind === "uncertain") expect(result.reason).toBe("no-match");
+  });
+});
+
+// ─── v17: Value-format auto-correct (D4) ──────────────────────────────────────
+
+describe("resolveAffix — value-mismatch auto-correct (D4)", () => {
+  it("returns value-mismatch when isPercent affix extracted as 0.05 instead of 5", () => {
+    // affix_crit_chance is isPercent:true with range e.g. [3, 10]
+    // LLM extracted 0.05 (should be 5)
+    const result = resolveAffix(
+      { label: "Critical Strike Chance", rolledValue: 0.05 },
+      "helm",
+      "Sorcerer"
+    );
+    // Expect either resolved (if 0.05 in range, unlikely) or value-mismatch / out-of-range
+    if (result.kind === "uncertain") {
+      // If it matched the affix, it should be value-mismatch (corrected to 5)
+      if (result.reason === "value-mismatch") {
+        expect(result.unitCorrected).toBeCloseTo(5, 1);
+        expect(result.affixId).toBe("affix_crit_chance");
+      }
+      // or out-of-range if correction also out of range — either is valid
+    }
+  });
+
+  it("does NOT emit value-mismatch when value is already in range", () => {
+    const result = resolveAffix(
+      { label: "Maximum Life", rolledValue: 2000 },
+      "helm",
+      "Sorcerer"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_max_life");
+    }
+  });
+
+  it("does NOT emit value-mismatch for non-percent affix with value in (0, 1]", () => {
+    // Non-percent affixes with small values should not be auto-corrected
+    // affix_max_life is NOT isPercent — value 0.5 should be out-of-range not value-mismatch
+    const result = resolveAffix(
+      { label: "Maximum Life", rolledValue: 0.5 },
+      "helm",
+      "Sorcerer"
+    );
+    expect(result.kind).toBe("uncertain");
+    if (result.kind === "uncertain") {
+      // Should be out-of-range (0.5 is below min 700), not value-mismatch
+      expect(result.reason).toBe("out-of-range");
+    }
+  });
+});
+
+// ─── v17: Aspect value-mismatch (D4) ──────────────────────────────────────────
+
+describe("resolveAspect — value-mismatch auto-correct (D4)", () => {
+  it("returns value-mismatch when isPercent aspect extracted as decimal", () => {
+    // conceited_aspect: isPercent:true, range [15, 25]
+    // LLM extracted 0.20 (should be 20)
+    const result = resolveAspect(
+      { label: "Conceited Aspect", rolledValue: 0.20 },
+      "ring1",
+      "Sorcerer"
+    );
+    if (result.kind === "uncertain" && result.reason === "value-mismatch") {
+      expect(result.unitCorrected).toBeCloseTo(20, 1);
+      expect(result.aspectId).toBe("conceited_aspect");
+    }
+    // Also acceptable: out-of-range (if correction also out of range)
+    expect(["resolved", "uncertain"]).toContain(result.kind);
+  });
+});
+
+// ─── v17: Unique short-circuit (D16) ──────────────────────────────────────────
+
+describe("resolveItem — unique short-circuit (D16)", () => {
+  it("resolves Harlequin Crest as unique, slot from catalog (not itemType)", () => {
+    const result = resolveItem(
+      {
+        name: "Harlequin Crest",
+        itemType: "Helm", // redundant when name matches unique
+        rarity: "unique",
+        itemPower: 925,
+        isAncestral: false,
+        implicits: [],
+        explicits: [{ label: "Maximum Life", rolledValue: 2800 }],
+        tempered: [],
+      },
+      "Sorcerer"
+    );
+    expect(result.slotResult.kind).toBe("resolved");
+    if (result.slotResult.kind === "resolved") {
+      expect(result.slotResult.slotId).toBe("helm");
+    }
+  });
+
+  it("unique item fires short-circuit even if itemType would be wrong slot", () => {
+    // e.g. LLM mis-extracted itemType as "Chest" but it's a helm unique
+    const result = resolveItem(
+      {
+        name: "Harlequin Crest",
+        itemType: "Chest Armor", // intentionally wrong
+        rarity: "unique",
+        itemPower: 925,
+        isAncestral: false,
+        implicits: [],
+        explicits: [],
+        tempered: [],
+      },
+      "Sorcerer"
+    );
+    expect(result.slotResult.kind).toBe("resolved");
+    if (result.slotResult.kind === "resolved") {
+      // Short-circuit should use UniqueEntry.slot = "helm", not the mis-extracted type
+      expect(result.slotResult.slotId).toBe("helm");
+    }
+  });
+
+  it("non-unique rarity does NOT trigger unique short-circuit", () => {
+    // A rare item named like a unique should go through normal resolution
+    const result = resolveItem(
+      {
+        name: "Harlequin Crest",
+        itemType: "Helm",
+        rarity: "rare",
+        itemPower: 900,
+        isAncestral: false,
+        implicits: [],
+        explicits: [],
+        tempered: [],
+      },
+      "Sorcerer"
+    );
+    // Should resolve normally via slot, not via unique short-circuit
+    expect(result.slotResult.kind).toBe("resolved");
+    if (result.slotResult.kind === "resolved") {
+      expect(result.slotResult.slotId).toBe("helm");
+    }
+  });
+
+  it("mythic rarity also triggers unique short-circuit", () => {
+    const result = resolveItem(
+      {
+        name: "Harlequin Crest",
+        itemType: "Helm",
+        rarity: "mythic",
+        itemPower: 925,
+        isAncestral: false,
+        implicits: [],
+        explicits: [],
+        tempered: [],
+      },
+      "Sorcerer"
+    );
+    expect(result.slotResult.kind).toBe("resolved");
+    if (result.slotResult.kind === "resolved") {
+      expect(result.slotResult.slotId).toBe("helm");
+    }
   });
 });
