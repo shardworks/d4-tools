@@ -101,6 +101,27 @@ describe("GET /api/triage/cropped/[hash] (metadata endpoint)", () => {
       400
     );
   });
+
+  it("returns 400 for a bad-format hash (too short / non-hex)", async () => {
+    const { filename } = await seedFile();
+    // 'abc123' is 6 chars — not 64 hex — should be rejected
+    await expectFetch(
+      `${baseUrl}/api/triage/cropped/abc123?filename=${encodeURIComponent(filename)}`,
+      {},
+      400
+    );
+  });
+
+  it("returns 404 when source screenshot is missing (not hash mismatch)", async () => {
+    // Use a valid 64-char hex hash but no corresponding file
+    const missingHash = "c".repeat(64);
+    const missingFilename = `missing-${randomUUID().slice(0, 8)}.png`;
+    await expectFetch(
+      `${baseUrl}/api/triage/cropped/${missingHash}?filename=${encodeURIComponent(missingFilename)}`,
+      {},
+      404
+    );
+  });
 });
 
 describe("GET /api/triage/cropped/[hash]/[index] (binary endpoint)", () => {
@@ -157,6 +178,25 @@ describe("GET /api/triage/cropped/[hash]/[index] (binary endpoint)", () => {
       `${baseUrl}/api/triage/cropped/${hash}/0?filename=../etc/passwd`,
       {},
       400
+    );
+  });
+
+  it("returns 400 for a bad-format hash (non-hex / too short)", async () => {
+    const { filename } = await seedFile();
+    await expectFetch(
+      `${baseUrl}/api/triage/cropped/not-a-valid-hash/0?filename=${encodeURIComponent(filename)}`,
+      {},
+      400
+    );
+  });
+
+  it("returns 404 when source screenshot is missing", async () => {
+    const missingHash = "d".repeat(64);
+    const missingFilename = `missing-bin-${randomUUID().slice(0, 8)}.png`;
+    await expectFetch(
+      `${baseUrl}/api/triage/cropped/${missingHash}/0?filename=${encodeURIComponent(missingFilename)}`,
+      {},
+      404
     );
   });
 

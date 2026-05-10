@@ -23,6 +23,12 @@ type Params = { params: Promise<{ hash: string; index: string }> };
 
 export async function GET(req: Request, { params }: Params) {
   const { hash, index: indexStr } = await params;
+
+  const HASH_RE = /^[a-f0-9]{64}$/;
+  if (!HASH_RE.test(hash)) {
+    return NextResponse.json({ error: "Invalid hash format: must be 64 lowercase hex characters" }, { status: 400 });
+  }
+
   const index = parseInt(indexStr, 10);
 
   if (isNaN(index) || index < 0) {

@@ -26,6 +26,12 @@ type Params = { params: Promise<{ hash: string }> };
 
 export async function GET(req: Request, { params }: Params) {
   const { hash } = await params;
+
+  const HASH_RE = /^[a-f0-9]{64}$/;
+  if (!HASH_RE.test(hash)) {
+    return NextResponse.json({ error: "Invalid hash format: must be 64 lowercase hex characters" }, { status: 400 });
+  }
+
   const url = new URL(req.url);
   const filename = url.searchParams.get("filename");
 

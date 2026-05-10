@@ -17,8 +17,9 @@
  * - hookTimeout/testTimeout: elevated because beforeAll boots a Next.js
  *   dev server which compiles route handlers on first request.
  *   The preceding `next build` step (D19) validates build correctness
- *   before vitest starts; the runtime server uses dev mode so vi.mock()
- *   calls registered in the Vitest fork reach route handler require() calls.
+ *   before vitest starts. Note: vi.mock() does NOT intercept route handler
+ *   dependencies because Next.js uses its own module evaluation system.
+ *   LLM interception is done via the stub Anthropic HTTP server (harness D1).
  *
  * This config MUST NOT be merged into vitest.config.ts — the acceptance
  * suite's build precondition (next build) is a hard cost that must not

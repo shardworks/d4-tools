@@ -91,6 +91,18 @@ describe("POST /api/characters", () => {
       400
     );
   });
+
+  it("returns 400 for a malformed JSON body", async () => {
+    await expectFetch(
+      `${baseUrl}/api/characters`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{ this is not valid json",
+      },
+      400
+    );
+  });
 });
 
 describe("GET /api/characters/[id]", () => {
@@ -153,6 +165,31 @@ describe("PUT /api/characters/[id]", () => {
     const updated = updateJson<{ id: string; level: number }>();
     expect(updated.id).toBe(created.id);
     expect(updated.level).toBe(50);
+  });
+
+  it("returns 400 for a schema-violating body (invalid class)", async () => {
+    // First create a character
+    const { json: createJson } = await expectFetch(
+      `${baseUrl}/api/characters`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(makeCharacterBody(`SchemaViolation ${prefix}`)),
+      },
+      201
+    );
+    const created = createJson<{ id: string }>();
+
+    // PUT with invalid class value
+    await expectFetch(
+      `${baseUrl}/api/characters/${created.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...makeCharacterBody(`SchemaViolation ${prefix}`), id: created.id, class: "InvalidClass" }),
+      },
+      400
+    );
   });
 });
 

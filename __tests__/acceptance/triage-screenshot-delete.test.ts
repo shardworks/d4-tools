@@ -4,9 +4,10 @@
  * Covers:
  *  - 204 when screenshot file exists (file deleted)
  *  - 204 when file + cache entry both exist (both deleted)
- *  - 404 for cache-only-orphan case (D11): file missing → can't compute hash
- *    → can't delete cache → neither resource deleted → 404
- *  - 400 for path-traversal filename (D15): encodeURIComponent('../foo.png')
+ *  - 204 for cache-only orphan with ?hash= supplied: file missing but cache
+ *    entry exists; client supplies hash → cache deleted → 204
+ *  - 404 when both file and cache are missing and no ?hash= supplied
+ *  - 400 for path-traversal filename: encodeURIComponent('../foo.png')
  *    produces a segment containing '..' → DELETE handler's explicit '..' check
  *    triggers regardless of URL encoding
  *  - 404 for a file that does not exist at all
@@ -91,13 +92,41 @@ describe("DELETE /api/triage/screenshots/[name]", () => {
     ).toBe(false);
   });
 
-  it("cache-only-orphan: returns 404 when the file is missing (D11)", async () => {
-    // The DELETE handler must read the file to compute its hash before it can
-    // delete the cache entry. If the file doesn't exist, it can't compute the
-    // hash, so the cache entry is not deleted — and since neither resource was
-    // actually deleted, the route returns 404.
-    // This is the current implementation contract; a cache-only orphan cannot
-    // be cleaned up via DELETE. A separate commission (obs-1) tracks this.
+  it("cache-only orphan: supplies ?hash= query param → cache deleted, 204", async () => {
+    // Scenario: the screenshot file was deleted externally, but the cache entry
+    // remains (e.g. due to a partial cleanup). The client knows the hash from
+    // a prior upload/parse response and supplies it as ?hash=.
+    const id = randomUUID().slice(0, 8);
+    const orphanFilename = `orphan-${id}.png`;
+    const orphanHash = sha256(FAKE_PNG);  // use FAKE_PNG bytes as the "original"
+
+    // Seed only the cache entry — no corresponding file
+    const cacheDir = path.join(tmpDir, "screenshot-cache");
+    await fs.mkdir(cacheDir, { recursive: true });
+    const cachePath = path.join(cacheDir, `${orphanHash}.json`);
+    await fs.writeFile(
+      cachePath,
+      JSON.stringify({ kind: "no-item-detected", model: "test", timestamp: new Date().toISOString() })
+    );
+    // Confirm no file exists for this filename
+    expect(
+      await fs.stat(path.join(screenshotDir, orphanFilename)).then(() => true).catch(() => false)
+    ).toBe(false);
+
+    // DELETE with ?hash= supplied → cache-only orphan cleanup succeeds
+    await expectFetch(
+      `${baseUrl}/api/triage/screenshots/${orphanFilename}?hash=${orphanHash}`,
+      { method: "DELETE" },
+      204
+    );
+
+    // Cache entry must be gone
+    expect(
+      await fs.stat(cachePath).then(() => true).catch(() => false)
+    ).toBe(false);
+  });
+
+  it("returns 404 when file and cache are both missing and no ?hash= supplied", async () => {
     const missingFilename = `ghost-${randomUUID().slice(0, 8)}.png`;
     await expectFetch(
       `${baseUrl}/api/triage/screenshots/${missingFilename}`,

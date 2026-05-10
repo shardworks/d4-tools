@@ -83,6 +83,30 @@ describe("GET /api/triage/screenshots", () => {
     expect(newIdx).toBeLessThan(oldIdx);
   });
 
+  it("filters out unsupported file extensions (.txt, .bmp)", async () => {
+    const id = randomUUID().slice(0, 8);
+    const pngFile = `filter-${id}.png`;
+    const txtFile = `filter-${id}.txt`;
+    const bmpFile = `filter-${id}.bmp`;
+
+    // Write one PNG and two unsupported files
+    await fs.writeFile(path.join(screenshotDir, pngFile), FAKE_PNG);
+    await fs.writeFile(path.join(screenshotDir, txtFile), Buffer.from("hello"));
+    await fs.writeFile(path.join(screenshotDir, bmpFile), Buffer.from("BM"));
+
+    const { json } = await expectFetch(
+      `${baseUrl}/api/triage/screenshots`,
+      {},
+      200
+    );
+    const entries = json<{ filename: string }[]>();
+
+    const filenames = entries.map((e) => e.filename);
+    expect(filenames).toContain(pngFile);
+    expect(filenames).not.toContain(txtFile);
+    expect(filenames).not.toContain(bmpFile);
+  });
+
   it("returns 500 with the missing path in body.error when SCREENSHOT_DIR does not exist (D12)", async () => {
     // Temporarily redirect SCREENSHOT_DIR to a non-existent path.
     // Tests within a file run sequentially (vitest default), so this env

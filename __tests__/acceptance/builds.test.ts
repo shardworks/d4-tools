@@ -119,6 +119,18 @@ describe("POST /api/builds", () => {
       400
     );
   });
+
+  it("returns 400 for a malformed JSON body", async () => {
+    await expectFetch(
+      `${baseUrl}/api/builds`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{ not valid json at all",
+      },
+      400
+    );
+  });
 });
 
 describe("GET /api/builds/[id]", () => {

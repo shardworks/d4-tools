@@ -5,33 +5,32 @@
  * Next.js compiles route handlers through its own module evaluation system
  * (independent of Node.js require()), so Vitest's module registry patch does
  * not reach the route handler's imports. Tests control route behaviour through
- * filesystem state instead:
+ * filesystem state and the stub Anthropic server instead:
  *
- *  - Pre-seed the SHA-256 cache entry before uploading → route takes the
- *    cache-hit path → returns 201 without calling crop or LLM.
- *  - Upload unique bytes with no pre-seeded cache → route calls the real
- *    extractItemsFromImage → throws (ANTHROPIC_API_KEY not set) → 200/error.
+ *  - Happy path → use withAnthropicSuccess([], fn) so the stub LLM returns
+ *    a no-item-detected response → route returns 201 and writes cache entry.
+ *  - LLM-error contract → upload unique bytes with no stub success → stub
+ *    returns 401 (simulating an invalid key) → route returns 200/error.
+ *  - Auth tests → pre-seed cache or use withAnthropicSuccess for 201 paths.
  *
- * ANTHROPIC_API_KEY is deliberately NOT set (harness D20). Any route code path
- * that reaches the real LLM returns 200 with parseStatus:"error" and an error
- * message that mentions the missing key, surfacing accidental cache misses.
+ * The stub Anthropic server (harness D1) defaults to returning 401 (invalid
+ * API key error), surfacing accidental uncached paths as errors. Use
+ * withAnthropicSuccess(items, fn) for tests that need the LLM to succeed.
  *
  * Covers:
- *  - Happy path: 201, file under SCREENSHOT_DIR, cache entry on disk,
- *    response includes filename + hash + parsed entry (cache-hit path via
- *    pre-seeded entry)
+ *  - Happy path: 201, file under SCREENSHOT_DIR, cache entry written by route
  *  - Auth gating: 401 when UPLOAD_SECRET set and token absent/wrong;
  *    201 when correct token sent (via withUploadSecret + pre-seeded cache)
  *  - LLM-error contract: 200 with parseStatus:"error", file still on disk,
- *    no cache entry written (no pre-seeded cache → real LLM called → fails)
- *  - Cache hit: second upload of identical bytes returns 201 via the cache;
- *    the 201 status (vs. 200 on LLM error) is the observable proof of cache
- *    hit (D2 intent — without vi.mock interception of route handlers, HTTP
- *    status is the reliable indicator)
+ *    no cache entry written
+ *  - Cache hit: second upload of identical bytes returns 201 via the cache
  *  - Oversized fixture (D17): original bytes on disk are byte-identical to
  *    the uploaded content (cropper output is never written to disk)
  *  - Collision suffixing: second upload of the same filename (different
  *    content) gets a numeric suffix
+ *  - Auto-generated filename when none supplied
+ *  - Unsupported MIME type: 400
+ *  - Filename containing '/' or '\\': 400
  *  - Path-traversal filename: 400, no file written
  */
 
@@ -46,6 +45,7 @@ import {
   tmpDir,
   expectFetch,
   withUploadSecret,
+  withAnthropicSuccess,
   makeCacheEntry,
   FAKE_PNG,
   FAKE_PNG_B,
@@ -66,6 +66,18 @@ function makeFormData(imageBytes: Buffer, filename: string): FormData {
   return fd;
 }
 
+/** Build a multipart request body without the filename field (tests auto-generation). */
+function makeFormDataNoFilename(imageBytes: Buffer): FormData {
+  const fd = new FormData();
+  fd.append(
+    "file",
+    new Blob([new Uint8Array(imageBytes)], { type: "image/png" }),
+    "upload.png"
+  );
+  // No "filename" field — route should auto-generate
+  return fd;
+}
+
 /**
  * Pre-seed a SHA-256 cache entry so the upload route takes the cache-hit
  * path (→ 201) rather than calling the real LLM (→ 200/error).
@@ -82,28 +94,37 @@ async function seedCache(bytes: Buffer): Promise<string> {
 }
 
 describe("POST /api/triage/upload", () => {
-  it("happy path: 201, file written under SCREENSHOT_DIR, cache entry on disk, response includes filename + hash + parsed", async () => {
+  it("happy path: 201, file written under SCREENSHOT_DIR, cache entry written by route", async () => {
     const filename = `upload-${randomUUID().slice(0, 8)}.png`;
-    // Pre-seed cache so the route finds a hit and returns 201 without LLM
-    const expectedHash = await seedCache(FAKE_PNG);
+    const uniqueBytes = Buffer.concat([FAKE_PNG, Buffer.from(randomUUID())]);
+    const expectedHash = sha256(uniqueBytes);
 
-    const { json } = await expectFetch(
-      `${baseUrl}/api/triage/upload`,
-      { method: "POST", body: makeFormData(FAKE_PNG, filename) },
-      201
-    );
-    const body = json<{
-      filename: string;
-      hash: string;
-      parseStatus: string;
-      parsed: unknown;
-    }>();
-    expect(body.filename).toBe(filename);
-    expect(body.hash).toBe(expectedHash);
-    expect(body.parseStatus).toBeTruthy();
-    expect(body.parsed).toBeDefined();
+    // Verify cache does NOT exist before the request
+    const cachePath = path.join(tmpDir, "screenshot-cache", `${expectedHash}.json`);
+    expect(
+      await fs.stat(cachePath).then(() => true).catch(() => false)
+    ).toBe(false);
 
-    // File must be on disk (always saved before cache check — D13)
+    // Use stub to return a no-item-detected LLM response (cache miss → LLM called → 201)
+    await withAnthropicSuccess([], async () => {
+      const { json } = await expectFetch(
+        `${baseUrl}/api/triage/upload`,
+        { method: "POST", body: makeFormData(uniqueBytes, filename) },
+        201
+      );
+      const body = json<{
+        filename: string;
+        hash: string;
+        parseStatus: string;
+        parsed: unknown;
+      }>();
+      expect(body.filename).toBe(filename);
+      expect(body.hash).toBe(expectedHash);
+      expect(body.parseStatus).toBeTruthy();
+      expect(body.parsed).toBeDefined();
+    });
+
+    // File must be on disk
     const filePath = path.join(screenshotDir, filename);
     expect(
       await fs
@@ -112,12 +133,7 @@ describe("POST /api/triage/upload", () => {
         .catch(() => false)
     ).toBe(true);
 
-    // Cache entry must exist (pre-seeded, preserved by cache-hit path)
-    const cachePath = path.join(
-      tmpDir,
-      "screenshot-cache",
-      `${expectedHash}.json`
-    );
+    // Cache entry must have been WRITTEN BY THE ROUTE (not pre-seeded)
     expect(
       await fs
         .stat(cachePath)
@@ -242,24 +258,24 @@ describe("POST /api/triage/upload", () => {
   });
 
   it("oversized fixture (D17): on-disk file is byte-identical to original upload (not cropper output)", async () => {
-    // D17: real resize-to-fit is covered by triage-cropper.test.ts.
-    // This test verifies the upload route invariant: the file saved to disk
-    // is always the ORIGINAL bytes (saved before the cropper runs — D13).
+    // D17: the cropper output is never written to disk; the original bytes are saved.
+    // This test verifies the upload route invariant end-to-end via real HTTP.
+    // The resize-to-fit path is exercised by the real cropForVision call (cache miss).
+    // Use stub so the LLM call succeeds after cropping.
     const originalBytes = Buffer.alloc(1024, 0xab); // 1 KiB fake oversized image
 
-    // Pre-seed cache so the route returns 201 (cache hit, cropper doesn't run)
-    // The invariant still holds: bytes on disk must equal the upload bytes.
-    await seedCache(originalBytes);
-
     const filename = `oversized-${randomUUID().slice(0, 8)}.png`;
-    const { json } = await expectFetch(
-      `${baseUrl}/api/triage/upload`,
-      { method: "POST", body: makeFormData(originalBytes, filename) },
-      201
-    );
-    expect(json<{ filename: string }>().filename).toBe(filename);
 
-    // On-disk file must be byte-identical to original upload
+    await withAnthropicSuccess([], async () => {
+      const { json } = await expectFetch(
+        `${baseUrl}/api/triage/upload`,
+        { method: "POST", body: makeFormData(originalBytes, filename) },
+        201
+      );
+      expect(json<{ filename: string }>().filename).toBe(filename);
+    });
+
+    // On-disk file must be byte-identical to original upload (never cropper output)
     const onDisk = await fs.readFile(path.join(screenshotDir, filename));
     expect(Buffer.compare(onDisk, originalBytes)).toBe(0);
   });
@@ -288,6 +304,54 @@ describe("POST /api/triage/upload", () => {
     const second = json2<{ filename: string }>();
     expect(second.filename).not.toBe(sharedFilename);
     expect(second.filename).toMatch(/-\d+\./); // e.g. collision-abc123-1.png
+  });
+
+  it("auto-generated filename when none supplied: response filename matches <ISO>-<hash8>.<ext> pattern", async () => {
+    const uniqueBytes = Buffer.concat([FAKE_PNG, Buffer.from(randomUUID())]);
+
+    await withAnthropicSuccess([], async () => {
+      const { json } = await expectFetch(
+        `${baseUrl}/api/triage/upload`,
+        { method: "POST", body: makeFormDataNoFilename(uniqueBytes) },
+        201
+      );
+      const body = json<{ filename: string }>();
+      // Generated filename format: <ISO8601-with-dashes>-<first-8-of-sha256>.png
+      // Example: 2026-05-10T12-30-00.000Z-ab12cd34.png
+      expect(body.filename).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z-[a-f0-9]{8}\.png$/);
+    });
+  });
+
+  it("unsupported MIME type: 400", async () => {
+    const fd = new FormData();
+    fd.append(
+      "file",
+      new Blob([Buffer.from("fake content")], { type: "application/pdf" }),
+      "document.pdf"
+    );
+    fd.append("filename", `doc-${randomUUID().slice(0, 8)}.pdf`);
+
+    await expectFetch(
+      `${baseUrl}/api/triage/upload`,
+      { method: "POST", body: fd },
+      400
+    );
+  });
+
+  it("filename containing '/': 400, no file written", async () => {
+    await expectFetch(
+      `${baseUrl}/api/triage/upload`,
+      { method: "POST", body: makeFormData(FAKE_PNG, "sub/directory.png") },
+      400
+    );
+  });
+
+  it("filename containing '\\': 400, no file written", async () => {
+    await expectFetch(
+      `${baseUrl}/api/triage/upload`,
+      { method: "POST", body: makeFormData(FAKE_PNG, "sub\\directory.png") },
+      400
+    );
   });
 
   it("path-traversal filename: 400 and no file written", async () => {

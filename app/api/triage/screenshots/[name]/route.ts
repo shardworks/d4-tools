@@ -11,6 +11,13 @@ type Params = { params: Promise<{ name: string }> };
 export async function GET(_req: Request, { params }: Params) {
   const { name } = await params;
 
+  if (name.includes("/") || name.includes("\\") || name.includes("..")) {
+    return NextResponse.json(
+      { error: "filename contains invalid path characters (/, \\, or ..)" },
+      { status: 400 }
+    );
+  }
+
   let screenshotDir: string;
   try {
     screenshotDir = getScreenshotDir();
@@ -55,16 +62,24 @@ export async function GET(_req: Request, { params }: Params) {
 }
 
 /** DELETE /api/triage/screenshots/[name] — delete a screenshot and its cache entry */
-export async function DELETE(_req: Request, { params }: Params) {
+export async function DELETE(req: Request, { params }: Params) {
   const { name } = await params;
 
-  // Reject path-traversal attempts (D16) — reject-traversal-only, not directory-listing
+  // Reject path-traversal attempts (D16)
   if (name.includes("/") || name.includes("\\") || name.includes("..")) {
     return NextResponse.json(
       { error: "filename contains invalid path characters (/, \\, or ..)" },
       { status: 400 }
     );
   }
+
+  // Optional hash query param: allows deletion of cache-only orphans (no file on disk).
+  // When the file is missing, the handler cannot compute the hash from file content;
+  // a client that knows the hash (from a prior upload/parse response) can supply it.
+  const url = new URL(req.url);
+  const queryHash = url.searchParams.get("hash");
+  const HASH_RE = /^[a-f0-9]{64}$/;
+  const validQueryHash = queryHash && HASH_RE.test(queryHash) ? queryHash : null;
 
   let screenshotDir: string;
   try {
@@ -102,24 +117,23 @@ export async function DELETE(_req: Request, { params }: Params) {
     // ENOENT — already gone
   }
 
-  // Unlink the cache JSON (D17, D18) — only possible if we could read the file
+  // Unlink the cache JSON (D17, D18).
+  // Use file content hash if we read the file; fall back to the query-param hash for orphans.
   let cacheDeleted = false;
-  if (fileBytes !== null) {
-    const hash = sha256(fileBytes);
-    const cachePath = screenshotCachePath(hash);
+  const hashForCache = fileBytes !== null ? sha256(fileBytes) : validQueryHash;
+  if (hashForCache !== null) {
+    const cachePath = screenshotCachePath(hashForCache);
     try {
       await fs.unlink(cachePath);
       cacheDeleted = true;
     } catch (err) {
       if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
-        // Non-fatal: log the partial state but don't fail the request
-        console.warn(`[delete] cache unlink failed for hash=${hash.slice(0, 8)}: ${err}`);
+        console.warn(`[delete] cache unlink failed for hash=${hashForCache.slice(0, 8)}: ${err}`);
       } else {
-        console.log(`[delete] cache miss for hash=${hash.slice(0, 8)} (no cache entry to remove)`);
+        console.log(`[delete] cache miss for hash=${hashForCache.slice(0, 8)} (no cache entry to remove)`);
       }
     }
   } else if (!fileDeleted) {
-    // Neither file nor cache found
     console.log(`[delete] ${name}: file not found`);
   }
 

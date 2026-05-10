@@ -19,7 +19,11 @@ import type { CacheEntry, LlmExtractedItem, SupportedImageMediaType } from "./ty
 
 /** Anthropic model snapshot — hardcoded, no env-var override (D8). */
 const ANTHROPIC_MODEL = "claude-sonnet-4-5-20250929";
-const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+
+function getAnthropicApiUrl(): string {
+  const base = (process.env.ANTHROPIC_BASE_URL ?? "https://api.anthropic.com").replace(/\/$/, "");
+  return `${base}/v1/messages`;
+}
 
 // ─── Catalog vocabulary (generated once at module load, used in cached system prompt) ──
 
@@ -252,7 +256,7 @@ export async function extractItemsFromImage(
     ],
   };
 
-  const response = await fetch(ANTHROPIC_API_URL, {
+  const response = await fetch(getAnthropicApiUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

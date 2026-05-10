@@ -21,7 +21,7 @@ This chains two steps:
 
 ## Preconditions
 
-- `ANTHROPIC_API_KEY` must **not** be set. The harness deletes it in `beforeAll`. Any route code path that reaches the real `extractItemsFromImage` will throw (no API key), surfacing accidental cache misses as 500 responses in triage parse/upload tests.
+- `ANTHROPIC_API_KEY` is set to `"test-stub-key"` by the harness, and `ANTHROPIC_BASE_URL` points at a per-worker stub HTTP server (see "Stub Anthropic server" below). The stub defaults to returning a 401 error response, surfacing accidental cache misses as errors in triage parse/upload tests.
 - `UPLOAD_SECRET` is managed per-test via `withUploadSecret(value, fn)` — it is cleared in `beforeAll` so tests that don't call `withUploadSecret` receive an unauthenticated server.
 
 ## Test file layout
@@ -44,14 +44,14 @@ This chains two steps:
 
 ### Server lifecycle
 
-Each test file calls `setupAcceptance()` at its top level (after any `vi.mock()` hoists and imports). `setupAcceptance()` registers `beforeAll`/`afterAll` hooks that:
+Each test file calls `setupAcceptance()` at its top level. `setupAcceptance()` registers `beforeAll`/`afterAll` hooks that:
 
 1. Create a per-file temp tree via `mkdtemp` (keyed by `VITEST_POOL_ID` for readable names), set `DATA_DIR` and `SCREENSHOT_DIR`.
-2. Boot an in-process Next.js dev server (`next({ dev: true })`) on port 0 (OS-assigned).
-3. Expose `baseUrl`, `tmpDir`, and `screenshotDir` as live-binding ESM exports for use in test callbacks.
-4. Run the URL-encoding probe (see below) and expose `nextDecodesEncodedSlash`.
+2. Start the stub Anthropic HTTP server on port 0 and configure `ANTHROPIC_API_KEY` and `ANTHROPIC_BASE_URL`.
+3. Boot an in-process Next.js dev server (`next({ dev: true })`) on port 0 (OS-assigned).
+4. Expose `baseUrl`, `tmpDir`, and `screenshotDir` as live-binding ESM exports for use in test callbacks.
 
-`afterAll` closes the HTTP listener, restores environment variables, and removes the temp tree.
+`afterAll` closes both HTTP listeners, restores environment variables, and removes the temp tree.
 
 ### Per-worker isolation
 
@@ -63,8 +63,17 @@ Each test file calls `setupAcceptance()` at its top level (after any `vi.mock()`
 |----------|---------------|-------|
 | `DATA_DIR` | `beforeAll` | Per-file mkdtemp; restored in `afterAll` |
 | `SCREENSHOT_DIR` | `beforeAll` | Subdirectory of DATA_DIR; restored in `afterAll` |
-| `ANTHROPIC_API_KEY` | **deleted** in `beforeAll` | Any accidental LLM call throws loudly |
+| `ANTHROPIC_API_KEY` | `"test-stub-key"` in `beforeAll` | Routes pass key check; stub validates via HTTP |
+| `ANTHROPIC_BASE_URL` | stub server URL in `beforeAll` | Points at the per-worker stub Anthropic server |
 | `UPLOAD_SECRET` | **deleted** in `beforeAll` | Set per-test via `withUploadSecret(value, fn)` |
+
+### Stub Anthropic server
+
+The harness starts a per-worker HTTP server that handles `POST /v1/messages` and acts as a drop-in replacement for the Anthropic API. `ANTHROPIC_BASE_URL` is set to point at this server and `ANTHROPIC_API_KEY` is set to `"test-stub-key"` so the route's key check passes.
+
+**Default mode (error)**: Returns a 401 response simulating an invalid API key. Any test that accidentally triggers the LLM path without using `withAnthropicSuccess` will receive an error response, surfacing the mistake.
+
+**Success mode**: Use `withAnthropicSuccess(items, fn)` to configure the stub to return a `tool_use` response with the given items for the duration of the callback.
 
 ### Fixtures
 
@@ -100,30 +109,27 @@ await withUploadSecret("my-secret", async () => {
 });
 ```
 
+#### `withAnthropicSuccess(items, fn)`
+
+Configures the stub Anthropic server to return a successful `tool_use` response with the given items array for the duration of the callback. Use this for tests that exercise the LLM cache-miss happy path.
+
+```ts
+await withAnthropicSuccess([], async () => {
+  // The route will call the stub LLM and get a no-item-detected response
+  const { json } = await expectFetch(`${baseUrl}/api/triage/parse`, { ... }, 200);
+  expect(json<{ cached: boolean }>().cached).toBe(false);
+});
+```
+
 ## vi.mock() and route handler interception
 
-Next.js compiles route handlers through its own module evaluation system (independent of Node.js's `require()`). Vitest's `vi.mock()` patches Node.js's module registry, which is not reached by the Next.js module loader. As a result:
-
-- `vi.mock()` **does work** for modules imported directly in the test file (e.g., the mock is callable from the test).
-- `vi.mock()` **does not intercept** the same module when loaded by a Next.js route handler.
+Next.js compiles route handlers through its own module evaluation system (independent of Node.js's `require()`). Vitest's `vi.mock()` patches Node.js's module registry, which is not reached by the Next.js module loader. As a result, `vi.mock()` **does not intercept** modules when loaded by a Next.js route handler.
 
 ### How triage tests control route behaviour without vi.mock()
 
-Instead of mock return values, tests control route behaviour through filesystem state:
+Tests control route behaviour through filesystem state and the stub Anthropic server:
 
-- **Cache hit path**: Pre-seed a `DATA_DIR/screenshot-cache/<hash>.json` entry before uploading/parsing. The route finds the entry and returns 201/200 (`cached: true`) without calling the LLM.
-- **Cache miss path (LLM error)**: Use unique bytes (no pre-seeded cache). The route calls the real `extractItemsFromImage`, which throws immediately (`ANTHROPIC_API_KEY` not set). The route surfaces this as a 500 (parse) or 200 with `parseStatus: "error"` (upload).
-- **Corrupted cache (D16)**: Pre-write `{` (truncated JSON) to the cache path. The route's `getCachedParse` throws on JSON parse, handles it as non-fatal (D16), and falls through to the LLM — which then throws the API key error.
-
-The 201 (upload) / 200 cached:true (parse) status proves the cache-hit path was taken. A 200 with `parseStatus: "error"` (upload) or 500 (parse) proves the LLM-error path was reached. Since `ANTHROPIC_API_KEY` is not set, any route that reaches the real `extractItemsFromImage` is identifiable by the LLM error message in the response body.
-
-## URL-encoding probe
-
-`setupAcceptance()` probes whether Next.js decodes a percent-encoded slash (`%2F`) in a path segment:
-
-```ts
-const probeUrl = `${baseUrl}/api/triage/screenshots/${encodeURIComponent("../probe.png")}`;
-// encodeURIComponent('../probe.png') = '..%2Fprobe.png'
-```
-
-The result is stored in `nextDecodesEncodedSlash` (a live-binding export). Both decoded and undecoded outcomes result in a 404/400 for path-traversal filenames; the flag is provided for documentation, not conditional assertions.
+- **Cache hit path**: Pre-seed a `DATA_DIR/screenshot-cache/<hash>.json` entry before uploading/parsing. The route finds the entry and returns 201/200 (`cached: true`) without calling the LLM stub.
+- **Cache miss path (LLM success)**: Use `withAnthropicSuccess(items, fn)` so the stub returns a valid LLM response. The route calls the stub, gets a response, writes the cache entry, and returns 200/201.
+- **Cache miss path (LLM error)**: Use unique bytes with no pre-seeded cache and no `withAnthropicSuccess`. The stub returns 401, the route surfaces this as a 500 (parse) or 200 with `parseStatus: "error"` (upload).
+- **Corrupted cache (D16)**: Pre-write `{` (truncated JSON) to the cache path. The route's `getCachedParse` throws on JSON parse, handles it as non-fatal (D16), and falls through to the LLM stub.

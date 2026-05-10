@@ -37,6 +37,13 @@ export async function POST(request: Request) {
 
   const { filename } = body as { filename: string };
 
+  if (filename.includes("/") || filename.includes("\\") || filename.includes("..")) {
+    return NextResponse.json(
+      { error: "filename contains invalid path characters (/, \\, or ..)" },
+      { status: 400 }
+    );
+  }
+
   let screenshotDir: string;
   try {
     screenshotDir = getScreenshotDir();

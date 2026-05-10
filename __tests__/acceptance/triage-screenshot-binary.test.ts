@@ -4,10 +4,9 @@
  * Covers:
  *  - Returns binary bytes with correct Content-Type and Cache-Control headers
  *  - Returns 404 for a missing file
- *  - Path-traversal URL encoding (D15): encodeURIComponent('../probe.png')
- *    produces a URL whose segment contains '..' — handler returns 404 because
- *    the GET handler validates via directory-listing membership (not an
- *    explicit '..' check); the file is simply not found.
+ *  - Path-traversal URL encoding: encodeURIComponent('../probe.png')
+ *    produces a URL whose segment contains '..' — handler returns 400 because
+ *    the GET handler explicitly checks name.includes("..") before the dir-listing.
  *
  * No vi.mock() needed — this route only reads the filesystem.
  */
@@ -20,7 +19,6 @@ import {
   setupAcceptance,
   baseUrl,
   screenshotDir,
-  nextDecodesEncodedSlash,
   expectFetch,
   FAKE_PNG,
 } from "./harness";
@@ -63,18 +61,14 @@ describe("GET /api/triage/screenshots/[name]", () => {
     );
   });
 
-  it("path-traversal URL: encodeURIComponent('../probe.png') returns 404 (D15)", async () => {
-    // encodeURIComponent('../probe.png') = '..%2Fprobe.png'
-    // The GET handler validates via dir-listing membership; '../probe.png' (or
-    // '..%2Fprobe.png') is not in the listing → 404.
-    // nextDecodesEncodedSlash records which form Next.js passes to params.name,
-    // but the assertion is 404 regardless (documented by the probe result).
+  it("path-traversal URL: encodeURIComponent('../probe.png') returns 400", async () => {
+    // The GET handler explicitly checks name.includes("..") — this is true for
+    // '..%2Fprobe.png' because '..' is not percent-encoded. Handler returns 400.
     const encodedTraversal = encodeURIComponent("../probe.png");
-    void nextDecodesEncodedSlash; // consumed for documentation; no branch needed
     await expectFetch(
       `${baseUrl}/api/triage/screenshots/${encodedTraversal}`,
       {},
-      404
+      400
     );
   });
 });
