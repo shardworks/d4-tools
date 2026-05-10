@@ -39,6 +39,22 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 
 **Entry point:** Visit `/` (redirects to `/builds`) to see the build list. Create a character from `/characters/new`. Triage loot screenshots from `/triage`.
 
+## Testing
+
+```bash
+# Unit + integration tests (fast inner loop — no Next.js server)
+pnpm test
+
+# HTTP-server acceptance tests (boots a real Next.js server per test file)
+pnpm test:acceptance
+```
+
+`pnpm test:acceptance` chains `next build` (catches build-time errors) then runs the acceptance suite under `vitest.acceptance.config.ts`. It is intentionally **not** part of `pnpm test` — the `next build` cost should not land on the inner loop.
+
+The acceptance suite lives under `__tests__/acceptance/` and exercises every `app/api/**/route.ts` route via real `fetch()` calls against an in-process server. Each test file boots its own server on an OS-assigned port with an isolated temp directory for `DATA_DIR`/`SCREENSHOT_DIR`. `ANTHROPIC_API_KEY` is never set; routes are kept off the LLM path by pre-seeding filesystem cache entries.
+
+See [`docs/testing-acceptance.md`](docs/testing-acceptance.md) for a full description of the suite architecture, harness contract, and mock/seeding strategy.
+
 ## Foundational Docs
 
 | Document | Purpose |

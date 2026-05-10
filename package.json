@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:acceptance": "next build && vitest run -c vitest.acceptance.config.ts",
     "import:datamine": "tsx tools/datamine-import/index.ts"
   },
   "dependencies": {
