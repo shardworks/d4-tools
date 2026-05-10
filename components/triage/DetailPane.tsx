@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, ImageOff, CheckCircle } from "lucide-react";
+import { Loader2, ImageOff, CheckCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Character, Build, Item } from "@/lib/schema";
 import type { DamageConfig } from "@/lib/damage";
@@ -14,6 +14,14 @@ import { ComparisonPanel } from "./ComparisonPanel";
 import { DpsDeltaSection } from "./DpsDeltaSection";
 import { SlotPicker } from "./SlotPicker";
 import { slots } from "@/lib/catalog";
+import { ScreenshotLightbox } from "./ScreenshotLightbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────
 
@@ -118,6 +126,7 @@ interface DetailPaneProps {
   onParse: () => void;
   /** Server-loaded damage config. Passed to DpsDeltaSection for local-override support. */
   damageConfig?: DamageConfig;
+  onDelete?: () => void;
 }
 
 export function DetailPane({
@@ -130,6 +139,7 @@ export function DetailPane({
   parseError,
   onParse,
   damageConfig,
+  onDelete,
 }: DetailPaneProps) {
   const router = useRouter();
 
@@ -142,6 +152,18 @@ export function DetailPane({
   // Wear action state
   const [wearError, setWearError] = useState<string | null>(null);
   const [wearSuccess, setWearSuccess] = useState(false);
+
+  // Lightbox state
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxAlt, setLightboxAlt] = useState<string>("");
+
+  // Crop metadata
+  const [cropMeta, setCropMeta] = useState<{ count: number; detected: boolean } | null>(null);
+
+  // Delete dialog state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const getOverrides = useCallback(
     (index: number): ResolvedItemOverrides =>
@@ -183,6 +205,27 @@ export function DetailPane({
   const canWear =
     !hasUncertain && !isIncompatible && !needsSlotPick && !!activeItem && !!effectiveSlotId && !!character;
 
+  // Fetch crop metadata when parse result is available
+  useEffect(() => {
+    if (!parseResult || !filename) {
+      setCropMeta(null);
+      return;
+    }
+    setCropMeta(null);
+    fetch(
+      `/api/triage/cropped/${encodeURIComponent(parseResult.hash)}?filename=${encodeURIComponent(filename)}`
+    )
+      .then(async (res) => {
+        if (!res.ok) {
+          setCropMeta(null);
+          return;
+        }
+        const data = await res.json() as { count: number; detected: boolean };
+        setCropMeta(data);
+      })
+      .catch(() => setCropMeta(null));
+  }, [parseResult, filename]);
+
   // handleWear must be declared before any early return (rules-of-hooks)
   const handleWear = useCallback(async () => {
     if (!canWear || !activeItem || !effectiveSlotId || !character) return;
@@ -217,6 +260,28 @@ export function DetailPane({
     setTimeout(() => setWearSuccess(false), 2000);
   }, [canWear, activeItem, effectiveSlotId, character, itemOverrides, router]);
 
+  const handleDelete = useCallback(async () => {
+    if (!filename) return;
+    setIsDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/triage/screenshots/${encodeURIComponent(filename)}`, {
+        method: "DELETE",
+      });
+      if (!res.ok && res.status !== 204) {
+        const err = await res.json().catch(() => ({}));
+        setDeleteError((err as { error?: string }).error ?? "Delete failed");
+        return;
+      }
+      setDeleteDialogOpen(false);
+      onDelete?.();
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : "Delete failed");
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [filename, onDelete]);
+
   // Empty states — early return is safe here because all hooks are declared above
   if (!filename) {
     return (
@@ -231,16 +296,70 @@ export function DetailPane({
   return (
     <div className="flex flex-col h-full overflow-y-auto p-4 gap-4">
       {/* Screenshot preview */}
-      <div className="rounded overflow-hidden border border-stone-800 bg-surface-2">
+      <div
+        className="rounded overflow-hidden border border-stone-800 bg-surface-2 hover:border-stone-500 transition-colors cursor-zoom-in"
+        onClick={() => {
+          setLightboxSrc(`/api/triage/screenshots/${encodeURIComponent(filename)}`);
+          setLightboxAlt(filename);
+        }}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            setLightboxSrc(`/api/triage/screenshots/${encodeURIComponent(filename)}`);
+            setLightboxAlt(filename);
+          }
+        }}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`/api/triage/screenshots/${encodeURIComponent(filename)}`}
           alt={filename}
-          className="w-full object-contain max-h-64"
+          className="w-full object-contain max-h-[32rem]"
         />
       </div>
 
-      {/* Parse action */}
+      {/* Crop previews — shown when parse cache exists */}
+      {parseResult && cropMeta && (
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-stone-500 font-medium">Sent to LLM:</span>
+          {Array.from({ length: cropMeta.count }, (_, i) => {
+            const cropSrc = `/api/triage/cropped/${encodeURIComponent(parseResult.hash)}/${i}?filename=${encodeURIComponent(filename)}`;
+            const cropAlt = cropMeta.detected
+              ? `Crop ${i + 1} of ${cropMeta.count}`
+              : "no tooltip detected; full image sent to LLM";
+            return (
+              <div key={i} className="flex flex-col gap-1">
+                <span className="text-[11px] text-stone-400">{cropAlt}</span>
+                <div
+                  className="rounded overflow-hidden border border-stone-800 bg-surface-2 hover:border-stone-500 transition-colors cursor-zoom-in"
+                  onClick={() => {
+                    setLightboxSrc(cropSrc);
+                    setLightboxAlt(cropAlt);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      setLightboxSrc(cropSrc);
+                      setLightboxAlt(cropAlt);
+                    }
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={cropSrc}
+                    alt={cropAlt}
+                    className="w-full object-contain max-h-48"
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Parse action + Delete */}
       <div className="flex items-center gap-3">
         <Button
           variant="outline"
@@ -251,6 +370,18 @@ export function DetailPane({
         >
           {isParsing && <Loader2 size={14} className="animate-spin" />}
           {isParsing ? "Parsing…" : parseResult ? "Re-parse" : "Parse"}
+        </Button>
+        <Button
+          variant={wearSuccess ? "default" : "ghost"}
+          size="sm"
+          onClick={() => {
+            setDeleteError(null);
+            setDeleteDialogOpen(true);
+          }}
+          className="gap-2 text-stone-400 hover:text-stone-200"
+        >
+          <Trash2 size={14} />
+          Delete
         </Button>
         {parseResult && !isParsing && (
           <span className="text-[11px] text-stone-500">
@@ -429,6 +560,53 @@ export function DetailPane({
           />
         </div>
       )}
+
+      {/* Screenshot lightbox */}
+      {lightboxSrc && (
+        <ScreenshotLightbox
+          open={!!lightboxSrc}
+          onOpenChange={(open) => { if (!open) { setLightboxSrc(null); setLightboxAlt(""); } }}
+          src={lightboxSrc}
+          alt={lightboxAlt}
+        />
+      )}
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete screenshot?</DialogTitle>
+            <DialogDescription>
+              This will permanently delete <strong className="text-stone-200">{filename}</strong> and
+              its cached parse result. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          {deleteError && (
+            <div className="text-xs text-destructive bg-destructive/10 rounded px-3 py-2">
+              {deleteError}
+            </div>
+          )}
+          <div className="flex justify-end gap-3 mt-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="gap-2"
+            >
+              {isDeleting && <Loader2 size={14} className="animate-spin" />}
+              {isDeleting ? "Deleting…" : "Delete"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

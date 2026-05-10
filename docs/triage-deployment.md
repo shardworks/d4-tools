@@ -181,13 +181,14 @@ zero-config single-host setups.
    - **Cache hit**: returns the cached `CacheEntry` in the response. Steps 8a–8c
      and the LLM call are skipped entirely.
    - **Cache miss**: continue to step 8a.
-8a. Server runs tooltip detection (color-threshold + connected-components) on a
-    downscaled working copy of the image to find the largest dark region.
-8b. The detected region (or the full image on detection failure) is cropped at
-    full resolution. The crop is then downscaled if needed to fit the Anthropic
-    5 MiB base64 input limit (JPEG fallback at quality 85).
+8a. Server runs tooltip detection (title-anchored, frame-color-aware detection) on a
+    downscaled working copy of the image to find tooltip title regions by rarity color.
+8b. The detected region(s) (or the full image on detection failure) are cropped at
+    full resolution. Each crop is then downscaled independently if needed to fit the
+    Anthropic 5 MiB base64 input limit (JPEG fallback at quality 85).
 8c. The cropped/resized bytes are sent to the Vision LLM. A single `[crop]`
     server log line is emitted with `detected`, `resized`, and `bytes` fields.
+    Multiple tooltip crops are supported (e.g., comparison screenshots).
 9. On LLM success: writes the result to the cache; returns HTTP 201 with the
    full `CacheEntry`.
 10. On LLM failure: returns HTTP 200 (not 201) with `parseStatus: "error"` and
@@ -206,3 +207,23 @@ The gallery at `/triage` lists all files under `SCREENSHOT_DIR`. Selecting any
 image and pressing **Parse** triggers the existing `POST /api/triage/parse`
 endpoint, which runs the same crop → LLM flow on demand. Use this as a fallback
 when a watcher upload failed at the parse step.
+
+---
+
+## Triage HTTP surface
+
+### Screenshot management
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/triage/screenshots/[name]` | Stream a screenshot file |
+| `DELETE` | `/api/triage/screenshots/[name]` | Delete a screenshot and its cached parse result. Returns 204 on success, 404 if neither the file nor the cache entry exists. Cache deletion is best-effort (logs a warning on failure but does not fail the request). |
+
+### Crop inspection
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/triage/cropped/[hash]?filename=...` | Returns `{ count, detected }` for the crop(s) that would be sent to the LLM. The cropper is re-run on demand (memory-only; no disk writes). |
+| `GET` | `/api/triage/cropped/[hash]/[index]?filename=...` | Returns the binary crop image at position `[index]` (0-based). `Cache-Control: public, max-age=31536000, immutable` since URLs are content-hash addressed. |
+
+The `[hash]` path segment is the SHA-256 hex of the source screenshot bytes. The `?filename=` query parameter identifies the source file; the server re-hashes it before serving to detect stale URLs.

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import type { Character, Build } from "@/lib/schema";
 import type { DamageConfig } from "@/lib/damage";
 import type { ScreenshotEntry, CacheEntry, ResolvedItem } from "@/lib/triage/types";
@@ -28,11 +29,12 @@ export function TriageWorkspaceClient({
   initialBuild,
   damageConfig,
 }: TriageWorkspaceClientProps) {
-  const [screenshots] = useState<ScreenshotEntry[]>(initialScreenshots);
-  // Use the prop directly — when router.refresh() fires the Server Component re-renders
-  // and passes updated props, so no local state mirror is needed.
+  // Use props directly — when router.refresh() fires the Server Component re-renders
+  // and passes updated props, so no local state mirror is needed for any of these.
+  const screenshots = initialScreenshots;
   const character = initialCharacter;
   const activeBuild = initialBuild;
+  const router = useRouter();
 
   // Gallery selection
   const [selectedFilename, setSelectedFilename] = useState<string | null>(null);
@@ -151,6 +153,15 @@ export function TriageWorkspaceClient({
     }
   }, [selectedFilename, character]);
 
+  // Delete action: clear selection and refresh the gallery
+  const handleDeleteSuccess = useCallback(() => {
+    setSelectedFilename(null);
+    setParseResult(null);
+    setResolvedItems(null);
+    setParseError(null);
+    router.refresh();
+  }, [router]);
+
   return (
     <div className="flex flex-1 overflow-hidden">
       {/* Left pane — gallery */}
@@ -178,6 +189,7 @@ export function TriageWorkspaceClient({
           parseError={parseError}
           onParse={handleParse}
           damageConfig={damageConfig}
+          onDelete={handleDeleteSuccess}
         />
       </div>
     </div>
