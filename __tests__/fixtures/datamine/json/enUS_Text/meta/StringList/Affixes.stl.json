@@ -5,6 +5,7 @@
     { "szLabel": "+[{VALUE:1}]% Maximum Life", "hLabel": 100001, "id": "Affix_Str_AddLifePercent" },
     { "szLabel": "+[{VALUE:1}] Maximum Life", "hLabel": 100002, "id": "Affix_Str_MaxLife" },
     { "szLabel": "+[{VALUE:1}]% Critical Strike Damage", "hLabel": 100003, "id": "Affix_Multi_CritDamage" },
-    { "szLabel": "[WIP] Test Entry", "hLabel": 100004, "id": "Affix_WIP_TestEntry" }
+    { "szLabel": "[WIP] Test Entry", "hLabel": 100004, "id": "Affix_WIP_TestEntry" },
+    { "szLabel": "+[{VALUE:1}] All Resistance", "hLabel": 100005, "id": "Affix_AllRes_Amulet" }
   ]
 }

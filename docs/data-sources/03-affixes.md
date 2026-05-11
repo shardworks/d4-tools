@@ -68,13 +68,19 @@ d4data/json/base/meta/Affix/
         "eAttribute": "Attr_Max_Life_Percent",
         "nParam": 0
       },
-      "afValue": [0.08, 0.14]
+        "gbidFormula": { "name": "GearAffix_AddLifePercent" }
+      }
     }
   ]
 }
 ```
 
-The `afValue` array is `[min, max]`. The display string for this affix is resolved by:
+**Note:** As of v19, `afValue` is no longer present in the actual datamine. Value ranges are
+derived from `AttributeFormulas.gam.json` via `gbidFormula.name` (or `szAttributeFormula.value`
+for embedded formulas). The import pipeline evaluates each formula band at its floor/ceiling IP
+to produce per-tier `valueRanges: [{ minItemPower, min, max }]` in the catalog.
+
+The display string for this affix is resolved by:
 1. Looking up `Affix_Str_AddLifePercent` in the string table
 2. Substituting `{VALUE:1}` with the rolled value, scaled to a percentage
 

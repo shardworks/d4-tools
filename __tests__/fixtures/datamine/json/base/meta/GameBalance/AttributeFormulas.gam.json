@@ -1,0 +1,83 @@
+{
+  "__fileName__": "AttributeFormulas",
+  "__snoID__": 5200001,
+  "comment": "Subset of DiabloTools/d4data build 3.0.1.71747 (MIT license). Only the formulas needed by fixture affixes are included; the real file has ~1038 entries. GearAffix_Armor entry produces the headline spot-check: band minItemPower=200 evaluates to [183, 274] at IP 260.",
+  "arFormulas": [
+    {
+      "name": "GearAffix_Life",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "RandomInt(700, 2800)"
+        }
+      ]
+    },
+    {
+      "name": "GearAffix_LifePercent",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "FloatRandomRangeWithInterval(0.01, 0.08, 0.14)"
+        }
+      ]
+    },
+    {
+      "name": "GearAffix_CritDamage",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "FloatRandomRangeWithInterval(0.01, 0.20, 0.50)"
+        }
+      ]
+    },
+    {
+      "name": "GearAffix_Armor",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "Floor(RandomInt(50, 75))"
+        },
+        {
+          "nMinItemPower": 200,
+          "szFormula": "Floor(RandomInt(183, 274))"
+        },
+        {
+          "nMinItemPower": 300,
+          "szFormula": "Floor(RandomInt(300, 450))"
+        },
+        {
+          "nMinItemPower": 700,
+          "szFormula": "Floor(RandomInt(600, 900))"
+        }
+      ]
+    },
+    {
+      "name": "GearAffix_AllRes_Jewelry",
+      "comment": "Amulet all-resist implicit — formula yields 0 (zero chain); manualValueRanges in curation supplies the fallback",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "0"
+        }
+      ]
+    },
+    {
+      "name": "GearAffix_ScaledTest",
+      "comment": "Test fixture for formulas that reference IPower() and Sacred/Ancestral scalars",
+      "arAffixScalings": [
+        {
+          "nMinItemPower": 1,
+          "szFormula": "Floor(IPower() * 0.5)"
+        },
+        {
+          "nMinItemPower": 500,
+          "szFormula": "Floor(IPower() * 0.5 * SacredAffixScalarOffense)"
+        },
+        {
+          "nMinItemPower": 900,
+          "szFormula": "Floor(IPower() * 0.5 * AncestralAffixScalarDefense)"
+        }
+      ]
+    }
+  ]
+}

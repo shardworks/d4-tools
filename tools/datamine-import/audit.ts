@@ -15,13 +15,14 @@ import type {
 } from "../../lib/catalog/index";
 import type { UniqueEntry } from "../../lib/catalog/index";
 import type { TransformerSummary } from "./sections/types";
+import type { AffixTransformerSummary } from "./sections/affixes";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface AuditParams {
   build: string;
   accessedDate: string;
-  affixes: TransformerSummary<AffixEntry>;
+  affixes: AffixTransformerSummary;
   aspects: TransformerSummary<AspectEntry>;
   uniques: TransformerSummary<UniqueEntry>;
   skillsByClass: Record<string, TransformerSummary<SkillEntry>>;
@@ -43,6 +44,17 @@ function summaryRow(
   needsCuration: number
 ): string {
   return `| ${label} | ${imported} | ${excluded} | ${needsCuration} |`;
+}
+
+function formulaProvenanceTable(
+  items: Array<{ catalogId: string; bnetFileName: string; formulaSource: string; evaluatedBandCount: number }>
+): string {
+  if (items.length === 0) return "_None._\n";
+  const header = "| Catalog ID | bnetFileName | Formula Source | Bands |\n|---|---|---|---|";
+  const rows = items
+    .map((p) => `| \`${p.catalogId}\` | \`${p.bnetFileName}\` | ${p.formulaSource} | ${p.evaluatedBandCount} |`)
+    .join("\n");
+  return `${header}\n${rows}\n`;
 }
 
 function needsCurationTable(
@@ -130,6 +142,12 @@ export function generateAuditDoc(params: AuditParams): string {
     lines.push("");
     lines.push(needsCurationTable(affixes.needsCuration));
   }
+  lines.push("");
+  lines.push("### Formula Provenance (D22)");
+  lines.push("");
+  lines.push(`_${affixes.formulaProvenance.length} affixes with formula provenance recorded._`);
+  lines.push("");
+  lines.push(formulaProvenanceTable(affixes.formulaProvenance));
   lines.push("");
   lines.push("---");
   lines.push("");

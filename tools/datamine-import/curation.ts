@@ -32,12 +32,24 @@ export interface CurationRecord {
    */
   isDistinctMultiplier?: boolean;
   /**
-   * For affixes and aspects: the [min, max] value range to use in the catalog.
-   * Required when the datamine formula cannot produce a simple numeric range
-   * (e.g. complex formulas, level-scaled values). When absent the transformer
-   * pushes the entry to needsCuration with reason "no-value-range".
+   * For aspects: the [min, max] value range to use in the catalog.
+   * @deprecated For affixes, use `manualValueRanges` instead (formula-driven pipeline).
+   * Required for aspects when the aspect transformer cannot derive a range automatically.
    */
   valueRange?: [number, number];
+  /**
+   * For affixes: per-IP-tier manual value bands, used as a fallback when the
+   * formula chain evaluates to zero or empty (D11 implicit fallback).
+   * Required for implicit affixes whose formula yields no useful range.
+   * Each band: { minItemPower, min, max }, sorted ascending by minItemPower.
+   */
+  manualValueRanges?: Array<{ minItemPower: number; min: number; max: number }>;
+  /**
+   * For affixes: true when this affix is an implicit property built in to the
+   * item type (e.g. resistance on jewelry). Used for D11/D12 implicit fallback logic.
+   * When true and the formula chain yields zero, manualValueRanges is required.
+   */
+  isImplicit?: boolean;
   /**
    * For affixes and aspects: whether the value is a percentage (true) or a
    * flat numeric value (false). Overrides the auto-detected isPercent from

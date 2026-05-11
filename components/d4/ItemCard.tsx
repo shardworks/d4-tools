@@ -1,5 +1,5 @@
 import type { Item } from "@/lib/schema";
-import { affixes as affixCatalog, aspects as aspectCatalog } from "@/lib/catalog";
+import { affixes as affixCatalog, aspects as aspectCatalog, getAffixValueRangeAtItemPower } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 
@@ -23,7 +23,7 @@ function hexToRgba(cssVar: string, opacity: number): string {
 function AffixRow({ affixId, rolledValue }: { affixId: string; rolledValue: number }) {
   const entry = affixCatalog.find((a) => a.id === affixId);
   const label = entry?.label ?? affixId;
-  const max = entry?.valueRange[1];
+  const max = entry ? getAffixValueRangeAtItemPower(entry).max : undefined;
   const isGreater = max !== undefined && rolledValue >= max;
 
   return (

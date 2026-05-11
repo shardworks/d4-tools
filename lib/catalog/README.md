@@ -60,6 +60,19 @@ by the import tool) for the per-entry audit trail.
 The damage engine uses entries whose `attribute` maps to a damage bucket to classify a skill as
 "damaging" and to compute its base damage coefficient at a given rank.
 
+### `ValueRangeBand`
+
+```typescript
+interface ValueRangeBand {
+  minItemPower: number; // minimum item power for this band to apply
+  min: number;          // minimum roll value
+  max: number;          // maximum roll value
+}
+```
+
+Bands are sorted ascending by `minItemPower`. The first band (usually `minItemPower: 0`) applies
+to all items below the next band's threshold.
+
 ### `AffixEntry`
 
 ```typescript
@@ -67,7 +80,8 @@ interface AffixEntry {
   id: string;
   label: string;
   labelTemplate: string;
-  valueRange: number[];           // [min, max] roll range
+  /** Per-IP-tier value bands, sorted ascending by minItemPower. Non-empty. */
+  valueRanges: [ValueRangeBand, ...ValueRangeBand[]];
   isPercent: boolean;
   slotRestrictions: string[];
   classRestrictions: string[];
@@ -82,6 +96,11 @@ interface AffixEntry {
   isImplicit?: boolean;           // true → implicit affix; absent/false → explicit
 }
 ```
+
+`valueRanges` replaces the old flat `[min, max]` pair. Each band represents a distinct item-power
+tier derived from the formula table's `arAffixScalings` entries. Most affixes have a single band
+(floor IP = 0); higher-tier items trigger higher bands when multiple `nMinItemPower` breakpoints
+exist. Use `getAffixValueRangeAtItemPower(entry, itemPower?)` to select the correct band at runtime.
 
 `attribute` is populated from the first `ptItemAffixAttributes` entry in the datamine affix file.
 The damage engine uses `eAttribute` to route the affix into the correct damage bucket. Multi-attribute
@@ -183,6 +202,14 @@ unknown class names.
 
 Returns gear slots relevant to the class. Barbarians get their 4 weapon slots; all other classes
 get `weapon` + `offHand`.
+
+### `getAffixValueRangeAtItemPower(entry: AffixEntry, itemPower?: number): ValueRangeBand`
+
+Returns the value range band for the given item power:
+- When `itemPower` is provided, returns the highest band whose `minItemPower ≤ itemPower`.
+- When `itemPower` is omitted, returns the last (highest IP) band — the conservative fallback for
+  display contexts where the item's IP is unknown.
+- Falls back to the first band when `itemPower` is below all band thresholds.
 
 ### `getAffixesForSlotAndClass(slotId, className): AffixEntry[]`
 ### `getAspectsForSlotAndClass(slotId, className): AspectEntry[]`

@@ -2,7 +2,7 @@
 
 import { AffixCombobox } from "@/components/d4/AffixCombobox";
 import { AspectCombobox } from "@/components/d4/AspectCombobox";
-import { affixes as affixCatalog, aspects as aspectCatalog } from "@/lib/catalog";
+import { affixes as affixCatalog, aspects as aspectCatalog, getAffixValueRangeAtItemPower } from "@/lib/catalog";
 import type { AffixMatchResult, AspectMatchResult } from "@/lib/triage/types";
 import type { AffixPosition } from "@/lib/triage/resolve";
 import { CheckCircle, HelpCircle } from "lucide-react";
@@ -105,10 +105,15 @@ export function UncertainAffixRow({
               onClick={() => onResolve(index, entry.id, result.rolledValue)}
             >
               <span className="font-medium">{entry.label}</span>
-              <span className="ml-2 text-stone-500 font-mono text-[10px]">
-                {entry.valueRange[0]}–{entry.valueRange[1]}
-                {entry.isPercent ? "%" : ""}
-              </span>
+              {(() => {
+                const { min, max } = getAffixValueRangeAtItemPower(entry);
+                return (
+                  <span className="ml-2 text-stone-500 font-mono text-[10px]">
+                    {min}–{max}
+                    {entry.isPercent ? "%" : ""}
+                  </span>
+                );
+              })()}
             </button>
           ))}
           <div className="text-[10px] text-stone-500 mt-0.5">

@@ -17,6 +17,8 @@ import {
   loadParagonGlyphs,
   loadStringTable,
   loadAllPowers,
+  loadAttributeFormulas,
+  loadGlobals,
 } from "./reader";
 import { transformAffixes } from "./sections/affixes";
 import { transformAspects } from "./sections/aspects";
@@ -98,6 +100,8 @@ export async function runImport(
     const rawBoards = loadParagonBoards(datamineRoot);
     const rawGlyphs = loadParagonGlyphs(datamineRoot);
     const stringTable = loadStringTable(datamineRoot);
+    const formulaTable = loadAttributeFormulas(datamineRoot);
+    const globals = loadGlobals(datamineRoot);
 
     // v15 (D5): load all powers (not just legendary aspects) for skill Power-file dereferencing.
     // Index by __fileName__ for O(1) lookup in the skills transformer.
@@ -119,7 +123,7 @@ export async function runImport(
 
     // 3. Run transformers
     console.log("Transforming data...");
-    const affixSummary = transformAffixes(rawAffixes, stringTable, curation);
+    const affixSummary = transformAffixes(rawAffixes, stringTable, curation, formulaTable, globals.scalars);
     const aspectSummary = transformAspects(rawPowers, stringTable, curation);
     const uniqueSummary = transformUniques(rawItems, stringTable, curation);
 

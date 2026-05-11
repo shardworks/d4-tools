@@ -223,7 +223,7 @@ describe("Case 4: Schema compliance", () => {
     });
   });
 
-  it("affixes.json entries have required AffixEntry fields", () => {
+  it("affixes.json entries have required AffixEntry fields with per-IP-tier valueRanges", () => {
     const data = JSON.parse(
       fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
     );
@@ -232,9 +232,15 @@ describe("Case 4: Schema compliance", () => {
       expect(typeof affix.id).toBe("string");
       expect(affix).toHaveProperty("label");
       expect(affix).toHaveProperty("labelTemplate");
-      expect(affix).toHaveProperty("valueRange");
-      expect(Array.isArray(affix.valueRange)).toBe(true);
-      expect(affix.valueRange).toHaveLength(2);
+      expect(affix).toHaveProperty("valueRanges");
+      expect(Array.isArray(affix.valueRanges)).toBe(true);
+      expect(affix.valueRanges.length).toBeGreaterThanOrEqual(1);
+      for (const band of affix.valueRanges) {
+        expect(typeof band.minItemPower).toBe("number");
+        expect(typeof band.min).toBe("number");
+        expect(typeof band.max).toBe("number");
+        expect(band.min).toBeLessThanOrEqual(band.max);
+      }
       expect(affix).toHaveProperty("isPercent");
       expect(typeof affix.isPercent).toBe("boolean");
       expect(affix).toHaveProperty("slotRestrictions");
@@ -314,7 +320,7 @@ describe("Case 4: Schema compliance", () => {
     }
   });
 
-  it("percent scaling is correct: Attr_Max_Life_Percent [0.08, 0.14] → [8.0, 14.0]", () => {
+  it("percent scaling is correct: GearAffix_LifePercent [0.08, 0.14] → valueRanges[0] [8.0, 14.0]", () => {
     const data = JSON.parse(
       fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
     );
@@ -322,12 +328,14 @@ describe("Case 4: Schema compliance", () => {
       (a: { id: string }) => a.id === "affix_max_life_pct"
     );
     expect(lifePercent).toBeTruthy();
-    expect(lifePercent.valueRange[0]).toBeCloseTo(8.0, 3);
-    expect(lifePercent.valueRange[1]).toBeCloseTo(14.0, 3);
+    expect(lifePercent.valueRanges).toHaveLength(1);
+    expect(lifePercent.valueRanges[0].min).toBeCloseTo(8.0, 3);
+    expect(lifePercent.valueRanges[0].max).toBeCloseTo(14.0, 3);
+    expect(lifePercent.valueRanges[0].minItemPower).toBe(1);
     expect(lifePercent.isPercent).toBe(true);
   });
 
-  it("non-percent affix has correct value range: [700, 2800]", () => {
+  it("non-percent affix has correct value range: GearAffix_Life → valueRanges[0] [700, 2800]", () => {
     const data = JSON.parse(
       fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
     );
@@ -335,7 +343,8 @@ describe("Case 4: Schema compliance", () => {
       (a: { id: string }) => a.id === "affix_max_life"
     );
     expect(maxLife).toBeTruthy();
-    expect(maxLife.valueRange).toEqual([700, 2800]);
+    expect(maxLife.valueRanges).toHaveLength(1);
+    expect(maxLife.valueRanges[0]).toEqual({ minItemPower: 1, min: 700, max: 2800 });
     expect(maxLife.isPercent).toBe(false);
   });
 
@@ -347,8 +356,9 @@ describe("Case 4: Schema compliance", () => {
       (a: { id: string }) => a.id === "affix_crit_damage"
     );
     expect(critDmg).toBeTruthy();
-    // First attribute: Attr_Crit_Damage_Percent, afValue [0.20, 0.50] scaled ×100 = [20, 50]
-    expect(critDmg.valueRange).toEqual([20.0, 50.0]);
+    // First attribute: Attr_Crit_Damage_Percent, formula [0.20, 0.50] scaled ×100 = [20, 50]
+    expect(critDmg.valueRanges).toHaveLength(1);
+    expect(critDmg.valueRanges[0]).toEqual({ minItemPower: 1, min: 20.0, max: 50.0 });
   });
 
   it("slot mapping: RING → ring1 and ring2", () => {

@@ -7,10 +7,20 @@
   "arAffixSkillTagRequirements": [],
   "ptItemAffixAttributes": [
     {
-      "tAttribute": { "eAttribute": 0, "__eAttribute_name__": "Attr_Crit_Damage_Percent", "nParam": 0 }
+      "tAttribute": {
+        "eAttribute": 0,
+        "__eAttribute_name__": "Attr_Crit_Damage_Percent",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_CritDamage" }
+      }
     },
     {
-      "tAttribute": { "eAttribute": 1, "__eAttribute_name__": "Attr_Crit_Chance_Percent", "nParam": 0 }
+      "tAttribute": {
+        "eAttribute": 1,
+        "__eAttribute_name__": "Attr_Crit_Chance_Percent",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_CritChance" }
+      }
     }
   ]
 }

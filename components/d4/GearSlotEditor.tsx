@@ -5,7 +5,7 @@ import { useForm, FormProvider, Controller, useFieldArray, type Resolver } from 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ItemSchema, type Item, type AffixInstance, ITEM_RARITIES } from "@/lib/schema";
-import { getAffixesForSlotAndClass } from "@/lib/catalog";
+import { getAffixesForSlotAndClass, getAffixValueRangeAtItemPower } from "@/lib/catalog";
 import type { SlotEntry, AffixEntry } from "@/lib/catalog";
 import type { AffixPosition } from "@/lib/triage/resolve";
 import {
@@ -95,14 +95,14 @@ function InlineAffixList({
   function isGreater(affixId: string, value: number): boolean {
     const entry = getAffixEntry(affixId);
     if (!entry) return false;
-    const max = entry.valueRange[1];
+    const { max } = getAffixValueRangeAtItemPower(entry);
     return value >= max;
   }
 
   function isOutOfRange(affixId: string, value: number): string | null {
     const entry = getAffixEntry(affixId);
     if (!entry) return null;
-    const [min, max] = entry.valueRange;
+    const { min, max } = getAffixValueRangeAtItemPower(entry);
     if (value < min) return `Min is ${min}`;
     if (value > max) return `Max is ${max}`;
     return null;
@@ -147,8 +147,9 @@ function InlineAffixList({
                         f.onChange(id);
                         const newEntry = getAffixEntry(id);
                         if (newEntry) {
-                          // Set default value to midpoint
-                          const mid = (newEntry.valueRange[0] + newEntry.valueRange[1]) / 2;
+                          // Set default value to midpoint of last band
+                          const { min: bMin, max: bMax } = getAffixValueRangeAtItemPower(newEntry);
+                          const mid = (bMin + bMax) / 2;
                           setValue(`${name}.${i}.rolledValue` as never, Math.round(mid * 10) / 10 as never);
                         }
                       }}

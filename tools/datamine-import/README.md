@@ -88,6 +88,48 @@ This file lists every imported entry, excluded entries, and needs-curation entri
 - `exclude` — omit from catalog entirely
 - `deprecated` — keep in catalog with `deprecated: true` flag
 
+## Formula-Driven Affix Value Ranges (v19)
+
+Affix `valueRanges` are derived at import time from `AttributeFormulas.gam.json` and
+`globals.glo.json` in the datamine. The pipeline (v19 commission) replaces the old hand-curated
+`[min, max]` pair with per-IP-tier bands evaluated from the formula DSL.
+
+### Formula DSL Evaluator
+
+Located in `tools/datamine-import/formulas/` (build-only, not imported at runtime):
+
+- `constants.ts` — reads `globals.glo.json` for Sacred/Ancestral scalars and IP thresholds
+- `evaluator.ts` — recursive-descent parser for the D4 formula DSL
+- `index.ts` — public API: `loadFormulas`, `evaluateFormulaBands`, `getBandAtItemPower`
+
+The evaluator handles: `IPower()`, `RandomInt(min,max)`, `FloatRandomRangeWithInterval(step,min,max)`,
+`Floor`, `Round`, `Pin`, `Pow`, `Min`, `Max`, `CurrentLegendaryRank()` (→ 0), Sacred/Ancestral
+scalar constants, and arithmetic operators. Unsupported functions (e.g. `ParagonPowerBudgetMultiplier*`)
+throw `UnsupportedFunctionError` and route the affix to `needsCuration`.
+
+### Band Derivation
+
+For each `arAffixScalings` entry in a formula record, the evaluator runs the formula at:
+- `position=min` (random range picks low value) → band `min`
+- `position=max` (random range picks high value) → band `max`
+
+Percent affixes (`isPercent: true`) multiply the result by 100 to convert decimals to percentages.
+Each band carries `minItemPower` from the formula's `nMinItemPower` field.
+
+### Implicit Affix Fallback (D11/D12)
+
+When `isImplicit: true` in the curation record and the formula yields zero:
+- **D11**: if the curation record has `manualValueRanges`, those are used as the band list.
+- **D12**: if no `manualValueRanges`, the entry is pushed to `needsCuration` with reason
+  `"no-formula-and-no-fallback"` and the build exits 1.
+
+### Formula Provenance (D22)
+
+Each run records per-affix provenance (`catalogId`, `bnetFileName`, `formulaSource`,
+`evaluatedBandCount`) in the audit doc's "Formula Provenance" section.
+
+---
+
 ## v15: Damage Engine Fields
 
 The v15 commission added extraction of damage-engine fields from the datamine:
@@ -131,7 +173,7 @@ Some affixes carry two independent value ranges in the datamine (e.g. a label li
 
 **Rationale:** Silently truncating to the first attribute would produce incorrect value ranges for a class of affixes that the scoring engine needs to handle distinctly. Flagging them forces a human decision rather than publishing bad data.
 
-Multi-value affixes produce a `{value1}` / `{value2}` label template (e.g. `"{value1}%–{value2}% Bonus Damage"`) for display-string round-tripping, even though the catalog's `valueRange` is derived from the first attribute only.
+Multi-value affixes produce a `{value1}` / `{value2}` label template (e.g. `"{value1}%–{value2}% Bonus Damage"`) for display-string round-tripping, even though the catalog's `valueRanges` are derived from the first attribute's formula only.
 
 ## Internal Name Divergences
 

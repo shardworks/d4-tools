@@ -1,0 +1,18 @@
+{
+  "__fileName__": "Affix_AllRes_Amulet",
+  "__snoID__": 1234570,
+  "eAffixType": 2,
+  "arAllowedItemLabels": [30],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": {
+        "eAttribute": 2,
+        "__eAttribute_name__": "Attr_Resistance_All",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_AllRes_Jewelry" }
+      }
+    }
+  ]
+}

@@ -7,7 +7,12 @@
   "arAffixSkillTagRequirements": [],
   "ptItemAffixAttributes": [
     {
-      "tAttribute": { "eAttribute": 0, "__eAttribute_name__": "Attr_Max_Life_Percent", "nParam": 0 }
+      "tAttribute": {
+        "eAttribute": 0,
+        "__eAttribute_name__": "Attr_Max_Life_Percent",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_LifePercent" }
+      }
     }
   ]
 }

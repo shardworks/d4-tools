@@ -109,13 +109,17 @@ describe("affixes catalog", () => {
     expect(affixes.length).toBeGreaterThanOrEqual(200);
   });
 
-  it("has affixes with required fields", () => {
+  it("has affixes with required fields including per-IP-tier valueRanges", () => {
     for (const affix of affixes) {
       expect(affix).toHaveProperty("id");
       expect(affix).toHaveProperty("label");
-      expect(affix).toHaveProperty("valueRange");
-      expect(affix.valueRange).toHaveLength(2);
-      expect(affix.valueRange[0]).toBeLessThanOrEqual(affix.valueRange[1]);
+      expect(affix).toHaveProperty("valueRanges");
+      expect(Array.isArray(affix.valueRanges)).toBe(true);
+      expect(affix.valueRanges.length).toBeGreaterThanOrEqual(1);
+      for (const band of affix.valueRanges) {
+        expect(typeof band.minItemPower).toBe("number");
+        expect(band.min).toBeLessThanOrEqual(band.max);
+      }
     }
   });
 

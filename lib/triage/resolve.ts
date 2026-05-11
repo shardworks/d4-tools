@@ -29,6 +29,7 @@ import {
   getAspectsForSlotAndClass,
   getSlotsForClass,
   uniques,
+  getAffixValueRangeAtItemPower,
 } from "@/lib/catalog";
 import type { AffixEntry, AspectEntry, UniqueEntry } from "@/lib/catalog";
 import itemTypeMappings from "./item-types.json";
@@ -217,7 +218,8 @@ export function resolveAffix(
   extracted: LlmExtractedAffix,
   slotId: string,
   className: string,
-  position: AffixPosition
+  position: AffixPosition,
+  itemPower?: number
 ): AffixMatchResult {
   const normalizedLabel = normalizeLabel(extracted.label);
   const canonical = expandAffix(normalizedLabel);
@@ -250,7 +252,7 @@ export function resolveAffix(
   }
 
   const match = scored[0].entry as AffixEntry;
-  const [min, max] = match.valueRange;
+  const { min, max } = getAffixValueRangeAtItemPower(match, itemPower);
   const { rolledValue } = extracted;
 
   // Value-format auto-correct (D4): isPercent + value ∈ (0, 1] → try × 100
@@ -475,7 +477,7 @@ export function resolveItem(extracted: LlmExtractedItem, className: string): Res
       const scopeSlotId = uniqueEntry.slot;
 
       const resolveAffixList = (list: LlmExtractedAffix[], position: AffixPosition) =>
-        list.map((a) => resolveAffix(a, scopeSlotId, className, position));
+        list.map((a) => resolveAffix(a, scopeSlotId, className, position, extracted.itemPower));
 
       const aspect =
         resolveAspectFromUnique(uniqueEntry, extracted.aspect) ??
@@ -508,7 +510,7 @@ export function resolveItem(extracted: LlmExtractedItem, className: string): Res
         : "helm";
 
   const resolveAffixList = (list: LlmExtractedAffix[], position: AffixPosition) =>
-    list.map((a) => resolveAffix(a, scopeSlotId, className, position));
+    list.map((a) => resolveAffix(a, scopeSlotId, className, position, extracted.itemPower));
 
   return {
     name: extracted.name,

@@ -17,7 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getAffixesForSlotAndClass, type AffixEntry } from "@/lib/catalog";
+import { getAffixesForSlotAndClass, getAffixValueRangeAtItemPower, type AffixEntry } from "@/lib/catalog";
 import type { AffixPosition } from "@/lib/triage/resolve";
 
 interface AffixComboboxProps {
@@ -98,10 +98,15 @@ export function AffixCombobox({
                     size={12}
                   />
                   <span className="flex-1">{affix.label}</span>
-                  <span className="text-stone-500 text-[11px] ml-2 tabular-nums">
-                    {affix.valueRange[0]}–{affix.valueRange[1]}
-                    {affix.isPercent ? "%" : ""}
-                  </span>
+                  {(() => {
+                    const { min, max } = getAffixValueRangeAtItemPower(affix);
+                    return (
+                      <span className="text-stone-500 text-[11px] ml-2 tabular-nums">
+                        {min}–{max}
+                        {affix.isPercent ? "%" : ""}
+                      </span>
+                    );
+                  })()}
                 </CommandItem>
               ))}
             </CommandGroup>

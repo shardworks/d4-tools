@@ -70,12 +70,22 @@ export interface SlotEntry {
   bnetSlotKey?: string;
 }
 
+/**
+ * A single IP-tier value band for an affix.
+ * minItemPower is the minimum item power at which this band applies (ascending sort).
+ */
+export interface ValueRangeBand {
+  minItemPower: number;
+  min: number;
+  max: number;
+}
+
 export interface AffixEntry {
   id: string;
   label: string;
   labelTemplate: string;
-  /** [min, max] roll range for this affix */
-  valueRange: number[];
+  /** Per-IP-tier value bands, sorted ascending by minItemPower. Non-empty. */
+  valueRanges: [ValueRangeBand, ...ValueRangeBand[]];
   isPercent: boolean;
   slotRestrictions: string[];
   classRestrictions: string[];
@@ -301,6 +311,29 @@ export function getSlotsForClass(className: string): SlotEntry[] {
 }
 
 // ─── Affix helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Returns the value range band for the given item power tier.
+ *
+ * - When `itemPower` is provided, returns the highest band whose `minItemPower` ≤ `itemPower`.
+ * - When `itemPower` is omitted (undefined), returns the last (highest IP) band (D8: IP-less fallback).
+ * - Falls back to the first band when itemPower is below all band thresholds.
+ */
+export function getAffixValueRangeAtItemPower(
+  entry: AffixEntry,
+  itemPower?: number
+): ValueRangeBand {
+  const bands = entry.valueRanges;
+  if (itemPower === undefined) {
+    return bands[bands.length - 1];
+  }
+  for (let i = bands.length - 1; i >= 0; i--) {
+    if (bands[i].minItemPower <= itemPower) {
+      return bands[i];
+    }
+  }
+  return bands[0];
+}
 
 /**
  * Returns affixes available for a given slot and class.

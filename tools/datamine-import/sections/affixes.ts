@@ -7,8 +7,22 @@
  *   eAffixType: integer — 2 = regular player-rollable affixes
  *   arAllowedItemLabels: integer[] — item label IDs (not strings)
  *   fAllowedForPlayerClass: number[] — bit flags, index 0-7 per AFFIX_CLASS_ORDER
- *   ptItemAffixAttributes[0].tAttribute.__eAttribute_name__: string attribute name
- *   No afValue field — value ranges come from curation record's valueRange field
+ *   ptItemAffixAttributes[0].tAttribute.gbidFormula.name: string — named formula
+ *   ptItemAffixAttributes[0].tAttribute.szAttributeFormula.value: string — embedded formula
+ *   No afValue field — value ranges are derived from formula evaluation (D2/D3)
+ *
+ * Value-range derivation (D2/D3):
+ *   For each IP band in the formula record, evaluate at band floor (position=min) and
+ *   ceiling (position=max). Multiply by 100 when isPercent. Store as valueRanges (D1).
+ *
+ * Implicit fallback (D11/D12):
+ *   When isImplicit=true and the formula chain yields "0" or empty, consult
+ *   curation record's manualValueRanges. If absent, push to needsCuration with
+ *   reason "no-formula-and-no-fallback" (D12).
+ *
+ * Unsupported DSL functions (D5/D6):
+ *   If evaluate() throws UnsupportedFunctionError, push to needsCuration with
+ *   reason "unsupported-function: <fnName>" and skip the entry.
  */
 
 import type { AffixEntry } from "../../../lib/catalog/index";
@@ -17,6 +31,12 @@ import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { LABEL_TO_SLOTS, AFFIX_CLASS_ORDER } from "../mappings";
 import { parseTemplate } from "../template";
 import { detectIsPercent } from "../percent";
+import {
+  evaluateFormulaBands,
+  UnsupportedFunctionError,
+} from "../formulas/index";
+import type { FormulaRecord, ValueRangeBand } from "../formulas/index";
+import type { AffixScalars } from "../formulas/constants";
 import type { TransformerSummary } from "./types";
 
 // ─── Helper: snakeCasify a bnetFileName to a catalog id ──────────────────────
@@ -35,6 +55,8 @@ interface RawAffixAttributeSpec {
   eAttribute: number;
   __eAttribute_name__?: string;
   nParam: number;
+  gbidFormula?: { name?: string };
+  szAttributeFormula?: { value?: string };
 }
 
 interface RawAffixAttribute {
@@ -50,17 +72,37 @@ interface RawAffix {
   ptItemAffixAttributes: RawAffixAttribute[];
 }
 
+// ─── Formula provenance record (for audit doc D22) ────────────────────────────
+
+export interface AffixFormulaProvenance {
+  catalogId: string;
+  bnetFileName: string;
+  /** "named:<formulaName>" | "embedded:<formulaText>" | "implicit-fallback" | "zero-chain" */
+  formulaSource: string;
+  evaluatedBandCount: number;
+}
+
+// ─── TransformerSummary extension ────────────────────────────────────────────
+
+export interface AffixTransformerSummary extends TransformerSummary<AffixEntry> {
+  /** Per-affix formula provenance for the audit doc (D22). */
+  formulaProvenance: AffixFormulaProvenance[];
+}
+
 // ─── Transformer ──────────────────────────────────────────────────────────────
 
 export function transformAffixes(
   rawAffixes: unknown[],
   stringTable: Map<string, string>,
-  curation: CurationFile
-): TransformerSummary<AffixEntry> {
+  curation: CurationFile,
+  formulaTable: Map<string, FormulaRecord>,
+  scalars: AffixScalars
+): AffixTransformerSummary {
   const entries: AffixEntry[] = [];
   const needsCuration: Array<{ bnetFileName: string; reason: string }> = [];
   const deprecated: Array<{ bnetFileName: string; catalogId: string }> = [];
   const excluded: string[] = [];
+  const formulaProvenance: AffixFormulaProvenance[] = [];
 
   for (const raw of rawAffixes) {
     const affix = raw as RawAffix;
@@ -72,9 +114,6 @@ export function transformAffixes(
     }
 
     // Look up the display label from the per-file string table.
-    // For regular affixes the stl typically has "Name_Prefix"/"Name_Suffix" keys.
-    // Use "Name_Suffix" as the primary label (e.g. "of Vigor"), falling back to
-    // "Name_Prefix" (e.g. "Vigorous"), then the attribute name.
     const szLabelSuffix = stringTable.get(`${fileName}::Name_Suffix`) ?? "";
     const szLabelPrefix = stringTable.get(`${fileName}::Name_Prefix`) ?? "";
     const szLabel = szLabelSuffix || szLabelPrefix;
@@ -120,29 +159,98 @@ export function transformAffixes(
     const firstAttr = affix.ptItemAffixAttributes[0];
 
     // The numeric eAttribute has a companion string name field __eAttribute_name__.
-    const attributeName = firstAttr.tAttribute.__eAttribute_name__ ?? String(firstAttr.tAttribute.eAttribute);
+    const attributeName =
+      firstAttr.tAttribute.__eAttribute_name__ ??
+      String(firstAttr.tAttribute.eAttribute);
 
     // Percent detection (D27) — use attribute name and label
     const { isPercent: isPercentDetected } = detectIsPercent(attributeName, szLabel);
     const isPercent = curationRecord?.isPercent ?? isPercentDetected;
 
-    // Value range: no afValue field in real datamine — use curation record's valueRange.
-    // If neither is available, push to needsCuration.
-    const curatedRange = curationRecord?.valueRange;
-    if (!curatedRange) {
-      if (!curationRecord) {
-        // Will already be in needsCuration or entries depending on heuristic
-        // Only add if not already there
+    // ── Implicit flag ─────────────────────────────────────────────────────────
+    const isImplicit = curationRecord?.isImplicit ?? false;
+
+    // ── Formula derivation (D2/D3) ────────────────────────────────────────────
+    // Read order: gbidFormula.name first, then szAttributeFormula.value (D16), then zero/empty.
+    const gbidName = firstAttr.tAttribute.gbidFormula?.name;
+    const embeddedFormula = firstAttr.tAttribute.szAttributeFormula?.value;
+
+    let formulaRecord: FormulaRecord | null = null;
+    let formulaSource = "";
+
+    if (gbidName) {
+      const record = formulaTable.get(gbidName);
+      if (record) {
+        formulaRecord = record;
+        formulaSource = `named:${gbidName}`;
+      } else {
+        // Named formula not found in table — treat as zero/missing
+        formulaSource = `named-missing:${gbidName}`;
       }
-      needsCuration.push({
-        bnetFileName: fileName,
-        reason: "no-value-range: add valueRange to curation",
-      });
-      // Don't emit the entry without a value range
-      continue;
+    } else if (embeddedFormula && embeddedFormula !== "0" && embeddedFormula.trim() !== "") {
+      // D16: synthesize a single-band record for the embedded formula
+      formulaRecord = {
+        name: `__embedded__:${fileName}`,
+        arAffixScalings: [{ nMinItemPower: 0, szFormula: embeddedFormula }],
+      };
+      formulaSource = `embedded:${embeddedFormula}`;
+    } else {
+      formulaSource = "zero-chain";
     }
 
-    const [minVal, maxVal] = curatedRange;
+    // ── Evaluate bands or apply fallback ──────────────────────────────────────
+    let valueRanges: ValueRangeBand[] | null = null;
+
+    if (formulaRecord) {
+      try {
+        const evaluated = evaluateFormulaBands(formulaRecord, scalars, isPercent);
+        // D19: require non-empty (evaluateFormulaBands asserts this internally)
+        valueRanges = evaluated;
+      } catch (err) {
+        if (err instanceof UnsupportedFunctionError) {
+          // D5: fail-loud for unsupported DSL functions in triage-relevant affixes
+          needsCuration.push({
+            bnetFileName: fileName,
+            reason: `unsupported-function: ${err.fnName}`,
+          });
+          continue;
+        }
+        // Other evaluation errors
+        needsCuration.push({
+          bnetFileName: fileName,
+          reason: `formula-eval-error: ${String(err)}`,
+        });
+        continue;
+      }
+    }
+
+    // If formula yielded zero or no formula, try implicit fallback (D11/D12)
+    if (!valueRanges || (valueRanges.length === 1 && valueRanges[0].min === 0 && valueRanges[0].max === 0)) {
+      if (isImplicit && curationRecord?.manualValueRanges && curationRecord.manualValueRanges.length > 0) {
+        // D11: use manualValueRanges from curation as fallback
+        valueRanges = curationRecord.manualValueRanges.map((b) => ({
+          minItemPower: b.minItemPower,
+          min: b.min,
+          max: b.max,
+        }));
+        formulaSource = "implicit-fallback";
+      } else if (isImplicit) {
+        // D12: implicit affix without formula and without fallback — fail build
+        needsCuration.push({
+          bnetFileName: fileName,
+          reason: "no-formula-and-no-fallback",
+        });
+        continue;
+      } else if (!valueRanges) {
+        // Non-implicit, no formula derivation available
+        needsCuration.push({
+          bnetFileName: fileName,
+          reason: "no-value-range: no formula found and not an implicit affix",
+        });
+        continue;
+      }
+      // Non-implicit with zero formula chain: keep the zero band (may be intentional)
+    }
 
     // Template parsing — use szLabel or attribute name as fallback
     const { labelTemplate } = parseTemplate(szLabel || `{value}`);
@@ -155,18 +263,16 @@ export function transformAffixes(
     const classBits: number[] = affix.fAllowedForPlayerClass ?? [];
     const classRestrictions = mapClassesFromBits(classBits);
 
-    // Derive catalogId
+    // Derive catalogId and label
     const catalogId =
       curationRecord?.catalogId ?? `affix_${toSnakeCase(fileName)}`;
-
-    // Derive label
     const label = curationRecord?.label ?? szLabel;
 
     const entry: AffixEntry = {
       id: catalogId,
       label,
       labelTemplate,
-      valueRange: [minVal, maxVal],
+      valueRanges: valueRanges as [ValueRangeBand, ...ValueRangeBand[]],
       isPercent,
       slotRestrictions,
       classRestrictions,
@@ -179,14 +285,26 @@ export function transformAffixes(
       },
     };
 
+    if (isImplicit) {
+      entry.isImplicit = true;
+    }
+
     if (curationRecord?.action === "deprecated") {
       entry.deprecated = true;
     }
 
     entries.push(entry);
+
+    // D22: record per-affix formula provenance for audit doc
+    formulaProvenance.push({
+      catalogId,
+      bnetFileName: fileName,
+      formulaSource,
+      evaluatedBandCount: valueRanges.length,
+    });
   }
 
-  return { entries, needsCuration, deprecated, excluded };
+  return { entries, needsCuration, deprecated, excluded, formulaProvenance };
 }
 
 /**

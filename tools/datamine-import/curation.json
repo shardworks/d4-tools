@@ -4,33 +4,31 @@
       "action": "include",
       "catalogId": "affix_max_life_pct",
       "label": "Maximum Life %",
-      "valueRange": [
-        8.0,
-        14.0
-      ],
       "isPercent": true,
-      "reason": "Hand-seed entry: affix_max_life_pct"
+      "reason": "Hand-seed entry: affix_max_life_pct — value range now formula-driven (GearAffix_LifePercent)"
     },
     "Affix_Str_MaxLife": {
       "action": "include",
       "catalogId": "affix_max_life",
       "label": "Maximum Life",
-      "valueRange": [
-        700,
-        2800
-      ],
-      "reason": "Hand-seed entry: affix_max_life"
+      "reason": "Hand-seed entry: affix_max_life — value range now formula-driven (GearAffix_Life)"
     },
     "Affix_Multi_CritDamage": {
       "action": "include",
       "catalogId": "affix_crit_damage",
       "label": "Critical Strike Damage",
-      "valueRange": [
-        20.0,
-        50.0
-      ],
       "isPercent": true,
-      "reason": "Multi-attribute: using first attribute only per D18"
+      "reason": "Multi-attribute: using first attribute only per D18 — value range formula-driven (GearAffix_CritDamage)"
+    },
+    "Affix_AllRes_Amulet": {
+      "action": "include",
+      "catalogId": "affix_all_res_amulet",
+      "label": "+All Resistance",
+      "isImplicit": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 5, "max": 25 }
+      ],
+      "reason": "Implicit jewelry resistance — formula yields zero; D11 manualValueRanges fallback"
     },
     "Affix_WIP_TestEntry": {
       "action": "exclude",

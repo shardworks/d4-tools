@@ -4,6 +4,10 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import type { FormulaRecord } from "./formulas/index";
+import { loadFormulas } from "./formulas/index";
+import { loadGlobalConstants } from "./formulas/constants";
+import type { GlobalConstants } from "./formulas/constants";
 
 // ─── Path helpers ─────────────────────────────────────────────────────────────
 
@@ -95,6 +99,24 @@ export function loadParagonGlyphs(datamineRoot: string): unknown[] {
 /** Reads item definitions from json/base/meta/Item/ */
 export function loadItems(datamineRoot: string): unknown[] {
   return readJsonDir(metaDir(datamineRoot, "Item"));
+}
+
+/**
+ * Loads the formula table from `json/base/meta/GameBalance/AttributeFormulas.gam.json`.
+ * Returns a Map<formulaName → FormulaRecord> for O(1) lookup in the affix transformer.
+ * Returns an empty map if the file does not exist.
+ */
+export function loadAttributeFormulas(datamineRoot: string): Map<string, FormulaRecord> {
+  return loadFormulas(datamineRoot);
+}
+
+/**
+ * Loads global constants (Sacred/Ancestral scalars and IP thresholds) from
+ * `json/base/meta/Global/globals.glo.json`.
+ * Throws if the file is missing.
+ */
+export function loadGlobals(datamineRoot: string): GlobalConstants {
+  return loadGlobalConstants(datamineRoot);
 }
 
 /**

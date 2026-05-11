@@ -21,7 +21,7 @@ export function serializeAffix(entry: AffixEntry): Record<string, unknown> {
     id: entry.id,
     label: entry.label,
     labelTemplate: entry.labelTemplate,
-    valueRange: entry.valueRange,
+    valueRanges: entry.valueRanges,
     isPercent: entry.isPercent,
     slotRestrictions: entry.slotRestrictions,
     classRestrictions: entry.classRestrictions,

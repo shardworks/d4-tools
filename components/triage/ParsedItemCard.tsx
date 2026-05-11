@@ -1,6 +1,6 @@
 "use client";
 
-import { affixes as affixCatalog, aspects as aspectCatalog, slots } from "@/lib/catalog";
+import { affixes as affixCatalog, aspects as aspectCatalog, slots, getAffixValueRangeAtItemPower } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 import { Sparkles, AlertTriangle } from "lucide-react";
 import type { AffixMatchResult, AspectMatchResult, ResolvedItem } from "@/lib/triage/types";
@@ -24,7 +24,7 @@ function AffixResultRow({ result }: { result: AffixMatchResult }) {
   if (result.kind === "resolved") {
     const entry = affixCatalog.find((a) => a.id === result.affixId);
     const label = entry?.label ?? result.affixId;
-    const max = entry?.valueRange[1];
+    const max = entry ? getAffixValueRangeAtItemPower(entry).max : undefined;
     const isGreater = max !== undefined && result.rolledValue >= max;
 
     return (

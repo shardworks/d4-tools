@@ -20,6 +20,7 @@
   "itemPower": {
     "sacredThreshold": 725,
     "ancestralThreshold": 825,
+    "greaterAffixThreshold": 925,
     "maxItemPower": 1000
   },
   "masterworking": {

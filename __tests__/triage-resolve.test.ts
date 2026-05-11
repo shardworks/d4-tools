@@ -69,7 +69,7 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
   });
 
   it("returns uncertain/out-of-range for value exceeding max (D12)", () => {
-    // affix_max_life range is [700, 2800]
+    // affix_max_life has a formula-derived range; 99999 exceeds any reasonable game max
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 99999 },
       "helm",
@@ -86,7 +86,7 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
   });
 
   it("returns uncertain/out-of-range for value below min (D12)", () => {
-    // affix_max_life range is [700, 2800]
+    // affix_max_life has a formula-derived range; 100 is below any reasonable game min
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 100 },
       "helm",

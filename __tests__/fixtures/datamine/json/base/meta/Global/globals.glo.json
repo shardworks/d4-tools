@@ -1,0 +1,18 @@
+{
+  "__fileName__": "globals",
+  "__snoID__": 5100001,
+  "comment": "Stub sourced from DiabloTools/d4data build 3.0.1.71747 (MIT license). Only the fields consumed by the formula evaluator and game-math harvester are included here; the real file is much larger.",
+  "fSacredAffixScalarOffense": 1.25,
+  "fSacredAffixScalarDefense": 1.25,
+  "fAncestralAffixScalarOffense": 1.5,
+  "fAncestralAffixScalarDefense": 1.5,
+  "tSacredItemSpecifier": {
+    "dwMinimumItemPower": 725
+  },
+  "tAncestralItemSpecifier": {
+    "dwMinimumItemPower": 825
+  },
+  "tGreaterAffixSpecifier": {
+    "dwMinimumItemPower": 925
+  }
+}
