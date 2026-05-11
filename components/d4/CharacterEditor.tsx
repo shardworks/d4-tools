@@ -89,37 +89,20 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
     setSaveError(null);
     try {
       if (isNew) {
-        // Create character — id is absent, server generates from name
-        const charRes = await fetch("/api/characters", {
+        // Atomically create character + default build (server handles rollback on failure)
+        const res = await fetch("/api/characters?withDefaultBuild=true", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
-        if (!charRes.ok) {
-          const err = await charRes.json();
+        if (!res.ok) {
+          const err = await res.json();
           throw new Error(err.error ?? "Failed to create character");
         }
-        const savedChar: Character = await charRes.json();
-
-        // Auto-create a default build named after the character (D26)
-        const buildRes = await fetch("/api/builds", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            characterId: savedChar.id,
-            name: savedChar.name,
-            notes: "",
-            targetItems: {},
-          }),
-        });
-        if (!buildRes.ok) {
-          const err = await buildRes.json();
-          throw new Error(err.error ?? "Failed to create default build");
-        }
-        const savedBuild = await buildRes.json();
+        const { build } = await res.json();
 
         // Navigate to the new build's detail page
-        router.push(`/builds/${savedBuild.id}`);
+        router.push(`/builds/${build.id}`);
       } else {
         // Update existing character — id is always present when editing
         const id = data.id;
