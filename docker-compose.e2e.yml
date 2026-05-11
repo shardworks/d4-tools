@@ -1,16 +1,22 @@
-# docker-compose.e2e.yml — one-command e2e bring-up (T8, D13, D14)
+# docker-compose.e2e.yml — one-command e2e bring-up
 #
-# Starts two services:
-#   app    — next dev on E2E_APP_PORT (default 3000)
-#   e2e    — Playwright UI on E2E_UI_PORT (default 9323); runs headless CI on demand
+# Starts a single service (e2e) that:
+#   - Installs pnpm dependencies
+#   - Runs Playwright UI mode bound to 0.0.0.0 so it is reachable from any
+#     machine on the same LAN
 #
-# Default ports (D14):
-#   App:        E2E_APP_PORT=3000
+# Each spec file starts its own next dev instance on an OS-assigned free port,
+# bound to 0.0.0.0 (see e2e/fixtures/server.ts).  In remote-monitor mode the
+# developer watches test execution through the Playwright UI; DOM snapshots,
+# screenshots, and traces are all visible there without needing direct access to
+# a specific per-spec port.
+#
+# Default ports:
 #   Playwright UI: E2E_UI_PORT=9323
 #   HTML report:   E2E_REPORT_PORT=9324
 #
 # One-command bring-up: pnpm e2e:ui
-# Remote access: http://<host>:9323 for Playwright UI, http://<host>:3000 for the app
+# Remote access: http://<host>:9323 for Playwright UI
 #
 # After a run inside the container, serve the HTML report:
 #   docker compose -f docker-compose.e2e.yml exec e2e \
@@ -42,21 +48,22 @@ services:
       NEXT_TELEMETRY_DISABLED: "1"
       NODE_ENV: development
 
-      # Port configuration (D14)
-      E2E_APP_PORT: "${E2E_APP_PORT:-3000}"
+      # Port configuration
       E2E_UI_PORT: "${E2E_UI_PORT:-9323}"
       E2E_REPORT_PORT: "${E2E_REPORT_PORT:-9324}"
       PLAYWRIGHT_WORKERS: "${PLAYWRIGHT_WORKERS:-2}"
 
-      # UI mode: Playwright manages server lifecycle per-spec (D6)
-      # The docker-compose setup uses PLAYWRIGHT_NO_WEBSERVER=1 so the
-      # playwright.config.ts webServer block doesn't try to start a global server.
-      # Each spec's beforeAll handles its own next dev instance.
+      # Force e2e temp dirs into workspace tmp/ so tsconfig exclude covers them
+      E2E_TMPDIR: /workspace/tmp/e2e
+
+      # Playwright manages server lifecycle per-spec; no global webServer needed
       PLAYWRIGHT_NO_WEBSERVER: "1"
 
-    # Publish all three ports to the LAN (D14)
+    # Publish Playwright UI and report ports to the LAN.
+    # Per-spec next dev servers use OS-assigned ephemeral ports; they are
+    # reachable from outside the container (bound to 0.0.0.0) but there is
+    # no fixed port to publish here — use Playwright UI traces to inspect them.
     ports:
-      - "${E2E_APP_PORT:-3000}:3000"
       - "${E2E_UI_PORT:-9323}:9323"
       - "${E2E_REPORT_PORT:-9324}:9324"
 

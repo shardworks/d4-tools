@@ -26,6 +26,34 @@ import { saveBuild as _saveBuild } from "../../lib/persistence/builds";
 import { setActiveBuildId as _setActiveBuildId } from "../../lib/persistence/active-build";
 import { writeCachedParse as _writeCachedParse } from "../../lib/triage/cache";
 
+// ─── Concurrency-safe env-var mutation ───────────────────────────────────────
+//
+// The persistence helpers (saveCharacter, saveBuild, etc.) read DATA_DIR and
+// SCREENSHOT_DIR from process.env at call time.  When multiple createTestContext()
+// calls run concurrently (e.g. via Promise.all in build-detail.spec.ts), their
+// withDirs() wrappers would interleave and corrupt each other's env vars.
+//
+// This module-level promise chain acts as a simple mutex: every withDirs()
+// call appends to the chain so seeds are serialised, even across seeder
+// instances created in different specs.
+
+let _seedMutex: Promise<void> = Promise.resolve();
+
+/**
+ * Acquires the module-level seed mutex, runs fn, then releases.
+ * All calls are serialised so no two withDirs() bodies overlap.
+ */
+function withMutex<T>(fn: () => Promise<T>): Promise<T> {
+  let release!: () => void;
+  const slot = new Promise<void>((r) => {
+    release = r;
+  });
+  const prev = _seedMutex;
+  _seedMutex = slot;
+
+  return prev.then(fn).finally(release) as Promise<T>;
+}
+
 // ─── Permissive input types for seeding ──────────────────────────────────────
 // The persistence layer fills in Zod defaults at save time; we only need
 // the truly required fields here.
@@ -91,26 +119,30 @@ export interface Seeder {
 
 /**
  * Creates a seeder that writes to the given temp dirs.
- * Sets process.env.DATA_DIR / SCREENSHOT_DIR only during async calls, then
- * restores the original values.
+ * Sets process.env.DATA_DIR / SCREENSHOT_DIR only while holding the module-level
+ * seed mutex, then restores the original values.  All calls across all seeder
+ * instances are serialised so concurrent createTestContext() calls via
+ * Promise.all cannot cross-contaminate each other's data directories.
  */
 export function createSeeder(opts: SeederOptions): Seeder {
   const { dataDir, screenshotDir } = opts;
 
-  async function withDirs<T>(fn: () => Promise<T>): Promise<T> {
-    const origData = process.env.DATA_DIR;
-    const origScreenshot = process.env.SCREENSHOT_DIR;
-    process.env.DATA_DIR = dataDir;
-    process.env.SCREENSHOT_DIR = screenshotDir;
-    try {
-      return await fn();
-    } finally {
-      // Restore original values (undefined → delete the key)
-      if (origData === undefined) delete process.env.DATA_DIR;
-      else process.env.DATA_DIR = origData;
-      if (origScreenshot === undefined) delete process.env.SCREENSHOT_DIR;
-      else process.env.SCREENSHOT_DIR = origScreenshot;
-    }
+  function withDirs<T>(fn: () => Promise<T>): Promise<T> {
+    return withMutex(async () => {
+      const origData = process.env.DATA_DIR;
+      const origScreenshot = process.env.SCREENSHOT_DIR;
+      process.env.DATA_DIR = dataDir;
+      process.env.SCREENSHOT_DIR = screenshotDir;
+      try {
+        return await fn();
+      } finally {
+        // Restore original values (undefined → delete the key)
+        if (origData === undefined) delete process.env.DATA_DIR;
+        else process.env.DATA_DIR = origData;
+        if (origScreenshot === undefined) delete process.env.SCREENSHOT_DIR;
+        else process.env.SCREENSHOT_DIR = origScreenshot;
+      }
+    });
   }
 
   return {

@@ -14,22 +14,22 @@ import * as path from "path";
 const REPO_ROOT = path.resolve(__dirname, "../../");
 
 /**
- * Returns a writable temp directory base, preferring /tmp but falling back to
- * a workspace-local directory if /tmp is full (inode-constrained environments).
+ * Returns a writable temp directory base for NEXT_DIST_DIR.
+ *
+ * We always prefer a workspace-local tmp/ subdirectory so that:
+ *   1. tsconfig.json's `exclude: ["tmp/**"]` suppresses any type-path entries
+ *      that Next.js appends for custom distDirs.
+ *   2. Cleanup on test teardown is deterministic (rm -rf within the repo tree).
+ *
+ * If $E2E_TMPDIR is set it is used as-is (Docker / CI override).
  */
 async function getTmpBase(): Promise<string> {
   const override = process.env.E2E_TMPDIR;
   if (override) return override;
-  const systemTmp = os.tmpdir();
-  try {
-    const probe = await fs.mkdtemp(path.join(systemTmp, "d4-probe-"));
-    await fs.rm(probe, { recursive: true, force: true });
-    return systemTmp;
-  } catch {
-    const localTmp = path.join(REPO_ROOT, "tmp", "e2e");
-    await fs.mkdir(localTmp, { recursive: true });
-    return localTmp;
-  }
+  // Always use workspace-local tmp/e2e so tsconfig exclude covers the path
+  const localTmp = path.join(REPO_ROOT, "tmp", "e2e");
+  await fs.mkdir(localTmp, { recursive: true });
+  return localTmp;
 }
 /** Maximum time to wait for the server to be ready (ms). */
 const READY_TIMEOUT_MS = 120_000;
@@ -84,9 +84,14 @@ export async function startNextServer(opts: TestServerOptions): Promise<TestServ
     ...extraEnv,
   };
 
+  // Bind to 0.0.0.0 so the per-spec server is reachable from outside the
+  // container when running in Docker remote-monitor mode.  In local dev this
+  // is equivalent to 127.0.0.1 for practical purposes.
+  const bindHost = "0.0.0.0";
+
   const child = spawn(
     "pnpm",
-    ["exec", "next", "dev", "--port", String(port), "--hostname", "127.0.0.1"],
+    ["exec", "next", "dev", "--port", String(port), "--hostname", bindHost],
     {
       cwd: REPO_ROOT,
       env,
@@ -109,7 +114,7 @@ export async function startNextServer(opts: TestServerOptions): Promise<TestServ
     console.error("[test-server] spawn error:", err);
   });
 
-  // Wait for the server to be ready
+  // Poll on 127.0.0.1 for readiness (loopback always works regardless of bindHost)
   const url = `http://127.0.0.1:${port}`;
   await waitForServer(url, READY_TIMEOUT_MS, POLL_INTERVAL_MS, child, output);
 

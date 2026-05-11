@@ -88,8 +88,17 @@ This runs `docker compose -f docker-compose.e2e.yml up`. The container:
 | Service | Default URL | Override |
 |---------|-------------|----------|
 | Playwright UI | `http://<host>:9323` | `E2E_UI_PORT` |
-| d4-tools app | `http://<host>:3000` (per-spec) | `E2E_APP_PORT` |
 | HTML report | `http://<host>:9324` | `E2E_REPORT_PORT` |
+
+**Watching test execution:**
+
+Open `http://<host>:9323` in your laptop browser. From Playwright UI you can:
+- Run individual tests or the full suite
+- Watch tests execute step by step with DOM snapshots
+- View screenshots taken on failure
+- Inspect full traces (network, actions, DOM state at each step)
+
+Per-spec `next dev` instances are bound to `0.0.0.0` on OS-assigned ephemeral ports inside the container. There is no fixed app port published to the host; the developer interacts with the app exclusively through Playwright UI traces and DOM snapshots rather than visiting the app directly.
 
 To view the HTML report from a remote machine after a run:
 
@@ -105,13 +114,12 @@ Then open `http://<host>:9324` in your browser.
 
 ## Port Configuration
 
-Three ports are published by the Docker setup (D14):
+Two ports are published by the Docker setup:
 
 | Port | Default | Override env var | Purpose |
 |------|---------|-----------------|---------|
-| 3000 | `3000` | `E2E_APP_PORT` | Per-spec next dev (each spec gets its own ephemeral port; this maps to the first spec's port) |
 | 9323 | `9323` | `E2E_UI_PORT` | Playwright interactive UI |
-| 9324 | `9324` | `E2E_REPORT_PORT` | HTML report server |
+| 9324 | `9324` | `E2E_REPORT_PORT` | HTML report server (post-run) |
 
 Override ports by setting the env vars before starting:
 
@@ -133,22 +141,26 @@ pnpm e2e:ui
 
 Each spec file (`e2e/*.spec.ts`) owns its full environment:
 
-- **DATA_DIR**: a `mkdtemp`'d directory with seeded characters, builds, and screenshots
+- **DATA_DIR**: a `mkdtemp`'d directory under `./tmp/e2e/` with seeded characters, builds, and screenshots
 - **SCREENSHOT_DIR**: a separate `mkdtemp`'d directory with fixture image files
 - **Anthropic stub**: an in-process HTTP server that returns pre-recorded fixtures instead of calling the real API
-- **next dev**: a dedicated process on an OS-assigned free port
+- **next dev**: a dedicated process on an OS-assigned free port, bound to `0.0.0.0`
 
 Setup/teardown happens in `beforeAll`/`afterAll`. Tests in the same spec share the server; cross-spec isolation is guaranteed by the separate processes.
 
 **Seeding** uses `lib/persistence/*` helpers (Zod-validated atomic writes), never hand-crafted JSON. Parse cache entries are pre-seeded via `writeCachedParse()`.
 
-**Screenshot ordering** is deterministic: `fs.utimes()` sets explicit mtimes on fixture files so the gallery's mtime-desc sort produces a stable test order (D29).
+**Concurrency safety**: when multiple `createTestContext()` calls run concurrently (e.g. in `Promise.all`), the seeder's env-var mutation (`DATA_DIR` / `SCREENSHOT_DIR`) is serialised via a module-level mutex. This prevents data-dir cross-contamination between concurrent seed operations.
+
+**Screenshot ordering** is deterministic: `fs.utimes()` sets explicit mtimes on fixture files so the gallery's mtime-desc sort produces a stable test order.
+
+**Temp dirs** are created inside `./tmp/e2e/` (workspace-local). The `tmp/` directory is excluded from `tsconfig.json` so any type-path entries written by Next.js for per-spec dist dirs are automatically ignored — no manual tsconfig cleanup is needed.
 
 ---
 
 ## Anthropic Mock Model
 
-The Anthropic Vision API is intercepted at the URL level (D9):
+The Anthropic Vision API is intercepted at the URL level:
 
 - The app server is started with `ANTHROPIC_API_URL=http://127.0.0.1:<mockPort>/v1/messages`
 - An in-process HTTP stub serves that endpoint
@@ -173,13 +185,11 @@ The suite runs correctly with the network unplugged — it never contacts `api.a
 
 ---
 
-## Known Failing Test
+## Known Fixmes
 
-**`e2e/navigation.spec.ts` — "Go to Build… navigates to the active build"**
+**`e2e/navigation.spec.ts` — "Go to Build… navigates to /builds/<id>"**
 
-This test is written to assert the correct behavior (URL navigation to `/builds/<id>`). It will fail until the `CommandPalette.tsx` "Go to Build…" routing bug is fixed (tracked under obs-1). The bug: the command routes through the `mode: "nav-build"` branch which triggers `exportBuild()` instead of navigating.
-
-This is intentional — the failing test is the regression signal for obs-1.
+This test is marked `test.fixme()` (tracked as obs-1). The bug: `CommandPalette.tsx` in `nav-build` mode calls `exportBuild()` instead of `router.push()`. Fix that component, then remove the `fixme` annotation and the TODO comment.
 
 ---
 
@@ -205,13 +215,10 @@ The per-spec server has a 120-second startup timeout. On slow machines, increase
 If a test server port is in use, the OS will assign a different one — conflicts are handled automatically by the `getFreePort()` helper.
 
 **Flaky gallery ordering:**
-Gallery sort is mtime-based. If flakiness appears in order-sensitive tests, verify that `seeder.seedScreenshot()` calls include explicit `mtime` options (required for determinism per D29).
+Gallery sort is mtime-based. If flakiness appears in order-sensitive tests, verify that `seeder.seedScreenshot()` calls include explicit `mtime` options.
 
 **Orphaned `next dev` processes:**
 If a test run is killed mid-spec, orphaned `next dev` processes may linger. Kill them with: `pkill -f "next dev"`.
 
 **Docker image doesn't build:**
 The `mcr.microsoft.com/playwright:v1.59.1-jammy` base image requires Docker Hub access. Behind a corporate proxy, set `HTTP_PROXY` / `HTTPS_PROXY` in the build environment.
-
-**`tsconfig.json` accumulates `/tmp/d4-e2e-next-*` entries after test runs:**
-When `next dev` starts with `NEXT_DIST_DIR` set to a temp path, Next.js automatically appends that path to `tsconfig.json`'s `include` array. These entries are harmless (the paths are cleaned up after each test) but they accumulate over time. Before committing, strip any `/tmp/d4-e2e-next-*` and `/tmp/tmp.*` entries from the `include` array in `tsconfig.json`. Only `.next/types/**/*.ts` and `.next/dev/types/**/*.ts` belong in that array.

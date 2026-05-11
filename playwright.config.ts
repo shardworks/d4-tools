@@ -2,13 +2,13 @@
  * Playwright configuration for d4-tools end-to-end tests.
  *
  * Run modes:
- *   pnpm test:e2e              — headless local/CI run (webServer auto-started)
- *   pnpm e2e:ui                — Docker-based remote-monitor UI run (see docker-compose.e2e.yml)
- *   PLAYWRIGHT_NO_WEBSERVER=1  — skip the built-in webServer block (UI mode uses its own server)
+ *   pnpm test:e2e   — headless local/CI run
+ *   pnpm e2e:ui     — Docker-based remote-monitor UI run (see docker-compose.e2e.yml)
  *
- * Per-spec server lifecycle: each spec boots its own next dev on a unique port via the
- * fixture in e2e/fixtures/index.ts; the webServer block here is only for global
- * availability checks — the baseURL is overridden per-spec by test.use().
+ * Per-spec server lifecycle: each spec boots its own `next dev` on a unique
+ * OS-assigned port via the fixture in e2e/fixtures/index.ts.  There is no
+ * global webServer block here — that would risk starting a server against the
+ * developer's real ./data directory, polluting production data.
  */
 
 import { defineConfig, devices } from "@playwright/test";
@@ -17,10 +17,8 @@ const workers = process.env.PLAYWRIGHT_WORKERS
   ? parseInt(process.env.PLAYWRIGHT_WORKERS, 10)
   : 2;
 
-const noWebServer = Boolean(process.env.PLAYWRIGHT_NO_WEBSERVER);
-
 export default defineConfig({
-  // Spec files live under e2e/ with .spec.ts suffix — naturally outside vitest's *.test.ts glob
+  // Spec files live under e2e/ with .spec.ts suffix — outside vitest's *.test.ts glob
   testDir: "./e2e",
   testMatch: "**/*.spec.ts",
 
@@ -45,7 +43,7 @@ export default defineConfig({
     baseURL: "http://localhost:3000",
   },
 
-  // Chromium-only (D2)
+  // Chromium-only
   projects: [
     {
       name: "chromium",
@@ -55,21 +53,4 @@ export default defineConfig({
 
   // HTML report — 'never' auto-open so CI/Docker can serve it manually
   reporter: [["html", { outputFolder: "playwright-report", open: "never" }]],
-
-  // webServer block: starts next dev for local/CI runs; skipped in UI mode
-  ...(noWebServer
-    ? {}
-    : {
-        webServer: {
-          command: "pnpm dev",
-          url: "http://localhost:3000",
-          reuseExistingServer: !process.env.CI,
-          timeout: 120_000,
-          env: {
-            DATA_DIR: "./data",
-            SCREENSHOT_DIR: "./screenshots",
-            ANTHROPIC_API_KEY: "test-key-not-real",
-          },
-        },
-      }),
 });
