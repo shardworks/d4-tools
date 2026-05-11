@@ -28,6 +28,7 @@ export default defineConfig({
   workers,
 
   // Allow each test 2 minutes (default 30s is too short once a next dev server spins up)
+  // Also governs beforeAll/afterAll hook timeouts unless overridden with test.setTimeout().
   timeout: 120_000,
 
   // Retry once in CI, zero locally

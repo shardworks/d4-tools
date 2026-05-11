@@ -139,7 +139,7 @@ test("command palette: Ctrl/Cmd+K opens the palette", async ({ page }) => {
 
   await page.keyboard.press(`${modKey}+k`);
   // The palette has a search input (cmdk-input or similar)
-  const palette = page.locator('[cmdk-root], [role="dialog"][aria-label*="Command"]').first();
+  const palette = page.locator('[cmdk-root]').first();
   await expect(palette).toBeVisible({ timeout: 5000 });
 });
 
@@ -149,7 +149,7 @@ test("command palette: Escape closes the palette", async ({ page }) => {
   await page.waitForLoadState("networkidle");
 
   await page.keyboard.press(`${modKey}+k`);
-  const palette = page.locator('[cmdk-root], [role="dialog"]').first();
+  const palette = page.locator('[cmdk-root]').first();
   await expect(palette).toBeVisible({ timeout: 5000 });
 
   await page.keyboard.press("Escape");
@@ -162,19 +162,32 @@ test("command palette: Export Build command triggers download", async ({ page })
   await page.waitForLoadState("networkidle");
 
   await page.keyboard.press(`${modKey}+k`);
-  const palette = page.locator('[cmdk-root], [role="dialog"]').first();
+  const palette = page.locator('[cmdk-root]').first();
   await expect(palette).toBeVisible({ timeout: 5000 });
 
   // Type "Export" to filter commands
   await page.keyboard.type("Export");
 
-  const exportItem = page.locator('[cmdk-item]:has-text("Export Build"), [role="option"]:has-text("Export Build")').first();
+  // The Export command is a two-step flow:
+  //   1. Click "Export Build…" → enters build-picker mode
+  //   2. Select a build → triggers the actual download
+  const exportItem = page.locator('[cmdk-item]:has-text("Export Build")').first();
   await expect(exportItem).toBeVisible({ timeout: 3000 });
+  await exportItem.click();
 
-  // Clicking Export Build triggers a download
+  // Now in nav-build (build picker) mode.
+  // The cmdk search state may still have "Export" — clear the input
+  // so the build list shows all builds.
+  await page.keyboard.press("Control+a");
+  await page.keyboard.press("Delete");
+
+  // Select "Nav Build" from the picker
+  const buildItem = page.locator('[cmdk-item]:has-text("Nav Build")').first();
+  await expect(buildItem).toBeVisible({ timeout: 5000 });
+
   const [download] = await Promise.all([
     page.waitForEvent("download"),
-    exportItem.click(),
+    buildItem.click(),
   ]);
   expect(download).toBeTruthy();
   expect(download.suggestedFilename()).toMatch(/\.json$/);
@@ -186,7 +199,7 @@ test("command palette: Import Build command triggers filechooser (D22)", async (
   await page.waitForLoadState("networkidle");
 
   await page.keyboard.press(`${modKey}+k`);
-  const palette = page.locator('[cmdk-root], [role="dialog"]').first();
+  const palette = page.locator('[cmdk-root]').first();
   await expect(palette).toBeVisible({ timeout: 5000 });
 
   await page.keyboard.type("Import");
@@ -203,23 +216,34 @@ test("command palette: Import Build command triggers filechooser (D22)", async (
   await chooser.setFiles([]);
 });
 
-test("command palette: 'Go to Build…' navigates to the active build — KNOWN FAILING (obs-1)", async ({ page }) => {
-  // D21: This test is written to assert the correct behavior (URL navigation).
-  // It WILL FAIL until the CommandPalette.tsx "Go to Build…" routing bug is fixed.
+test("command palette: 'Go to Build…' navigates to build — KNOWN FAILING (obs-1)", async ({ page }) => {
+  // D21: This test asserts correct behavior (URL navigation after build selection).
+  // It WILL FAIL until the CommandPalette.tsx "Go to Build…" bug is fixed:
+  // currently onSelect in nav-build mode calls exportBuild() instead of router.push().
   await dismissSoftGate(page);
   await page.goto(url("/builds"));
   await page.waitForLoadState("networkidle");
 
   await page.keyboard.press(`${modKey}+k`);
-  const palette = page.locator('[cmdk-root], [role="dialog"]').first();
+  const palette = page.locator('[cmdk-root]').first();
   await expect(palette).toBeVisible({ timeout: 5000 });
 
   await page.keyboard.type("Go to Build");
 
-  const goItem = page.locator('[cmdk-item]:has-text("Go to Build"), [role="option"]:has-text("Go to Build")').first();
+  const goItem = page.locator('[cmdk-item]:has-text("Go to Build")').first();
   await expect(goItem).toBeVisible({ timeout: 3000 });
 
+  // Click "Go to Build…" → enters build-picker mode
   await goItem.click();
+
+  // Clear the cmdk search state so the full builds list is shown
+  await page.keyboard.press("Control+a");
+  await page.keyboard.press("Delete");
+
+  // Select "Nav Build" from the picker
+  const buildItem = page.locator('[cmdk-item]:has-text("Nav Build")').first();
+  await expect(buildItem).toBeVisible({ timeout: 5000 });
+  await buildItem.click();
 
   // Should navigate to /builds/nav-build (not trigger export)
   await page.waitForURL(/\/builds\/nav-build/, { timeout: 5000 });

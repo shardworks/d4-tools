@@ -12,6 +12,25 @@ import * as os from "os";
 import * as path from "path";
 
 const REPO_ROOT = path.resolve(__dirname, "../../");
+
+/**
+ * Returns a writable temp directory base, preferring /tmp but falling back to
+ * a workspace-local directory if /tmp is full (inode-constrained environments).
+ */
+async function getTmpBase(): Promise<string> {
+  const override = process.env.E2E_TMPDIR;
+  if (override) return override;
+  const systemTmp = os.tmpdir();
+  try {
+    const probe = await fs.mkdtemp(path.join(systemTmp, "d4-probe-"));
+    await fs.rm(probe, { recursive: true, force: true });
+    return systemTmp;
+  } catch {
+    const localTmp = path.join(REPO_ROOT, "tmp", "e2e");
+    await fs.mkdir(localTmp, { recursive: true });
+    return localTmp;
+  }
+}
 /** Maximum time to wait for the server to be ready (ms). */
 const READY_TIMEOUT_MS = 120_000;
 /** Poll interval while waiting for server readiness (ms). */
@@ -50,7 +69,8 @@ export async function startNextServer(opts: TestServerOptions): Promise<TestServ
 
   // Each server instance gets its own .next dir so multiple next dev processes
   // can coexist in the same repo without hitting the single-instance lock.
-  const distDir = await fs.mkdtemp(path.join(os.tmpdir(), "d4-e2e-next-"));
+  const tmpBase = await getTmpBase();
+  const distDir = await fs.mkdtemp(path.join(tmpBase, "d4-e2e-next-"));
 
   const env: NodeJS.ProcessEnv = {
     ...process.env,
@@ -123,7 +143,9 @@ async function waitForServer(
     }
 
     try {
-      const res = await fetch(url, { signal: AbortSignal.timeout(2000) });
+      // Use a 30s per-request timeout so we don't abort during Turbopack's
+      // lazy route compilation (first request can take a few seconds).
+      const res = await fetch(url, { signal: AbortSignal.timeout(30_000) });
       // Any response (even 404, 500, redirect) means the server is up
       if (res.status < 600) {
         return;

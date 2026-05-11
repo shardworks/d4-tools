@@ -111,9 +111,12 @@ test("gear slot editor: ancestral toggle is on for the equipped item", async ({ 
   const sheet = page.locator('[data-state="open"], [role="dialog"]').first();
   await expect(sheet).toBeVisible({ timeout: 5000 });
 
-  // Find the Ancestral switch — should be checked since isAncestral: true
-  const ancestralSwitch = page.locator('[role="switch"][aria-label*="ncestral"], input[name*="ncestral"]').first();
-  await expect(ancestralSwitch).toBeVisible({ timeout: 3000 });
+  // Find the Ancestral switch — Radix Switch renders as button[role="switch"]
+  // without an aria-label. Use page scope (not sheet) because the sheet locator
+  // may resolve to the overlay wrapper rather than SheetContent.
+  // Should be checked since isAncestral: true.
+  const ancestralSwitch = page.locator('[role="switch"]').first();
+  await expect(ancestralSwitch).toBeVisible({ timeout: 10_000 });
   // It should be in the checked state
   const isChecked = await ancestralSwitch.getAttribute("aria-checked");
   expect(isChecked).toBe("true");

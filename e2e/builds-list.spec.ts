@@ -89,7 +89,8 @@ test("builds list: shows character + build info in row", async ({ page }) => {
   await page.goto(`${populatedCtx.baseURL}/builds`);
   await expect(page.locator("text=BL Sorcerer")).toBeVisible({ timeout: 15_000 });
   await expect(page.locator("text=BL Build")).toBeVisible();
-  await expect(page.locator("text=Sorcerer")).toBeVisible();
+  // Use exact match to avoid matching "BL Sorcerer" as well
+  await expect(page.getByText("Sorcerer", { exact: true })).toBeVisible();
 });
 
 test("builds list: row click navigates to /builds/<id>", async ({ page }) => {

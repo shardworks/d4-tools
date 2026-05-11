@@ -2,105 +2,91 @@
  * Build detail spec (T4).
  *
  * Covers:
- *   - Normal: <h1> shows character name; build name as accent sub-line
- *   - Chip line shows class, level, paragon
- *   - Gear grid: Sorcerer 11-slot layout, empty slots have dashed border
- *   - Equipped item card visible when item is seeded
- *   - 404 for non-existent build ID
- *   - Corrupted build file → inline "Error loading build:" banner
- *   - Config gap (D26): amber banner with "Config gap:" prefix
+ *   - <h1> contains the character name
+ *   - Build name shown as accent sub-line
+ *   - Chip line with class and level
+ *   - Gear slot grid present (empty slots with dashed border)
+ *   - 404 for unknown build ID
+ *   - Corrupted build file → "Error loading build:" banner
+ *   - Config gap → amber "Config gap:" banner (D26)
  */
 
-import * as fs from "fs/promises";
-import * as path from "path";
 import { test, expect } from "@playwright/test";
 import { createTestContext, destroyTestContext, dismissSoftGate, type TestContext } from "./fixtures";
 
-// ─── Contexts ─────────────────────────────────────────────────────────────────
-
 let normalCtx: TestContext;
-let configGapCtx: TestContext;
 let corruptCtx: TestContext;
+let configGapCtx: TestContext;
 
 test.beforeAll(async () => {
-  // Normal build detail — Sorcerer character with no equipped items
-  normalCtx = await createTestContext(async (seeder) => {
-    await seeder.saveCharacter({
-      id: "bd-sorcerer",
-      name: "BD Sorcerer",
-      class: "Sorcerer",
-      level: 50,
-    });
-    await seeder.saveBuild({
-      id: "bd-build",
-      characterId: "bd-sorcerer",
-      name: "BD Build",
-    });
-    await seeder.setActiveBuild("bd-build");
-  });
+  // Extend the hook timeout to 5 minutes; servers start in parallel so wall-clock
+  // time is roughly one server's startup time, not three.
+  test.setTimeout(300_000);
 
-  // Config gap build — character with affix whose attribute is nulled out (D26)
-  configGapCtx = await createTestContext(async (seeder) => {
-    // Write damage-config.local.json that sets Attr_Max_Life → null (removes it from the map)
-    await seeder.writeDamageConfigOverride({
-      attributeToBucket: {
-        Attr_Max_Life: null,
-      },
-    });
+  [normalCtx, corruptCtx, configGapCtx] = await Promise.all([
+    createTestContext(async (seeder) => {
+      await seeder.saveCharacter({
+        id: "bd-sorcerer",
+        name: "BD Sorcerer",
+        class: "Sorcerer",
+        level: 50,
+      });
+      await seeder.saveBuild({
+        id: "bd-build",
+        characterId: "bd-sorcerer",
+        name: "BD Build",
+      });
+      await seeder.setActiveBuild("bd-build");
+    }),
 
-    await seeder.saveCharacter({
-      id: "gap-sorcerer",
-      name: "Gap Sorcerer",
-      class: "Sorcerer",
-      level: 50,
-      equippedItems: {
-        helm: {
-          slot: "helm",
-          name: "Magistrate's Cowl",
-          rarity: "rare",
-          itemPower: 850,
-          isAncestral: false,
-          implicits: [],
-          explicits: [
-            { affixId: "affix_max_life", rolledValue: 2200 },
-          ],
-          tempered: [],
-          masterworkRank: 0,
-          runes: [],
-          sockets: [],
+    createTestContext(async (seeder) => {
+      await seeder.saveCharacter({
+        id: "corrupt-char",
+        name: "Corrupt Char",
+        class: "Sorcerer",
+        level: 1,
+      });
+      await seeder.writeRawBuildFile("corrupt-bd", "{ not valid json !!!");
+    }),
+
+    createTestContext(async (seeder) => {
+      await seeder.saveCharacter({
+        id: "gap-sorcerer",
+        name: "Gap Sorcerer",
+        class: "Sorcerer",
+        level: 100,
+        // Equip a helm with affix_max_life so the damage engine looks up Attr_Max_Life.
+        // The writeDamageConfigOverride below nulls that key, triggering the config-gap throw.
+        equippedItems: {
+          helm: {
+            slot: "helm",
+            name: "Test Helm",
+            rarity: "rare",
+            explicits: [{ affixId: "affix_max_life", rolledValue: 500 }],
+          },
         },
-      },
-    });
-    await seeder.saveBuild({
-      id: "gap-build",
-      characterId: "gap-sorcerer",
-      name: "Gap Build",
-    });
-    await seeder.setActiveBuild("gap-build");
-  });
-
-  // Corrupt build file — invalid JSON triggers inline error banner
-  corruptCtx = await createTestContext(async (seeder) => {
-    await seeder.saveCharacter({
-      id: "corrupt-char",
-      name: "Corrupt Char",
-      class: "Sorcerer",
-      level: 1,
-    });
-    await seeder.writeRawBuildFile("corrupt-bd", "this is not json!!!");
-    await seeder.setActiveBuild("corrupt-bd");
-  });
+      });
+      await seeder.saveBuild({
+        id: "gap-build",
+        characterId: "gap-sorcerer",
+        name: "Gap Build",
+      });
+      await seeder.setActiveBuild("gap-build");
+      // Remove Attr_Max_Life from damage config so DPS calculation hits a config gap
+      await seeder.writeDamageConfigOverride({ attributeToBucket: { Attr_Max_Life: null } });
+    }),
+  ]);
 });
 
 test.afterAll(async () => {
   await Promise.all([
-    destroyTestContext(normalCtx),
-    destroyTestContext(configGapCtx),
-    destroyTestContext(corruptCtx),
+    normalCtx ? destroyTestContext(normalCtx) : Promise.resolve(),
+    corruptCtx ? destroyTestContext(corruptCtx) : Promise.resolve(),
+    configGapCtx ? destroyTestContext(configGapCtx) : Promise.resolve(),
   ]);
 });
 
-// ─── Normal build detail ─────────────────────────────────────────────────────
+// ─── Normal build ─────────────────────────────────────────────────────────────
 
 test("build detail: <h1> shows character name", async ({ page }) => {
   await dismissSoftGate(page);
@@ -112,29 +98,27 @@ test("build detail: <h1> shows character name", async ({ page }) => {
 test("build detail: build name shown as accent sub-line", async ({ page }) => {
   await dismissSoftGate(page);
   await page.goto(`${normalCtx.baseURL}/builds/bd-build`);
-  await expect(page.locator("text=BD Build")).toBeVisible({ timeout: 15_000 });
+  // Build name appears in both sidebar and main — scope to main to avoid strict mode violation
+  await expect(page.locator("main").getByText("BD Build").first()).toBeVisible({ timeout: 15_000 });
 });
 
 test("build detail: chip line shows class and level", async ({ page }) => {
   await dismissSoftGate(page);
   await page.goto(`${normalCtx.baseURL}/builds/bd-build`);
   await page.waitForLoadState("networkidle");
-  await expect(page.locator("text=Sorcerer").first()).toBeVisible({ timeout: 15_000 });
-  await expect(page.locator("text=Lvl 50")).toBeVisible();
+  const main = page.locator("main");
+  await expect(main.locator("text=Sorcerer").first()).toBeVisible({ timeout: 15_000 });
+  // BuildSummaryView renders "Level {level}" (not "Lvl")
+  await expect(main.locator("text=Level 50").first()).toBeVisible();
 });
 
-test("build detail: Sorcerer shows 11 gear slots", async ({ page }) => {
+test("build detail: Sorcerer shows gear slots", async ({ page }) => {
   await dismissSoftGate(page);
   await page.goto(`${normalCtx.baseURL}/builds/bd-build`);
   await page.waitForLoadState("networkidle");
-  // Empty slots render <EmptySlot> with dashed border-stone-700
-  // Look for multiple dashed-border elements indicating the gear grid
-  await page.waitForSelector('[class*="border-stone-700"], [class*="dashed"]', { timeout: 15_000 });
-  // A Sorcerer has 11 slots: helm, chest, pants, boots, gloves, amulet, ring1, ring2,
-  // offhand, weapon, and either no extra slots
-  // Just verify the gear grid section exists
-  const gearGrid = page.locator('[class*="gear-slot"], [class*="GearSlot"], [class*="grid"]').first();
-  await expect(gearGrid).toBeVisible({ timeout: 10_000 });
+  // Empty gear slots render with border-dashed class
+  const emptySlot = page.locator('[class*="border-dashed"]').first();
+  await expect(emptySlot).toBeVisible({ timeout: 15_000 });
 });
 
 test("build detail: empty slots have dashed border styling", async ({ page }) => {
@@ -142,7 +126,7 @@ test("build detail: empty slots have dashed border styling", async ({ page }) =>
   await page.goto(`${normalCtx.baseURL}/builds/bd-build`);
   await page.waitForLoadState("networkidle");
   // At least one empty slot indicator should exist for a build with no equipped items
-  const emptySlots = page.locator('[class*="border-dashed"], [class*="border-stone-700"]');
+  const emptySlots = page.locator('[class*="border-dashed"]');
   await expect(emptySlots.first()).toBeVisible({ timeout: 15_000 });
 });
 
@@ -152,9 +136,6 @@ test("build detail: non-existent ID returns 404 page", async ({ page }) => {
   await dismissSoftGate(page);
   await page.goto(`${normalCtx.baseURL}/builds/does-not-exist`);
   // Next.js notFound() renders a 404 page
-  const status = page.locator("h2, h1");
-  await expect(status.first()).toBeVisible({ timeout: 10_000 });
-  // Look for the 404 text
   const body = await page.content();
   expect(body).toMatch(/404|not found/i);
 });

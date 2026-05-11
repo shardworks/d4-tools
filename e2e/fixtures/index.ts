@@ -31,6 +31,29 @@ import { AnthropicMockServer } from "./mock-server";
 import { startNextServer, type TestServer } from "./server";
 import { createSeeder, type Seeder } from "./seed";
 
+/**
+ * Returns a writable temp directory base.
+ * Prefers $TMPDIR or $E2E_TMPDIR if set; falls back to a workspace-local
+ * tmp/ subdirectory when /tmp is full or unavailable (common in
+ * inode-constrained CI environments).
+ */
+async function getE2ETmpBase(): Promise<string> {
+  const override = process.env.E2E_TMPDIR;
+  if (override) return override;
+  // Try os.tmpdir() first — most performant (RAM-backed tmpfs on most systems)
+  const systemTmp = os.tmpdir();
+  try {
+    const probe = await fs.mkdtemp(path.join(systemTmp, "d4-probe-"));
+    await fs.rm(probe, { recursive: true, force: true });
+    return systemTmp;
+  } catch {
+    // /tmp is full or unavailable — use a workspace-local directory instead
+    const localTmp = path.resolve(__dirname, "../../tmp/e2e");
+    await fs.mkdir(localTmp, { recursive: true });
+    return localTmp;
+  }
+}
+
 export type { Seeder } from "./seed";
 export { AnthropicMockServer } from "./mock-server";
 
@@ -62,8 +85,9 @@ export type SeedFunction = (seeder: Seeder, ctx: Omit<TestContext, "appServer" |
  *                Receives the Seeder and partial TestContext (without appServer/baseURL).
  */
 export async function createTestContext(seedFn?: SeedFunction): Promise<TestContext> {
-  const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), "d4-e2e-data-"));
-  const screenshotDir = await fs.mkdtemp(path.join(os.tmpdir(), "d4-e2e-ss-"));
+  const tmpBase = await getE2ETmpBase();
+  const dataDir = await fs.mkdtemp(path.join(tmpBase, "d4-e2e-data-"));
+  const screenshotDir = await fs.mkdtemp(path.join(tmpBase, "d4-e2e-ss-"));
 
   const mockPort = await getFreePort();
   const appPort = await getFreePort();
