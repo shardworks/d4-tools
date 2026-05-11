@@ -22,6 +22,7 @@ The app runs at `http://localhost:3000`.
 | `SCREENSHOT_DIR` | _(none)_ | Always | Destination directory for uploaded screenshots and the `/triage` gallery source. The upload endpoint writes here; the gallery reads here. No dev fallback — the app throws if unset whenever `/triage` is used. |
 | `ANTHROPIC_API_KEY` | _(none)_ | For `/triage` | Anthropic API key for Vision-LLM screenshot parsing. Server-side only — never exposed to the browser. |
 | `ANTHROPIC_API_URL` | `https://api.anthropic.com/v1/messages` | No | Override the Anthropic API endpoint. Used by the e2e test suite to redirect Vision API calls to a local mock server. Do not set in production. |
+| `ANTHROPIC_BASE_URL` | `https://api.anthropic.com` | No | Override the Anthropic API origin; the client appends `/v1/messages` to form the full endpoint. `ANTHROPIC_API_URL` wins when both are set. Used by the HTTP acceptance harness's stub server. Do not set in production. |
 | `UPLOAD_SECRET` | _(none)_ | Recommended for non-LAN | Optional shared secret for `POST /api/triage/upload`. Set to any strong random string when the endpoint is reachable beyond a private LAN. The PowerShell watcher sends this as `X-Upload-Token`. |
 
 In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENSHOT_DIR` and `ANTHROPIC_API_KEY` are required to use the `/triage` workspace.
