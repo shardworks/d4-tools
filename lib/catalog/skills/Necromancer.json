@@ -4,34 +4,312 @@
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
     "patch": "3.0.1.71747",
-    "accessedDate": "2026-05-08"
+    "accessedDate": "2026-05-08",
+    "maxRankSource": {
+      "url": "https://d4builds.gg",
+      "accessedDate": "2026-05-11",
+      "notes": "Season 13 skill planner; in-game UI not accessible from dev environment (D1 fallback). All active tiers (basic, core, macabre, defensive, summoning) cap at 9; Bone Spear at 10 (1 extra adjacent node). Golem and ultimates/key-passives verified correct at 1."
+    }
   },
   "skills": [
-    { "id": "necro_bone_splinters",   "label": "Bone Splinters",   "category": "basic",      "maxRank": 5, "bnetFileName": "Necromancer_BoneSplinters",    "bnetId": 1847420, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.30, "rankScale": 0.03 }] },
-    { "id": "necro_decompose",        "label": "Decompose",        "category": "basic",      "maxRank": 5, "bnetFileName": "Necromancer_Decompose",         "bnetId": 1847421, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.28, "rankScale": 0.03 }] },
-    { "id": "necro_hemorrhage",       "label": "Hemorrhage",       "category": "basic",      "maxRank": 5, "bnetFileName": "Necromancer_Hemorrhage",        "bnetId": 1847422, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.32, "rankScale": 0.03 }] },
-    { "id": "necro_reap",             "label": "Reap",             "category": "basic",      "maxRank": 5, "bnetFileName": "Necromancer_Reap",              "bnetId": 1847423, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.35, "rankScale": 0.04 }] },
-    { "id": "necro_bone_spear",       "label": "Bone Spear",       "category": "core",       "maxRank": 5, "bnetFileName": "Necromancer_BoneSpear",         "bnetId": 1847424, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.10, "rankScale": 0.09 }] },
-    { "id": "necro_blood_lance",      "label": "Blood Lance",      "category": "core",       "maxRank": 5, "bnetFileName": "Necromancer_BloodLance",        "bnetId": 1847425, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.95, "rankScale": 0.09 }] },
-    { "id": "necro_blood_surge",      "label": "Blood Surge",      "category": "core",       "maxRank": 5, "bnetFileName": "Necromancer_BloodSurge",        "bnetId": 1847426, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.00, "rankScale": 0.09 }] },
-    { "id": "necro_sever",            "label": "Sever",            "category": "core",       "maxRank": 5, "bnetFileName": "Necromancer_Sever",             "bnetId": 1847427, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.08 }] },
-    { "id": "necro_bone_spirit",      "label": "Bone Spirit",      "category": "macabre",    "maxRank": 5, "bnetFileName": "Necromancer_BoneSpirit",        "bnetId": 1847428, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.50, "rankScale": 0.12 }] },
-    { "id": "necro_corpse_explosion", "label": "Corpse Explosion", "category": "macabre",    "maxRank": 5, "bnetFileName": "Necromancer_CorpseExplosion",   "bnetId": 1847429, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.20, "rankScale": 0.10 }] },
-    { "id": "necro_blood_mist",       "label": "Blood Mist",       "category": "defensive",  "maxRank": 5, "bnetFileName": "Necromancer_BloodMist",         "bnetId": 1847430, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.25, "rankScale": 0.02 }] },
-    { "id": "necro_bone_prison",      "label": "Bone Prison",      "category": "defensive",  "maxRank": 5, "bnetFileName": "Necromancer_BonePrison",        "bnetId": 1847431 },
-    { "id": "necro_corpse_tendrils",  "label": "Corpse Tendrils",  "category": "defensive",  "maxRank": 5, "bnetFileName": "Necromancer_CorpseTendrils",    "bnetId": 1847432 },
-    { "id": "necro_decrepify",        "label": "Decrepify",        "category": "defensive",  "maxRank": 5, "bnetFileName": "Necromancer_Decrepify",         "bnetId": 1847433 },
-    { "id": "necro_iron_maiden",      "label": "Iron Maiden",      "category": "defensive",  "maxRank": 5, "bnetFileName": "Necromancer_IronMaiden",        "bnetId": 1847434 },
-    { "id": "necro_skeletal_warriors","label": "Skeletal Warriors","category": "summoning",  "maxRank": 5, "bnetFileName": "Necromancer_SkeletalWarriors",  "bnetId": 1847435 },
-    { "id": "necro_skeletal_mages",   "label": "Skeletal Mages",   "category": "summoning",  "maxRank": 5, "bnetFileName": "Necromancer_SkeletalMages",     "bnetId": 1847436 },
-    { "id": "necro_golem",            "label": "Golem",            "category": "summoning",  "maxRank": 1, "bnetFileName": "Necromancer_Golem",             "bnetId": 1847437 },
-    { "id": "necro_army_of_the_dead", "label": "Army of the Dead", "category": "ultimate",   "maxRank": 1, "bnetFileName": "Necromancer_ArmyOfTheDead",     "bnetId": 1847438 },
-    { "id": "necro_blood_wave",       "label": "Blood Wave",       "category": "ultimate",   "maxRank": 1, "bnetFileName": "Necromancer_BloodWave",         "bnetId": 1847439, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 3.00, "rankScale": 0.22 }] },
-    { "id": "necro_bone_storm",       "label": "Bone Storm",       "category": "ultimate",   "maxRank": 1, "bnetFileName": "Necromancer_BoneStorm",         "bnetId": 1847440, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 2.50, "rankScale": 0.20 }] },
-    { "id": "necro_stand_alone",      "label": "Stand Alone",      "category": "key-passive","maxRank": 1, "bnetFileName": "Necromancer_StandAlone",        "bnetId": 1847441 },
-    { "id": "necro_ossified_essence", "label": "Ossified Essence", "category": "key-passive","maxRank": 1, "bnetFileName": "Necromancer_OssifiedEssence",   "bnetId": 1847442 },
-    { "id": "necro_rathmas_vigor",    "label": "Rathma's Vigor",   "category": "key-passive","maxRank": 1, "bnetFileName": "Necromancer_RathmasVigor",      "bnetId": 1847443 },
-    { "id": "necro_serration",        "label": "Serration",        "category": "key-passive","maxRank": 1, "bnetFileName": "Necromancer_Serration",         "bnetId": 1847444 },
-    { "id": "necro_death_trio",       "label": "Death Trio",       "category": "key-passive","maxRank": 1, "bnetFileName": "Necromancer_DeathTrio",         "bnetId": 1847445 }
+    {
+      "id": "necro_bone_splinters",
+      "label": "Bone Splinters",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BoneSplinters",
+      "bnetId": 1847420,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.3,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "necro_decompose",
+      "label": "Decompose",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_Decompose",
+      "bnetId": 1847421,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.28,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "necro_hemorrhage",
+      "label": "Hemorrhage",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_Hemorrhage",
+      "bnetId": 1847422,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.32,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "necro_reap",
+      "label": "Reap",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_Reap",
+      "bnetId": 1847423,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.35,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "necro_bone_spear",
+      "label": "Bone Spear",
+      "category": "core",
+      "maxRank": 10,
+      "bnetFileName": "Necromancer_BoneSpear",
+      "bnetId": 1847424,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.1,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "necro_blood_lance",
+      "label": "Blood Lance",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BloodLance",
+      "bnetId": 1847425,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.95,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "necro_blood_surge",
+      "label": "Blood Surge",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BloodSurge",
+      "bnetId": 1847426,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.0,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "necro_sever",
+      "label": "Sever",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_Sever",
+      "bnetId": 1847427,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "necro_bone_spirit",
+      "label": "Bone Spirit",
+      "category": "macabre",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BoneSpirit",
+      "bnetId": 1847428,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.5,
+          "rankScale": 0.12
+        }
+      ]
+    },
+    {
+      "id": "necro_corpse_explosion",
+      "label": "Corpse Explosion",
+      "category": "macabre",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_CorpseExplosion",
+      "bnetId": 1847429,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.2,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "necro_blood_mist",
+      "label": "Blood Mist",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BloodMist",
+      "bnetId": 1847430,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.25,
+          "rankScale": 0.02
+        }
+      ]
+    },
+    {
+      "id": "necro_bone_prison",
+      "label": "Bone Prison",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_BonePrison",
+      "bnetId": 1847431
+    },
+    {
+      "id": "necro_corpse_tendrils",
+      "label": "Corpse Tendrils",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_CorpseTendrils",
+      "bnetId": 1847432
+    },
+    {
+      "id": "necro_decrepify",
+      "label": "Decrepify",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_Decrepify",
+      "bnetId": 1847433
+    },
+    {
+      "id": "necro_iron_maiden",
+      "label": "Iron Maiden",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_IronMaiden",
+      "bnetId": 1847434
+    },
+    {
+      "id": "necro_skeletal_warriors",
+      "label": "Skeletal Warriors",
+      "category": "summoning",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_SkeletalWarriors",
+      "bnetId": 1847435
+    },
+    {
+      "id": "necro_skeletal_mages",
+      "label": "Skeletal Mages",
+      "category": "summoning",
+      "maxRank": 9,
+      "bnetFileName": "Necromancer_SkeletalMages",
+      "bnetId": 1847436
+    },
+    {
+      "id": "necro_golem",
+      "label": "Golem",
+      "category": "summoning",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_Golem",
+      "bnetId": 1847437
+    },
+    {
+      "id": "necro_army_of_the_dead",
+      "label": "Army of the Dead",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_ArmyOfTheDead",
+      "bnetId": 1847438
+    },
+    {
+      "id": "necro_blood_wave",
+      "label": "Blood Wave",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_BloodWave",
+      "bnetId": 1847439,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 3.0,
+          "rankScale": 0.22
+        }
+      ]
+    },
+    {
+      "id": "necro_bone_storm",
+      "label": "Bone Storm",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_BoneStorm",
+      "bnetId": 1847440,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 2.5,
+          "rankScale": 0.2
+        }
+      ]
+    },
+    {
+      "id": "necro_stand_alone",
+      "label": "Stand Alone",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_StandAlone",
+      "bnetId": 1847441
+    },
+    {
+      "id": "necro_ossified_essence",
+      "label": "Ossified Essence",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_OssifiedEssence",
+      "bnetId": 1847442
+    },
+    {
+      "id": "necro_rathmas_vigor",
+      "label": "Rathma's Vigor",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_RathmasVigor",
+      "bnetId": 1847443
+    },
+    {
+      "id": "necro_serration",
+      "label": "Serration",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_Serration",
+      "bnetId": 1847444
+    },
+    {
+      "id": "necro_death_trio",
+      "label": "Death Trio",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Necromancer_DeathTrio",
+      "bnetId": 1847445
+    }
   ]
 }

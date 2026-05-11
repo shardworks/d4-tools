@@ -45,7 +45,6 @@ interface RawPower {
   fResourceCost?: number;
   /** Cooldown in seconds (Hungarian: fCooldownDuration → normalized: cooldownSeconds) */
   fCooldownDuration?: number;
-  nMaxRank?: number;
 }
 
 // ─── Transformer ──────────────────────────────────────────────────────────────

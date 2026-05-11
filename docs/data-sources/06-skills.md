@@ -75,6 +75,17 @@ during import. `arScalingAttributes` → `scalingAttributes`, `arTagsGranted` �
 and stored on `SkillEntry` in the catalog. The damage engine (`lib/damage/`) uses `scalingAttributes`
 to compute per-skill DPS coefficients. See `lib/catalog/README.md` and `lib/damage/README.md`.
 
+**`nMaxRank` vs catalog `maxRank`:** The Power file's `nMaxRank` field (value 5 in most datamine
+entries) represents the base direct-click cap — the number of skill points a player can allocate
+directly into the skill node by clicking it. It does *not* account for adjacent passive nodes in
+the skill tree that each grant "+1 rank to \[Skill\]" upon activation. The catalog's `maxRank`
+field is the **tree-allocation cap** — the full maximum rank achievable through the in-game skill
+tree, including all adjacent in-tree rank-boost nodes. For example, Paladin justice-tier skills
+reach `maxRank: 15` (5 base + 10 adjacent rank-boost nodes) despite having `nMaxRank: 5` in the
+datamine. The `nMaxRank` datamine field is no longer surfaced by the import pipeline; the
+per-skill tree-allocation cap is sourced from `tools/datamine-import/curation.json` and cited
+in each catalog file's `verifiedAgainst.maxRankSource` block.
+
 **ToS:** See `08-datamine-extracts.md §2.1`.
 
 ---

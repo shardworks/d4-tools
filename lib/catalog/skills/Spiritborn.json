@@ -4,36 +4,377 @@
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
     "patch": "3.0.1.71747",
-    "accessedDate": "2026-05-08"
+    "accessedDate": "2026-05-08",
+    "maxRankSource": {
+      "url": "https://d4builds.gg",
+      "accessedDate": "2026-05-11",
+      "notes": "Season 13 skill planner; in-game UI not accessible from dev environment (D1 fallback). Basic through defensive tiers cap at 9; focus tier caps at 12; Quill Volley (Eagle Core) at 10 (1 extra adjacent node). Ultimates/key-passives verified correct at 1."
+    }
   },
   "skills": [
-    { "id": "sb_thunderspike",     "label": "Thunderspike",     "category": "basic",      "maxRank": 5, "bnetFileName": "Spiritborn_Eagle_Basic",          "bnetId": 1834476, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.38, "rankScale": 0.04 }] },
-    { "id": "sb_rock_splitter",    "label": "Rock Splitter",    "category": "basic",      "maxRank": 5, "bnetFileName": "Spiritborn_Gorilla_Basic",         "bnetId": 1817045, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.40, "rankScale": 0.04 }] },
-    { "id": "sb_thrash",           "label": "Thrash",           "category": "basic",      "maxRank": 5, "bnetFileName": "Spiritborn_Jaguar_Basic",          "bnetId": 1834473, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.35, "rankScale": 0.04 }] },
-    { "id": "sb_withering_fist",   "label": "Withering Fist",   "category": "basic",      "maxRank": 5, "bnetFileName": "Spiritborn_Centipede_Basic",       "bnetId": 1834471, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.30, "rankScale": 0.03 }] },
-    { "id": "sb_quill_volley",     "label": "Quill Volley",     "category": "core",       "maxRank": 5, "bnetFileName": "Spiritborn_Eagle_Core",            "bnetId": 1519048, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.08 }] },
-    { "id": "sb_crushing_hand",    "label": "Crushing Hand",    "category": "core",       "maxRank": 5, "bnetFileName": "Spiritborn_Gorilla_Core",          "bnetId": 1519050, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.20, "rankScale": 0.10 }] },
-    { "id": "sb_rake",             "label": "Rake",             "category": "core",       "maxRank": 5, "bnetFileName": "Spiritborn_Jaguar_Core",           "bnetId": 1640931, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.90, "rankScale": 0.09 }] },
-    { "id": "sb_stinger",          "label": "Stinger",          "category": "core",       "maxRank": 5, "bnetFileName": "Spiritborn_Centipede_Core",        "bnetId": 1836008, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "sb_razor_wings",      "label": "Razor Wings",      "category": "potency",    "maxRank": 5, "bnetFileName": "Spiritborn_Eagle_Potency1",        "bnetId": 1871807, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.00, "rankScale": 0.09 }] },
-    { "id": "sb_payback",          "label": "Payback",          "category": "potency",    "maxRank": 5, "bnetFileName": "Spiritborn_Gorilla_Potency",       "bnetId": 1871823, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.90, "rankScale": 0.09 }] },
-    { "id": "sb_rushing_claw",     "label": "Rushing Claw",     "category": "potency",    "maxRank": 5, "bnetFileName": "Spiritborn_Jaguar_Potency",        "bnetId": 1871761, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.08 }] },
-    { "id": "sb_touch_of_death",   "label": "Touch of Death",   "category": "potency",    "maxRank": 5, "bnetFileName": "Spiritborn_Centipede_Potency",     "bnetId": 1871809, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.75, "rankScale": 0.07 }] },
-    { "id": "sb_armored_hide",     "label": "Armored Hide",     "category": "defensive",  "maxRank": 5, "bnetFileName": "Spiritborn_Gorilla_Defensive1",    "bnetId": 1871764 },
-    { "id": "sb_concussive_stomp", "label": "Concussive Stomp", "category": "defensive",  "maxRank": 5, "bnetFileName": "Spiritborn_Gorilla_Defensive2",    "bnetId": 1871825, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.60, "rankScale": 0.06 }] },
-    { "id": "sb_counterattack",    "label": "Counterattack",    "category": "defensive",  "maxRank": 5, "bnetFileName": "Spiritborn_Jaguar_Defensive",      "bnetId": 1871819, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.65, "rankScale": 0.06 }] },
-    { "id": "sb_scourge",          "label": "Scourge",          "category": "defensive",  "maxRank": 5, "bnetFileName": "Spiritborn_Centipede_Defensive",   "bnetId": 1871801 },
-    { "id": "sb_vortex",           "label": "Vortex",           "category": "focus",      "maxRank": 5, "bnetFileName": "Spiritborn_Eagle_Focus",           "bnetId": 1489641, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.10, "rankScale": 0.10 }] },
-    { "id": "sb_soar",             "label": "Soar",             "category": "focus",      "maxRank": 5, "bnetFileName": "Spiritborn_Eagle_Focus2",          "bnetId": 1871821, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "sb_ravager",          "label": "Ravager",          "category": "focus",      "maxRank": 5, "bnetFileName": "Spiritborn_Jaguar_Focus",          "bnetId": 1862773, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.20, "rankScale": 0.10 }] },
-    { "id": "sb_toxic_skin",       "label": "Toxic Skin",       "category": "focus",      "maxRank": 5, "bnetFileName": "Spiritborn_Centipede_Focus",       "bnetId": 1871813 },
-    { "id": "sb_the_seeker",       "label": "The Seeker",       "category": "ultimate",   "maxRank": 1, "bnetFileName": "Spiritborn_Eagle_Ultimate",        "bnetId": 1663204, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 2.50, "rankScale": 0.20 }] },
-    { "id": "sb_the_protector",    "label": "The Protector",    "category": "ultimate",   "maxRank": 1, "bnetFileName": "Spiritborn_Gorilla_Ultimate",      "bnetId": 1663208 },
-    { "id": "sb_the_hunter",       "label": "The Hunter",       "category": "ultimate",   "maxRank": 1, "bnetFileName": "Spiritborn_Jaguar_Ultimate",       "bnetId": 1663206, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 3.00, "rankScale": 0.22 }] },
-    { "id": "sb_the_devourer",     "label": "The Devourer",     "category": "ultimate",   "maxRank": 1, "bnetFileName": "Spiritborn_Centipede_Ultimate",    "bnetId": 1663210, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 2.80, "rankScale": 0.22 }] },
-    { "id": "sb_vital_strikes",    "label": "Vital Strikes",    "category": "key-passive","maxRank": 1, "bnetFileName": "Spiritborn_Talent_KeyPassive_1",   "bnetId": 1920204 },
-    { "id": "sb_prodigys_tempo",   "label": "Prodigy's Tempo",  "category": "key-passive","maxRank": 1, "bnetFileName": "Spiritborn_Talent_KeyPassive_3",   "bnetId": 1920209 },
-    { "id": "sb_noxious_resonance","label": "Noxious Resonance","category": "key-passive","maxRank": 1, "bnetFileName": "Spiritborn_Talent_KeyPassive_4",   "bnetId": 1920211 },
-    { "id": "sb_adaptive_stances", "label": "Adaptive Stances", "category": "key-passive","maxRank": 1, "bnetFileName": "Spiritborn_Talent_KeyPassive_5",   "bnetId": 1955450 }
+    {
+      "id": "sb_thunderspike",
+      "label": "Thunderspike",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Eagle_Basic",
+      "bnetId": 1834476,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.38,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "sb_rock_splitter",
+      "label": "Rock Splitter",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Gorilla_Basic",
+      "bnetId": 1817045,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.4,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "sb_thrash",
+      "label": "Thrash",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Jaguar_Basic",
+      "bnetId": 1834473,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.35,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "sb_withering_fist",
+      "label": "Withering Fist",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Centipede_Basic",
+      "bnetId": 1834471,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.3,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "sb_quill_volley",
+      "label": "Quill Volley",
+      "category": "core",
+      "maxRank": 10,
+      "bnetFileName": "Spiritborn_Eagle_Core",
+      "bnetId": 1519048,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "sb_crushing_hand",
+      "label": "Crushing Hand",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Gorilla_Core",
+      "bnetId": 1519050,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.2,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "sb_rake",
+      "label": "Rake",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Jaguar_Core",
+      "bnetId": 1640931,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.9,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "sb_stinger",
+      "label": "Stinger",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Centipede_Core",
+      "bnetId": 1836008,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "sb_razor_wings",
+      "label": "Razor Wings",
+      "category": "potency",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Eagle_Potency1",
+      "bnetId": 1871807,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.0,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "sb_payback",
+      "label": "Payback",
+      "category": "potency",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Gorilla_Potency",
+      "bnetId": 1871823,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.9,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "sb_rushing_claw",
+      "label": "Rushing Claw",
+      "category": "potency",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Jaguar_Potency",
+      "bnetId": 1871761,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "sb_touch_of_death",
+      "label": "Touch of Death",
+      "category": "potency",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Centipede_Potency",
+      "bnetId": 1871809,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.75,
+          "rankScale": 0.07
+        }
+      ]
+    },
+    {
+      "id": "sb_armored_hide",
+      "label": "Armored Hide",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Gorilla_Defensive1",
+      "bnetId": 1871764
+    },
+    {
+      "id": "sb_concussive_stomp",
+      "label": "Concussive Stomp",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Gorilla_Defensive2",
+      "bnetId": 1871825,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.6,
+          "rankScale": 0.06
+        }
+      ]
+    },
+    {
+      "id": "sb_counterattack",
+      "label": "Counterattack",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Jaguar_Defensive",
+      "bnetId": 1871819,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.65,
+          "rankScale": 0.06
+        }
+      ]
+    },
+    {
+      "id": "sb_scourge",
+      "label": "Scourge",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Spiritborn_Centipede_Defensive",
+      "bnetId": 1871801
+    },
+    {
+      "id": "sb_vortex",
+      "label": "Vortex",
+      "category": "focus",
+      "maxRank": 12,
+      "bnetFileName": "Spiritborn_Eagle_Focus",
+      "bnetId": 1489641,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.1,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "sb_soar",
+      "label": "Soar",
+      "category": "focus",
+      "maxRank": 12,
+      "bnetFileName": "Spiritborn_Eagle_Focus2",
+      "bnetId": 1871821,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "sb_ravager",
+      "label": "Ravager",
+      "category": "focus",
+      "maxRank": 12,
+      "bnetFileName": "Spiritborn_Jaguar_Focus",
+      "bnetId": 1862773,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.2,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "sb_toxic_skin",
+      "label": "Toxic Skin",
+      "category": "focus",
+      "maxRank": 12,
+      "bnetFileName": "Spiritborn_Centipede_Focus",
+      "bnetId": 1871813
+    },
+    {
+      "id": "sb_the_seeker",
+      "label": "The Seeker",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Eagle_Ultimate",
+      "bnetId": 1663204,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 2.5,
+          "rankScale": 0.2
+        }
+      ]
+    },
+    {
+      "id": "sb_the_protector",
+      "label": "The Protector",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Gorilla_Ultimate",
+      "bnetId": 1663208
+    },
+    {
+      "id": "sb_the_hunter",
+      "label": "The Hunter",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Jaguar_Ultimate",
+      "bnetId": 1663206,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 3.0,
+          "rankScale": 0.22
+        }
+      ]
+    },
+    {
+      "id": "sb_the_devourer",
+      "label": "The Devourer",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Centipede_Ultimate",
+      "bnetId": 1663210,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 2.8,
+          "rankScale": 0.22
+        }
+      ]
+    },
+    {
+      "id": "sb_vital_strikes",
+      "label": "Vital Strikes",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Talent_KeyPassive_1",
+      "bnetId": 1920204
+    },
+    {
+      "id": "sb_prodigys_tempo",
+      "label": "Prodigy's Tempo",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Talent_KeyPassive_3",
+      "bnetId": 1920209
+    },
+    {
+      "id": "sb_noxious_resonance",
+      "label": "Noxious Resonance",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Talent_KeyPassive_4",
+      "bnetId": 1920211
+    },
+    {
+      "id": "sb_adaptive_stances",
+      "label": "Adaptive Stances",
+      "category": "key-passive",
+      "maxRank": 1,
+      "bnetFileName": "Spiritborn_Talent_KeyPassive_5",
+      "bnetId": 1955450
+    }
   ]
 }

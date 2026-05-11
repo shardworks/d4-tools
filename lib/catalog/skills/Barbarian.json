@@ -4,32 +4,324 @@
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
     "patch": "3.0.1.71747",
-    "accessedDate": "2026-05-08"
+    "accessedDate": "2026-05-08",
+    "maxRankSource": {
+      "url": "https://d4builds.gg",
+      "accessedDate": "2026-05-11",
+      "notes": "Season 13 skill planner; in-game UI not accessible from dev environment (D1 fallback). Tree-allocation cap = 5 base + adjacent rank-boost nodes. Basic through brawling tiers cap at 9; weapon-mastery caps at 12; Whirlwind at 10 (1 extra adjacent node)."
+    }
   },
   "skills": [
-    { "id": "barb_bash",              "label": "Bash",                  "category": "basic",          "maxRank": 5, "bnetFileName": "Barbarian_Bash",               "bnetId": 200765,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.35, "rankScale": 0.04 }] },
-    { "id": "barb_flay",              "label": "Flay",                  "category": "basic",          "maxRank": 5, "bnetFileName": "Barbarian_Maim",               "bnetId": 210431,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.30, "rankScale": 0.03 }] },
-    { "id": "barb_frenzy",            "label": "Frenzy",                "category": "basic",          "maxRank": 5, "bnetFileName": "Barbarian_Frenzy",             "bnetId": 210919,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.28, "rankScale": 0.03 }] },
-    { "id": "barb_lunging_strike",    "label": "Lunging Strike",        "category": "basic",          "maxRank": 5, "bnetFileName": "Barbarian_LungingStrike",       "bnetId": 206504,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.32, "rankScale": 0.04 }] },
-    { "id": "barb_double_swing",      "label": "Double Swing",          "category": "core",           "maxRank": 5, "bnetFileName": "Barbarian_DoubleSwing",         "bnetId": 208000,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "barb_hammer_of_ancients","label": "Hammer of the Ancients","category": "core",           "maxRank": 5, "bnetFileName": "Barbarian_HammeroftheAncients", "bnetId": 213673,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.25, "rankScale": 0.10 }] },
-    { "id": "barb_rend",              "label": "Rend",                  "category": "core",           "maxRank": 5, "bnetFileName": "Barbarian_Rend",               "bnetId": 214786,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "barb_upheaval",          "label": "Upheaval",              "category": "core",           "maxRank": 5, "bnetFileName": "Barbarian_Upheaval",           "bnetId": 202484,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.60, "rankScale": 0.12 }] },
-    { "id": "barb_whirlwind",         "label": "Whirlwind",             "category": "core",           "maxRank": 5, "bnetFileName": "Barbarian_Whirlwind",          "bnetId": 206435,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.75, "rankScale": 0.07 }] },
-    { "id": "barb_ground_stomp",      "label": "Ground Stomp",          "category": "defensive",      "maxRank": 5, "bnetFileName": "Barbarian_GroundStomp",        "bnetId": 186358 },
-    { "id": "barb_rallying_cry",      "label": "Rallying Cry",          "category": "defensive",      "maxRank": 5, "bnetFileName": "Barbarian_RallyingCry",        "bnetId": 211938 },
-    { "id": "barb_challenging_shout", "label": "Challenging Shout",     "category": "defensive",      "maxRank": 5, "bnetFileName": "Barbarian_ChallengingShout",   "bnetId": 375484 },
-    { "id": "barb_iron_skin",         "label": "Iron Skin",             "category": "defensive",      "maxRank": 5, "bnetFileName": "Barbarian_IronSkin",           "bnetId": 512222 },
-    { "id": "barb_leap",              "label": "Leap",                  "category": "brawling",       "maxRank": 5, "bnetFileName": "Barbarian_Leap",               "bnetId": 196545,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.09 }] },
-    { "id": "barb_charge",            "label": "Charge",                "category": "brawling",       "maxRank": 5, "bnetFileName": "Barbarian_Charge",             "bnetId": 204662,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "barb_kick",              "label": "Kick",                  "category": "brawling",       "maxRank": 5, "bnetFileName": "Barbarian_Kick",               "bnetId": 199516,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.70, "rankScale": 0.07 }] },
-    { "id": "barb_war_cry",           "label": "War Cry",               "category": "brawling",       "maxRank": 5, "bnetFileName": "Barbarian_WarCry",             "bnetId": 184600 },
-    { "id": "barb_steel_grasp",       "label": "Steel Grasp",           "category": "weapon-mastery", "maxRank": 5, "bnetFileName": "Barbarian_SteelGrasp",         "bnetId": 964631,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.90, "rankScale": 0.09 }] },
-    { "id": "barb_death_blow",        "label": "Death Blow",            "category": "weapon-mastery", "maxRank": 5, "bnetFileName": "Barbarian_DeathBlow",          "bnetId": 323105,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.80, "rankScale": 0.15 }] },
-    { "id": "barb_rupture",           "label": "Rupture",               "category": "weapon-mastery", "maxRank": 5, "bnetFileName": "Barbarian_Rupture",            "bnetId": 215027,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.40, "rankScale": 0.12 }] },
-    { "id": "barb_mighty_throw",      "label": "Mighty Throw",          "category": "weapon-mastery", "maxRank": 5, "bnetFileName": "X1_Barbarian_WeaponThrow",      "bnetId": 1611316, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.00, "rankScale": 0.10 }] },
-    { "id": "barb_call_of_ancients",  "label": "Call of the Ancients",  "category": "ultimate",       "maxRank": 1, "bnetFileName": "Barbarian_CalloftheAncients",  "bnetId": 309802 },
-    { "id": "barb_iron_maelstrom",    "label": "Iron Maelstrom",        "category": "ultimate",       "maxRank": 1, "bnetFileName": "Barbarian_IronMaelstrom",      "bnetId": 217175,  "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 2.80, "rankScale": 0.25 }] },
-    { "id": "barb_wrath_of_berserker","label": "Wrath of the Berserker","category": "ultimate",       "maxRank": 1, "bnetFileName": "Barbarian_WrathoftheBerserker","bnetId": 211871 }
+    {
+      "id": "barb_bash",
+      "label": "Bash",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Bash",
+      "bnetId": 200765,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.35,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "barb_flay",
+      "label": "Flay",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Maim",
+      "bnetId": 210431,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.3,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "barb_frenzy",
+      "label": "Frenzy",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Frenzy",
+      "bnetId": 210919,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.28,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "barb_lunging_strike",
+      "label": "Lunging Strike",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_LungingStrike",
+      "bnetId": 206504,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.32,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "barb_double_swing",
+      "label": "Double Swing",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_DoubleSwing",
+      "bnetId": 208000,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "barb_hammer_of_ancients",
+      "label": "Hammer of the Ancients",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_HammeroftheAncients",
+      "bnetId": 213673,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.25,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "barb_rend",
+      "label": "Rend",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Rend",
+      "bnetId": 214786,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "barb_upheaval",
+      "label": "Upheaval",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Upheaval",
+      "bnetId": 202484,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.6,
+          "rankScale": 0.12
+        }
+      ]
+    },
+    {
+      "id": "barb_whirlwind",
+      "label": "Whirlwind",
+      "category": "core",
+      "maxRank": 10,
+      "bnetFileName": "Barbarian_Whirlwind",
+      "bnetId": 206435,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.75,
+          "rankScale": 0.07
+        }
+      ]
+    },
+    {
+      "id": "barb_ground_stomp",
+      "label": "Ground Stomp",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_GroundStomp",
+      "bnetId": 186358
+    },
+    {
+      "id": "barb_rallying_cry",
+      "label": "Rallying Cry",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_RallyingCry",
+      "bnetId": 211938
+    },
+    {
+      "id": "barb_challenging_shout",
+      "label": "Challenging Shout",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_ChallengingShout",
+      "bnetId": 375484
+    },
+    {
+      "id": "barb_iron_skin",
+      "label": "Iron Skin",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_IronSkin",
+      "bnetId": 512222
+    },
+    {
+      "id": "barb_leap",
+      "label": "Leap",
+      "category": "brawling",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Leap",
+      "bnetId": 196545,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "barb_charge",
+      "label": "Charge",
+      "category": "brawling",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Charge",
+      "bnetId": 204662,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "barb_kick",
+      "label": "Kick",
+      "category": "brawling",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_Kick",
+      "bnetId": 199516,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.7,
+          "rankScale": 0.07
+        }
+      ]
+    },
+    {
+      "id": "barb_war_cry",
+      "label": "War Cry",
+      "category": "brawling",
+      "maxRank": 9,
+      "bnetFileName": "Barbarian_WarCry",
+      "bnetId": 184600
+    },
+    {
+      "id": "barb_steel_grasp",
+      "label": "Steel Grasp",
+      "category": "weapon-mastery",
+      "maxRank": 12,
+      "bnetFileName": "Barbarian_SteelGrasp",
+      "bnetId": 964631,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.9,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "barb_death_blow",
+      "label": "Death Blow",
+      "category": "weapon-mastery",
+      "maxRank": 12,
+      "bnetFileName": "Barbarian_DeathBlow",
+      "bnetId": 323105,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.8,
+          "rankScale": 0.15
+        }
+      ]
+    },
+    {
+      "id": "barb_rupture",
+      "label": "Rupture",
+      "category": "weapon-mastery",
+      "maxRank": 12,
+      "bnetFileName": "Barbarian_Rupture",
+      "bnetId": 215027,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.4,
+          "rankScale": 0.12
+        }
+      ]
+    },
+    {
+      "id": "barb_mighty_throw",
+      "label": "Mighty Throw",
+      "category": "weapon-mastery",
+      "maxRank": 12,
+      "bnetFileName": "X1_Barbarian_WeaponThrow",
+      "bnetId": 1611316,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.0,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "barb_call_of_ancients",
+      "label": "Call of the Ancients",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Barbarian_CalloftheAncients",
+      "bnetId": 309802
+    },
+    {
+      "id": "barb_iron_maelstrom",
+      "label": "Iron Maelstrom",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Barbarian_IronMaelstrom",
+      "bnetId": 217175,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 2.8,
+          "rankScale": 0.25
+        }
+      ]
+    },
+    {
+      "id": "barb_wrath_of_berserker",
+      "label": "Wrath of the Berserker",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Barbarian_WrathoftheBerserker",
+      "bnetId": 211871
+    }
   ]
 }

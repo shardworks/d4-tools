@@ -42,6 +42,8 @@ export interface VerifiedAgainst {
   season: string;
   patch: string;
   accessedDate: string;
+  /** Per-class source provenance for tree-allocation rank caps (url, accessed date, notes). */
+  maxRankSource?: { url: string; accessedDate: string; notes: string };
 }
 
 export interface ClassEntry {
@@ -175,6 +177,7 @@ export interface SkillEntry {
   id: string;
   label: string;
   category: string;
+  /** Tree allocation cap — the maximum rank a player can assign in the in-game skill tree. Excludes gear-derived bonuses. */
   maxRank: number;
   /** Datamine numeric SNO ID for this skill — sourced from `DiabloTools/d4data` Power entries. */
   bnetId?: number;

@@ -4,32 +4,310 @@
     "expansion": "Lord of Hatred",
     "season": "Season 13 (Season of Reckoning)",
     "patch": "3.0.1.71747",
-    "accessedDate": "2026-05-08"
+    "accessedDate": "2026-05-08",
+    "maxRankSource": {
+      "url": "https://d4builds.gg",
+      "accessedDate": "2026-05-11",
+      "notes": "Season 13 skill planner; in-game UI not accessible from dev environment (D1 fallback). Basic through defensive tiers cap at 9; archfiend and sigil tiers cap at 12; Bombardment at 10 (1 extra adjacent node). Ultimates verified correct at 1."
+    }
   },
   "skills": [
-    { "id": "warl_command_fallen",      "label": "Command Fallen",      "category": "basic",     "maxRank": 5, "bnetFileName": "Warlock_Summon_Lunatic",   "bnetId": 2212801 },
-    { "id": "warl_lava_bomb",           "label": "Lava Bomb",           "category": "basic",     "maxRank": 5, "bnetFileName": "Warlock_BrimstoneOrb",    "bnetId": 2215258, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.35, "rankScale": 0.04 }] },
-    { "id": "warl_doom",                "label": "Doom",                "category": "basic",     "maxRank": 5, "bnetFileName": "Warlock_HexCast",         "bnetId": 2218204, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.30, "rankScale": 0.03 }] },
-    { "id": "warl_hellion_sting",       "label": "Hellion Sting",       "category": "basic",     "maxRank": 5, "bnetFileName": "Warlock_TailWhip",        "bnetId": 2420679, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.32, "rankScale": 0.03 }] },
-    { "id": "warl_blazing_scream",      "label": "Blazing Scream",      "category": "core",      "maxRank": 5, "bnetFileName": "Warlock_BurningSkull",    "bnetId": 2213860, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.90, "rankScale": 0.09 }] },
-    { "id": "warl_bombardment",         "label": "Bombardment",         "category": "core",      "maxRank": 5, "bnetFileName": "Warlock_DemonicBombard",  "bnetId": 2245719, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.20, "rankScale": 0.10 }] },
-    { "id": "warl_umbral_chains",       "label": "Umbral Chains",       "category": "core",      "maxRank": 5, "bnetFileName": "Warlock_ChainLash",       "bnetId": 2218200, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.08 }] },
-    { "id": "warl_dread_claws",         "label": "Dread Claws",         "category": "core",      "maxRank": 5, "bnetFileName": "Warlock_ShadowShred",     "bnetId": 2385787, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.80, "rankScale": 0.08 }] },
-    { "id": "warl_hell_fracture",       "label": "Hell Fracture",       "category": "core",      "maxRank": 5, "bnetFileName": "Warlock_Fissure",         "bnetId": 2164252, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.00, "rankScale": 0.09 }] },
-    { "id": "warl_nether_step",         "label": "Nether Step",         "category": "defensive", "maxRank": 5, "bnetFileName": "Warlock_WraithStep",      "bnetId": 2218211 },
-    { "id": "warl_dark_prison",         "label": "Dark Prison",         "category": "defensive", "maxRank": 5, "bnetFileName": "Warlock_ChainTotem",      "bnetId": 2418214 },
-    { "id": "warl_wall_of_agony",       "label": "Wall of Agony",       "category": "defensive", "maxRank": 5, "bnetFileName": "Warlock_Demon_Wall",      "bnetId": 2228435 },
-    { "id": "warl_tortured_wretch",     "label": "Tortured Wretch",     "category": "defensive", "maxRank": 5, "bnetFileName": "Warlock_DemonDefender",   "bnetId": 2245730 },
-    { "id": "warl_infernal_breath",     "label": "Infernal Breath",     "category": "archfiend", "maxRank": 5, "bnetFileName": "Warlock_Demonic_Breath",  "bnetId": 2214419, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.10, "rankScale": 0.10 }] },
-    { "id": "warl_profane_sentinel",    "label": "Profane Sentinel",    "category": "archfiend", "maxRank": 5, "bnetFileName": "Warlock_Demonic_Drain",   "bnetId": 2289261 },
-    { "id": "warl_rampage",             "label": "Rampage",             "category": "archfiend", "maxRank": 5, "bnetFileName": "Warlock_DemonicSlash",    "bnetId": 2221282, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.30, "rankScale": 0.11 }] },
-    { "id": "warl_tyrants_grasp",       "label": "Tyrant's Grasp",      "category": "archfiend", "maxRank": 5, "bnetFileName": "Warlock_DemonicGrasp",    "bnetId": 2301447, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.90, "rankScale": 0.09 }] },
-    { "id": "warl_sigil_of_chaos",      "label": "Sigil of Chaos",      "category": "sigil",     "maxRank": 5, "bnetFileName": "Warlock_SigilOfFlames",   "bnetId": 2218213, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 1.00, "rankScale": 0.09 }] },
-    { "id": "warl_sigil_of_summons",    "label": "Sigil of Summons",    "category": "sigil",     "maxRank": 5, "bnetFileName": "Warlock_SigilOfSummons",  "bnetId": 2221240 },
-    { "id": "warl_sigil_of_subversion", "label": "Sigil of Subversion", "category": "sigil",     "maxRank": 5, "bnetFileName": "Warlock_SigilOfShadows",  "bnetId": 2218209, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 0.85, "rankScale": 0.08 }] },
-    { "id": "warl_fiend_of_abaddon",    "label": "Fiend of Abaddon",    "category": "ultimate",  "maxRank": 1, "bnetFileName": "Warlock_UltimateDemon",   "bnetId": 2244457 },
-    { "id": "warl_terror_swarm",        "label": "Terror Swarm",        "category": "ultimate",  "maxRank": 1, "bnetFileName": "Warlock_HellStorm",       "bnetId": 2216334, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 2.50, "rankScale": 0.20 }] },
-    { "id": "warl_apocalypse",          "label": "Apocalypse",          "category": "ultimate",  "maxRank": 1, "bnetFileName": "Warlock_Doombringer",     "bnetId": 2221260, "scalingAttributes": [{ "attribute": "Attr_Skill_Damage_Percent", "scaleValue": 3.00, "rankScale": 0.25 }] },
-    { "id": "warl_metamorphosis",       "label": "Metamorphosis",       "category": "ultimate",  "maxRank": 1, "bnetFileName": "Warlock_ArchDemon",       "bnetId": 2215096 }
+    {
+      "id": "warl_command_fallen",
+      "label": "Command Fallen",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_Summon_Lunatic",
+      "bnetId": 2212801
+    },
+    {
+      "id": "warl_lava_bomb",
+      "label": "Lava Bomb",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_BrimstoneOrb",
+      "bnetId": 2215258,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.35,
+          "rankScale": 0.04
+        }
+      ]
+    },
+    {
+      "id": "warl_doom",
+      "label": "Doom",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_HexCast",
+      "bnetId": 2218204,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.3,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "warl_hellion_sting",
+      "label": "Hellion Sting",
+      "category": "basic",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_TailWhip",
+      "bnetId": 2420679,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.32,
+          "rankScale": 0.03
+        }
+      ]
+    },
+    {
+      "id": "warl_blazing_scream",
+      "label": "Blazing Scream",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_BurningSkull",
+      "bnetId": 2213860,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.9,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "warl_bombardment",
+      "label": "Bombardment",
+      "category": "core",
+      "maxRank": 10,
+      "bnetFileName": "Warlock_DemonicBombard",
+      "bnetId": 2245719,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.2,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "warl_umbral_chains",
+      "label": "Umbral Chains",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_ChainLash",
+      "bnetId": 2218200,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "warl_dread_claws",
+      "label": "Dread Claws",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_ShadowShred",
+      "bnetId": 2385787,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.8,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "warl_hell_fracture",
+      "label": "Hell Fracture",
+      "category": "core",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_Fissure",
+      "bnetId": 2164252,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.0,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "warl_nether_step",
+      "label": "Nether Step",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_WraithStep",
+      "bnetId": 2218211
+    },
+    {
+      "id": "warl_dark_prison",
+      "label": "Dark Prison",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_ChainTotem",
+      "bnetId": 2418214
+    },
+    {
+      "id": "warl_wall_of_agony",
+      "label": "Wall of Agony",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_Demon_Wall",
+      "bnetId": 2228435
+    },
+    {
+      "id": "warl_tortured_wretch",
+      "label": "Tortured Wretch",
+      "category": "defensive",
+      "maxRank": 9,
+      "bnetFileName": "Warlock_DemonDefender",
+      "bnetId": 2245730
+    },
+    {
+      "id": "warl_infernal_breath",
+      "label": "Infernal Breath",
+      "category": "archfiend",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_Demonic_Breath",
+      "bnetId": 2214419,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.1,
+          "rankScale": 0.1
+        }
+      ]
+    },
+    {
+      "id": "warl_profane_sentinel",
+      "label": "Profane Sentinel",
+      "category": "archfiend",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_Demonic_Drain",
+      "bnetId": 2289261
+    },
+    {
+      "id": "warl_rampage",
+      "label": "Rampage",
+      "category": "archfiend",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_DemonicSlash",
+      "bnetId": 2221282,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.3,
+          "rankScale": 0.11
+        }
+      ]
+    },
+    {
+      "id": "warl_tyrants_grasp",
+      "label": "Tyrant's Grasp",
+      "category": "archfiend",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_DemonicGrasp",
+      "bnetId": 2301447,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.9,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "warl_sigil_of_chaos",
+      "label": "Sigil of Chaos",
+      "category": "sigil",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_SigilOfFlames",
+      "bnetId": 2218213,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 1.0,
+          "rankScale": 0.09
+        }
+      ]
+    },
+    {
+      "id": "warl_sigil_of_summons",
+      "label": "Sigil of Summons",
+      "category": "sigil",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_SigilOfSummons",
+      "bnetId": 2221240
+    },
+    {
+      "id": "warl_sigil_of_subversion",
+      "label": "Sigil of Subversion",
+      "category": "sigil",
+      "maxRank": 12,
+      "bnetFileName": "Warlock_SigilOfShadows",
+      "bnetId": 2218209,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 0.85,
+          "rankScale": 0.08
+        }
+      ]
+    },
+    {
+      "id": "warl_fiend_of_abaddon",
+      "label": "Fiend of Abaddon",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Warlock_UltimateDemon",
+      "bnetId": 2244457
+    },
+    {
+      "id": "warl_terror_swarm",
+      "label": "Terror Swarm",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Warlock_HellStorm",
+      "bnetId": 2216334,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 2.5,
+          "rankScale": 0.2
+        }
+      ]
+    },
+    {
+      "id": "warl_apocalypse",
+      "label": "Apocalypse",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Warlock_Doombringer",
+      "bnetId": 2221260,
+      "scalingAttributes": [
+        {
+          "attribute": "Attr_Skill_Damage_Percent",
+          "scaleValue": 3.0,
+          "rankScale": 0.25
+        }
+      ]
+    },
+    {
+      "id": "warl_metamorphosis",
+      "label": "Metamorphosis",
+      "category": "ultimate",
+      "maxRank": 1,
+      "bnetFileName": "Warlock_ArchDemon",
+      "bnetId": 2215096
+    }
   ]
 }

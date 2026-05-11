@@ -8,7 +8,8 @@ import { z } from "zod";
  */
 export const SkillSelectionSchema = z.object({
   skillId: z.string().min(1),
-  rank: z.number().int().min(0).max(9),
+  /** Tree allocation cap — the maximum rank a player can assign in the in-game skill tree. Excludes gear-derived bonuses. */
+  rank: z.number().int().min(0).max(15),
   slot: z.string().optional(),
 });
 

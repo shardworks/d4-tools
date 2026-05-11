@@ -421,7 +421,7 @@ describe("Case 4: Schema compliance", () => {
     expect(bash).toBeTruthy();
     expect(bash.label).toBe("Bash");
     expect(bash.category).toBe("basic");
-    expect(bash.maxRank).toBe(5);
+    expect(bash.maxRank).toBe(9);
   });
 
   it("Barbarian paragon board is written to paragon/Barbarian.json", () => {
