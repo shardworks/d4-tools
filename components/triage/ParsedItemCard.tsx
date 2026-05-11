@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Sparkles, AlertTriangle } from "lucide-react";
 import type { AffixMatchResult, AspectMatchResult, ResolvedItem } from "@/lib/triage/types";
 import { UncertainAffixRow, UncertainAspectRow } from "./UncertainMatchPicker";
+import type { AffixPosition } from "@/lib/triage/resolve";
 
 const rarityColor: Record<string, string> = {
   common: "var(--rarity-common)",
@@ -180,8 +181,10 @@ export function ParsedItemCard({
       )}
 
       {/* Affixes */}
-      {allAffixGroups.map(({ kind, results }) =>
-        results.length > 0 ? (
+      {allAffixGroups.map(({ kind, results }) => {
+        // implicits use the implicit position; explicits and tempered share the explicit pool.
+        const position: AffixPosition = kind === "implicits" ? "implicit" : "explicit";
+        return results.length > 0 ? (
           <div key={kind} className="flex flex-col gap-[3px]">
             {results.map((baseResult, i) => {
               const effective = getEffectiveAffix(kind, i, baseResult);
@@ -193,6 +196,7 @@ export function ParsedItemCard({
                     index={i}
                     slotId={slotId}
                     className={charClass}
+                    position={position}
                     onResolve={(idx, affixId, rolledValue) =>
                       onAffixOverride(kind, idx, affixId, rolledValue)
                     }
@@ -202,8 +206,8 @@ export function ParsedItemCard({
               return <AffixResultRow key={i} result={effective} />;
             })}
           </div>
-        ) : null
-      )}
+        ) : null;
+      })}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {
   resolveAspect,
   resolveSlot,
   resolveItem,
+  type AffixPosition,
 } from "../lib/triage/resolve";
 
 describe("normalizeLabel", () => {
@@ -33,7 +34,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 2000 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("resolved");
     if (result.kind === "resolved") {
@@ -46,7 +48,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "maximum life", rolledValue: 1500 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("resolved");
   });
@@ -55,7 +58,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "UnknownSuperPowerXYZ", rolledValue: 100 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
@@ -69,7 +73,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 99999 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
@@ -85,7 +90,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 100 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
@@ -97,7 +103,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Mana per Second", rolledValue: 5 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     // May resolve if in valueRange, or uncertain if not — but must not be filtered out for Sorcerer
     expect(result.kind).toBeOneOf(["resolved", "uncertain"]);
@@ -107,7 +114,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Mana per Second", rolledValue: 5 },
       "helm",
-      "Barbarian"
+      "Barbarian",
+      "explicit"
     );
     // Barbarian cannot have Mana per Second — should be uncertain/no-match
     expect(result.kind).toBe("uncertain");
@@ -121,7 +129,8 @@ describe("resolveAffix — normalized-equality matching (D9)", () => {
     const result = resolveAffix(
       { label: "Movement Speed", rolledValue: 15 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     // helm doesn't have movement speed — should be no-match
     expect(result.kind).toBe("uncertain");
@@ -280,7 +289,7 @@ describe("jaroWinkler — in-house similarity (D2)", () => {
 
 describe("resolveAffix — synonym expansion", () => {
   it("resolves 'Max Life' (synonym) to affix_max_life", () => {
-    const result = resolveAffix({ label: "Max Life", rolledValue: 2000 }, "helm", "Sorcerer");
+    const result = resolveAffix({ label: "Max Life", rolledValue: 2000 }, "helm", "Sorcerer", "explicit");
     // 'max life' → synonym → 'maximum life' → exact match
     expect(result.kind).toBe("resolved");
     if (result.kind === "resolved") {
@@ -292,7 +301,8 @@ describe("resolveAffix — synonym expansion", () => {
     const result = resolveAffix(
       { label: "Crit Chance", rolledValue: 5 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     // crit_chance affix exists — resolves after synonym expansion
     expect(result.kind).toBeOneOf(["resolved", "uncertain"]);
@@ -310,7 +320,8 @@ describe("resolveAffix — fuzzy matching (D2)", () => {
     const result = resolveAffix(
       { label: "Maximun Life", rolledValue: 2000 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("resolved");
     if (result.kind === "resolved") {
@@ -322,7 +333,8 @@ describe("resolveAffix — fuzzy matching (D2)", () => {
     const result = resolveAffix(
       { label: "ZZZ_NOTHING_MATCHES_XYZ", rolledValue: 100 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") expect(result.reason).toBe("no-match");
@@ -338,7 +350,8 @@ describe("resolveAffix — value-mismatch auto-correct (D4)", () => {
     const result = resolveAffix(
       { label: "Critical Strike Chance", rolledValue: 0.05 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     // Expect either resolved (if 0.05 in range, unlikely) or value-mismatch / out-of-range
     if (result.kind === "uncertain") {
@@ -355,7 +368,8 @@ describe("resolveAffix — value-mismatch auto-correct (D4)", () => {
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 2000 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("resolved");
     if (result.kind === "resolved") {
@@ -369,12 +383,88 @@ describe("resolveAffix — value-mismatch auto-correct (D4)", () => {
     const result = resolveAffix(
       { label: "Maximum Life", rolledValue: 0.5 },
       "helm",
-      "Sorcerer"
+      "Sorcerer",
+      "explicit"
     );
     expect(result.kind).toBe("uncertain");
     if (result.kind === "uncertain") {
       // Should be out-of-range (0.5 is below min 700), not value-mismatch
       expect(result.reason).toBe("out-of-range");
+    }
+  });
+});
+
+// ─── v18: Position-aware resolver (D2/D3/D8) ──────────────────────────────────
+
+describe("resolveAffix — position filter (v18)", () => {
+  it("(a) implicit-position 'Resistance to All Elements' on amulet resolves to affix_all_res", () => {
+    // affix_all_res is now flagged isImplicit:true on amulet
+    const result = resolveAffix(
+      { label: "Resistance to All Elements", rolledValue: 12 },
+      "amulet",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_all_res");
+    }
+  });
+
+  it("(b) explicit-position 'Resistance to All Elements' on amulet does NOT match affix_all_res", () => {
+    // affix_all_res is isImplicit:true — excluded from the explicit candidate pool
+    const result = resolveAffix(
+      { label: "Resistance to All Elements", rolledValue: 12 },
+      "amulet",
+      "Sorcerer",
+      "explicit"
+    );
+    // Must not resolve to affix_all_res; expect no-match or uncertain
+    expect(result.kind).toBe("uncertain");
+    if (result.kind === "uncertain") {
+      expect(result.reason).toBe("no-match");
+    }
+  });
+
+  it("(c) explicit-position 'Resistance to All Elements' on ring resolves to affix_all_res_ring", () => {
+    // Non-regression: ring has its own explicit all-res entry (not implicit-flagged)
+    const result = resolveAffix(
+      { label: "Resistance to All Elements", rolledValue: 10 },
+      "ring1",
+      "Sorcerer",
+      "explicit"
+    );
+    expect(result.kind).toBeOneOf(["resolved", "uncertain"]);
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_all_res_ring");
+    }
+    if (result.kind === "uncertain") {
+      // out-of-range is acceptable (value outside ring range); no-match is not
+      expect(result.reason).not.toBe("no-match");
+      if ("affixId" in result) {
+        expect(result.affixId).toBe("affix_all_res_ring");
+      }
+    }
+  });
+
+  it("(d) explicit-position 'Armor' on amulet resolves to affix_armor (may flag out-of-range)", () => {
+    // affix_armor now includes amulet in slotRestrictions; sub-min out-of-range is acceptable
+    const result = resolveAffix(
+      { label: "Armor", rolledValue: 198 },
+      "amulet",
+      "Sorcerer",
+      "explicit"
+    );
+    expect(result.kind).toBeOneOf(["resolved", "uncertain"]);
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_armor");
+    }
+    if (result.kind === "uncertain") {
+      // 198 is below affix_armor min of 500 → out-of-range is the expected path
+      expect(["out-of-range", "no-match"]).toContain(result.reason);
+      if (result.reason === "out-of-range" && "affixId" in result) {
+        expect(result.affixId).toBe("affix_armor");
+      }
     }
   });
 });

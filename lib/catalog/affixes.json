@@ -319,10 +319,11 @@
       "label": "Resistance to All Elements",
       "labelTemplate": "+{value}% Resistance to All Elements",
       "valueRange": [
-        8,
-        22
+        6,
+        20
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "amulet"
       ],
@@ -331,8 +332,8 @@
         "eAttribute": "Attr_All_Resistances",
         "nParam": 0
       },
-      "bnetId": 609816,
-      "bnetFileName": "ElementalDamageReduction"
+      "bnetId": 760524,
+      "bnetFileName": "Resistance_Jewelry_All"
     },
     {
       "id": "affix_fire_res",
@@ -598,7 +599,8 @@
         "chest",
         "gloves",
         "pants",
-        "boots"
+        "boots",
+        "amulet"
       ],
       "classRestrictions": [],
       "attribute": {
@@ -3904,6 +3906,7 @@
         3000
       ],
       "isPercent": false,
+      "isImplicit": true,
       "slotRestrictions": [
         "helm"
       ],
@@ -3916,26 +3919,6 @@
       }
     },
     {
-      "id": "affix_implicit_all_res_amulet",
-      "label": "Implicit All Resistance (Amulet)",
-      "labelTemplate": "+{value}% Resistance to All Elements",
-      "valueRange": [
-        6,
-        20
-      ],
-      "isPercent": true,
-      "slotRestrictions": [
-        "amulet"
-      ],
-      "classRestrictions": [],
-      "bnetId": 760524,
-      "bnetFileName": "Resistance_Jewelry_All",
-      "attribute": {
-        "eAttribute": "Attr_All_Resistances",
-        "nParam": 0
-      }
-    },
-    {
       "id": "affix_implicit_barrier_offhand",
       "label": "Implicit Barrier (Off-Hand)",
       "labelTemplate": "+{value}% Barrier Generation",
@@ -3944,6 +3927,7 @@
         15
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "offHand"
       ],
@@ -3964,6 +3948,7 @@
         8
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "amulet"
       ],
@@ -3984,6 +3969,7 @@
         25
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "weapon",
         "offHand",
@@ -4009,6 +3995,7 @@
         8
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "chest"
       ],
@@ -4025,6 +4012,7 @@
         7
       ],
       "isPercent": true,
+      "isImplicit": true,
       "slotRestrictions": [
         "ring1",
         "ring2"

@@ -4,6 +4,7 @@ import { AffixCombobox } from "@/components/d4/AffixCombobox";
 import { AspectCombobox } from "@/components/d4/AspectCombobox";
 import { affixes as affixCatalog, aspects as aspectCatalog } from "@/lib/catalog";
 import type { AffixMatchResult, AspectMatchResult } from "@/lib/triage/types";
+import type { AffixPosition } from "@/lib/triage/resolve";
 import { CheckCircle, HelpCircle } from "lucide-react";
 
 // ─── Affix uncertainty picker ─────────────────────────────────────────────
@@ -13,6 +14,12 @@ interface UncertainAffixRowProps {
   index: number;
   slotId: string;
   className: string;
+  /**
+   * Position of the affix row being overridden — passed through to AffixCombobox
+   * so operators cannot route an implicit affix into an explicit slot or vice versa (v18 D4).
+   * Defaults to `"explicit"` when omitted (safe fallback for callers not yet position-aware).
+   */
+  position?: AffixPosition;
   onResolve: (index: number, affixId: string, rolledValue: number) => void;
 }
 
@@ -30,6 +37,7 @@ export function UncertainAffixRow({
   index,
   slotId,
   className,
+  position = "explicit",
   onResolve,
 }: UncertainAffixRowProps) {
   if (result.kind === "resolved") return null;
@@ -64,6 +72,7 @@ export function UncertainAffixRow({
             slotId={slotId}
             className={className}
             value={result.affixId}
+            position={position}
             onSelect={(affixId) => onResolve(index, affixId, result.rolledValue)}
             placeholder="Override…"
           />
@@ -109,6 +118,7 @@ export function UncertainAffixRow({
                 slotId={slotId}
                 className={className}
                 value={undefined}
+                position={position}
                 onSelect={(affixId) => onResolve(index, affixId, result.rolledValue)}
                 placeholder="Browse all…"
               />
@@ -138,6 +148,7 @@ export function UncertainAffixRow({
         slotId={slotId}
         className={className}
         value={preselectedId}
+        position={position}
         onSelect={(affixId) => onResolve(index, affixId, result.rolledValue)}
         placeholder="Select affix…"
       />

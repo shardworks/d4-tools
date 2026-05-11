@@ -88,6 +88,12 @@ export interface AffixEntry {
    * Used by the damage engine to route affix contributions to the correct bucket.
    */
   attribute?: { eAttribute: string; nParam: number };
+  /**
+   * v18: True when this affix is an implicit property — built-in to the item type and not
+   * replaceable via enchanting. Absent (undefined) means false (explicit affix).
+   * Used by the triage resolver to scope candidates by position (implicit vs. explicit).
+   */
+  isImplicit?: boolean;
 }
 
 export interface AspectEntry {

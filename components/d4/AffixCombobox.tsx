@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getAffixesForSlotAndClass, type AffixEntry } from "@/lib/catalog";
+import type { AffixPosition } from "@/lib/triage/resolve";
 
 interface AffixComboboxProps {
   slotId: string;
@@ -25,11 +26,20 @@ interface AffixComboboxProps {
   value: string | undefined;
   onSelect: (affixId: string, entry: AffixEntry) => void;
   placeholder?: string;
+  /**
+   * When set, filters affix candidates by position:
+   *  - `"implicit"` — shows only entries where `isImplicit === true`.
+   *  - `"explicit"` — shows entries where `isImplicit` is falsy (absent or false).
+   * When omitted, all candidates for the slot/class are shown (no position filter).
+   */
+  position?: AffixPosition;
 }
 
 /**
  * Search-filterable affix picker (visual-spec §9.3, D19).
  * Uses shadcn Popover wrapping Command primitive, filtered by slot/class restrictions.
+ * Optionally filtered by position (implicit vs. explicit) to prevent routing an implicit
+ * affix into an explicit slot or vice versa (v18 D4).
  */
 export function AffixCombobox({
   slotId,
@@ -37,10 +47,16 @@ export function AffixCombobox({
   value,
   onSelect,
   placeholder = "Pick an affix…",
+  position,
 }: AffixComboboxProps) {
   const [open, setOpen] = useState(false);
 
-  const eligibleAffixes = getAffixesForSlotAndClass(slotId, charClass);
+  const slotClassAffixes = getAffixesForSlotAndClass(slotId, charClass);
+  const eligibleAffixes = position === undefined
+    ? slotClassAffixes
+    : position === "implicit"
+      ? slotClassAffixes.filter((a) => a.isImplicit === true)
+      : slotClassAffixes.filter((a) => !a.isImplicit);
   const selected = eligibleAffixes.find((a) => a.id === value);
 
   return (

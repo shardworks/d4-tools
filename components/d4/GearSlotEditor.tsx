@@ -7,6 +7,7 @@ import { z } from "zod";
 import { ItemSchema, type Item, type AffixInstance, ITEM_RARITIES } from "@/lib/schema";
 import { getAffixesForSlotAndClass } from "@/lib/catalog";
 import type { SlotEntry, AffixEntry } from "@/lib/catalog";
+import type { AffixPosition } from "@/lib/triage/resolve";
 import {
   Sheet,
   SheetContent,
@@ -82,6 +83,9 @@ function InlineAffixList({
 }) {
   const { fields, append, remove } = useFieldArray({ control, name } as never);
   const values = watch(name) as AffixInstance[] | undefined ?? [];
+  // Derive position from the affix group name: implicits use the implicit pool;
+  // explicits and tempered share the explicit pool (tempered has no separate catalog axis).
+  const position: AffixPosition = name === "implicits" ? "implicit" : "explicit";
   const eligibleAffixes = getAffixesForSlotAndClass(slotId, characterClass);
 
   function getAffixEntry(affixId: string): AffixEntry | undefined {
@@ -138,6 +142,7 @@ function InlineAffixList({
                       slotId={slotId}
                       className={characterClass}
                       value={f.value as string}
+                      position={position}
                       onSelect={(id) => {
                         f.onChange(id);
                         const newEntry = getAffixEntry(id);

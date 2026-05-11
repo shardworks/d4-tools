@@ -64,16 +64,35 @@ The damage engine uses entries whose `attribute` maps to a damage bucket to clas
 
 ```typescript
 interface AffixEntry {
-  // ... existing fields ...
+  id: string;
+  label: string;
+  labelTemplate: string;
+  valueRange: number[];           // [min, max] roll range
+  isPercent: boolean;
+  slotRestrictions: string[];
+  classRestrictions: string[];
+  bnetId?: number;
+  bnetFileName?: string;
+  deprecated?: boolean;
 
   // v15: damage engine field
   attribute?: { eAttribute: string; nParam: number };
+
+  // v18: position scoping
+  isImplicit?: boolean;           // true → implicit affix; absent/false → explicit
 }
 ```
 
 `attribute` is populated from the first `ptItemAffixAttributes` entry in the datamine affix file.
 The damage engine uses `eAttribute` to route the affix into the correct damage bucket. Multi-attribute
 affixes use the first attribute only per D6 (curation handles edge cases).
+
+`isImplicit` (v18) marks affixes that are implicit — built into the item type and not replaceable
+via enchanting. All seven `affix_implicit_*` entries in the catalog carry `isImplicit: true`. The
+triage resolver (`lib/triage/resolve.ts`) uses this field to scope candidate pools by position: an
+`"implicit"` position call only matches entries where `isImplicit === true`; an `"explicit"` position
+call matches all others (where `isImplicit` is `false` or absent). Absence means false — do not
+backfill `isImplicit: false` across existing rows.
 
 ### `AspectEntry`
 

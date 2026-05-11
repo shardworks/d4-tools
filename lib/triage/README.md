@@ -60,21 +60,28 @@ In-house Jaro-Winkler similarity (D2 — no external fuzzy library). Returns a v
 - `≥ 0.82` — considered a fuzzy match candidate
 - `< 0.82` — below threshold, not a match
 
-#### `resolveAffix(extracted, slotId, className): AffixMatchResult`
+#### `resolveAffix(extracted, slotId, className, position): AffixMatchResult`
 
 Resolves an LLM-extracted affix label to a catalog ID.
+
+The `position` parameter (`"implicit"` | `"explicit"`) is **required** and scopes the candidate
+pool before fuzzy scoring:
+- `"implicit"` — keeps only catalog entries where `isImplicit === true`.
+- `"explicit"` — keeps entries where `isImplicit` is falsy (absent or `false`).
+  Tempered affixes are resolved as `"explicit"` (no separate pool in the catalog).
 
 **Algorithm:**
 1. Normalize the input label.
 2. Expand via `synonyms.json` (e.g. `"max life"` → `"maximum life"`).
-3. Score all class/slot-scoped catalog candidates with Jaro-Winkler.
-4. If top score `≥ 0.96` (near-perfect): use that candidate.
-5. If multiple candidates score `≥ 0.82` and top score `< 0.96`: return **ambiguous** with up to 5 candidate IDs.
-6. If single candidate scores `≥ 0.82`:
+3. Filter slot/class-scoped candidates by `position` (implicit vs. explicit).
+4. Score remaining candidates with Jaro-Winkler.
+5. If top score `≥ 0.96` (near-perfect): use that candidate.
+6. If multiple candidates score `≥ 0.82` and top score `< 0.96`: return **ambiguous** with up to 5 candidate IDs.
+7. If single candidate scores `≥ 0.82`:
    - If `isPercent` and value ∈ (0, 1]: multiply by 100, check range → **value-mismatch** (D4).
    - If value outside `[min, max]`: return **out-of-range**.
    - Otherwise: return **resolved**.
-7. No candidates: return **no-match**.
+8. No candidates: return **no-match**.
 
 **Result reasons:**
 

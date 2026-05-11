@@ -1,10 +1,13 @@
 /**
  * Resolver layer for triage: maps Vision-LLM display-name data → catalog IDs.
  *
- * Algorithm (v17 / D2–D7 / D16):
+ * Algorithm (v18 / D2–D7 / D16):
  *  1. Normalize (lowercase + strip non-alphanumerics + collapse whitespace).
  *  2. Synonym expansion — check synonyms.json for a canonical normalized alias.
- *  3. Jaro-Winkler fuzzy scoring against all class/slot-scoped catalog candidates.
+ *  3. Jaro-Winkler fuzzy scoring against position- and class/slot-scoped catalog candidates.
+ *     Candidate scoping uses getAffixesForSlotAndClass (slot + class filter) followed by a
+ *     position filter: `"implicit"` keeps only entries where `isImplicit === true`;
+ *     `"explicit"` keeps entries where `isImplicit` is falsy (false or absent).
  *  4. Threshold checks:
  *     - Score ≥ NEAR_PERFECT_THRESHOLD (0.97) → treat as definitive single match.
  *     - Score ≥ FUZZY_THRESHOLD (0.82):
@@ -15,8 +18,8 @@
  *  6. resolveUnique() short-circuit fires first when rarity ∈ {unique, mythic}
  *     and the item name normalizes to a UniqueEntry (D16).
  *
- * Candidate scoping still uses getAffixesForSlotAndClass / getAspectsForSlotAndClass
- * so cross-class entries never pollute the candidate pool.
+ * resolveItem passes "implicit" for implicits[], "explicit" for explicits[] and tempered[]
+ * (tempered affixes share the explicit pool — no separate isTempered axis exists).
  *
  * No external fuzzy library — Jaro-Winkler is implemented in-house (D2).
  */
@@ -39,6 +42,18 @@ import type {
   SlotMatchResult,
   ResolvedItem,
 } from "./types";
+
+// ─── Position type ─────────────────────────────────────────────────────────
+
+/**
+ * The position of an affix on an item.
+ *
+ * - `"implicit"` — built-in property determined by item type (cannot be enchanted).
+ * - `"explicit"` — regular or tempered affix rolled on the item.
+ *
+ * Tempered affixes share the `"explicit"` pool — the catalog has no separate isTempered axis.
+ */
+export type AffixPosition = "implicit" | "explicit";
 
 // ─── Fuzzy matching config ─────────────────────────────────────────────────
 
@@ -186,6 +201,11 @@ function tryPercentCorrect(isPercent: boolean, value: number): number | null {
  * Resolves an LLM-extracted affix to a catalog ID using synonym expansion and
  * Jaro-Winkler fuzzy matching.
  *
+ * The `position` parameter is **required** and scopes the candidate pool:
+ *  - `"implicit"` — keeps only entries where `isImplicit === true`.
+ *  - `"explicit"` — keeps entries where `isImplicit` is falsy (false or absent).
+ *    Tempered affixes are also passed as `"explicit"` (no separate pool in the catalog).
+ *
  * Reason taxonomy (D7):
  *  - "resolved"      : single confident match within value range.
  *  - "value-mismatch": matched but value looks like wrong unit (D4).
@@ -196,11 +216,16 @@ function tryPercentCorrect(isPercent: boolean, value: number): number | null {
 export function resolveAffix(
   extracted: LlmExtractedAffix,
   slotId: string,
-  className: string
+  className: string,
+  position: AffixPosition
 ): AffixMatchResult {
   const normalizedLabel = normalizeLabel(extracted.label);
   const canonical = expandAffix(normalizedLabel);
-  const candidates = getAffixesForSlotAndClass(slotId, className);
+  const slotClassCandidates = getAffixesForSlotAndClass(slotId, className);
+  const candidates =
+    position === "implicit"
+      ? slotClassCandidates.filter((a) => a.isImplicit === true)
+      : slotClassCandidates.filter((a) => !a.isImplicit);
 
   const scored = scoreEntries(canonical, candidates);
 
@@ -449,8 +474,8 @@ export function resolveItem(extracted: LlmExtractedItem, className: string): Res
       const slotResult: SlotMatchResult = { kind: "resolved", slotId: uniqueEntry.slot };
       const scopeSlotId = uniqueEntry.slot;
 
-      const resolveAffixList = (list: LlmExtractedAffix[]) =>
-        list.map((a) => resolveAffix(a, scopeSlotId, className));
+      const resolveAffixList = (list: LlmExtractedAffix[], position: AffixPosition) =>
+        list.map((a) => resolveAffix(a, scopeSlotId, className, position));
 
       const aspect =
         resolveAspectFromUnique(uniqueEntry, extracted.aspect) ??
@@ -463,9 +488,9 @@ export function resolveItem(extracted: LlmExtractedItem, className: string): Res
         rarity: extracted.rarity,
         itemPower: extracted.itemPower,
         isAncestral: extracted.isAncestral ?? false,
-        implicits: resolveAffixList(extracted.implicits ?? []),
-        explicits: resolveAffixList(extracted.explicits ?? []),
-        tempered: resolveAffixList(extracted.tempered ?? []),
+        implicits: resolveAffixList(extracted.implicits ?? [], "implicit"),
+        explicits: resolveAffixList(extracted.explicits ?? [], "explicit"),
+        tempered: resolveAffixList(extracted.tempered ?? [], "explicit"),
         aspect,
         slotResult,
       };
@@ -482,17 +507,17 @@ export function resolveItem(extracted: LlmExtractedItem, className: string): Res
         ? slotResult.candidates[0]
         : "helm";
 
-  const resolveAffixList = (list: LlmExtractedAffix[]) =>
-    list.map((a) => resolveAffix(a, scopeSlotId, className));
+  const resolveAffixList = (list: LlmExtractedAffix[], position: AffixPosition) =>
+    list.map((a) => resolveAffix(a, scopeSlotId, className, position));
 
   return {
     name: extracted.name,
     rarity: extracted.rarity,
     itemPower: extracted.itemPower,
     isAncestral: extracted.isAncestral ?? false,
-    implicits: resolveAffixList(extracted.implicits ?? []),
-    explicits: resolveAffixList(extracted.explicits ?? []),
-    tempered: resolveAffixList(extracted.tempered ?? []),
+    implicits: resolveAffixList(extracted.implicits ?? [], "implicit"),
+    explicits: resolveAffixList(extracted.explicits ?? [], "explicit"),
+    tempered: resolveAffixList(extracted.tempered ?? [], "explicit"),
     aspect: extracted.aspect
       ? resolveAspect(extracted.aspect, scopeSlotId, className)
       : undefined,
