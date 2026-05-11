@@ -15,6 +15,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import * as os from "os";
 import { sha256 } from "../lib/triage/hash";
+import { getCachedHash, pruneNotIn } from "../lib/triage/hash-cache";
 
 const FAKE_PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x00, 0x01]);
 
@@ -30,6 +31,8 @@ describe("DELETE /api/triage/screenshots/[name]", () => {
     await fs.mkdir(screenshotDir, { recursive: true });
     process.env.DATA_DIR = tmpDir;
     process.env.SCREENSHOT_DIR = screenshotDir;
+    // Clear the module-scoped hash cache so tests do not share state.
+    pruneNotIn(new Set());
   });
 
   afterEach(async () => {
@@ -178,5 +181,46 @@ describe("DELETE /api/triage/screenshots/[name]", () => {
       params: Promise.resolve({ name: "foo\\bar.png" }),
     });
     expect(res.status).toBe(400);
+  });
+
+  // ── Cache-hit path: DELETE resolves hash via cache, not via file bytes ───
+
+  it("cache-hit: DELETE uses cached hash, not readFile, to resolve the parse-cache entry", async () => {
+    // Write the screenshot file so stat + unlink succeed normally.
+    const screenshotPath = path.join(screenshotDir, "cached.png");
+    await fs.writeFile(screenshotPath, FAKE_PNG);
+
+    // Stat the file so we have the exact (mtimeMs, size) tuple.
+    const stat = await fs.stat(screenshotPath);
+    const realHash = sha256(FAKE_PNG);
+
+    // Write the real parse-cache entry (keyed by realHash).
+    const cacheDir = path.join(tmpDir, "screenshot-cache");
+    await fs.mkdir(cacheDir, { recursive: true });
+    const realCachePath = path.join(cacheDir, `${realHash}.json`);
+    await fs.writeFile(realCachePath, JSON.stringify({ kind: "no-item-detected" }));
+
+    // Seed the hash cache with a sentinel hash that differs from realHash.
+    // When the DELETE handler calls getCachedHash it will find this entry and
+    // return the sentinel without ever touching the file bytes.
+    const sentinelHash = "a".repeat(64); // guaranteed ≠ sha256(FAKE_PNG)
+    await getCachedHash("cached.png", stat.mtimeMs, stat.size, () => Promise.resolve(sentinelHash));
+
+    const { DELETE } = await import("../app/api/triage/screenshots/[name]/route");
+    const res = await DELETE(makeRequest("cached.png"), {
+      params: Promise.resolve({ name: "cached.png" }),
+    });
+
+    // 204: the screenshot file was deleted (fileDeleted = true).
+    expect(res.status).toBe(204);
+
+    // The screenshot file should be gone.
+    expect(await fs.stat(screenshotPath).then(() => true).catch(() => false)).toBe(false);
+
+    // The REAL parse-cache file must still exist — the DELETE used the sentinel
+    // hash from the cache, not the hash derived from file bytes, so it attempted
+    // to unlink a non-existent sentinel entry and left the real one untouched.
+    // This proves the cache-hit path was taken (no readFile → sha256 computation).
+    expect(await fs.stat(realCachePath).then(() => true).catch(() => false)).toBe(true);
   });
 });

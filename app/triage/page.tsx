@@ -1,18 +1,13 @@
 import { Suspense } from "react";
-import * as fs from "fs/promises";
-import * as path from "path";
 import { Key } from "lucide-react";
 import { getScreenshotDir } from "@/lib/persistence/paths";
 import { getActiveBuildId } from "@/lib/persistence/active-build";
 import { loadBuild } from "@/lib/persistence/builds";
 import { loadCharacter } from "@/lib/persistence/characters";
 import { loadDamageConfig } from "@/lib/damage/config";
-import { sha256 } from "@/lib/triage/hash";
-import { SUPPORTED_IMAGE_TYPES } from "@/lib/triage/types";
+import { scanScreenshotDir } from "@/lib/triage/scan";
 import type { ScreenshotEntry } from "@/lib/triage/types";
 import { TriageWorkspaceClient } from "./TriageWorkspaceClient";
-
-const SUPPORTED_EXTS = new Set(Object.keys(SUPPORTED_IMAGE_TYPES));
 
 export const metadata = { title: "Triage — D4 Tools" };
 
@@ -66,30 +61,7 @@ export default async function TriagePage() {
   // Load screenshots
   let screenshots: ScreenshotEntry[] = [];
   try {
-    const entries = await fs.readdir(screenshotDir, { withFileTypes: true });
-    const imageFiles = entries.filter((e) => {
-      if (!e.isFile()) return false;
-      const ext = path.extname(e.name).toLowerCase();
-      return SUPPORTED_EXTS.has(ext);
-    });
-
-    for (const file of imageFiles) {
-      const filePath = path.join(screenshotDir, file.name);
-      try {
-        const [stat, bytes] = await Promise.all([
-          fs.stat(filePath),
-          fs.readFile(filePath),
-        ]);
-        screenshots.push({
-          filename: file.name,
-          mtimeMs: stat.mtimeMs,
-          hash: sha256(bytes),
-        });
-      } catch {
-        // Skip unreadable files
-      }
-    }
-    screenshots.sort((a, b) => b.mtimeMs - a.mtimeMs);
+    screenshots = await scanScreenshotDir(screenshotDir);
   } catch {
     return (
       <EmptyState

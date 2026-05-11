@@ -3,6 +3,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { getScreenshotDir, screenshotCachePath } from "@/lib/persistence/paths";
 import { sha256 } from "@/lib/triage/hash";
+import { getCachedHash, forget } from "@/lib/triage/hash-cache";
 import { SUPPORTED_IMAGE_TYPES } from "@/lib/triage/types";
 
 type Params = { params: Promise<{ name: string }> };
@@ -91,17 +92,39 @@ export async function DELETE(req: Request, { params }: Params) {
 
   const filePath = path.join(screenshotDir, name);
 
-  // Read the file to compute the cache hash (D17).
-  // If ENOENT: fileBytes = null (file not present).
-  let fileBytes: Buffer | null = null;
+  // Stat the file to obtain (mtimeMs, size) for the hash cache lookup (D6).
+  // ENOENT → the file is already gone; other errors are surfaced as 500.
+  let fileStat: { mtimeMs: number; size: number } | null = null;
   try {
-    fileBytes = await fs.readFile(filePath);
+    const s = await fs.stat(filePath);
+    fileStat = { mtimeMs: s.mtimeMs, size: s.size };
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
       const message = err instanceof Error ? err.message : "Failed to read screenshot";
       return NextResponse.json({ error: message }, { status: 500 });
     }
-    // ENOENT — file doesn't exist; fileBytes stays null
+    // ENOENT — file doesn't exist; fileStat stays null
+  }
+
+  // Resolve the hash via the cache (D6, D7).
+  // On a cache hit the file bytes are NOT read; on a miss the compute thunk
+  // calls fs.readFile + sha256 and populates the cache.
+  let fileHash: string | null = null;
+  if (fileStat !== null) {
+    try {
+      fileHash = await getCachedHash(
+        name,
+        fileStat.mtimeMs,
+        fileStat.size,
+        async () => {
+          const bytes = await fs.readFile(filePath);
+          return sha256(bytes);
+        },
+      );
+    } catch {
+      // Failed to read bytes (e.g. race-condition ENOENT); fileHash stays null.
+      // We still proceed to attempt the unlink below.
+    }
   }
 
   // Unlink the screenshot file (D18)
@@ -109,6 +132,7 @@ export async function DELETE(req: Request, { params }: Params) {
   try {
     await fs.unlink(filePath);
     fileDeleted = true;
+    forget(name); // Evict the hash cache entry after successful deletion (D4)
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
       const message = err instanceof Error ? err.message : "Failed to delete screenshot";
@@ -118,9 +142,9 @@ export async function DELETE(req: Request, { params }: Params) {
   }
 
   // Unlink the cache JSON (D17, D18).
-  // Use file content hash if we read the file; fall back to the query-param hash for orphans.
+  // Use file content hash if available; fall back to the query-param hash for orphans.
   let cacheDeleted = false;
-  const hashForCache = fileBytes !== null ? sha256(fileBytes) : validQueryHash;
+  const hashForCache = fileHash ?? validQueryHash;
   if (hashForCache !== null) {
     const cachePath = screenshotCachePath(hashForCache);
     try {
