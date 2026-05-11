@@ -31,6 +31,8 @@ export function serializeAffix(entry: AffixEntry): Record<string, unknown> {
   if (entry.deprecated) obj.deprecated = true;
   // v15 (D6): attribute reference for damage engine bucket routing
   if (entry.attribute !== undefined) obj.attribute = entry.attribute;
+  // v18: implicit flag — omit when false/undefined (most affixes are explicit)
+  if (entry.isImplicit) obj.isImplicit = true;
   return obj;
 }
 

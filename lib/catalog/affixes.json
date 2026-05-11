@@ -687,11 +687,10 @@
       "bnetId": 1501493,
       "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
       "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 500,
-          "max": 2500
-        }
+        { "minItemPower": 1,   "min": 50,  "max": 75  },
+        { "minItemPower": 200, "min": 183, "max": 274 },
+        { "minItemPower": 300, "min": 300, "max": 450 },
+        { "minItemPower": 700, "min": 600, "max": 900 }
       ]
     },
     {

@@ -21,7 +21,13 @@
     "sacredThreshold": 725,
     "ancestralThreshold": 825,
     "greaterAffixThreshold": 925,
-    "maxItemPower": 1000
+    "maxItemPower": 1000,
+    "_sources": {
+      "sacredThreshold": "globals.glo.json → tSacredItemSpecifier.dwMinimumItemPower",
+      "ancestralThreshold": "globals.glo.json → tAncestralItemSpecifier.dwMinimumItemPower",
+      "greaterAffixThreshold": "globals.glo.json → tGreaterAffixSpecifier.dwMinimumItemPower",
+      "maxItemPower": "no direct globals.glo.json entry; inferred from formula table ceiling constant in tools/datamine-import/formulas/index.ts (MAX_ITEM_POWER = 1000). Re-verify by checking the highest nMinItemPower ceiling in a representative formula's arAffixScalings on each patch update."
+    }
   },
   "masterworking": {
     "maxRank": 12

@@ -230,12 +230,28 @@ describe("Pow(base, exp)", () => {
 // ─── DSL function: CurrentLegendaryRank() ────────────────────────────────────
 
 describe("CurrentLegendaryRank()", () => {
-  it("always returns 0 (D18 hard-wire)", () => {
+  it("returns 0 when legendaryRank is omitted (default)", () => {
     expect(evaluate("CurrentLegendaryRank()", ctx(100))).toBe(0);
     expect(evaluate("CurrentLegendaryRank()", ctx(900))).toBe(0);
   });
 
-  it("can be used in arithmetic (result is zero)", () => {
+  it("returns 0 when legendaryRank is explicitly 0", () => {
+    expect(evaluate("CurrentLegendaryRank()", { ...ctx(100), legendaryRank: 0 })).toBe(0);
+  });
+
+  it("returns the supplied legendaryRank when non-zero", () => {
+    expect(evaluate("CurrentLegendaryRank()", { ...ctx(100), legendaryRank: 4 })).toBe(4);
+    expect(evaluate("CurrentLegendaryRank()", { ...ctx(100), legendaryRank: 12 })).toBe(12);
+  });
+
+  it("legendaryRank is used in arithmetic expressions (masterwork modeling)", () => {
+    // Simulates a formula like: 100 + CurrentLegendaryRank() * 25
+    expect(evaluate("100 + CurrentLegendaryRank() * 25", { ...ctx(100), legendaryRank: 4 }))
+      .toBe(200);
+    expect(evaluate("100 + CurrentLegendaryRank() * 25", ctx(100))).toBe(100); // default=0
+  });
+
+  it("can be used in arithmetic (default rank is zero, so no bonus)", () => {
     expect(evaluate("100 + CurrentLegendaryRank() * 50", ctx(100))).toBe(100);
   });
 });

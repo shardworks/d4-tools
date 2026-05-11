@@ -33,6 +33,10 @@
     "Affix_WIP_TestEntry": {
       "action": "exclude",
       "reason": "WIP test entry — synthetic fixture only, no live game presence"
+    },
+    "Affix_Paragon_Unsupported": {
+      "action": "exclude",
+      "reason": "Test fixture for unsupported DSL function path — excluded from normal pipeline runs; flip to include in the dedicated test case"
     }
   },
   "aspects": {

@@ -66,8 +66,7 @@ d4data/json/base/meta/Affix/
     {
       "tAttribute": {
         "eAttribute": "Attr_Max_Life_Percent",
-        "nParam": 0
-      },
+        "nParam": 0,
         "gbidFormula": { "name": "GearAffix_AddLifePercent" }
       }
     }
@@ -85,6 +84,64 @@ The display string for this affix is resolved by:
 2. Substituting `{VALUE:1}` with the rolled value, scaled to a percentage
 
 **ToS:** See `08-datamine-extracts.md §2.1`.
+
+---
+
+## 2a. Jewelry-Implicit Value Derivation Limitation
+
+Certain implicit affixes — specifically the amulet "Resistance to All Elements" implicit and
+ring single-element-resist implicits — **cannot be derived from `AttributeFormulas.gam.json`**.
+
+### Root cause
+
+The affix-file → formula chain for these implicits bottoms out at a passthrough zero: the
+`gbidFormula.name` (or `szAttributeFormula.value`) in the datamine affix file resolves to a
+formula entry whose `arAffixScalings` contains only `szFormula: "0"`. The actual value is
+assigned by engine-internal slot behavior and is not exposed in any datamine file (confirmed
+against both DiabloTools/d4data build 3.0.1.71747 and the Maxroll community data export as of
+2026-05-10). This is not a parser gap — even a perfect formula evaluator cannot recover the value
+from the public data files.
+
+### Workaround: `isImplicit: true` + `manualValueRanges`
+
+Affixes that hit this limitation are tagged `isImplicit: true` in the curation file
+(`tools/datamine-import/curation.json`). Their curation record must also carry a
+`manualValueRanges` array with manually-curated per-IP-tier bands:
+
+```json
+"Affix_AllRes_Amulet": {
+  "action": "include",
+  "catalogId": "affix_all_res_amulet",
+  "label": "+All Resistance",
+  "isImplicit": true,
+  "manualValueRanges": [
+    { "minItemPower": 0, "min": 5, "max": 25 }
+  ],
+  "reason": "Implicit jewelry resistance — formula yields zero; manualValueRanges fallback"
+}
+```
+
+During the import pipeline, when `isImplicit: true` and the formula evaluates to zero/empty:
+
+1. `manualValueRanges` is used as the `valueRanges` in the catalog entry.
+2. If `manualValueRanges` is absent, the build fails loudly with reason
+   `"no-formula-and-no-fallback"` in the audit doc — no silent zeros.
+
+### Known affected affixes (as of build 3.0.1.71747)
+
+| Datamine bnetFileName | Catalog id | Notes |
+|-----------------------|------------|-------|
+| `Affix_AllRes_Amulet` | `affix_all_res_amulet` | Amulet "Resistance to All Elements" implicit |
+
+Ring single-element-resist implicits are expected to have the same limitation; verify during
+the next patch by checking their `gbidFormula.name` entries in `AttributeFormulas.gam.json`.
+
+### Curation cadence
+
+After each major patch update, re-verify that the formula for each `isImplicit: true` entry
+still yields zero. If Blizzard ever exposes these values in the data files, the `manualValueRanges`
+can be removed and the formula derivation used instead — just remove `isImplicit: true` and
+`manualValueRanges` from the curation record and re-run the import pipeline.
 
 ---
 

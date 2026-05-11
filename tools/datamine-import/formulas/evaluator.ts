@@ -15,7 +15,7 @@
  *  - Max(a, b)                         → Math.max(a, b)
  *  - Pin(val, min, max)                → clamp(val, min, max)
  *  - Pow(base, exp)                    → Math.pow(base, exp)
- *  - CurrentLegendaryRank()            → 0 (hard-wired, D18)
+ *  - CurrentLegendaryRank()            → ctx.legendaryRank ?? 0 (defaults to 0; supply EvalContext.legendaryRank for masterwork modeling)
  *  - SacredAffixScalarOffense          → scalars.sacredOffense (identifier or 0-arg call)
  *  - SacredAffixScalarDefense          → scalars.sacredDefense
  *  - AncestralAffixScalarOffense       → scalars.ancestralOffense
@@ -61,12 +61,19 @@ export class FormulaParseError extends Error {
  *  - `"max"` → return the maximum value
  *  - `"mid"` → return the midpoint
  *
- * Per D18: `legendaryRank` is NOT exposed — `CurrentLegendaryRank()` is always 0.
+ * Per D3 (spec): `legendaryRank` is optional and defaults to 0.
+ * Callers that want to model masterwork tier bonuses can supply a non-zero rank.
+ * `CurrentLegendaryRank()` in the formula DSL returns this value.
  */
 export interface EvalContext {
   itemPower: number;
   position: "min" | "max" | "mid";
   scalars: AffixScalars;
+  /**
+   * Optional legendary/masterwork rank for callers modeling masterwork tier bonuses.
+   * Passed to `CurrentLegendaryRank()` in the formula DSL. Defaults to 0 when omitted.
+   */
+  legendaryRank?: number;
 }
 
 // ─── Tokenizer ────────────────────────────────────────────────────────────────
@@ -343,8 +350,9 @@ function evalCall(name: string, argNodes: ParseNode[], ctx: EvalContext): number
       return ctx.itemPower;
 
     case "CurrentLegendaryRank":
-      // Hard-wired to 0 per D18 — no legendaryRank parameter
-      return 0;
+      // Returns ctx.legendaryRank when supplied; defaults to 0 for normal catalog-build runs.
+      // Callers modeling masterwork tier bonuses should pass a non-zero legendaryRank in EvalContext.
+      return ctx.legendaryRank ?? 0;
 
     // ── Scalar constants may also be called as 0-arg functions ──────────────
     case "SacredAffixScalarOffense":   return ctx.scalars.sacredOffense;
@@ -436,7 +444,7 @@ function pickByPosition(lo: number, hi: number, position: EvalContext["position"
  * Evaluates a formula string and returns a single numeric result.
  *
  * Per D17: `ctx.position` controls how randomized functions resolve.
- * Per D18: `CurrentLegendaryRank()` always returns 0.
+ * Per D3: `CurrentLegendaryRank()` returns `ctx.legendaryRank ?? 0`.
  * Per D5: unsupported functions throw `UnsupportedFunctionError`.
  *
  * @example

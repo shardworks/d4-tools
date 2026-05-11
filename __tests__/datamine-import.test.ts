@@ -549,4 +549,84 @@ describe("Case 4: Schema compliance", () => {
     expect(bash.resourceCostPerCast).toBe(0.0);
     expect(bash.cooldownSeconds).toBe(0.0);
   });
+
+  // ─── D5: jewelry-implicit fallback via manualValueRanges ──────────────────
+
+  it("D5: Affix_AllRes_Amulet is in catalog with manualValueRanges-derived band (not zero)", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const allRes = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_all_res_amulet"
+    );
+    expect(allRes).toBeTruthy();
+    // isImplicit flag should be set
+    expect(allRes.isImplicit).toBe(true);
+    // Must have exactly the manualValueRanges band from curation (not a zero band)
+    expect(allRes.valueRanges).toHaveLength(1);
+    expect(allRes.valueRanges[0].min).toBe(5);
+    expect(allRes.valueRanges[0].max).toBe(25);
+    expect(allRes.valueRanges[0].minItemPower).toBe(0);
+  });
+});
+
+// ─── Case 5: Unsupported DSL function → fail-loud (exit code 1) ──────────────
+
+describe("Case 5: Unsupported DSL function → fail-loud", () => {
+  it("exits with code 1 when a formula uses an unsupported DSL function", async () => {
+    // Affix_Paragon_Unsupported is excluded in the base curation to avoid affecting
+    // other tests. Here we flip it to "include" to exercise the unsupported-function
+    // code path end-to-end through the orchestrator.
+    const curationFile = makeTempCuration({
+      affixes: {
+        Affix_Paragon_Unsupported: {
+          action: "include",
+          catalogId: "affix_paragon_unsupported",
+          label: "Paragon Power Test",
+          reason: "Test: enabled to verify unsupported-function fail-loud path (Case 5)",
+        },
+      },
+    });
+
+    const result = await runWithTempOutput(curationFile);
+
+    // Pipeline must abort with exit code 1 — catalog files are NOT written
+    expect(result.exitCode).toBe(1);
+
+    // Audit doc is always written so the user can see what needs attention
+    const auditPath = path.join(result.docsDir, "datamine-import-3.0.0.test.md");
+    expect(fs.existsSync(auditPath)).toBe(true);
+    const auditDoc = fs.readFileSync(auditPath, "utf8");
+    expect(auditDoc).toContain("Affix_Paragon_Unsupported");
+    expect(auditDoc).toContain("unsupported-function");
+  });
+
+  it("catalog files are NOT written when an unsupported function is encountered", async () => {
+    const curationFile = makeTempCuration({
+      affixes: {
+        Affix_Paragon_Unsupported: {
+          action: "include",
+          catalogId: "affix_paragon_unsupported",
+          label: "Paragon Power Test",
+          reason: "Test: enabled to verify catalog-skip on unsupported-function",
+        },
+      },
+    });
+
+    const catalogRoot2 = makeTempDir();
+    const docsDir2 = makeTempDir();
+    const run = await runImport({
+      build: "3.0.0.test",
+      accessedDate: "2026-05-09",
+      datamineRoot: FIXTURE_DATAMINE,
+      dryRun: false,
+      catalogRoot: catalogRoot2,
+      docsDir: docsDir2,
+      curationFile,
+    });
+
+    expect(run.exitCode).toBe(1);
+    // No affixes.json should be written on error exit
+    expect(fs.existsSync(path.join(catalogRoot2, "affixes.json"))).toBe(false);
+  });
 });

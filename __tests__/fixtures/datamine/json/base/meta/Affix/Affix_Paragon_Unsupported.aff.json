@@ -1,0 +1,18 @@
+{
+  "__fileName__": "Affix_Paragon_Unsupported",
+  "__snoID__": 1234599,
+  "eAffixType": 2,
+  "arAllowedItemLabels": [],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": {
+        "eAttribute": 998,
+        "__eAttribute_name__": "Attr_Paragon_Test",
+        "nParam": 0,
+        "szAttributeFormula": { "value": "ParagonPowerBudgetMultiplierDamage(IPower())" }
+      }
+    }
+  ]
+}
