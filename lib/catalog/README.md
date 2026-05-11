@@ -52,9 +52,9 @@ interface SkillScalingAttribute {
 }
 ```
 
-All class skill entries carry `bnetId` and `bnetFileName` traceable to
-`DiabloTools/d4data` build `3.0.1.71747`. See `docs/datamine-import-3.0.1.71747.md` (generated
-by the import tool) for the per-entry audit trail.
+All eight classes' skill entries carry `bnetId` and `bnetFileName` traceable to
+`DiabloTools/d4data` build `3.0.1.71747`. See `docs/data-sources/06-skills.md` for
+per-class audit details.
 
 `scalingAttributes` is populated when the datamine import can dereference the skill's Power file.
 The damage engine uses entries whose `attribute` maps to a damage bucket to classify a skill as
@@ -225,7 +225,7 @@ Math helpers derived from `game-math.json` constants.
 
 ## Source Files
 
-| File | Contents | Entry count (v17) |
+| File | Contents | Entry count |
 |------|----------|-------------------|
 | `classes.json` | All 8 classes with `resources`, `primaryStat`, `bnetClassName`, `bnetClassId` | 8 |
 | `skills/{Class}.json` | Per-class skill list with category, maxRank, bnetId, bnetFileName | varies |
