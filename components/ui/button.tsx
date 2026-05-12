@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -20,10 +21,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        default: "h-8 px-4 py-1",
+        sm: "h-6 rounded-md px-3 py-0",
+        lg: "h-10 rounded-md px-6 py-2",
+        icon: "h-8 w-8",
       },
     },
     defaultVariants: {
@@ -37,17 +38,40 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  /** When true, renders an inline spinner overlay and disables interaction.
+   *  The button width is preserved — children are hidden via invisible span.
+   *  Implies the DOM `disabled` attribute and `pointer-events-none`. */
+  loading?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    const isDisabled = disabled || loading
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          loading && "relative"
+        )}
         ref={ref}
+        disabled={isDisabled}
         {...props}
-      />
+      >
+        {loading ? (
+          <>
+            {/* Invisible children preserve the button's intrinsic width */}
+            <span className="invisible flex items-center gap-2">{children}</span>
+            {/* Spinner overlaid and centered */}
+            <Loader2
+              size={14}
+              className="animate-spin absolute inset-0 m-auto"
+            />
+          </>
+        ) : (
+          children
+        )}
+      </Comp>
     )
   }
 )

@@ -133,7 +133,7 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                         }
                       }}
                     >
-                      <SelectTrigger className="flex-1 h-8 text-sm">
+                      <SelectTrigger className="flex-1 text-sm">
                         <SelectValue placeholder="Select board…" />
                       </SelectTrigger>
                       <SelectContent>

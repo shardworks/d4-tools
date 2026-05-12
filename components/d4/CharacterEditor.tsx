@@ -151,9 +151,9 @@ export function CharacterEditor({ character, isNew = false }: CharacterEditorPro
                 Unsaved changes
               </Badge>
             )}
-            <Button type="submit" disabled={isSaving} className="gap-[6px]">
+            <Button type="submit" loading={isSaving} className="gap-[6px]">
               <Save size={14} />
-              {isSaving ? "Saving…" : "Save"}
+              Save
             </Button>
           </div>
         </div>

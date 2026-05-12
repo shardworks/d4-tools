@@ -110,7 +110,7 @@ export default async function BuildsListPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="gap-1 text-[11px] h-[26px] px-2"
+                      className="gap-1 text-[11px] px-2"
                       title="Edit character"
                     >
                       <PenSquare size={12} />

@@ -299,7 +299,7 @@ export function GearSlotEditor({
                   render={({ field: f }) => (
                     <Select value={f.value as string} onValueChange={f.onChange}>
                       <SelectTrigger
-                        className="w-[140px] h-8 text-xs"
+                        className="w-[140px] text-xs"
                         style={{ color: rarityColor[f.value as string] ?? "var(--stone-100)" }}
                       >
                         <SelectValue />
@@ -323,7 +323,7 @@ export function GearSlotEditor({
                   min={0}
                   max={1000}
                   {...register("itemPower", { valueAsNumber: true })}
-                  className="w-[90px] h-8 text-xs"
+                  className="w-[90px] text-xs"
                   placeholder="925"
                 />
               </div>
@@ -453,7 +453,7 @@ export function GearSlotEditor({
                     name="aspect.source"
                     render={({ field: f }) => (
                       <Select value={f.value as string} onValueChange={f.onChange}>
-                        <SelectTrigger className="w-[120px] h-8 text-xs">
+                        <SelectTrigger className="w-[120px] text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -476,9 +476,9 @@ export function GearSlotEditor({
 
             {/* Actions */}
             <div className="flex gap-2 justify-between">
-              <Button type="submit" disabled={isSaving} className="gap-[6px]">
+              <Button type="submit" loading={isSaving} className="gap-[6px]">
                 <Save size={13} />
-                {isSaving ? "Saving…" : "Save Item"}
+                Save Item
               </Button>
               {item && onRemove && (
                 <Button

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, ImageOff, CheckCircle, Trash2 } from "lucide-react";
+import { ImageOff, CheckCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Character, Build, Item } from "@/lib/schema";
 import type { DamageConfig } from "@/lib/damage";
@@ -365,11 +365,10 @@ export function DetailPane({
           variant="outline"
           size="sm"
           onClick={onParse}
-          disabled={isParsing}
+          loading={isParsing}
           className="gap-2"
         >
-          {isParsing && <Loader2 size={14} className="animate-spin" />}
-          {isParsing ? "Parsing…" : parseResult ? "Re-parse" : "Parse"}
+          {parseResult ? "Re-parse" : "Parse"}
         </Button>
         <Button
           variant={wearSuccess ? "default" : "ghost"}
@@ -598,11 +597,10 @@ export function DetailPane({
             <Button
               size="sm"
               onClick={handleDelete}
-              disabled={isDeleting}
+              loading={isDeleting}
               className="gap-2"
             >
-              {isDeleting && <Loader2 size={14} className="animate-spin" />}
-              {isDeleting ? "Deleting…" : "Delete"}
+              Delete
             </Button>
           </div>
         </DialogContent>

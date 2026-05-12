@@ -67,7 +67,7 @@ export function AffixCombobox({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "w-full justify-between text-xs h-[30px] font-normal overflow-hidden text-ellipsis",
+            "w-full justify-between text-xs font-normal overflow-hidden text-ellipsis",
             selected ? "text-stone-100" : "text-stone-500"
           )}
         >
