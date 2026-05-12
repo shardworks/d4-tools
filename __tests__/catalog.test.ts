@@ -107,9 +107,11 @@ describe("slots catalog", () => {
 });
 
 describe("affixes catalog", () => {
-  it("has at least 200 entries (v17 comprehensive coverage)", () => {
-    // v17 expanded catalog target: 200+ affixes across all classes and slots
-    expect(affixes.length).toBeGreaterThanOrEqual(200);
+  it("has at least 180 entries (v18 hygiene sweep deduplicates slot-specific duplicates)", () => {
+    // v17 expanded catalog target was 200+; v18 hygiene sweep dropped 18 slot-specific
+    // duplicates (same attribute + overlapping slots as their surviving generic entry),
+    // so the floor is updated to 180 post-deduplication.
+    expect(affixes.length).toBeGreaterThanOrEqual(180);
   });
 
   it("has affixes with required fields including per-IP-tier valueRanges", () => {

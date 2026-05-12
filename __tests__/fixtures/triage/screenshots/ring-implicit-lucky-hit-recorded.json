@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Band of Embers",
+      "itemType": "Ring",
+      "rarity": "rare",
+      "itemPower": 875,
+      "isAncestral": false,
+      "implicits": [
+        { "label": "Lucky Hit Chance", "rolledValue": 5 }
+      ],
+      "explicits": [],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

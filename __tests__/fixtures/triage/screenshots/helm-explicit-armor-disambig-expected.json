@@ -1,0 +1,10 @@
+{
+  "description": "Helm with explicit Armor — after dropping affix_helm_armor, resolves unambiguously to affix_armor (no ambiguous result)",
+  "className": "Sorcerer",
+  "expectedSlot": "helm",
+  "expectedExplicits": [
+    { "label": "Armor", "expectedAffixId": "affix_armor", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

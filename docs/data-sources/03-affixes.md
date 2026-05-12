@@ -129,9 +129,19 @@ During the import pipeline, when `isImplicit: true` and the formula evaluates to
 
 ### Known affected affixes (as of build 3.0.1.71747)
 
-| Datamine bnetFileName | Catalog id | Notes |
+| Datamine bnetFileName (real-datamine curation key) | Catalog id | Notes |
 |-----------------------|------------|-------|
-| `Affix_AllRes_Amulet` | `affix_all_res_amulet` | Amulet "Resistance to All Elements" implicit |
+| `Resistance_Jewelry_All` | `affix_all_res` | Amulet "Resistance to All Elements" implicit |
+| `zzSMP_WishingWell_Stat_Armor` | `affix_implicit_armor_helm` | Helm implicit armor |
+| `Barrier_Strength_Percent` | `affix_implicit_barrier_offhand` | Off-hand implicit barrier generation |
+| `CritChance` | `affix_implicit_crit_chance_amulet` | Amulet implicit critical strike chance |
+| `Damage` | `affix_implicit_weapon_damage` | Weapon implicit core skill damage |
+| `DamageReduction` | `affix_implicit_damage_reduction_chest` | Chest implicit damage reduction |
+| `LuckJewelry` | `affix_implicit_lucky_hit_ring` | Ring implicit lucky hit chance |
+
+Note: the fixture-scoped curation entry `Affix_AllRes_Amulet` (→ `affix_all_res_amulet`) also
+exists in `curation.json` for fixture-pipeline testing. It is intentionally distinct from the
+real-datamine entry above; see §2a example and D7.
 
 Ring single-element-resist implicits are expected to have the same limitation; verify during
 the next patch by checking their `gbidFormula.name` entries in `AttributeFormulas.gam.json`.

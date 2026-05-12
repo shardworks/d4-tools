@@ -1,0 +1,10 @@
+{
+  "description": "Off-hand (Focus) with implicit Barrier Generation — bare canonical label resolves to affix_implicit_barrier_offhand at position=implicit",
+  "className": "Sorcerer",
+  "expectedSlot": "offHand",
+  "expectedImplicits": [
+    { "label": "Barrier Generation", "expectedAffixId": "affix_implicit_barrier_offhand", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

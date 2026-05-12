@@ -110,11 +110,19 @@ The damage engine uses `eAttribute` to route the affix into the correct damage b
 affixes use the first attribute only per D6 (curation handles edge cases).
 
 `isImplicit` (v18) marks affixes that are implicit — built into the item type and not replaceable
-via enchanting. All seven `affix_implicit_*` entries in the catalog carry `isImplicit: true`. The
-triage resolver (`lib/triage/resolve.ts`) uses this field to scope candidate pools by position: an
-`"implicit"` position call only matches entries where `isImplicit === true`; an `"explicit"` position
-call matches all others (where `isImplicit` is `false` or absent). Absence means false — do not
-backfill `isImplicit: false` across existing rows.
+via enchanting. Seven catalog entries carry `isImplicit: true`: six under the `affix_implicit_*`
+naming convention (`affix_implicit_armor_helm`, `affix_implicit_barrier_offhand`,
+`affix_implicit_crit_chance_amulet`, `affix_implicit_weapon_damage`,
+`affix_implicit_damage_reduction_chest`, `affix_implicit_lucky_hit_ring`) plus `affix_all_res`
+(amulet all-resist, no `affix_implicit_*` prefix — canonicalized in v18). Each carries a bare
+canonical tooltip label (e.g. `"Armor"`, `"Barrier Generation"`, `"Core Skill Damage"`) matching
+the in-game tooltip text; see `docs/datamine-verification-2026-05-12.md` for the canonicalization
+rationale.
+
+The triage resolver (`lib/triage/resolve.ts`) uses this field to scope candidate pools by position:
+an `"implicit"` position call only matches entries where `isImplicit === true`; an `"explicit"`
+position call matches all others (where `isImplicit` is `false` or absent). Absence means false —
+do not backfill `isImplicit: false` across existing rows.
 
 ### `AspectEntry`
 

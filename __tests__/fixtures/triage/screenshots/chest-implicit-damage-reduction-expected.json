@@ -1,0 +1,10 @@
+{
+  "description": "Chest with implicit Damage Reduction — bare canonical label resolves to affix_implicit_damage_reduction_chest at position=implicit",
+  "className": "Sorcerer",
+  "expectedSlot": "chest",
+  "expectedImplicits": [
+    { "label": "Damage Reduction", "expectedAffixId": "affix_implicit_damage_reduction_chest", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

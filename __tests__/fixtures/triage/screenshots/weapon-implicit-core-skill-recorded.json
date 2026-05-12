@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Runed Wand",
+      "itemType": "Wand",
+      "rarity": "rare",
+      "itemPower": 900,
+      "isAncestral": false,
+      "implicits": [
+        { "label": "Core Skill Damage", "rolledValue": 18 }
+      ],
+      "explicits": [],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

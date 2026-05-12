@@ -1,0 +1,11 @@
+{
+  "description": "Ring with implicit Lucky Hit Chance — D13 canonical label resolves to affix_implicit_lucky_hit_ring at position=implicit",
+  "className": "Sorcerer",
+  "expectedSlotKind": "ambiguous",
+  "expectedSlotCandidates": ["ring1", "ring2"],
+  "expectedImplicits": [
+    { "label": "Lucky Hit Chance", "expectedAffixId": "affix_implicit_lucky_hit_ring", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

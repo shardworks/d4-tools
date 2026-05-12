@@ -297,6 +297,215 @@ describe("triage-real-screenshots — fixture replay tests (t7)", () => {
   });
 });
 
+  // ── Fixture 6: Helm implicit Armor (2026-05-12 canonicalization) ─────────
+  describe("helm-implicit-armor: helm implicit Armor resolves to affix_implicit_armor_helm", () => {
+    const { recorded, expected } = loadFixture("helm-implicit-armor");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'helm'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("helm");
+      }
+    });
+
+    it("implicit 'Armor' resolves to affix_implicit_armor_helm", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_armor_helm");
+      }
+    });
+  });
+
+  // ── Fixture 7: Off-hand implicit Barrier Generation ────────────────────
+  describe("offhand-implicit-barrier: off-hand implicit Barrier Generation resolves to affix_implicit_barrier_offhand", () => {
+    const { recorded, expected } = loadFixture("offhand-implicit-barrier");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'offHand'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("offHand");
+      }
+    });
+
+    it("implicit 'Barrier Generation' resolves to affix_implicit_barrier_offhand", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_barrier_offhand");
+      }
+    });
+  });
+
+  // ── Fixture 8: Amulet implicit Critical Strike Chance ─────────────────
+  describe("amulet-implicit-crit-chance: amulet implicit Critical Strike Chance resolves to affix_implicit_crit_chance_amulet", () => {
+    const { recorded, expected } = loadFixture("amulet-implicit-crit-chance");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'amulet'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("amulet");
+      }
+    });
+
+    it("implicit 'Critical Strike Chance' resolves to affix_implicit_crit_chance_amulet", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_crit_chance_amulet");
+      }
+    });
+  });
+
+  // ── Fixture 9: Weapon implicit Core Skill Damage ───────────────────────
+  describe("weapon-implicit-core-skill: weapon implicit Core Skill Damage resolves to affix_implicit_weapon_damage (D12)", () => {
+    const { recorded, expected } = loadFixture("weapon-implicit-core-skill");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'weapon'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("weapon");
+      }
+    });
+
+    it("implicit 'Core Skill Damage' resolves to affix_implicit_weapon_damage", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_weapon_damage");
+      }
+    });
+  });
+
+  // ── Fixture 10: Chest implicit Damage Reduction ────────────────────────
+  describe("chest-implicit-damage-reduction: chest implicit Damage Reduction resolves to affix_implicit_damage_reduction_chest", () => {
+    const { recorded, expected } = loadFixture("chest-implicit-damage-reduction");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'chest'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("chest");
+      }
+    });
+
+    it("implicit 'Damage Reduction' resolves to affix_implicit_damage_reduction_chest", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_damage_reduction_chest");
+      }
+    });
+  });
+
+  // ── Fixture 11: Ring implicit Lucky Hit Chance ─────────────────────────
+  describe("ring-implicit-lucky-hit: ring implicit Lucky Hit Chance resolves to affix_implicit_lucky_hit_ring (D13)", () => {
+    const { recorded, expected } = loadFixture("ring-implicit-lucky-hit");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot is ambiguous (ring1/ring2)", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("ambiguous");
+      if (resolved.slotResult.kind === "ambiguous") {
+        expect(resolved.slotResult.candidates).toContain("ring1");
+        expect(resolved.slotResult.candidates).toContain("ring2");
+      }
+    });
+
+    it("implicit 'Lucky Hit Chance' resolves to affix_implicit_lucky_hit_ring", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.implicits).toHaveLength(1);
+      const implicit = resolved.implicits[0];
+      expect(implicit.kind).toBe("resolved");
+      if (implicit.kind === "resolved") {
+        expect(implicit.affixId).toBe("affix_implicit_lucky_hit_ring");
+      }
+    });
+  });
+
+  // ── Fixture 12: Helm explicit Armor disambiguation ─────────────────────
+  describe("helm-explicit-armor-disambig: explicit Armor on helm resolves unambiguously to affix_armor after dropping affix_helm_armor", () => {
+    const { recorded, expected } = loadFixture("helm-explicit-armor-disambig");
+
+    it("recorded CacheEntry has kind='item'", () => {
+      expect(recorded.kind).toBe("item");
+    });
+
+    it("slot resolves to 'helm'", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.slotResult.kind).toBe("resolved");
+      if (resolved.slotResult.kind === "resolved") {
+        expect(resolved.slotResult.slotId).toBe("helm");
+      }
+    });
+
+    it("explicit 'Armor' resolves to affix_armor (no ambiguous result)", () => {
+      const items = getItems(recorded);
+      const resolved = resolveItem(items[0], expected.className);
+      expect(resolved.explicits).toHaveLength(1);
+      const explicit = resolved.explicits[0];
+      // Must not be ambiguous — after dropping affix_helm_armor only affix_armor remains
+      expect(explicit.kind).not.toBe("ambiguous" as never);
+      if (explicit.kind === "resolved") {
+        expect(explicit.affixId).toBe("affix_armor");
+      }
+      if (explicit.kind === "uncertain") {
+        // out-of-range is acceptable if value falls outside IP-banded range
+        expect(explicit.reason).not.toBe("no-match");
+      }
+    });
+  });
+
 // ─── Aggregate match-rate report ────────────────────────────────────────────
 
 describe("triage-real-screenshots — aggregate match-rate report", () => {
@@ -307,6 +516,13 @@ describe("triage-real-screenshots — aggregate match-rate report", () => {
       "ring-aspect",
       "chest-synonym",
       "ring-value-mismatch",
+      "helm-implicit-armor",
+      "offhand-implicit-barrier",
+      "amulet-implicit-crit-chance",
+      "weapon-implicit-core-skill",
+      "chest-implicit-damage-reduction",
+      "ring-implicit-lucky-hit",
+      "helm-explicit-armor-disambig",
     ];
 
     const rows: Array<{ name: string; rate: string }> = [];

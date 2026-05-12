@@ -576,3 +576,110 @@ describe("resolveItem — unique short-circuit (D16)", () => {
     }
   });
 });
+
+// ─── v18 hygiene: canonicalized implicit labels (2026-05-12) ──────────────────
+
+describe("resolveAffix — canonicalized implicit labels (2026-05-12 sweep)", () => {
+  it("implicit-position 'Armor' on helm resolves to affix_implicit_armor_helm", () => {
+    // affix_implicit_armor_helm carries the bare canonical label "Armor" after canonicalization
+    const result = resolveAffix(
+      { label: "Armor", rolledValue: 1500 },
+      "helm",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_armor_helm");
+    }
+  });
+
+  it("implicit-position 'Barrier Generation' on offHand resolves to affix_implicit_barrier_offhand", () => {
+    const result = resolveAffix(
+      { label: "Barrier Generation", rolledValue: 10 },
+      "offHand",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_barrier_offhand");
+    }
+  });
+
+  it("implicit-position 'Critical Strike Chance' on amulet resolves to affix_implicit_crit_chance_amulet", () => {
+    const result = resolveAffix(
+      { label: "Critical Strike Chance", rolledValue: 5 },
+      "amulet",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_crit_chance_amulet");
+    }
+  });
+
+  it("implicit-position 'Core Skill Damage' on weapon resolves to affix_implicit_weapon_damage", () => {
+    // D12: label is now 'Core Skill Damage' (from labelTemplate + attribute), id kept as affix_implicit_weapon_damage
+    const result = resolveAffix(
+      { label: "Core Skill Damage", rolledValue: 18 },
+      "weapon",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_weapon_damage");
+    }
+  });
+
+  it("implicit-position 'Damage Reduction' on chest resolves to affix_implicit_damage_reduction_chest", () => {
+    const result = resolveAffix(
+      { label: "Damage Reduction", rolledValue: 5 },
+      "chest",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_damage_reduction_chest");
+    }
+  });
+
+  it("implicit-position 'Lucky Hit Chance' on ring1 resolves to affix_implicit_lucky_hit_ring", () => {
+    // D13: canonical label is 'Lucky Hit Chance' (aligns with explicit family)
+    const result = resolveAffix(
+      { label: "Lucky Hit Chance", rolledValue: 5 },
+      "ring1",
+      "Sorcerer",
+      "implicit"
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_implicit_lucky_hit_ring");
+    }
+  });
+
+  it("explicit-position 'Armor' on helm resolves unambiguously to affix_armor (no ambiguous result)", () => {
+    // After dropping affix_helm_armor, the only explicit Armor candidate on helm is affix_armor
+    const result = resolveAffix(
+      { label: "Armor", rolledValue: 700 },
+      "helm",
+      "Sorcerer",
+      "explicit"
+    );
+    // Must not be ambiguous; should resolve to affix_armor or be out-of-range for affix_armor
+    expect(result.kind).not.toBe("ambiguous" as never);
+    if (result.kind === "resolved") {
+      expect(result.affixId).toBe("affix_armor");
+    }
+    if (result.kind === "uncertain") {
+      // out-of-range is acceptable if rolled value is outside IP-banded range
+      expect(result.reason).not.toBe("no-match");
+      if ("affixId" in result) {
+        expect(result.affixId).toBe("affix_armor");
+      }
+    }
+  });
+});

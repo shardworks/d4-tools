@@ -37,6 +37,83 @@
     "Affix_Paragon_Unsupported": {
       "action": "exclude",
       "reason": "Test fixture for unsupported DSL function path — excluded from normal pipeline runs; flip to include in the dedicated test case"
+    },
+    "Resistance_Jewelry_All": {
+      "action": "include",
+      "catalogId": "affix_all_res",
+      "label": "Resistance to All Elements",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 6, "max": 20 }
+      ],
+      "reason": "Amulet implicit all-resist — formula yields zero; manualValueRanges fallback. Real-datamine record (distinct from fixture-scoped Affix_AllRes_Amulet per D7)"
+    },
+    "zzSMP_WishingWell_Stat_Armor": {
+      "action": "include",
+      "catalogId": "affix_implicit_armor_helm",
+      "label": "Armor",
+      "isImplicit": true,
+      "isPercent": false,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 700, "max": 3000 }
+      ],
+      "reason": "Helm implicit armor — formula yields zero for implicit slots; manualValueRanges fallback"
+    },
+    "Barrier_Strength_Percent": {
+      "action": "include",
+      "catalogId": "affix_implicit_barrier_offhand",
+      "label": "Barrier Generation",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 5, "max": 15 }
+      ],
+      "reason": "Off-hand implicit barrier generation — formula yields zero for implicit slots; manualValueRanges fallback"
+    },
+    "CritChance": {
+      "action": "include",
+      "catalogId": "affix_implicit_crit_chance_amulet",
+      "label": "Critical Strike Chance",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 3, "max": 8 }
+      ],
+      "reason": "Amulet implicit crit chance — formula yields zero for implicit slots; manualValueRanges fallback"
+    },
+    "Damage": {
+      "action": "include",
+      "catalogId": "affix_implicit_weapon_damage",
+      "label": "Core Skill Damage",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 10, "max": 25 }
+      ],
+      "reason": "Weapon implicit core skill damage — formula yields zero for implicit slots; manualValueRanges fallback. D12: canonical label is Core Skill Damage (labelTemplate + attribute agree)"
+    },
+    "DamageReduction": {
+      "action": "include",
+      "catalogId": "affix_implicit_damage_reduction_chest",
+      "label": "Damage Reduction",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 3, "max": 8 }
+      ],
+      "reason": "Chest implicit damage reduction — formula yields zero for implicit slots; manualValueRanges fallback"
+    },
+    "LuckJewelry": {
+      "action": "include",
+      "catalogId": "affix_implicit_lucky_hit_ring",
+      "label": "Lucky Hit Chance",
+      "isImplicit": true,
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0, "min": 3, "max": 7 }
+      ],
+      "reason": "Ring implicit lucky hit chance — formula yields zero for implicit slots; manualValueRanges fallback. D13: canonical label is Lucky Hit Chance (aligns with sibling explicit family)"
     }
   },
   "aspects": {

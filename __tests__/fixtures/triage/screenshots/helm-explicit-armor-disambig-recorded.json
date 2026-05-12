@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Spiked Crown",
+      "itemType": "Helm",
+      "rarity": "rare",
+      "itemPower": 750,
+      "isAncestral": false,
+      "implicits": [],
+      "explicits": [
+        { "label": "Armor", "rolledValue": 700 }
+      ],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

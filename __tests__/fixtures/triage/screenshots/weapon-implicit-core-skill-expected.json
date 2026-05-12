@@ -1,0 +1,10 @@
+{
+  "description": "Weapon (Wand) with implicit Core Skill Damage — D12 canonical label resolves to affix_implicit_weapon_damage at position=implicit",
+  "className": "Sorcerer",
+  "expectedSlot": "weapon",
+  "expectedImplicits": [
+    { "label": "Core Skill Damage", "expectedAffixId": "affix_implicit_weapon_damage", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

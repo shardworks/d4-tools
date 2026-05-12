@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Rusted Coif",
+      "itemType": "Helm",
+      "rarity": "rare",
+      "itemPower": 725,
+      "isAncestral": false,
+      "implicits": [
+        { "label": "Armor", "rolledValue": 800 }
+      ],
+      "explicits": [],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

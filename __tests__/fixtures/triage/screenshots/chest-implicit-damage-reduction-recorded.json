@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Tattered Robe",
+      "itemType": "Chest Armor",
+      "rarity": "rare",
+      "itemPower": 820,
+      "isAncestral": false,
+      "implicits": [
+        { "label": "Damage Reduction", "rolledValue": 5 }
+      ],
+      "explicits": [],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

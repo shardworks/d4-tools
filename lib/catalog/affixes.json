@@ -1298,29 +1298,6 @@
       ]
     },
     {
-      "id": "affix_druid_companion_skill_damage",
-      "label": "Companion Skill Damage",
-      "labelTemplate": "+{value}% Companion Skill Damage",
-      "isPercent": true,
-      "slotRestrictions": [],
-      "classRestrictions": [
-        "Druid"
-      ],
-      "bnetId": 1093765,
-      "bnetFileName": "Damage_Tag_Companion",
-      "attribute": {
-        "eAttribute": "Attr_Companion_Skill_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 20,
-          "max": 40
-        }
-      ]
-    },
-    {
       "id": "affix_druid_wereform_damage",
       "label": "Wereform Skill Damage",
       "labelTemplate": "+{value}% Wereform Skill Damage",
@@ -3619,34 +3596,6 @@
       ]
     },
     {
-      "id": "affix_crit_damage_weapon",
-      "label": "Critical Strike Damage (Weapon)",
-      "labelTemplate": "+{value}% Critical Strike Damage",
-      "isPercent": true,
-      "slotRestrictions": [
-        "weapon",
-        "offHand",
-        "barb_1h_main",
-        "barb_1h_off",
-        "barb_2h_bludgeoning",
-        "barb_2h_slashing"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577177,
-      "bnetFileName": "CritDamage",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 12,
-          "max": 30
-        }
-      ]
-    },
-    {
       "id": "affix_attack_speed_weapon",
       "label": "Attack Speed (Weapon)",
       "labelTemplate": "+{value}% Attack Speed",
@@ -3703,62 +3652,6 @@
       ]
     },
     {
-      "id": "affix_overpower_weapon",
-      "label": "Overpower Damage (Weapon)",
-      "labelTemplate": "+{value}% Overpower Damage",
-      "isPercent": true,
-      "slotRestrictions": [
-        "weapon",
-        "offHand",
-        "barb_1h_main",
-        "barb_1h_off",
-        "barb_2h_bludgeoning",
-        "barb_2h_slashing"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577053,
-      "bnetFileName": "OverpowerDamage",
-      "attribute": {
-        "eAttribute": "Attr_Overpower_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 15,
-          "max": 35
-        }
-      ]
-    },
-    {
-      "id": "affix_lucky_hit_weapon",
-      "label": "Lucky Hit Chance (Weapon)",
-      "labelTemplate": "+{value}% Lucky Hit Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "weapon",
-        "offHand",
-        "barb_1h_main",
-        "barb_1h_off",
-        "barb_2h_bludgeoning",
-        "barb_2h_slashing"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577217,
-      "bnetFileName": "Luck",
-      "attribute": {
-        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 8
-        }
-      ]
-    },
-    {
       "id": "affix_damage_per_second",
       "label": "Damage Per Second (Weapon)",
       "labelTemplate": "+{value} Damage per Second",
@@ -3783,62 +3676,6 @@
           "minItemPower": 0,
           "min": 500,
           "max": 2500
-        }
-      ]
-    },
-    {
-      "id": "affix_physical_damage_weapon",
-      "label": "Physical Damage (Weapon)",
-      "labelTemplate": "+{value}% Physical Damage",
-      "isPercent": true,
-      "slotRestrictions": [
-        "weapon",
-        "offHand",
-        "barb_1h_main",
-        "barb_1h_off",
-        "barb_2h_bludgeoning",
-        "barb_2h_slashing"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577077,
-      "bnetFileName": "Damage_Type_Bonus_Physical",
-      "attribute": {
-        "eAttribute": "Attr_Physical_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 8,
-          "max": 20
-        }
-      ]
-    },
-    {
-      "id": "affix_crit_chance_weapon",
-      "label": "Critical Strike Chance (Weapon)",
-      "labelTemplate": "+{value}% Critical Strike Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "weapon",
-        "offHand",
-        "barb_1h_main",
-        "barb_1h_off",
-        "barb_2h_bludgeoning",
-        "barb_2h_slashing"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577051,
-      "bnetFileName": "CritChance",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 2,
-          "max": 5
         }
       ]
     },
@@ -3871,81 +3708,6 @@
       ]
     },
     {
-      "id": "affix_crit_chance_ring",
-      "label": "Critical Strike Chance (Ring)",
-      "labelTemplate": "+{value}% Critical Strike Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "ring1",
-        "ring2",
-        "amulet"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577051,
-      "bnetFileName": "CritChance",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 2,
-          "max": 5
-        }
-      ]
-    },
-    {
-      "id": "affix_crit_damage_ring",
-      "label": "Critical Strike Damage (Ring)",
-      "labelTemplate": "+{value}% Critical Strike Damage",
-      "isPercent": true,
-      "slotRestrictions": [
-        "ring1",
-        "ring2",
-        "amulet"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577177,
-      "bnetFileName": "CritDamage",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 10,
-          "max": 25
-        }
-      ]
-    },
-    {
-      "id": "affix_attack_speed_ring",
-      "label": "Attack Speed (Ring)",
-      "labelTemplate": "+{value}% Attack Speed",
-      "isPercent": true,
-      "slotRestrictions": [
-        "ring1",
-        "ring2",
-        "amulet"
-      ],
-      "classRestrictions": [],
-      "bnetId": 583206,
-      "bnetFileName": "AttackSpeed",
-      "attribute": {
-        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 4,
-          "max": 9
-        }
-      ]
-    },
-    {
       "id": "affix_all_res_ring",
       "label": "Resistance to All Elements (Ring)",
       "labelTemplate": "+{value}% Resistance to All Elements",
@@ -3966,31 +3728,6 @@
           "minItemPower": 0,
           "min": 6,
           "max": 18
-        }
-      ]
-    },
-    {
-      "id": "affix_lucky_hit_ring",
-      "label": "Lucky Hit Chance (Ring)",
-      "labelTemplate": "+{value}% Lucky Hit Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "ring1",
-        "ring2",
-        "amulet"
-      ],
-      "classRestrictions": [],
-      "bnetId": 1193773,
-      "bnetFileName": "LuckJewelry",
-      "attribute": {
-        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 8
         }
       ]
     },
@@ -4251,121 +3988,6 @@
       ]
     },
     {
-      "id": "affix_gloves_crit_chance",
-      "label": "Critical Strike Chance (Gloves)",
-      "labelTemplate": "+{value}% Critical Strike Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "gloves"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577051,
-      "bnetFileName": "CritChance",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Strike_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 2,
-          "max": 5.5
-        }
-      ]
-    },
-    {
-      "id": "affix_gloves_crit_damage",
-      "label": "Critical Strike Damage (Gloves)",
-      "labelTemplate": "+{value}% Critical Strike Damage",
-      "isPercent": true,
-      "slotRestrictions": [
-        "gloves"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577177,
-      "bnetFileName": "CritDamage",
-      "attribute": {
-        "eAttribute": "Attr_Crit_Damage_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 10,
-          "max": 25
-        }
-      ]
-    },
-    {
-      "id": "affix_gloves_attack_speed",
-      "label": "Attack Speed (Gloves)",
-      "labelTemplate": "+{value}% Attack Speed",
-      "isPercent": true,
-      "slotRestrictions": [
-        "gloves"
-      ],
-      "classRestrictions": [],
-      "bnetId": 583206,
-      "bnetFileName": "AttackSpeed",
-      "attribute": {
-        "eAttribute": "Attr_Attacks_Per_Second_Percent_Bonus",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 8
-        }
-      ]
-    },
-    {
-      "id": "affix_pants_dodge",
-      "label": "Dodge Chance (Pants)",
-      "labelTemplate": "+{value}% Dodge Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "pants"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577221,
-      "bnetFileName": "Dodge",
-      "attribute": {
-        "eAttribute": "Attr_Dodge_Rating",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 7
-        }
-      ]
-    },
-    {
-      "id": "affix_boots_movement_speed",
-      "label": "Movement Speed (Boots)",
-      "labelTemplate": "+{value}% Movement Speed",
-      "isPercent": true,
-      "slotRestrictions": [
-        "boots"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577213,
-      "bnetFileName": "Movement_Speed",
-      "attribute": {
-        "eAttribute": "Attr_Movement_Speed_Bonus_Pct",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 6,
-          "max": 14
-        }
-      ]
-    },
-    {
       "id": "affix_boots_evade_charges",
       "label": "Extra Evade Charge",
       "labelTemplate": "+{value} Extra Evade Charge",
@@ -4381,75 +4003,6 @@
           "minItemPower": 0,
           "min": 1,
           "max": 1
-        }
-      ]
-    },
-    {
-      "id": "affix_helm_armor",
-      "label": "Armor (Helm)",
-      "labelTemplate": "+{value} Armor",
-      "isPercent": false,
-      "slotRestrictions": [
-        "helm"
-      ],
-      "classRestrictions": [],
-      "bnetId": 1501493,
-      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
-      "attribute": {
-        "eAttribute": "Attr_Armor_Item",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 400,
-          "max": 2000
-        }
-      ]
-    },
-    {
-      "id": "affix_chest_armor",
-      "label": "Armor (Chest)",
-      "labelTemplate": "+{value} Armor",
-      "isPercent": false,
-      "slotRestrictions": [
-        "chest"
-      ],
-      "classRestrictions": [],
-      "bnetId": 1501493,
-      "bnetFileName": "zzSMP_WishingWell_Stat_Armor",
-      "attribute": {
-        "eAttribute": "Attr_Armor_Item",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 600,
-          "max": 3000
-        }
-      ]
-    },
-    {
-      "id": "affix_gloves_lucky_hit",
-      "label": "Lucky Hit Chance (Gloves)",
-      "labelTemplate": "+{value}% Lucky Hit Chance",
-      "isPercent": true,
-      "slotRestrictions": [
-        "gloves"
-      ],
-      "classRestrictions": [],
-      "bnetId": 577217,
-      "bnetFileName": "Luck",
-      "attribute": {
-        "eAttribute": "Attr_Lucky_Hit_Chance_Percent",
-        "nParam": 0
-      },
-      "valueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 8
         }
       ]
     },
@@ -4474,7 +4027,7 @@
     },
     {
       "id": "affix_implicit_armor_helm",
-      "label": "Implicit Armor (Helm)",
+      "label": "Armor",
       "labelTemplate": "+{value} Armor",
       "isPercent": false,
       "isImplicit": true,
@@ -4498,7 +4051,7 @@
     },
     {
       "id": "affix_implicit_barrier_offhand",
-      "label": "Implicit Barrier (Off-Hand)",
+      "label": "Barrier Generation",
       "labelTemplate": "+{value}% Barrier Generation",
       "isPercent": true,
       "isImplicit": true,
@@ -4522,7 +4075,7 @@
     },
     {
       "id": "affix_implicit_crit_chance_amulet",
-      "label": "Implicit Critical Strike Chance (Amulet)",
+      "label": "Critical Strike Chance",
       "labelTemplate": "+{value}% Critical Strike Chance",
       "isPercent": true,
       "isImplicit": true,
@@ -4546,7 +4099,7 @@
     },
     {
       "id": "affix_implicit_weapon_damage",
-      "label": "Implicit Weapon Damage",
+      "label": "Core Skill Damage",
       "labelTemplate": "+{value}% Core Skill Damage",
       "isPercent": true,
       "isImplicit": true,
@@ -4575,7 +4128,7 @@
     },
     {
       "id": "affix_implicit_damage_reduction_chest",
-      "label": "Implicit Damage Reduction (Chest)",
+      "label": "Damage Reduction",
       "labelTemplate": "+{value}% Damage Reduction",
       "isPercent": true,
       "isImplicit": true,
@@ -4595,7 +4148,7 @@
     },
     {
       "id": "affix_implicit_lucky_hit_ring",
-      "label": "Implicit Lucky Hit (Ring)",
+      "label": "Lucky Hit Chance",
       "labelTemplate": "+{value}% Lucky Hit Chance",
       "isPercent": true,
       "isImplicit": true,

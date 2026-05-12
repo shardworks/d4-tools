@@ -54,7 +54,6 @@ The remaining 82 are utility/defensive stats where `attribute` is intentionally 
 | id | label | classRestrictions | attribute.eAttribute |
 |---|---|---|---|
 | `affix_druid_companion_damage` | Companion Damage | Druid | `Attr_Companion_Skill_Damage_Percent` |
-| `affix_druid_companion_skill_damage` | Companion Skill Damage | Druid | `Attr_Companion_Skill_Damage_Percent` |
 | `affix_paladin_holy_damage` | Holy Damage | Paladin | `Attr_Holy_Damage_Percent` |
 | `affix_sorc_fire_damage_rank` | Fire Bolt Rank | Sorcerer | — |
 | `affix_sorc_mana_cost_reduction` | Mana Cost Reduction | Sorcerer | — |

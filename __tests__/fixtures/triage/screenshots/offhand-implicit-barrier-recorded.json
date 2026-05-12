@@ -1,0 +1,19 @@
+{
+  "kind": "item",
+  "items": [
+    {
+      "name": "Spectral Tome",
+      "itemType": "Focus",
+      "rarity": "rare",
+      "itemPower": 800,
+      "isAncestral": false,
+      "implicits": [
+        { "label": "Barrier Generation", "rolledValue": 10 }
+      ],
+      "explicits": [],
+      "tempered": []
+    }
+  ],
+  "model": "claude-sonnet-4-5-20250929",
+  "timestamp": "2026-05-12T00:00:00.000Z"
+}

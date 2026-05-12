@@ -1,0 +1,10 @@
+{
+  "description": "Helm with implicit Armor — bare canonical label resolves to affix_implicit_armor_helm at position=implicit",
+  "className": "Sorcerer",
+  "expectedSlot": "helm",
+  "expectedImplicits": [
+    { "label": "Armor", "expectedAffixId": "affix_implicit_armor_helm", "expectedStatus": "resolved" }
+  ],
+  "expectedAspect": null,
+  "minResolvedRate": 1.0
+}

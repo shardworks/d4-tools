@@ -66,8 +66,6 @@ export interface SlotEntry {
   cluster: "armor" | "jewelry" | "weapon";
   classSpecific?: string[];
   excludedClasses?: string[];
-  /** Datamine slot key (e.g. "head", "torso") — sourced from `DiabloTools/d4data`. */
-  bnetSlotKey?: string;
 }
 
 /**
