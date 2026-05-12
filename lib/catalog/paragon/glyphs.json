@@ -1,0 +1,771 @@
+{
+  "glyphs": [
+    {
+      "id": "glyph_abyssal",
+      "label": "Abyssal",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2531536, "bnetFileName": "Rare_117_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_ambidextrous",
+      "label": "Ambidextrous",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027075, "bnetFileName": "Rare_021_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_ambush",
+      "label": "Ambush",
+      "classAffinity": ["Rogue"],
+      "bnetSources": {
+        "Rogue": { "bnetId": 2479348, "bnetFileName": "Rare_073_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_apostle",
+      "label": "Apostle",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478580, "bnetFileName": "Rare_110_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_arbiter",
+      "label": "Arbiter",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478242, "bnetFileName": "Rare_106_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_archfiend",
+      "label": "Archfiend",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2532972, "bnetFileName": "Rare_124_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_bane",
+      "label": "Bane",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028232, "bnetFileName": "Rare_045_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_bloodfeeder",
+      "label": "Bloodfeeder",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027090, "bnetFileName": "Rare_029_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_bone_graft_g",
+      "label": "Bone Graft",
+      "classAffinity": ["Necromancer"],
+      "bnetSources": {
+        "Necromancer": { "bnetId": 2479415, "bnetFileName": "Rare_091_Intelligence_Main" }
+      }
+    },
+    {
+      "id": "glyph_brawl",
+      "label": "Brawl",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027099, "bnetFileName": "Rare_037_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_canny",
+      "label": "Canny",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 1029487, "bnetFileName": "Rare_063_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_challenger",
+      "label": "Challenger",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 2073373, "bnetFileName": "Rare_Str_Generic" }
+      }
+    },
+    {
+      "id": "glyph_chip",
+      "label": "Chip",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2506071, "bnetFileName": "Rare_055_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_cleaver",
+      "label": "Cleaver",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027084, "bnetFileName": "Rare_023_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_cold_calc",
+      "label": "Cryopathy",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023192, "bnetFileName": "Rare_009_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_control",
+      "label": "Control",
+      "classAffinity": ["Necromancer", "Paladin", "Rogue", "Sorcerer", "Warlock"],
+      "bnetSources": {
+        "Necromancer": { "bnetId": 1029491, "bnetFileName": "Rare_020_Intelligence_Side" },
+        "Paladin":     { "bnetId": 1029491, "bnetFileName": "Rare_020_Intelligence_Side" },
+        "Rogue":       { "bnetId": 1029495, "bnetFileName": "Rare_020_Dexterity_Side" },
+        "Sorcerer":    { "bnetId": 1023203, "bnetFileName": "Rare_020_Dexterity_Side" },
+        "Warlock":     { "bnetId": 2533053, "bnetFileName": "Rare_125_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_crusher",
+      "label": "Crusher",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027086, "bnetFileName": "Rare_025_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_darkness",
+      "label": "Darkness",
+      "classAffinity": ["Necromancer"],
+      "bnetSources": {
+        "Necromancer": { "bnetId": 2479295, "bnetFileName": "Rare_060_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_deadraiser",
+      "label": "Deadraiser",
+      "classAffinity": ["Necromancer"],
+      "bnetSources": {
+        "Necromancer": { "bnetId": 2479430, "bnetFileName": "Rare_093_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_demonologist",
+      "label": "Demonologist",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2533449, "bnetFileName": "Rare_128_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_destruction",
+      "label": "Destruction",
+      "classAffinity": ["Sorcerer", "Warlock"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023202, "bnetFileName": "Rare_019_Dexterity_Side" },
+        "Warlock":  { "bnetId": 2533352, "bnetFileName": "Rare_126_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_devious",
+      "label": "Devious",
+      "classAffinity": ["Rogue"],
+      "bnetSources": {
+        "Rogue": { "bnetId": 2479440, "bnetFileName": "Rare_096_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_diminish",
+      "label": "Diminish",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2479306, "bnetFileName": "Rare_076_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_disembowel",
+      "label": "Disembowel",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027098, "bnetFileName": "Rare_036_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_dominate",
+      "label": "Dominate",
+      "classAffinity": ["Barbarian", "Druid", "Necromancer"],
+      "bnetSources": {
+        "Barbarian":   { "bnetId": 1027097, "bnetFileName": "Rare_035_Willpower_Side" },
+        "Druid":       { "bnetId": 1068833, "bnetFileName": "Rare_035_Intelligence_Side" },
+        "Necromancer": { "bnetId": 2479280, "bnetFileName": "Rare_057_Intelligence_Main" }
+      }
+    },
+    {
+      "id": "glyph_earth_and_sky",
+      "label": "Earth and Sky",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028227, "bnetFileName": "Rare_040_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_electrocution",
+      "label": "Electrocution",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1627925, "bnetFileName": "Rare_087_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_esoteric_alteration",
+      "label": "Warding",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023196, "bnetFileName": "Rare_077_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_executioner",
+      "label": "Executioner",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027087, "bnetFileName": "Rare_026_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_exploit",
+      "label": "Exploit",
+      "classAffinity": ["Barbarian", "Druid", "Necromancer", "Paladin", "Rogue", "Sorcerer"],
+      "labelByClass": {
+        "Sorcerer": "Tactician"
+      },
+      "bnetSources": {
+        "Barbarian":   { "bnetId": 1023199, "bnetFileName": "Rare_016_Dexterity_Side" },
+        "Druid":       { "bnetId": 1023199, "bnetFileName": "Rare_016_Dexterity_Side" },
+        "Necromancer": { "bnetId": 2506132, "bnetFileName": "Rare_016_Intelligence_Side" },
+        "Paladin":     { "bnetId": 2506132, "bnetFileName": "Rare_016_Intelligence_Side" },
+        "Rogue":       { "bnetId": 2506148, "bnetFileName": "Rare_079_Dexterity_Side" },
+        "Sorcerer":    { "bnetId": 1023193, "bnetFileName": "Rare_010_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_fang_claw",
+      "label": "Fang and Claw",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028226, "bnetFileName": "Rare_039_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_feverous",
+      "label": "Feverous",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478571, "bnetFileName": "Rare_109_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_flamefeeder",
+      "label": "Flamefeeder",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023198, "bnetFileName": "Rare_015_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_fulminate",
+      "label": "Fulminate",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028234, "bnetFileName": "Rare_047_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_guzzler",
+      "label": "Guzzler",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1023194, "bnetFileName": "Rare_011_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_headhunter",
+      "label": "Headhunter",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 2117207, "bnetFileName": "Rare_Will_Generic" }
+      }
+    },
+    {
+      "id": "glyph_hellforge",
+      "label": "Hellforge",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2531451, "bnetFileName": "Rare_116_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_honed",
+      "label": "Honed",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2477896, "bnetFileName": "Rare_104_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_human",
+      "label": "Human",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028231, "bnetFileName": "Rare_044_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_ichor_carapace",
+      "label": "Ichor Carapace",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2531984, "bnetFileName": "Rare_118_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_imbiber",
+      "label": "Imbiber",
+      "classAffinity": ["Barbarian", "Paladin"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1071719, "bnetFileName": "Rare_011_Willpower_Side" },
+        "Paladin":   { "bnetId": 1071719, "bnetFileName": "Rare_011_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_ire",
+      "label": "Ire",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027088, "bnetFileName": "Rare_027_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_judicator",
+      "label": "Judicator",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478561, "bnetFileName": "Rare_108_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_keeper",
+      "label": "Keeper",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028233, "bnetFileName": "Rare_046_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_law",
+      "label": "Law",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478228, "bnetFileName": "Rare_105_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_lesser_conjuration",
+      "label": "Conjurer",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023188, "bnetFileName": "Rare_005_Intelligence_Main" }
+      }
+    },
+    {
+      "id": "glyph_lightning_rod",
+      "label": "Charged",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023189, "bnetFileName": "Rare_006_Intelligence_Main" }
+      }
+    },
+    {
+      "id": "glyph_marshal",
+      "label": "Marshal",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027089, "bnetFileName": "Rare_028_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_mastermind",
+      "label": "Mastermind",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2532939, "bnetFileName": "Rare_123_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_might",
+      "label": "Might",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027083, "bnetFileName": "Rare_022_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_mortal_draw",
+      "label": "Mortal Draw",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027094, "bnetFileName": "Rare_032_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_occultist",
+      "label": "Occultist",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2530611, "bnetFileName": "Rare_114_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_outmatch",
+      "label": "Outmatch",
+      "classAffinity": ["Druid", "Paladin"],
+      "bnetSources": {
+        "Druid":   { "bnetId": 1028236, "bnetFileName": "Rare_049_Dexterity_Side" },
+        "Paladin": { "bnetId": 2506253, "bnetFileName": "Rare_049_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_poise",
+      "label": "Poise",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028219, "bnetFileName": "Rare_013_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_protector",
+      "label": "Protector",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1068816, "bnetFileName": "Rare_012_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_reinforced",
+      "label": "Reinforced",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1023195, "bnetFileName": "Rare_012_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_resplendence",
+      "label": "Resplendence",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2478548, "bnetFileName": "Rare_107_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_retribution",
+      "label": "Retribution",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2617836, "bnetFileName": "Rare_106_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_revenge",
+      "label": "Revenge",
+      "classAffinity": ["Barbarian", "Paladin"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027095, "bnetFileName": "Rare_033_Willpower_Side" },
+        "Paladin":   { "bnetId": 2120405, "bnetFileName": "Rare_033_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_rumble",
+      "label": "Rumble",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1622788, "bnetFileName": "Rare_081_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_colossal",
+      "label": "Colossal",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2069252, "bnetFileName": "Rare_098_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_consumption",
+      "label": "Consumption",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2070496, "bnetFileName": "Rare_092_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_fester",
+      "label": "Fester",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2072563, "bnetFileName": "Rare_102_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_fitness",
+      "label": "Fitness",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2063983, "bnetFileName": "Rare_093_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_fulminate",
+      "label": "Fulminate",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2077016, "bnetFileName": "Rare_047_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_hone",
+      "label": "Hone",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2067363, "bnetFileName": "Rare_091_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_hubris",
+      "label": "Hubris",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2070631, "bnetFileName": "Rare_101_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_innate",
+      "label": "Innate",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2067561, "bnetFileName": "Rare_096_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_jagged_plume",
+      "label": "Jagged Plume",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2066786, "bnetFileName": "Rare_095_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_menagerist",
+      "label": "Menagerist",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2064639, "bnetFileName": "Rare_090_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_outmatch",
+      "label": "Outmatch",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2077200, "bnetFileName": "Rare_049_Strength_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_ritual",
+      "label": "Ritual",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2069914, "bnetFileName": "Rare_094_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_sb_spirit",
+      "label": "Spirit",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2077106, "bnetFileName": "Rare_050_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_talon",
+      "label": "Talon",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2067375, "bnetFileName": "Rare_100_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_sb_wildfire",
+      "label": "WildFire",
+      "classAffinity": ["Spiritborn"],
+      "bnetSources": {
+        "Spiritborn": { "bnetId": 2067631, "bnetFileName": "Rare_097_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_seething",
+      "label": "Seething",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027085, "bnetFileName": "Rare_024_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_sentinel",
+      "label": "Sentinel",
+      "classAffinity": ["Paladin"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2477888, "bnetFileName": "Rare_103_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_shapeshifter",
+      "label": "Shapeshifter",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028238, "bnetFileName": "Rare_051_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_spirit",
+      "label": "Spirit",
+      "classAffinity": ["Druid", "Paladin"],
+      "bnetSources": {
+        "Druid":   { "bnetId": 1028237, "bnetFileName": "Rare_050_Dexterity_Side" },
+        "Paladin": { "bnetId": 2506810, "bnetFileName": "Rare_050_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_stalagmite",
+      "label": "Stalagmite",
+      "classAffinity": ["Sorcerer"],
+      "bnetSources": {
+        "Sorcerer": { "bnetId": 1623724, "bnetFileName": "Rare_084_Intelligence_Main" }
+      }
+    },
+    {
+      "id": "glyph_tectonic",
+      "label": "Tectonic",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1624740, "bnetFileName": "Rare_086_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_territorial",
+      "label": "Territorial",
+      "classAffinity": ["Barbarian", "Druid"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1023197, "bnetFileName": "Rare_014_Dexterity_Side" },
+        "Druid":     { "bnetId": 1023197, "bnetFileName": "Rare_014_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_tracker",
+      "label": "Tracker",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028235, "bnetFileName": "Rare_048_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_turf",
+      "label": "Turf",
+      "classAffinity": ["Paladin", "Rogue"],
+      "bnetSources": {
+        "Paladin": { "bnetId": 2506847, "bnetFileName": "Rare_014_Strength_Main" },
+        "Rogue":   { "bnetId": 2506849, "bnetFileName": "Rare_014_Dexterity_Main" }
+      }
+    },
+    {
+      "id": "glyph_twister",
+      "label": "Twister",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1621704, "bnetFileName": "Rare_080_Strength_Main" }
+      }
+    },
+    {
+      "id": "glyph_undaunted",
+      "label": "Undaunted",
+      "classAffinity": ["Barbarian", "Druid", "Paladin"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027096, "bnetFileName": "Rare_034_Willpower_Side" },
+        "Druid":     { "bnetId": 1068821, "bnetFileName": "Rare_034_Intelligence_Side" },
+        "Paladin":   { "bnetId": 1027096, "bnetFileName": "Rare_034_Willpower_Side" }
+      }
+    },
+    {
+      "id": "glyph_vanguard",
+      "label": "Vanguard",
+      "classAffinity": ["Warlock"],
+      "bnetSources": {
+        "Warlock": { "bnetId": 2532860, "bnetFileName": "Rare_122_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_versatility",
+      "label": "Versatility",
+      "classAffinity": ["Rogue"],
+      "bnetSources": {
+        "Rogue": { "bnetId": 2479360, "bnetFileName": "Rare_077_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_weapon_master",
+      "label": "Weapon Master",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027093, "bnetFileName": "Rare_031_Dexterity_Side" }
+      }
+    },
+    {
+      "id": "glyph_werebear",
+      "label": "Werebear",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028229, "bnetFileName": "Rare_042_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_werewolf",
+      "label": "Werewolf",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028230, "bnetFileName": "Rare_043_Willpower_Main" }
+      }
+    },
+    {
+      "id": "glyph_wilds",
+      "label": "Wilds",
+      "classAffinity": ["Druid"],
+      "bnetSources": {
+        "Druid": { "bnetId": 1028228, "bnetFileName": "Rare_041_Intelligence_Side" }
+      }
+    },
+    {
+      "id": "glyph_wrath",
+      "label": "Wrath",
+      "classAffinity": ["Barbarian"],
+      "bnetSources": {
+        "Barbarian": { "bnetId": 1027091, "bnetFileName": "Rare_030_Dexterity_Side" }
+      }
+    }
+  ]
+}

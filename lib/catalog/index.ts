@@ -25,7 +25,7 @@ import sorcSkills from "./skills/Sorcerer.json";
 import sbSkills from "./skills/Spiritborn.json";
 import warlockSkills from "./skills/Warlock.json";
 
-// Per-class paragon catalogs
+// Per-class paragon catalogs (boards only after glyph consolidation)
 import barbParagon from "./paragon/Barbarian.json";
 import druidParagon from "./paragon/Druid.json";
 import necroParagon from "./paragon/Necromancer.json";
@@ -34,6 +34,9 @@ import rogueParagon from "./paragon/Rogue.json";
 import sorcParagon from "./paragon/Sorcerer.json";
 import sbParagon from "./paragon/Spiritborn.json";
 import warlockParagon from "./paragon/Warlock.json";
+
+// Shared paragon glyph pool (all classes, keyed by catalog id with explicit classAffinity)
+import paragonGlyphPoolData from "./paragon/glyphs.json";
 
 // ─── Type aliases for catalog shapes ───────────────────────────────────────
 
@@ -246,6 +249,22 @@ export interface ParagonGlyphEntry {
   legacyIds?: string[];
 }
 
+/**
+ * Internal pool entry shape for `lib/catalog/paragon/glyphs.json`.
+ * Not exported — consumers use the synthesized `ParagonGlyphEntry` via `getParagonCatalogForClass`.
+ *
+ * - `classAffinity`: explicit list of class names that can use this glyph (D1: always `string[]`).
+ * - `labelByClass`: overrides the default `label` for specific classes (D2: e.g. Sorcerer "Tactician").
+ * - `bnetSources`: per-class datamine provenance — each class may use a different `.gph.json` file (D3).
+ */
+interface ParagonGlyphPoolEntry {
+  id: string;
+  label: string;
+  classAffinity: string[];
+  labelByClass?: Record<string, string>;
+  bnetSources: Record<string, { bnetId: number; bnetFileName: string }>;
+}
+
 // ─── Exported catalog data ─────────────────────────────────────────────────
 
 /** The verifiedAgainst stamp from the classes catalog (representative for all catalogs). */
@@ -291,25 +310,51 @@ export function getSkillsForClass(className: string): SkillEntry[] {
 
 // ─── Paragon catalog helpers ───────────────────────────────────────────────
 
-const paragonCatalogByClass: Record<
-  string,
-  { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] }
-> = {
-  Barbarian: barbParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Druid: druidParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Necromancer: necroParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Paladin: paladinParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Rogue: rogueParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Sorcerer: sorcParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Spiritborn: sbParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
-  Warlock: warlockParagon as { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] },
+/** Per-class board catalogs (boards only; glyphs are sourced from the shared pool below). */
+const paragonBoardsByClass: Record<string, ParagonBoardEntry[]> = {
+  Barbarian:   barbParagon.boards as ParagonBoardEntry[],
+  Druid:       druidParagon.boards as ParagonBoardEntry[],
+  Necromancer: necroParagon.boards as ParagonBoardEntry[],
+  Paladin:     paladinParagon.boards as ParagonBoardEntry[],
+  Rogue:       rogueParagon.boards as ParagonBoardEntry[],
+  Sorcerer:    sorcParagon.boards as ParagonBoardEntry[],
+  Spiritborn:  sbParagon.boards as ParagonBoardEntry[],
+  Warlock:     warlockParagon.boards as ParagonBoardEntry[],
 };
 
+/** Shared glyph pool — all classes, with explicit classAffinity per entry. */
+const glyphPool: ParagonGlyphPoolEntry[] =
+  paragonGlyphPoolData.glyphs as unknown as ParagonGlyphPoolEntry[];
+
+/**
+ * Returns the paragon catalog for the given class: boards from the per-class file,
+ * glyphs synthesized from the shared pool filtered by `classAffinity`.
+ *
+ * Glyph label is resolved as `labelByClass[className] ?? entry.label` (D2).
+ * Glyph bnetId/bnetFileName are sourced from `bnetSources[className]` (D3).
+ * Glyphs are sorted by the class-specific bnetFileName (D13).
+ */
 export function getParagonCatalogForClass(className: string): {
   boards: ParagonBoardEntry[];
   glyphs: ParagonGlyphEntry[];
 } {
-  return paragonCatalogByClass[className] ?? { boards: [], glyphs: [] };
+  const boards = paragonBoardsByClass[className];
+  if (!boards) return { boards: [], glyphs: [] };
+
+  const glyphs: ParagonGlyphEntry[] = glyphPool
+    .filter((entry) => entry.classAffinity.includes(className))
+    .map((entry) => {
+      const source = entry.bnetSources[className];
+      return {
+        id: entry.id,
+        label: entry.labelByClass?.[className] ?? entry.label,
+        bnetId: source?.bnetId,
+        bnetFileName: source?.bnetFileName,
+      };
+    })
+    .sort((a, b) => (a.bnetFileName ?? "").localeCompare(b.bnetFileName ?? ""));
+
+  return { boards, glyphs };
 }
 
 // ─── Resolver helpers ─────────────────────────────────────────────────────────

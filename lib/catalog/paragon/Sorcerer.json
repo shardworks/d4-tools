@@ -17,17 +17,5 @@
     { "id": "sorc_burning_instinct", "label": "Burning Instinct", "bnetFileName": "Paragon_Sorc_07", "bnetId": 1192460 },
     { "id": "sorc_board_08", "label": "Board 08 (label deferred)", "bnetFileName": "Paragon_Sorc_08", "bnetId": 1192467 },
     { "id": "sorc_board_10", "label": "Board 10 (label deferred)", "bnetFileName": "Paragon_Sorc_10", "bnetId": 1985929 }
-  ],
-  "glyphs": [
-    { "id": "glyph_reinforced", "label": "Reinforced", "bnetFileName": "Rare_012_Willpower_Side", "bnetId": 1023195 },
-    { "id": "glyph_flamefeeder", "label": "Flamefeeder", "bnetFileName": "Rare_015_Dexterity_Side", "bnetId": 1023198 },
-    { "id": "glyph_exploit", "label": "Tactician", "bnetFileName": "Rare_010_Dexterity_Main", "bnetId": 1023193 },
-    { "id": "glyph_control", "label": "Control", "bnetFileName": "Rare_020_Dexterity_Side", "bnetId": 1023203 },
-    { "id": "glyph_cold_calc", "label": "Cryopathy", "bnetFileName": "Rare_009_Willpower_Side", "bnetId": 1023192 },
-    { "id": "glyph_destruction", "label": "Destruction", "bnetFileName": "Rare_019_Dexterity_Side", "bnetId": 1023202 },
-    { "id": "glyph_stalagmite", "label": "Stalagmite", "bnetFileName": "Rare_084_Intelligence_Main", "bnetId": 1623724 },
-    { "id": "glyph_lesser_conjuration", "label": "Conjurer", "bnetFileName": "Rare_005_Intelligence_Main", "bnetId": 1023188 },
-    { "id": "glyph_esoteric_alteration", "label": "Warding", "bnetFileName": "Rare_077_Willpower_Side", "bnetId": 1023196 },
-    { "id": "glyph_lightning_rod", "label": "Charged", "bnetFileName": "Rare_006_Intelligence_Main", "bnetId": 1023189 }
   ]
 }

@@ -13,13 +13,5 @@
     { "id": "rogue_shadow_realm",        "label": "Shadow Realm",                                "bnetFileName": "Paragon_Rogue_03", "bnetId": 2456304 },
     { "id": "rogue_no_witnesses",        "label": "No Witnesses",                                "bnetFileName": "Paragon_Rogue_04", "bnetId": 2456305 },
     { "id": "rogue_deadly_menace",       "label": "Deadly Menace",                               "bnetFileName": "Paragon_Rogue_05", "bnetId": 2456306 }
-  ],
-  "glyphs": [
-    { "id": "glyph_exploit",     "label": "Exploit",     "bnetFileName": "Rare_079_Dexterity_Side", "bnetId": 2506148 },
-    { "id": "glyph_control",     "label": "Control",     "bnetFileName": "Rare_020_Dexterity_Side", "bnetId": 1029495 },
-    { "id": "glyph_ambush",      "label": "Ambush",      "bnetFileName": "Rare_073_Dexterity_Main", "bnetId": 2479348 },
-    { "id": "glyph_versatility", "label": "Versatility", "bnetFileName": "Rare_077_Dexterity_Side", "bnetId": 2479360 },
-    { "id": "glyph_turf",        "label": "Turf",        "bnetFileName": "Rare_014_Dexterity_Main", "bnetId": 2506849 },
-    { "id": "glyph_devious",     "label": "Devious",     "bnetFileName": "Rare_096_Dexterity_Side", "bnetId": 2479440 }
   ]
 }

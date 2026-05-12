@@ -7,7 +7,8 @@ Accessed: 2026-05-08
 ```
 
 This document is the authoritative per-entry audit trail for every Paladin and Warlock entry in
-`lib/catalog/skills/{Paladin,Warlock}.json` and `lib/catalog/paragon/{Paladin,Warlock}.json`.
+`lib/catalog/skills/{Paladin,Warlock}.json`, `lib/catalog/paragon/{Paladin,Warlock}.json` (boards),
+and the shared glyph pool `lib/catalog/paragon/glyphs.json`.
 Each row traces a catalog entry to its canonical datamine file at build 3.0.1.71747.
 
 All skill bnetFileNames resolve to files under `json/base/meta/Power/` (e.g.,
@@ -169,36 +170,33 @@ Paladin-usable file in the datamine at build 3.0.1.71747. The only "Reinforced" 
 only). The entry has been removed from the Paladin catalog pending a future datamine build that
 adds a Paladin-specific "Reinforced" glyph file.
 
-| Catalog ID | Label | bnetFileName | bnetId | usable[6] |
-|---|---|---|---|---|
-| `glyph_exploit` | Exploit | `Rare_016_Intelligence_Side` | 2506132 | 1 (shared with Necromancer at index 3) |
-| `glyph_control` | Control | `Rare_020_Intelligence_Side` | 1029491 | 1 (shared with Necromancer at index 3) |
-| `glyph_chip` | Chip | `Rare_055_Willpower_Side` | 2506071 | 1 |
-| `glyph_diminish` | Diminish | `Rare_076_Strength_Main` | 2479306 | 1 |
-| `glyph_feverous` | Feverous | `Rare_109_Dexterity_Side` | 2478571 | 1 |
-| `glyph_honed` | Honed | `Rare_104_Dexterity_Side` | 2477896 | 1 |
-| `glyph_imbiber` | Imbiber | `Rare_011_Willpower_Side` | 1071719 | 1 |
-| `glyph_outmatch` | Outmatch | `Rare_049_Strength_Main` | 2506253 | 1 |
-| `glyph_resplendence` | Resplendence | `Rare_107_Strength_Main` | 2478548 | 1 |
-| `glyph_sentinel` | Sentinel | `Rare_103_Strength_Main` | 2477888 | 1 |
-| `glyph_spirit` | Spirit | `Rare_050_Willpower_Side` | 2506810 | 1 |
-| `glyph_turf` | Turf | `Rare_014_Strength_Main` | 2506847 | 1 |
-| `glyph_undaunted` | Undaunted | `Rare_034_Willpower_Side` | 1027096 | 1 |
+**Shared pool note:** Paladin glyphs now live in `lib/catalog/paragon/glyphs.json` (the shared
+pool), not in a per-class file. All 20 entries below are present in the pool with
+`classAffinity` including `"Paladin"`. Seven entries (marked †) are multi-class — see §6 and
+the pool's `bnetSources` map for their other class mappings.
 
-**Additional Paladin-usable glyphs in datamine NOT in catalog (deferred):**
-
-The following glyph files have `fUsableByClass[6]=1` but were not in the v5 seed catalog. They
-are documented here for future catalog expansion:
-
-| Display Name | bnetFileName | bnetId |
-|---|---|---|
-| Revenge | `Rare_033_Intelligence_Side` | 2120405 |
-| Canny | `Rare_063_Intelligence_Side` | 1029487 |
-| Law | `Rare_105_Strength_Main` | 2478228 |
-| Retribution | `Rare_106_Strength_Main` | 2617836 |
-| Arbiter | `Rare_106_Willpower_Side` | 2478242 |
-| Judicator | `Rare_108_Intelligence_Side` | 2478561 |
-| Apostle | `Rare_110_Strength_Main` | 2478580 |
+| Catalog ID | Label | bnetFileName | bnetId | usable[6] | Notes |
+|---|---|---|---|---|---|
+| `glyph_apostle` | Apostle | `Rare_110_Strength_Main` | 2478580 | 1 | Paladin-exclusive |
+| `glyph_arbiter` | Arbiter | `Rare_106_Willpower_Side` | 2478242 | 1 | Paladin-exclusive |
+| `glyph_canny` | Canny | `Rare_063_Intelligence_Side` | 1029487 | 1 | Paladin-exclusive |
+| `glyph_chip` | Chip | `Rare_055_Willpower_Side` | 2506071 | 1 | Paladin-exclusive |
+| `glyph_control` | Control | `Rare_020_Intelligence_Side` | 1029491 | 1 | † Shared with Necromancer (index 3) |
+| `glyph_diminish` | Diminish | `Rare_076_Strength_Main` | 2479306 | 1 | Paladin-exclusive |
+| `glyph_exploit` | Exploit | `Rare_016_Intelligence_Side` | 2506132 | 1 | † Shared with Necromancer (index 3) |
+| `glyph_feverous` | Feverous | `Rare_109_Dexterity_Side` | 2478571 | 1 | Paladin-exclusive |
+| `glyph_honed` | Honed | `Rare_104_Dexterity_Side` | 2477896 | 1 | Paladin-exclusive |
+| `glyph_imbiber` | Imbiber | `Rare_011_Willpower_Side` | 1071719 | 1 | † Multi-class (all classes) |
+| `glyph_judicator` | Judicator | `Rare_108_Intelligence_Side` | 2478561 | 1 | Paladin-exclusive |
+| `glyph_law` | Law | `Rare_105_Strength_Main` | 2478228 | 1 | Paladin-exclusive |
+| `glyph_outmatch` | Outmatch | `Rare_049_Strength_Main` | 2506253 | 1 | Paladin-exclusive |
+| `glyph_resplendence` | Resplendence | `Rare_107_Strength_Main` | 2478548 | 1 | Paladin-exclusive |
+| `glyph_retribution` | Retribution | `Rare_106_Strength_Main` | 2617836 | 1 | Paladin-exclusive |
+| `glyph_revenge` | Revenge | `Rare_033_Intelligence_Side` | 2120405 | 1 | † Shared with Barbarian (index 2) |
+| `glyph_sentinel` | Sentinel | `Rare_103_Strength_Main` | 2477888 | 1 | Paladin-exclusive |
+| `glyph_spirit` | Spirit | `Rare_050_Willpower_Side` | 2506810 | 1 | Paladin-exclusive |
+| `glyph_turf` | Turf | `Rare_014_Strength_Main` | 2506847 | 1 | Paladin-exclusive |
+| `glyph_undaunted` | Undaunted | `Rare_034_Willpower_Side` | 1027096 | 1 | Paladin-exclusive |
 
 ---
 

@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFile } from "fs/promises";
 import * as fs from "fs";
 import * as path from "path";
+import glyphPoolData from "../lib/catalog/paragon/glyphs.json";
 import {
   classes,
   supportedClasses,
@@ -319,6 +320,22 @@ describe("paragon catalog", () => {
     expect(glyphIds).toContain("glyph_exploit");
     expect(glyphIds).toContain("glyph_control");
     expect(glyphIds).not.toContain("glyph_reinforced");
+  });
+
+  it("Paladin has 20 glyphs after backfill of 7 deferred entries (acceptance signal AS3)", () => {
+    // Acceptance signal: getParagonCatalogForClass("Paladin").glyphs.length === 20
+    // 13 original entries + 7 backfill: Revenge, Canny, Law, Retribution, Arbiter, Judicator, Apostle
+    const catalog = getParagonCatalogForClass("Paladin");
+    expect(catalog.glyphs).toHaveLength(20);
+    // Verify the 7 new backfill entries are present
+    const glyphIds = catalog.glyphs.map((g) => g.id);
+    expect(glyphIds).toContain("glyph_revenge");
+    expect(glyphIds).toContain("glyph_canny");
+    expect(glyphIds).toContain("glyph_law");
+    expect(glyphIds).toContain("glyph_retribution");
+    expect(glyphIds).toContain("glyph_arbiter");
+    expect(glyphIds).toContain("glyph_judicator");
+    expect(glyphIds).toContain("glyph_apostle");
   });
 
   it("returns boards and glyphs for Warlock", () => {
@@ -1169,4 +1186,75 @@ describe("legacyIds per-class collision guard", () => {
       }
     });
   }
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// D10: Paragon shared pool — structural and behavioral assertions
+// ──────────────────────────────────────────────────────────────────────────────
+
+describe("Paragon shared pool — structural assertions (D10)", () => {
+  const ALL_CLASSES = [
+    "Barbarian", "Druid", "Necromancer", "Paladin",
+    "Rogue", "Sorcerer", "Spiritborn", "Warlock",
+  ];
+
+  it("every per-class paragon/{Class}.json file has no glyphs key (D6)", () => {
+    // D6: per-class files contain only { class, verifiedAgainst, boards }
+    for (const cls of ALL_CLASSES) {
+      const filePath = path.resolve(__dirname, `../lib/catalog/paragon/${cls}.json`);
+      const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      expect(data).not.toHaveProperty("glyphs");
+      expect(data).toHaveProperty("boards");
+    }
+  });
+
+  it("paragon/glyphs.json shared pool has no duplicate catalogIds", () => {
+    const ids = glyphPoolData.glyphs.map((g) => g.id);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
+  });
+
+  it("union of classAffinity across all pool entries covers all 8 classes", () => {
+    const seenClasses = new Set<string>();
+    for (const entry of glyphPoolData.glyphs) {
+      for (const cls of entry.classAffinity) {
+        seenClasses.add(cls);
+      }
+    }
+    for (const cls of ALL_CLASSES) {
+      expect(seenClasses).toContain(cls);
+    }
+  });
+
+  it("behavioral uniqueness: every class in classAffinity sees the entry in getParagonCatalogForClass()", () => {
+    // For every pool entry and every class listed in its classAffinity, the entry
+    // must appear in that class's glyphs list.
+    for (const entry of glyphPoolData.glyphs) {
+      for (const cls of entry.classAffinity) {
+        const catalog = getParagonCatalogForClass(cls);
+        const found = catalog.glyphs.find((g) => g.id === entry.id);
+        expect(found).toBeTruthy();
+      }
+    }
+  });
+
+  it("label synthesis: displayed label matches labelByClass[c] ?? label for every class", () => {
+    // The internal pool has optional labelByClass overrides.
+    // getParagonCatalogForClass() must synthesize the right label per class.
+    type PoolEntry = {
+      id: string;
+      label: string;
+      classAffinity: string[];
+      labelByClass?: Record<string, string>;
+    };
+    const poolEntries = glyphPoolData.glyphs as unknown as PoolEntry[];
+    for (const entry of poolEntries) {
+      for (const cls of entry.classAffinity) {
+        const expectedLabel = entry.labelByClass?.[cls] ?? entry.label;
+        const catalog = getParagonCatalogForClass(cls);
+        const found = catalog.glyphs.find((g) => g.id === entry.id);
+        expect(found?.label).toBe(expectedLabel);
+      }
+    }
+  });
 });

@@ -5,20 +5,20 @@
       "catalogId": "affix_max_life_pct",
       "label": "Maximum Life %",
       "isPercent": true,
-      "reason": "Hand-seed entry: affix_max_life_pct — value range now formula-driven (GearAffix_LifePercent)"
+      "reason": "Hand-seed entry: affix_max_life_pct \u2014 value range now formula-driven (GearAffix_LifePercent)"
     },
     "Affix_Str_MaxLife": {
       "action": "include",
       "catalogId": "affix_max_life",
       "label": "Maximum Life",
-      "reason": "Hand-seed entry: affix_max_life — value range now formula-driven (GearAffix_Life)"
+      "reason": "Hand-seed entry: affix_max_life \u2014 value range now formula-driven (GearAffix_Life)"
     },
     "Affix_Multi_CritDamage": {
       "action": "include",
       "catalogId": "affix_crit_damage",
       "label": "Critical Strike Damage",
       "isPercent": true,
-      "reason": "Multi-attribute: using first attribute only per D18 — value range formula-driven (GearAffix_CritDamage)"
+      "reason": "Multi-attribute: using first attribute only per D18 \u2014 value range formula-driven (GearAffix_CritDamage)"
     },
     "Affix_AllRes_Amulet": {
       "action": "include",
@@ -26,13 +26,17 @@
       "label": "+All Resistance",
       "isImplicit": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 5, "max": 25 }
+        {
+          "minItemPower": 0,
+          "min": 5,
+          "max": 25
+        }
       ],
-      "reason": "Implicit jewelry resistance — formula yields zero; D11 manualValueRanges fallback"
+      "reason": "Implicit jewelry resistance \u2014 formula yields zero; D11 manualValueRanges fallback"
     },
     "Affix_WIP_TestEntry": {
       "action": "exclude",
-      "reason": "WIP test entry — synthetic fixture only, no live game presence"
+      "reason": "WIP test entry \u2014 synthetic fixture only, no live game presence"
     },
     "Affix_Paragon_Unsupported": {
       "action": "exclude",
@@ -134,133 +138,133 @@
       "catalogId": "aspect_of_might",
       "label": "Aspect of Might",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Conceited": {
       "action": "include",
       "catalogId": "conceited_aspect",
       "label": "Conceited Aspect",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Eluding": {
       "action": "include",
       "catalogId": "eluding_aspect",
       "label": "Eluding Aspect",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Elements": {
       "action": "include",
       "catalogId": "aspect_of_elements",
       "label": "Aspect of the Elements",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_FrozenOrbit": {
       "action": "include",
       "catalogId": "aspect_of_frozen_orbit",
       "label": "Aspect of Frozen Orbit",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Snowguard": {
       "action": "include",
       "catalogId": "snowguards_aspect",
       "label": "Snowguard's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Prodigy": {
       "action": "include",
       "catalogId": "prodigys_aspect",
       "label": "Prodigy's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_PiercingCold": {
       "action": "include",
       "catalogId": "aspect_of_piercing_cold",
       "label": "Aspect of Piercing Cold",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Flamethrower": {
       "action": "include",
       "catalogId": "flamethrower_aspect",
       "label": "Flamethrower Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_BerserkRipping": {
       "action": "include",
       "catalogId": "aspect_of_berserk_ripping",
       "label": "Aspect of Berserk Ripping",
       "source": "codex",
-      "reason": "Codex aspect (Barbarian). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Barbarian). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Anemia": {
       "action": "include",
       "catalogId": "aspect_of_anemia",
       "label": "Aspect of Anemia",
       "source": "codex",
-      "reason": "Codex aspect (Barbarian). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Barbarian). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_GraspingVeins": {
       "action": "include",
       "catalogId": "aspect_of_grasping_veins",
       "label": "Aspect of Grasping Veins",
       "source": "codex",
-      "reason": "Codex aspect (Necromancer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Necromancer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_BloodSeeker": {
       "action": "include",
       "catalogId": "blood_seekers_aspect",
       "label": "Blood Seeker's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Necromancer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Necromancer). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_ExplosiveVerve": {
       "action": "include",
       "catalogId": "aspect_of_explosive_verve",
       "label": "Aspect of Explosive Verve",
       "source": "codex",
-      "reason": "Codex aspect (Rogue). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Rogue). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Rapid": {
       "action": "include",
       "catalogId": "rapid_aspect",
       "label": "Rapid Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Rogue). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Rogue). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Unsatiated": {
       "action": "include",
       "catalogId": "aspect_of_the_unsatiated",
       "label": "Aspect of the Unsatiated",
       "source": "codex",
-      "reason": "Codex aspect (Druid). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Druid). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_Stormshifter": {
       "action": "include",
       "catalogId": "stormshifters_aspect",
       "label": "Stormshifter's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Druid). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Druid). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_CalmBreeze": {
       "action": "include",
       "catalogId": "aspect_of_the_calm_breeze",
       "label": "Aspect of the Calm Breeze",
       "source": "codex",
-      "reason": "Codex aspect (Spiritborn). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Spiritborn). bnetFileName inferred \u2014 verify on first datamine run."
     },
     "Aspect_OverflowingEnergy": {
       "action": "include",
       "catalogId": "aspect_of_the_overflowing_energy",
       "label": "Aspect of the Overflowing Energy",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
     }
   },
   "skills": {
@@ -2443,7 +2447,7 @@
       "action": "include",
       "catalogId": "glyph_revenge",
       "label": "Revenge",
-      "reason": "Barbarian-specific glyph"
+      "reason": "Barbarian Revenge \u2014 shares catalogId glyph_revenge with Paladin Rare_033_Intelligence_Side per D8; multi-class affinity via fUsableByClass[2]=1"
     },
     "Rare_034_Willpower_Side": {
       "action": "include",
@@ -2942,6 +2946,52 @@
       "catalogId": "glyph_vanguard",
       "label": "Vanguard",
       "reason": "Warlock-specific glyph"
+    },
+    "Rare_033_Intelligence_Side": {
+      "action": "include",
+      "catalogId": "glyph_revenge",
+      "label": "Revenge",
+      "reason": "Paladin Revenge \u2014 shares catalogId with Barbarian Rare_033_Willpower_Side per D8; multi-class affinity via fUsableByClass[6]=1"
+    },
+    "Rare_063_Intelligence_Side": {
+      "action": "include",
+      "catalogId": "glyph_canny",
+      "label": "Canny",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_105_Strength_Main": {
+      "action": "include",
+      "catalogId": "glyph_law",
+      "label": "Law",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_106_Strength_Main": {
+      "action": "include",
+      "catalogId": "glyph_retribution",
+      "label": "Retribution",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_106_Willpower_Side": {
+      "action": "include",
+      "catalogId": "glyph_arbiter",
+      "label": "Arbiter",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_108_Intelligence_Side": {
+      "action": "include",
+      "catalogId": "glyph_judicator",
+      "label": "Judicator",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_110_Strength_Main": {
+      "action": "include",
+      "catalogId": "glyph_apostle",
+      "label": "Apostle",
+      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+    },
+    "Rare_AllZero": {
+      "action": "exclude",
+      "reason": "All-zero fUsableByClass bitmap; placeholder/internal glyph not usable by any class"
     }
   },
   "uniques": {
@@ -2949,7 +2999,7 @@
       "action": "include",
       "catalogId": "unique_sword_test",
       "label": "Test Sword",
-      "reason": "Test fixture unique item — synthetic datamine fixture"
+      "reason": "Test fixture unique item \u2014 synthetic datamine fixture"
     }
   }
 }

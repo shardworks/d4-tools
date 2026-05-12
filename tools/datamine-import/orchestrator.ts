@@ -24,7 +24,7 @@ import { transformAffixes } from "./sections/affixes";
 import { transformAspects } from "./sections/aspects";
 import { transformUniques } from "./sections/uniques";
 import { transformAllSkills } from "./sections/skills";
-import { transformParagonForClass } from "./sections/paragon";
+import { transformParagonBoardsForClass, transformParagonGlyphs } from "./sections/paragon";
 import { generateAuditDoc, writeAuditDoc } from "./audit";
 import {
   writeAffixes,
@@ -37,6 +37,7 @@ import type {
   VerifiedAgainst,
   AffixEntry,
   AspectEntry,
+  ParagonBoardEntry,
 } from "../../lib/catalog/index";
 
 // ─── Options ──────────────────────────────────────────────────────────────────
@@ -131,22 +132,23 @@ export async function runImport(
     const skillsByClass: ReturnType<typeof transformAllSkills> =
       transformAllSkills(skillKits, stringTable, curation, powersMap);
 
-    const paragonByClass: Record<
-      string,
-      {
-        boards: ReturnType<typeof transformParagonForClass>["boards"];
-        glyphs: ReturnType<typeof transformParagonForClass>["glyphs"];
-      }
-    > = {};
+    // Paragon boards: per-class transformation (unchanged)
+    const paragonBoardsByClass: Record<string, ReturnType<typeof transformParagonBoardsForClass>> = {};
     for (const className of ALL_CLASSES) {
-      paragonByClass[className] = transformParagonForClass(
+      paragonBoardsByClass[className] = transformParagonBoardsForClass(
         rawBoards,
-        rawGlyphs,
         stringTable,
         curation,
         className
       );
     }
+
+    // Paragon glyphs: single-pass shared-pool transformation (D5)
+    const { pool: glyphPool, conflicts: paragonGlyphConflicts } = transformParagonGlyphs(
+      rawGlyphs,
+      stringTable,
+      curation
+    );
 
     // 4. Check for disappeared entries (D13).
     // Entries that are in the existing catalog but absent from the new datamine
@@ -183,12 +185,24 @@ export async function runImport(
       aspectSummary.needsCuration.length > 0 ||
       uniqueSummary.needsCuration.length > 0 ||
       Object.values(skillsByClass).some((s) => s.needsCuration.length > 0) ||
-      Object.values(paragonByClass).some(
-        (p) => p.boards.needsCuration.length > 0 || p.glyphs.needsCuration.length > 0
-      );
+      Object.values(paragonBoardsByClass).some((p) => p.needsCuration.length > 0) ||
+      glyphPool.needsCuration.length > 0;
 
     if (anyNeedsCuration) {
       console.warn("Some entries need curation. See audit doc for details.");
+      exitCode = Math.max(exitCode, 1);
+    }
+
+    // 5b. Check paragon glyph conflicts (D12).
+    // Unresolvable dedup conflicts (same catalogId, same class, different data)
+    // set exit code 1 and skip writes, mirroring the anyNeedsCuration gate.
+    if (paragonGlyphConflicts.length > 0) {
+      console.warn(
+        `[paragon-glyph-conflicts] ${paragonGlyphConflicts.length} conflict(s) detected — see audit doc.`
+      );
+      for (const c of paragonGlyphConflicts) {
+        console.warn(`  [conflict] ${c.catalogId}: ${c.reason}`);
+      }
       exitCode = Math.max(exitCode, 1);
     }
 
@@ -208,7 +222,9 @@ export async function runImport(
       aspects: aspectSummary,
       uniques: uniqueSummary,
       skillsByClass,
-      paragonByClass,
+      paragonBoardsByClass,
+      glyphPool,
+      paragonGlyphConflicts,
     });
 
     writeAuditDoc(auditDoc, build, docsDir, dryRun);
@@ -220,7 +236,7 @@ export async function runImport(
         "[skip-writes] Catalog files NOT written (exit code non-zero). " +
         "Resolve all needs-curation entries in curation.json and re-run."
       );
-      printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonByClass);
+      printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonBoardsByClass, glyphPool);
       return { exitCode };
     }
 
@@ -229,10 +245,10 @@ export async function runImport(
     writeAspects(aspectSummary, verifiedAgainst, catalogRoot, dryRun);
     writeUniques(uniqueSummary, verifiedAgainst, catalogRoot, dryRun);
     writeSkills(skillsByClass, verifiedAgainst, catalogRoot, dryRun);
-    writeParagon(paragonByClass, verifiedAgainst, catalogRoot, dryRun);
+    writeParagon(paragonBoardsByClass, glyphPool, verifiedAgainst, catalogRoot, dryRun);
 
     // Print summary
-    printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonByClass);
+    printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonBoardsByClass, glyphPool);
 
     return { exitCode };
   } catch (err) {
@@ -345,24 +361,15 @@ function printSummary(
   aspects: { entries: unknown[]; needsCuration: unknown[]; excluded: unknown[] },
   uniques: { entries: unknown[]; needsCuration: unknown[]; excluded: unknown[] },
   skillsByClass: Record<string, { entries: unknown[]; needsCuration: unknown[] }>,
-  paragonByClass: Record<
-    string,
-    {
-      boards: { entries: unknown[]; needsCuration: unknown[] };
-      glyphs: { entries: unknown[]; needsCuration: unknown[] };
-    }
-  >
+  paragonBoardsByClass: Record<string, { entries: unknown[]; needsCuration: unknown[] }>,
+  glyphPool: { entries: unknown[]; needsCuration: unknown[] }
 ): void {
   const totalSkills = Object.values(skillsByClass).reduce(
     (sum, s) => sum + s.entries.length,
     0
   );
-  const totalBoards = Object.values(paragonByClass).reduce(
-    (sum, p) => sum + p.boards.entries.length,
-    0
-  );
-  const totalGlyphs = Object.values(paragonByClass).reduce(
-    (sum, p) => sum + p.glyphs.entries.length,
+  const totalBoards = Object.values(paragonBoardsByClass).reduce(
+    (sum, p) => sum + p.entries.length,
     0
   );
 
@@ -372,5 +379,5 @@ function printSummary(
   console.log(`  Uniques:  ${uniques.entries.length} imported, ${uniques.needsCuration.length} needs-curation, ${uniques.excluded.length} excluded`);
   console.log(`  Skills:   ${totalSkills} total across all classes`);
   console.log(`  Boards:   ${totalBoards} total across all classes`);
-  console.log(`  Glyphs:   ${totalGlyphs} total across all classes`);
+  console.log(`  Glyphs:   ${glyphPool.entries.length} pool entries, ${glyphPool.needsCuration.length} needs-curation`);
 }

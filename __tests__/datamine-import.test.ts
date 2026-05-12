@@ -443,12 +443,51 @@ describe("Case 4: Schema compliance", () => {
     expect(starter.isStarterBoard).toBe(true);
   });
 
-  it("Barbarian paragon glyph Imbiber is written to paragon/Barbarian.json", () => {
-    const paragonPath = path.join(catalogRoot, "paragon", "Barbarian.json");
-    const data = JSON.parse(fs.readFileSync(paragonPath, "utf8"));
-    const imbiber = data.glyphs.find((g: { id: string }) => g.id === "glyph_imbiber");
+  it("Barbarian paragon glyph Imbiber is written to paragon/glyphs.json pool (D5)", () => {
+    // After shared-pool refactor, glyphs live in paragon/glyphs.json, not per-class files.
+    const glyphsPath = path.join(catalogRoot, "paragon", "glyphs.json");
+    expect(fs.existsSync(glyphsPath)).toBe(true);
+    const data = JSON.parse(fs.readFileSync(glyphsPath, "utf8"));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const imbiber = data.glyphs.find((g: any) => g.id === "glyph_imbiber");
     expect(imbiber).toBeTruthy();
-    expect(imbiber.bnetFileName).toBe("Rare_011_Willpower_Side");
+    // Pool entry carries classAffinity (not per-class bnetFileName at top level)
+    expect(imbiber.classAffinity).toContain("Barbarian");
+    expect(imbiber.bnetSources.Barbarian.bnetFileName).toBe("Rare_011_Willpower_Side");
+  });
+
+  it("D10: per-class paragon files have no glyphs key; glyphs.json has the shared pool", () => {
+    // D6: per-class files carry only { class, verifiedAgainst, boards }
+    // D5: the single shared pool lives in paragon/glyphs.json
+    const paragonDir = path.join(catalogRoot, "paragon");
+    if (!fs.existsSync(paragonDir)) return;
+
+    const files = fs.readdirSync(paragonDir);
+    for (const file of files) {
+      const data = JSON.parse(
+        fs.readFileSync(path.join(paragonDir, file), "utf8")
+      );
+      if (file === "glyphs.json") {
+        // Pool file: must have glyphs array, must NOT have boards
+        expect(data).toHaveProperty("glyphs");
+        expect(Array.isArray(data.glyphs)).toBe(true);
+        expect(data).not.toHaveProperty("boards");
+      } else {
+        // Per-class file: must have boards array, must NOT have glyphs (D6)
+        expect(data).toHaveProperty("boards");
+        expect(data).not.toHaveProperty("glyphs");
+      }
+    }
+  });
+
+  it("D10: paragon/glyphs.json pool has no duplicate catalogIds", () => {
+    const glyphsPath = path.join(catalogRoot, "paragon", "glyphs.json");
+    if (!fs.existsSync(glyphsPath)) return;
+    const data = JSON.parse(fs.readFileSync(glyphsPath, "utf8"));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ids = data.glyphs.map((g: any) => g.id as string);
+    const uniqueIds = new Set(ids);
+    expect(uniqueIds.size).toBe(ids.length);
   });
 
   it("audit doc is created with correct structure", () => {
@@ -460,6 +499,7 @@ describe("Case 4: Schema compliance", () => {
     expect(doc).toContain("## Affixes");
     expect(doc).toContain("## Aspects");
     expect(doc).toContain("## Skills by Class");
+    expect(doc).toContain("## Paragon Glyphs (shared pool)");
     expect(doc).toContain("## Paragon by Class");
   });
 

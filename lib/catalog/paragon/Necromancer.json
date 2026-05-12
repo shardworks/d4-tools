@@ -14,13 +14,5 @@
     { "id": "necro_flesh_eater",       "label": "Flesh-Eater",                            "bnetFileName": "Paragon_Necro_04", "bnetId": 2395014 },
     { "id": "necro_cult_leader",       "label": "Cult Leader",                            "bnetFileName": "Paragon_Necro_05", "bnetId": 2395015 },
     { "id": "necro_desecration",       "label": "Desecration",                            "bnetFileName": "Paragon_Necro_06", "bnetId": 2395016 }
-  ],
-  "glyphs": [
-    { "id": "glyph_exploit",    "label": "Exploit",    "bnetFileName": "Rare_016_Intelligence_Side", "bnetId": 2506132 },
-    { "id": "glyph_control",    "label": "Control",    "bnetFileName": "Rare_020_Intelligence_Side", "bnetId": 1029491 },
-    { "id": "glyph_dominate",   "label": "Dominate",   "bnetFileName": "Rare_057_Intelligence_Main", "bnetId": 2479280 },
-    { "id": "glyph_darkness",   "label": "Darkness",   "bnetFileName": "Rare_060_Intelligence_Side", "bnetId": 2479295 },
-    { "id": "glyph_bone_graft_g","label": "Bone Graft","bnetFileName": "Rare_091_Intelligence_Main", "bnetId": 2479415 },
-    { "id": "glyph_deadraiser", "label": "Deadraiser", "bnetFileName": "Rare_093_Intelligence_Side", "bnetId": 2479430 }
   ]
 }

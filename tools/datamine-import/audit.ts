@@ -11,11 +11,12 @@ import type {
   AspectEntry,
   SkillEntry,
   ParagonBoardEntry,
-  ParagonGlyphEntry,
 } from "../../lib/catalog/index";
 import type { UniqueEntry } from "../../lib/catalog/index";
 import type { TransformerSummary } from "./sections/types";
 import type { AffixTransformerSummary } from "./sections/affixes";
+import type { ParagonGlyphPoolEntry } from "./sections/paragon";
+import { GLYPH_CLASS_ORDER } from "./mappings";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,13 +27,9 @@ export interface AuditParams {
   aspects: TransformerSummary<AspectEntry>;
   uniques: TransformerSummary<UniqueEntry>;
   skillsByClass: Record<string, TransformerSummary<SkillEntry>>;
-  paragonByClass: Record<
-    string,
-    {
-      boards: TransformerSummary<ParagonBoardEntry>;
-      glyphs: TransformerSummary<ParagonGlyphEntry>;
-    }
-  >;
+  paragonBoardsByClass: Record<string, TransformerSummary<ParagonBoardEntry>>;
+  glyphPool: TransformerSummary<ParagonGlyphPoolEntry>;
+  paragonGlyphConflicts: Array<{ catalogId: string; reason: string }>;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -82,6 +79,29 @@ function entryTable<T extends { id: string; label: string; bnetFileName?: string
   return `${header}\n${rows}\n`;
 }
 
+/**
+ * Render the class-affinity matrix for the shared glyph pool (D11).
+ * Rows = catalog ids (sorted), columns = the eight classes, cells = ✓ or —.
+ */
+function glyphAffinityMatrix(entries: ParagonGlyphPoolEntry[]): string {
+  if (entries.length === 0) return "_None._\n";
+
+  const sorted = [...entries].sort((a, b) => a.id.localeCompare(b.id));
+  const classNames = GLYPH_CLASS_ORDER;
+
+  const header = `| Catalog ID | Label | ${classNames.join(" | ")} |`;
+  const separator = `|---|---|${classNames.map(() => "---").join("|")}|`;
+
+  const rows = sorted.map((entry) => {
+    const cells = classNames.map((cls) =>
+      entry.classAffinity.includes(cls) ? "✓" : "—"
+    );
+    return `| \`${entry.id}\` | ${entry.label} | ${cells.join(" | ")} |`;
+  });
+
+  return [header, separator, ...rows].join("\n") + "\n";
+}
+
 // ─── Generator ────────────────────────────────────────────────────────────────
 
 export function generateAuditDoc(params: AuditParams): string {
@@ -92,7 +112,9 @@ export function generateAuditDoc(params: AuditParams): string {
     aspects,
     uniques,
     skillsByClass,
-    paragonByClass,
+    paragonBoardsByClass,
+    glyphPool,
+    paragonGlyphConflicts,
   } = params;
 
   const timestamp = new Date().toISOString();
@@ -102,13 +124,10 @@ export function generateAuditDoc(params: AuditParams): string {
   const allSkillNeedsCuration = Object.values(skillsByClass).flatMap((s) => s.needsCuration);
   const allSkillExcluded = Object.values(skillsByClass).flatMap((s) => s.excluded);
 
-  // Aggregate paragon totals
-  const allBoardEntries = Object.values(paragonByClass).flatMap((p) => p.boards.entries);
-  const allBoardNeedsCuration = Object.values(paragonByClass).flatMap((p) => p.boards.needsCuration);
-  const allBoardExcluded = Object.values(paragonByClass).flatMap((p) => p.boards.excluded);
-  const allGlyphEntries = Object.values(paragonByClass).flatMap((p) => p.glyphs.entries);
-  const allGlyphNeedsCuration = Object.values(paragonByClass).flatMap((p) => p.glyphs.needsCuration);
-  const allGlyphExcluded = Object.values(paragonByClass).flatMap((p) => p.glyphs.excluded);
+  // Aggregate paragon board totals
+  const allBoardEntries = Object.values(paragonBoardsByClass).flatMap((p) => p.entries);
+  const allBoardNeedsCuration = Object.values(paragonBoardsByClass).flatMap((p) => p.needsCuration);
+  const allBoardExcluded = Object.values(paragonBoardsByClass).flatMap((p) => p.excluded);
 
   const lines: string[] = [];
 
@@ -130,7 +149,7 @@ export function generateAuditDoc(params: AuditParams): string {
   lines.push(summaryRow("Uniques", uniques.entries.length, uniques.excluded.length, uniques.needsCuration.length));
   lines.push(summaryRow("Skills (all classes)", allSkillEntries.length, allSkillExcluded.length, allSkillNeedsCuration.length));
   lines.push(summaryRow("Paragon boards", allBoardEntries.length, allBoardExcluded.length, allBoardNeedsCuration.length));
-  lines.push(summaryRow("Paragon glyphs", allGlyphEntries.length, allGlyphExcluded.length, allGlyphNeedsCuration.length));
+  lines.push(summaryRow("Paragon glyphs (pool)", glyphPool.entries.length, glyphPool.excluded.length, glyphPool.needsCuration.length));
   lines.push("");
   lines.push("---");
   lines.push("");
@@ -190,10 +209,37 @@ export function generateAuditDoc(params: AuditParams): string {
 
   lines.push("---");
   lines.push("");
+  lines.push("## Paragon Glyphs (shared pool)");
+  lines.push("");
+  lines.push(
+    "Glyph entries are consolidated into a single shared pool. " +
+    "Each entry lists its `classAffinity` and per-class `bnetSources`. " +
+    "The affinity matrix below shows which classes can use each glyph."
+  );
+  lines.push("");
+  lines.push("### Affinity Matrix");
+  lines.push("");
+  lines.push(glyphAffinityMatrix(glyphPool.entries));
+  if (glyphPool.needsCuration.length > 0) {
+    lines.push("### Needs Curation");
+    lines.push("");
+    lines.push(needsCurationTable(glyphPool.needsCuration));
+  }
+  if (paragonGlyphConflicts.length > 0) {
+    lines.push("### Conflicts (exit code 1)");
+    lines.push("");
+    const rows = paragonGlyphConflicts
+      .map((c) => `| \`${c.catalogId}\` | ${c.reason} |`)
+      .join("\n");
+    lines.push("| Catalog ID | Conflict Reason |\n|---|---|\n" + rows + "\n");
+  }
+  lines.push("");
+  lines.push("---");
+  lines.push("");
   lines.push("## Paragon by Class");
   lines.push("");
 
-  for (const [className, { boards, glyphs }] of Object.entries(paragonByClass)) {
+  for (const [className, boards] of Object.entries(paragonBoardsByClass)) {
     lines.push(`### ${className}`);
     lines.push("");
     lines.push("#### Boards");
@@ -203,15 +249,6 @@ export function generateAuditDoc(params: AuditParams): string {
       lines.push("#### Boards — Needs Curation");
       lines.push("");
       lines.push(needsCurationTable(boards.needsCuration));
-    }
-    lines.push("");
-    lines.push("#### Glyphs");
-    lines.push("");
-    lines.push(entryTable(glyphs.entries));
-    if (glyphs.needsCuration.length > 0) {
-      lines.push("#### Glyphs — Needs Curation");
-      lines.push("");
-      lines.push(needsCurationTable(glyphs.needsCuration));
     }
     lines.push("");
   }
@@ -227,13 +264,17 @@ export function generateAuditDoc(params: AuditParams): string {
     uniques.needsCuration.length > 0 ||
     allSkillNeedsCuration.length > 0 ||
     allBoardNeedsCuration.length > 0 ||
-    allGlyphNeedsCuration.length > 0;
+    glyphPool.needsCuration.length > 0 ||
+    paragonGlyphConflicts.length > 0;
 
   if (!hasAnyNeedsCuration) {
     lines.push("*(No open items.)*");
   } else {
     lines.push("See needs-curation sections above for entries requiring editorial decisions.");
     lines.push("Update `tools/datamine-import/curation.json` with `include`, `exclude`, or `deprecated` actions.");
+    if (paragonGlyphConflicts.length > 0) {
+      lines.push("Resolve paragon glyph conflicts listed in the shared pool section above.");
+    }
   }
   lines.push("");
 

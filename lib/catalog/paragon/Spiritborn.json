@@ -16,22 +16,5 @@
     { "id": "sb_board_06", "label": "Board 06 (label deferred)", "bnetFileName": "Paragon_Spirit_06", "bnetId": 1986521 },
     { "id": "sb_board_07", "label": "Board 07 (label deferred)", "bnetFileName": "Paragon_Spirit_07", "bnetId": 1986631 },
     { "id": "sb_board_08", "label": "Board 08 (label deferred)", "bnetFileName": "Paragon_Spirit_08", "bnetId": 1986843 }
-  ],
-  "glyphs": [
-    { "id": "glyph_sb_fulminate", "label": "Fulminate", "bnetFileName": "Rare_047_Intelligence_Side", "bnetId": 2077016 },
-    { "id": "glyph_sb_outmatch", "label": "Outmatch", "bnetFileName": "Rare_049_Strength_Side", "bnetId": 2077200 },
-    { "id": "glyph_sb_spirit", "label": "Spirit", "bnetFileName": "Rare_050_Dexterity_Main", "bnetId": 2077106 },
-    { "id": "glyph_sb_menagerist", "label": "Menagerist", "bnetFileName": "Rare_090_Dexterity_Main", "bnetId": 2064639 },
-    { "id": "glyph_sb_hone", "label": "Hone", "bnetFileName": "Rare_091_Strength_Side", "bnetId": 2067363 },
-    { "id": "glyph_sb_consumption", "label": "Consumption", "bnetFileName": "Rare_092_Intelligence_Side", "bnetId": 2070496 },
-    { "id": "glyph_sb_fitness", "label": "Fitness", "bnetFileName": "Rare_093_Dexterity_Main", "bnetId": 2063983 },
-    { "id": "glyph_sb_ritual", "label": "Ritual", "bnetFileName": "Rare_094_Intelligence_Side", "bnetId": 2069914 },
-    { "id": "glyph_sb_jagged_plume", "label": "Jagged Plume", "bnetFileName": "Rare_095_Dexterity_Main", "bnetId": 2066786 },
-    { "id": "glyph_sb_innate", "label": "Innate", "bnetFileName": "Rare_096_Strength_Side", "bnetId": 2067561 },
-    { "id": "glyph_sb_wildfire", "label": "WildFire", "bnetFileName": "Rare_097_Dexterity_Main", "bnetId": 2067631 },
-    { "id": "glyph_sb_colossal", "label": "Colossal", "bnetFileName": "Rare_098_Strength_Side", "bnetId": 2069252 },
-    { "id": "glyph_sb_talon", "label": "Talon", "bnetFileName": "Rare_100_Dexterity_Main", "bnetId": 2067375 },
-    { "id": "glyph_sb_hubris", "label": "Hubris", "bnetFileName": "Rare_101_Strength_Side", "bnetId": 2070631 },
-    { "id": "glyph_sb_fester", "label": "Fester", "bnetFileName": "Rare_102_Dexterity_Main", "bnetId": 2072563 }
   ]
 }

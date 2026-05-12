@@ -12,18 +12,17 @@ import type {
   AspectEntry,
   SkillEntry,
   ParagonBoardEntry,
-  ParagonGlyphEntry,
   VerifiedAgainst,
 } from "../../lib/catalog/index";
 import type { UniqueEntry } from "../../lib/catalog/index";
 import type { TransformerSummary } from "./sections/types";
+import type { ParagonGlyphPoolEntry } from "./sections/paragon";
 import {
   serializeAffix,
   serializeAspect,
   serializeUnique,
   serializeSkill,
   serializeBoard,
-  serializeGlyph,
   sortByBnetFileName,
   toJson,
 } from "./serialize";
@@ -107,14 +106,14 @@ export function writeSkills(
   }
 }
 
+/**
+ * Write paragon output:
+ *   - `paragon/glyphs.json` — the shared glyph pool (D3, D5).
+ *   - `paragon/{Class}.json` — boards only; no `glyphs` key (D6).
+ */
 export function writeParagon(
-  classSections: Record<
-    string,
-    {
-      boards: TransformerSummary<ParagonBoardEntry>;
-      glyphs: TransformerSummary<ParagonGlyphEntry>;
-    }
-  >,
+  classBoardSections: Record<string, TransformerSummary<ParagonBoardEntry>>,
+  glyphPool: TransformerSummary<ParagonGlyphPoolEntry>,
   verifiedAgainst: VerifiedAgainst,
   outDir: string,
   dryRun: boolean
@@ -124,17 +123,39 @@ export function writeParagon(
   const paragonDir = path.join(outDir, "paragon");
   fs.mkdirSync(paragonDir, { recursive: true });
 
-  for (const [className, { boards, glyphs }] of Object.entries(classSections)) {
-    const sortedBoards = sortByBnetFileName(boards.entries);
-    const sortedGlyphs = sortByBnetFileName(glyphs.entries);
+  // Write the shared glyph pool
+  const sortedGlyphs = [...glyphPool.entries].sort((a, b) => a.id.localeCompare(b.id));
+  const glyphPayload = {
+    glyphs: sortedGlyphs.map(serializeGlyphPoolEntry),
+  };
+  const glyphFilePath = path.join(paragonDir, "glyphs.json");
+  fs.writeFileSync(glyphFilePath, toJson(glyphPayload), "utf8");
 
+  // Write per-class files with boards only (no glyphs key per D6)
+  for (const [className, boards] of Object.entries(classBoardSections)) {
+    const sortedBoards = sortByBnetFileName(boards.entries);
     const payload = {
+      class: className,
       verifiedAgainst,
       boards: sortedBoards.map(serializeBoard),
-      glyphs: sortedGlyphs.map(serializeGlyph),
     };
 
     const filePath = path.join(paragonDir, `${className}.json`);
     fs.writeFileSync(filePath, toJson(payload), "utf8");
   }
+}
+
+// ─── Pool serializer ──────────────────────────────────────────────────────────
+
+function serializeGlyphPoolEntry(entry: ParagonGlyphPoolEntry): Record<string, unknown> {
+  const obj: Record<string, unknown> = {
+    id: entry.id,
+    label: entry.label,
+    classAffinity: entry.classAffinity,
+  };
+  if (entry.labelByClass && Object.keys(entry.labelByClass).length > 0) {
+    obj.labelByClass = entry.labelByClass;
+  }
+  obj.bnetSources = entry.bnetSources;
+  return obj;
 }

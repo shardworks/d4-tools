@@ -17,17 +17,5 @@
     { "id": "warl_overmind",         "label": "Overmind",                                "bnetFileName": "Paragon_Warlock_07", "bnetId": 2458688 },
     { "id": "warl_pyrosis",          "label": "Pyrosis",                                 "bnetFileName": "Paragon_Warlock_08", "bnetId": 2458690 },
     { "id": "warl_ritualism",        "label": "Ritualism",                               "bnetFileName": "Paragon_Warlock_10", "bnetId": 2458692 }
-  ],
-  "glyphs": [
-    { "id": "glyph_control",       "label": "Control",       "bnetFileName": "Rare_125_Willpower_Main",    "bnetId": 2533053 },
-    { "id": "glyph_abyssal",       "label": "Abyssal",       "bnetFileName": "Rare_117_Strength_Side",     "bnetId": 2531536 },
-    { "id": "glyph_archfiend",     "label": "Archfiend",     "bnetFileName": "Rare_124_Willpower_Main",    "bnetId": 2532972 },
-    { "id": "glyph_demonologist",  "label": "Demonologist",  "bnetFileName": "Rare_128_Strength_Side",     "bnetId": 2533449 },
-    { "id": "glyph_destruction",   "label": "Destruction",   "bnetFileName": "Rare_126_Strength_Side",     "bnetId": 2533352 },
-    { "id": "glyph_hellforge",     "label": "Hellforge",     "bnetFileName": "Rare_116_Intelligence_Side", "bnetId": 2531451 },
-    { "id": "glyph_ichor_carapace","label": "Ichor Carapace","bnetFileName": "Rare_118_Willpower_Main",    "bnetId": 2531984 },
-    { "id": "glyph_mastermind",    "label": "Mastermind",    "bnetFileName": "Rare_123_Willpower_Main",    "bnetId": 2532939 },
-    { "id": "glyph_occultist",     "label": "Occultist",     "bnetFileName": "Rare_114_Intelligence_Side", "bnetId": 2530611 },
-    { "id": "glyph_vanguard",      "label": "Vanguard",      "bnetFileName": "Rare_122_Willpower_Main",    "bnetId": 2532860 }
   ]
 }

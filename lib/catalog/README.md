@@ -177,9 +177,27 @@ a third source value.
 
 ### `ParagonBoardEntry` / `ParagonGlyphEntry`
 
-Both carry optional `bnetId` and `bnetFileName` fields following the same convention. Board
-bnetFileNames follow the pattern `Paragon_{Class}_{NN}` (e.g. `Paragon_Paladin_00`). Glyph
-bnetFileNames follow the pattern `Rare_{NNN}_{StatType}_{Slot}` (e.g. `Rare_001_StatType_Main`).
+`ParagonBoardEntry` carries optional `bnetId` and `bnetFileName` fields. Board bnetFileNames follow
+the pattern `Paragon_{Class}_{NN}` (e.g. `Paragon_Paladin_00`).
+
+`ParagonGlyphEntry` is the **per-class view** returned by `getParagonCatalogForClass()`. It carries
+the synthesized label (`labelByClass[class] ?? label`) and the class-specific `bnetFileName` and
+`bnetId` drawn from the shared pool's `bnetSources` map:
+
+```typescript
+interface ParagonGlyphEntry {
+  id: string;
+  label: string;       // per-class synthesized display name
+  bnetId?: number;     // class-specific datamine snoID
+  bnetFileName?: string; // class-specific datamine file name (Rare_{NNN}_{StatType}_{Slot})
+}
+```
+
+The backing store is `paragon/glyphs.json` — a single shared pool keyed by catalog ID. Each pool
+entry records `classAffinity: string[]` (which classes can use it), optional `labelByClass` (for
+label divergences like Sorcerer's "Tactician" vs. the shared "Exploit"), and `bnetSources` (one
+entry per class). `getParagonCatalogForClass()` filters the pool by className, synthesizes labels,
+and sorts by class-specific bnetFileName — the public signature and return type are unchanged.
 
 Both entry types also carry the optional `legacyIds?: string[]` field with the same semantics as
 on `SkillEntry`: ids previously used for this entry that the resolver still accepts. Use
@@ -279,7 +297,8 @@ Math helpers derived from `game-math.json` constants.
 |------|----------|-------------------|
 | `classes.json` | All 8 classes with `resources`, `primaryStat`, `bnetClassName`, `bnetClassId` | 8 |
 | `skills/{Class}.json` | Per-class skill list with category, maxRank, bnetId, bnetFileName | varies |
-| `paragon/{Class}.json` | Per-class paragon boards and glyphs with bnetId, bnetFileName | varies |
+| `paragon/{Class}.json` | Per-class paragon boards only (`boards` key; no `glyphs` key) | varies |
+| `paragon/glyphs.json` | Shared glyph pool with `classAffinity`, `bnetSources`, optional `labelByClass` | 93 |
 | `slots.json` | Gear slot definitions | 14 |
 | `affixes.json` | Affix catalog (all 8 classes, bnetId/bnetFileName coverage) | 200+ |
 | `aspects.json` | Aspect catalog (all 8 classes, bnetId/bnetFileName coverage) | 100+ |
