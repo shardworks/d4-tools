@@ -8,7 +8,7 @@
       "itemPower": 820,
       "isAncestral": false,
       "implicits": [
-        { "label": "Damage Reduction", "rolledValue": 5 }
+        { "label": "Damage Reduction", "rolledValue": 10 }
       ],
       "explicits": [],
       "tempered": []

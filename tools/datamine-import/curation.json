@@ -286,7 +286,7 @@
           "max": 3000
         }
       ],
-      "reason": "Helm implicit armor — formula yields zero for implicit slots; manualValueRanges fallback"
+      "reason": "Helm implicit armor — formula evaluates to constant 13 (wishing-well artifact, not player-visible armor range); manualValueRanges override provides the in-game helm armor range."
     },
     "Barrier_Strength_Percent": {
       "action": "include",
@@ -304,6 +304,10 @@
       "reason": "Off-hand implicit barrier generation — formula yields zero for implicit slots; manualValueRanges fallback"
     },
     "CritChance": {
+      "action": "exclude",
+      "reason": "CritChance.aff.json is restricted to gloves (label 28) — not useful as the canonical affix_implicit_crit_chance_amulet source. Replaced by S04_CritChance which includes amulet slot."
+    },
+    "S04_CritChance": {
       "action": "include",
       "catalogId": "affix_implicit_crit_chance_amulet",
       "label": "Critical Strike Chance",
@@ -316,22 +320,19 @@
           "max": 8
         }
       ],
-      "reason": "Amulet implicit crit chance — formula yields zero for implicit slots; manualValueRanges fallback"
+      "reason": "Amulet/gloves/offhand implicit crit chance — arAllowedItemLabels=[28,23,26,15] covers amulet(26); manualValueRanges fallback for zero formula chains"
     },
     "Damage": {
+      "action": "exclude",
+      "reason": "Damage.aff.json has slots=[amulet,chest] — not weapon-compatible. Replaced by Damage_FullScaling (all-slots) for affix_implicit_weapon_damage."
+    },
+    "Damage_FullScaling": {
       "action": "include",
       "catalogId": "affix_implicit_weapon_damage",
       "label": "Core Skill Damage",
       "isImplicit": true,
       "isPercent": true,
-      "manualValueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 10,
-          "max": 25
-        }
-      ],
-      "reason": "Weapon implicit core skill damage — formula yields zero for implicit slots; manualValueRanges fallback. D12: canonical label is Core Skill Damage (labelTemplate + attribute agree)"
+      "reason": "All-slots implicit core skill damage — arAllowedItemLabels=[] includes weapon slot. Formula: AffixPercentage1.25x gives real IP-banded ranges."
     },
     "DamageReduction": {
       "action": "include",
@@ -339,14 +340,7 @@
       "label": "Damage Reduction",
       "isImplicit": true,
       "isPercent": true,
-      "manualValueRanges": [
-        {
-          "minItemPower": 0,
-          "min": 3,
-          "max": 8
-        }
-      ],
-      "reason": "Chest implicit damage reduction — formula yields zero for implicit slots; manualValueRanges fallback"
+      "reason": "Chest implicit damage reduction — formula AffixInversePercentage0.33x gives real 4-band IP-tiered values (0.5%–21.33%)."
     },
     "LuckJewelry": {
       "action": "include",
@@ -362,6 +356,145 @@
         }
       ],
       "reason": "Ring implicit lucky hit chance — formula yields zero for implicit slots; manualValueRanges fallback. D13: canonical label is Lucky Hit Chance (aligns with sibling explicit family)"
+    },
+    "Life": {
+      "action": "include",
+      "catalogId": "affix_max_life",
+      "label": "Maximum Life",
+      "manualValueRanges": [
+        {
+          "minItemPower": 0,
+          "min": 700,
+          "max": 2800
+        }
+      ],
+      "reason": "Canonical maximum-life affix — arAllowedItemLabels=[19,30,16,15,17] covers helm. Formula AffixInversePercentage2x outputs a coefficient (0.12–0.26) not a flat HP value; manualValueRanges override provides the player-visible in-game range."
+    },
+    "LifePercent": {
+      "action": "include",
+      "catalogId": "affix_max_life_pct",
+      "label": "Maximum Life %",
+      "isPercent": true,
+      "reason": "Maximum life percent affix — arAllowedItemLabels=[] (all slots); formula AffixInversePercentage1x."
+    },
+    "CoreStat_Strength": {
+      "action": "include",
+      "catalogId": "affix_str",
+      "label": "Strength",
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1,   "max": 30  },
+        { "minItemPower": 590, "min": 30,  "max": 90  },
+        { "minItemPower": 750, "min": 80,  "max": 160 },
+        { "minItemPower": 800, "min": 120, "max": 200 },
+        { "minItemPower": 900, "min": 150, "max": 250 }
+      ],
+      "reason": "Strength primary stat — formula AffixCoreStat1x evaluates coefficients rather than player-visible flat values; manualValueRanges override provides in-game observed range (observed 175 at IP 850 sacred tier)."
+    },
+    "CoreStat_Intelligence": {
+      "action": "include",
+      "catalogId": "affix_int",
+      "label": "Intelligence",
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1,   "max": 30  },
+        { "minItemPower": 590, "min": 30,  "max": 90  },
+        { "minItemPower": 750, "min": 80,  "max": 160 },
+        { "minItemPower": 800, "min": 120, "max": 200 },
+        { "minItemPower": 900, "min": 150, "max": 250 }
+      ],
+      "reason": "Intelligence primary stat — formula AffixCoreStat1x evaluates coefficients rather than player-visible flat values; manualValueRanges override provides in-game observed range (observed 175 at IP 850 sacred tier)."
+    },
+    "CooldownReductionCDR": {
+      "action": "include",
+      "catalogId": "affix_cdr",
+      "label": "Cooldown Reduction",
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1, "max": 5  },
+        { "minItemPower": 590, "min": 2, "max": 7  },
+        { "minItemPower": 750, "min": 3, "max": 9  },
+        { "minItemPower": 900, "min": 5, "max": 12 }
+      ],
+      "reason": "Cooldown reduction — formula AffixPercentage0.5x is too narrow vs in-game values (observed up to 8% at IP 925); manualValueRanges override."
+    },
+    "Luck": {
+      "action": "include",
+      "catalogId": "affix_lucky_hit_chance",
+      "label": "Lucky Hit Chance",
+      "isPercent": true,
+      "manualSlotRestrictions": [],
+      "reason": "Explicit lucky hit chance — arAllowedItemLabels=[28] (gloves in datamine) but in-game rolls on all armor slots; manualSlotRestrictions:[] removes restriction."
+    },
+    "Damage_to_Vulnerable": {
+      "action": "include",
+      "catalogId": "affix_vulnerable_damage",
+      "label": "Vulnerable Damage",
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1,  "max": 20 },
+        { "minItemPower": 590, "min": 10, "max": 40 },
+        { "minItemPower": 750, "min": 20, "max": 60 },
+        { "minItemPower": 900, "min": 25, "max": 75 }
+      ],
+      "reason": "Vulnerable damage — formula AffixPercentage1.4x overestimates at high IP (gives 67-71% at IP 900 but in-game shows ~25-75%); manualValueRanges override."
+    },
+    "CoreStats_All": {
+      "action": "include",
+      "catalogId": "affix_all_stats",
+      "label": "All Stats",
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1,  "max": 20 },
+        { "minItemPower": 590, "min": 15, "max": 40 },
+        { "minItemPower": 750, "min": 30, "max": 60 },
+        { "minItemPower": 900, "min": 45, "max": 80 }
+      ],
+      "reason": "All primary stats — formula AffixCoreStat1/2.5x evaluates coefficients rather than player-visible flat values; manualValueRanges override."
+    },
+    "CritDamage": {
+      "action": "include",
+      "catalogId": "affix_crit_damage",
+      "label": "Critical Strike Damage",
+      "isPercent": true,
+      "manualValueRanges": [
+        { "minItemPower": 0,   "min": 1,  "max": 25 },
+        { "minItemPower": 590, "min": 10, "max": 35 },
+        { "minItemPower": 750, "min": 20, "max": 45 },
+        { "minItemPower": 900, "min": 25, "max": 55 }
+      ],
+      "reason": "Critical Strike Damage — real d4data string table gives 'of the Focused'; label override + manualValueRanges (formula AffixPercentage1.5x is too narrow, observed up to 35% at IP 900)."
+    },
+    "ElementalDamageReduction": {
+      "action": "include",
+      "catalogId": "affix_elemental_res",
+      "label": "Resistance to All Elements",
+      "isPercent": true,
+      "reason": "Explicit all-element resistance on armor slots (helm/chest/pants). arAllowedItemLabels=[17,16,30]. Distinct from the ring-slot entry (affix_all_res_ring). Formula AffixInversePercentage1x."
+    },
+    "S04_Resource_Per_Second_Mana": {
+      "action": "include",
+      "catalogId": "affix_sorcerer_mana_regen",
+      "label": "Mana per Second",
+      "reason": "Sorcerer-only mana regen — fAllowedForPlayerClass=[1,0,...]; formula GearAffix_Resource_Per_Second."
+    },
+    "CritChance_Physical_Elite": {
+      "action": "include",
+      "catalogId": "affix_crit_chance",
+      "label": "Critical Strike Chance",
+      "isPercent": true,
+      "reason": "Explicit critical strike chance vs elites — arAllowedItemLabels=[] (all slots); formula AffixCritChance. Canonical test-pinned ID."
+    },
+    "INHERENT_Resistance_Ring_All": {
+      "action": "include",
+      "catalogId": "affix_all_res_ring",
+      "label": "Resistance to All Elements",
+      "isPercent": true,
+      "manualValueRanges": [
+        {
+          "minItemPower": 0,
+          "min": 5,
+          "max": 25
+        }
+      ],
+      "reason": "Ring inherent all-resistance — arAllowedItemLabels=[19] (ring1/ring2). INHERENT_ filter bypassed via D8c curation override. Not flagged isImplicit so it appears in the explicit resolver pool (resolveAffix with position=explicit matches it)."
     }
   },
   "aspects": {

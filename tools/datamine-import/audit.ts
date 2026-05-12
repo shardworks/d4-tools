@@ -137,8 +137,6 @@ export function generateAuditDoc(params: AuditParams): string {
     bucketCoverage,
   } = params;
 
-  const timestamp = new Date().toISOString();
-
   // Aggregate skill totals
   const allSkillEntries = Object.values(skillsByClass).flatMap((s) => s.entries);
   const allSkillNeedsCuration = Object.values(skillsByClass).flatMap((s) => s.needsCuration);
@@ -156,7 +154,6 @@ export function generateAuditDoc(params: AuditParams): string {
   lines.push("**Source:** DiabloTools/d4data  ");
   lines.push(`**Build:** ${build}  `);
   lines.push(`**Accessed:** ${accessedDate}  `);
-  lines.push(`**Generated:** ${timestamp}`);
   lines.push("");
   lines.push("---");
   lines.push("");

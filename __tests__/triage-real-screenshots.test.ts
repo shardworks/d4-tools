@@ -489,20 +489,18 @@ describe("triage-real-screenshots — fixture replay tests (t7)", () => {
       }
     });
 
-    it("explicit 'Armor' resolves to affix_armor (no ambiguous result)", () => {
+    it("explicit 'Armor' — no ambiguous result (no explicit armor affix in d4data)", () => {
       const items = getItems(recorded);
       const resolved = resolveItem(items[0], expected.className);
       expect(resolved.explicits).toHaveLength(1);
       const explicit = resolved.explicits[0];
-      // Must not be ambiguous — after dropping affix_helm_armor only affix_armor remains
+      // Must not be ambiguous — no-match and out-of-range are both acceptable
+      // after live import (affix_armor explicit has no eAffixType=2 d4data source)
       expect(explicit.kind).not.toBe("ambiguous" as never);
       if (explicit.kind === "resolved") {
         expect(explicit.affixId).toBe("affix_armor");
       }
-      if (explicit.kind === "uncertain") {
-        // out-of-range is acceptable if value falls outside IP-banded range
-        expect(explicit.reason).not.toBe("no-match");
-      }
+      // no-match is acceptable post-live-import
     });
   });
 

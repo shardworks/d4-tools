@@ -29,6 +29,7 @@ pnpm import:datamine \
 | `--build <version>` | Yes | Datamine build version string (e.g. `3.0.1.71747`) |
 | `--datamine <path>` | Yes | Path to the local DiabloTools/d4data clone |
 | `--accessed-date YYYY-MM-DD` | No | Override the accessed date in catalog stamps (defaults to today UTC) |
+| `--only <categories>` | No | Comma-separated list of categories to regenerate (e.g. `affixes`, `aspects`, `skills`). Omit to regenerate all categories. |
 | `--dry-run` | No | Parse and compute diffs without writing catalog files |
 
 ## Exit Codes
@@ -141,6 +142,25 @@ For each `arAffixScalings` entry in a formula record, the evaluator runs the for
 
 Percent affixes (`isPercent: true`) multiply the result by 100 to convert decimals to percentages.
 Each band carries `minItemPower` from the formula's `nMinItemPower` field.
+
+### `manualSlotRestrictions` — Override datamine slot list
+
+Set `manualSlotRestrictions` on an affix curation record to override the slot restrictions derived
+from `arAllowedItemLabels`. An empty array `[]` means the affix is available on **all** slots:
+
+```json
+"Luck": {
+  "action": "include",
+  "catalogId": "affix_lucky_hit_chance",
+  "label": "Lucky Hit Chance",
+  "isPercent": true,
+  "manualSlotRestrictions": [],
+  "reason": "Datamine lists gloves only; in-game the affix can roll on any armor slot."
+}
+```
+
+Use this when the datamine's `arAllowedItemLabels` is narrower than the real in-game rollable pool.
+Without the override, the resolver would not consider the affix as a candidate on non-listed slots.
 
 ### Implicit Affix Fallback (D11/D12)
 

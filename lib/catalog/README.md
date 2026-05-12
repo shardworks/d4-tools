@@ -97,6 +97,9 @@ interface AffixEntry {
 
   // v18: position scoping
   isImplicit?: boolean;           // true → implicit affix; absent/false → explicit
+
+  // v19: weapon-damage implicit speed class
+  weaponSpeedClass?: "VeryFast" | "Fast" | "Normal" | "Slow";
 }
 ```
 
@@ -110,14 +113,18 @@ The damage engine uses `eAttribute` to route the affix into the correct damage b
 affixes use the first attribute only per D6 (curation handles edge cases).
 
 `isImplicit` (v18) marks affixes that are implicit — built into the item type and not replaceable
-via enchanting. Seven catalog entries carry `isImplicit: true`: six under the `affix_implicit_*`
-naming convention (`affix_implicit_armor_helm`, `affix_implicit_barrier_offhand`,
+via enchanting. As of the v19 live-catalog migration, 26 catalog entries carry `isImplicit: true`:
+the six classic slot implicits (`affix_implicit_armor_helm`, `affix_implicit_barrier_offhand`,
 `affix_implicit_crit_chance_amulet`, `affix_implicit_weapon_damage`,
-`affix_implicit_damage_reduction_chest`, `affix_implicit_lucky_hit_ring`) plus `affix_all_res`
-(amulet all-resist, no `affix_implicit_*` prefix — canonicalized in v18). Each carries a bare
-canonical tooltip label (e.g. `"Armor"`, `"Barrier Generation"`, `"Core Skill Damage"`) matching
-the in-game tooltip text; see `docs/datamine-verification-2026-05-12.md` for the canonicalization
-rationale.
+`affix_implicit_damage_reduction_chest`, `affix_implicit_lucky_hit_ring`), `affix_all_res`
+(amulet all-resist — canonicalized in v18), and 19 per-weapon-type weapon-damage implicits
+(`affix_weapon_damage_1h_sword`, `affix_weapon_damage_2h_mace`, etc.). Each carries a bare
+canonical tooltip label matching the in-game tooltip text; see
+`docs/datamine-verification-2026-05-12.md` for the canonicalization rationale.
+
+`weaponSpeedClass` (v19) is set on weapon-damage implicit entries. Indicates the weapon type's
+attack-speed class (`VeryFast`, `Fast`, `Normal`, or `Slow`), used by the damage engine to resolve
+base APS for the equipped weapon.
 
 The triage resolver (`lib/triage/resolve.ts`) uses this field to scope candidate pools by position:
 an `"implicit"` position call only matches entries where `isImplicit === true`; an `"explicit"`

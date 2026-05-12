@@ -38,9 +38,11 @@ export interface CurationRecord {
    */
   valueRange?: [number, number];
   /**
-   * For affixes: per-IP-tier manual value bands, used as a fallback when the
-   * formula chain evaluates to zero or empty (D11 implicit fallback).
-   * Required for implicit affixes whose formula yields no useful range.
+   * For affixes: per-IP-tier manual value bands. When present, these ALWAYS
+   * override the formula-derived value ranges (D11b). Used when the formula
+   * output is a coefficient rather than the player-visible in-game value (e.g.
+   * AffixInversePercentage for flat hitpoints), or for implicit affixes whose
+   * formula chain evaluates to zero or empty.
    * Each band: { minItemPower, min, max }, sorted ascending by minItemPower.
    */
   manualValueRanges?: Array<{ minItemPower: number; min: number; max: number }>;
@@ -63,6 +65,13 @@ export interface CurationRecord {
    * Set when an audit-driven label change renames the catalog id.
    */
   legacyIds?: string[];
+  /**
+   * For affixes: overrides the slot restrictions derived from arAllowedItemLabels.
+   * An empty array [] means the affix is available on ALL slots (unrestricted).
+   * Use when the datamine's arAllowedItemLabels is too narrow for the in-game rollable
+   * pool (e.g. Luck.aff.json lists only gloves but Lucky Hit Chance can roll on any slot).
+   */
+  manualSlotRestrictions?: string[];
   /**
    * v19 (D2): For weapon-damage implicit affixes — the speed class of the weapon type.
    * Determines base APS for the damage engine. Absent on all other affixes.

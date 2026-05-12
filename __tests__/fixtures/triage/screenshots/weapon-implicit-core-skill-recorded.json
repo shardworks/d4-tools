@@ -8,7 +8,7 @@
       "itemPower": 900,
       "isAncestral": false,
       "implicits": [
-        { "label": "Core Skill Damage", "rolledValue": 18 }
+        { "label": "Core Skill Damage", "rolledValue": 15 }
       ],
       "explicits": [],
       "tempered": []

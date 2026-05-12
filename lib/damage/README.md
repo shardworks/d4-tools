@@ -126,7 +126,7 @@ Key config sections:
 
 | Key | Purpose |
 |-----|---------|
-| `attributeToBucket` | Maps `eAttribute` strings → `{ bucket, conditional }` |
+| `attributeToBucket` | Maps `eAttribute` strings → `{ bucket, conditional }`. Contains both `Attr_*`-style keys (used by the hand-curated aspects/uniques catalog and older test fixtures) and bare-form keys (used by the pipeline-generated affixes catalog). |
 | `buckets` | Bucket type definitions (`additive`, `crit_chance`, `crit_damage`, `vulnerable`, `distinct_mult`, `attack_speed`, `stat`, `ignored`) |
 | `constants` | `critBaseChance`, `csBaseline`, `vulnerableBaseline`, `enemyDefenseMultiplier` |
 | `breakpoints` | Per-class per-weapon-type APS breakpoint tables |
@@ -158,6 +158,23 @@ Key config sections:
 ---
 
 ## Error Handling
+
+### `Attr_*` keys vs bare-form keys
+
+`config.json` contains two naming conventions for `attributeToBucket` keys:
+
+- **`Attr_*` style** (e.g. `Attr_Skill_Damage_Percent`) — Used by the hand-curated aspects and
+  uniques catalogs (`lib/catalog/aspects.json`, `lib/catalog/uniques.json`) and by test fixtures.
+  37 `Attr_*` keys are retained; 73 that were unreferenced by any catalog, production code, or test
+  were pruned in the v19 live-catalog migration.
+- **Bare-form** (e.g. `Crit_Damage_Percent`, `Attack_Speed_Percent_Bonus`) — Used by the
+  pipeline-generated affixes catalog (`lib/catalog/affixes.json`), which emits the raw d4data
+  `__eAttribute_name__` values without the Hungarian `Attr_` prefix.
+
+Do not audit or remove bare-form keys from this file — they are owned by the import pipeline and
+are stable across patch updates.
+
+---
 
 **Unmapped attribute (D30):** When an equipped item carries an affix whose `attribute.eAttribute`
 is not present in `attributeToBucket`, the engine throws:

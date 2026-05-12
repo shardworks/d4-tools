@@ -193,6 +193,12 @@ export function transformAffixes(
       continue;
     }
 
+    // Check curation override BEFORE the non-rollable name filter (D8c).
+    // An explicit `action: "include"` in curation bypasses the non-rollable heuristic
+    // for files that live in filtered namespaces (e.g. INHERENT_*, zzSMP_*) but carry
+    // player-relevant implicit stats (ring all-resist, implicit armor, etc.).
+    const curationRecord = getCurationRecord(curation, "affixes", fileName);
+
     // Auto-exclude unique-item intrinsic affixes (D8b). These share the
     // eAffixType=2 marker with player-rollable affixes but are mechanically
     // intrinsic-to-the-unique; they belong on UniqueEntry.intrinsicAffixes, not
@@ -202,7 +208,8 @@ export function transformAffixes(
     //   - `Tempered_<...>` — tempering recipe affixes (handled separately)
     //   - `Talisman_<...>` — talisman intrinsics (out of scope)
     //   - `Charm_<...>` — charm intrinsics (out of scope)
-    if (isNonRollableIntrinsicFileName(fileName)) {
+    // Skipped when curation explicitly includes the file via action:"include" (D8c).
+    if (isNonRollableIntrinsicFileName(fileName) && curationRecord?.action !== "include") {
       excluded.push(fileName);
       continue;
     }
@@ -214,9 +221,6 @@ export function transformAffixes(
 
     // Apply strict heuristics (D17)
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
-
-    // Check curation override
-    const curationRecord = getCurationRecord(curation, "affixes", fileName);
 
     if (curationRecord) {
       if (curationRecord.action === "exclude") {
@@ -320,18 +324,23 @@ export function transformAffixes(
       }
     }
 
-    // If formula yielded zero or no formula, try implicit fallback (D11/D12)
+    // D11b: curation manualValueRanges override — always applied when specified,
+    // replacing any formula-derived result. Used for affixes whose formula output is a
+    // coefficient rather than the player-visible in-game value (e.g. AffixInversePercentage
+    // for flat hitpoints) and for implicit affixes with zero-chain formulas.
+    if (curationRecord?.manualValueRanges && curationRecord.manualValueRanges.length > 0) {
+      valueRanges = curationRecord.manualValueRanges.map((b) => ({
+        minItemPower: b.minItemPower,
+        min: b.min,
+        max: b.max,
+      }));
+      formulaSource = "curation-override";
+    }
+
+    // If formula yielded zero or no formula (and no curation override), fail loud (D11/D12)
     if (!valueRanges || (valueRanges.length === 1 && valueRanges[0].min === 0 && valueRanges[0].max === 0)) {
-      if (isImplicit && curationRecord?.manualValueRanges && curationRecord.manualValueRanges.length > 0) {
-        // D11: use manualValueRanges from curation as fallback
-        valueRanges = curationRecord.manualValueRanges.map((b) => ({
-          minItemPower: b.minItemPower,
-          min: b.min,
-          max: b.max,
-        }));
-        formulaSource = "implicit-fallback";
-      } else if (isImplicit) {
-        // D12: implicit affix without formula and without fallback — fail build
+      if (isImplicit) {
+        // D12: implicit affix without formula and without curation override — fail build
         needsCuration.push({
           bnetFileName: fileName,
           reason: "no-formula-and-no-fallback",
@@ -351,9 +360,12 @@ export function transformAffixes(
     // Template parsing — use szLabel or attribute name as fallback
     const { labelTemplate } = parseTemplate(szLabel || `{value}`);
 
-    // Slot mapping via integer label intersection
+    // Slot mapping via integer label intersection — overridden by curation when present
     const rawLabels: number[] = affix.arAllowedItemLabels ?? [];
-    const slotRestrictions = mapSlotsFromLabels(rawLabels);
+    const slotRestrictions =
+      curationRecord?.manualSlotRestrictions !== undefined
+        ? curationRecord.manualSlotRestrictions
+        : mapSlotsFromLabels(rawLabels);
 
     // Class mapping via fAllowedForPlayerClass bit array
     const classBits: number[] = affix.fAllowedForPlayerClass ?? [];
