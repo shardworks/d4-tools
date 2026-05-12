@@ -1649,6 +1649,7 @@
       "label": "Lava Bomb",
       "category": "basic",
       "maxRank": 9,
+      "legacyIds": ["warl_molten_bomb"],
       "reason": "Internal name BrimstoneOrb; displays as Lava Bomb; tree-allocation cap 9 per D4Builds.gg S13 (https://d4builds.gg), 2026-05-11"
     },
     "Warlock_HexCast": {

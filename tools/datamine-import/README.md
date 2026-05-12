@@ -88,6 +88,32 @@ This file lists every imported entry, excluded entries, and needs-curation entri
 - `exclude` — omit from catalog entirely
 - `deprecated` — keep in catalog with `deprecated: true` flag
 
+### `legacyIds` field (skills, paragonBoards, paragonGlyphs)
+
+When an audit-driven label change renames a catalog id, add a `legacyIds` array to the curation
+record so the rename history is preserved for the resolver:
+
+```json
+"Warlock_BrimstoneOrb": {
+  "action": "include",
+  "catalogId": "warl_lava_bomb",
+  "label": "Lava Bomb",
+  "category": "basic",
+  "maxRank": 9,
+  "legacyIds": ["warl_molten_bomb"],
+  "reason": "..."
+}
+```
+
+The field threads through `serialize.ts` into the catalog JSON as `legacyIds: string[]` on the
+`SkillEntry`, `ParagonBoardEntry`, or `ParagonGlyphEntry`. The `findById` helpers in
+`lib/catalog/index.ts` accept both the canonical id and any value in `legacyIds`, so saved
+character data carrying an old id resolves silently to the current entry.
+
+**Collision guard:** no `legacyIds` value may match a live `id` in the same per-class array.
+The per-class collision-guard test in `__tests__/catalog.test.ts` enforces this after each
+import run.
+
 ## Formula-Driven Affix Value Ranges (v19)
 
 Affix `valueRanges` are derived at import time from `AttributeFormulas.gam.json` and

@@ -1,0 +1,21 @@
+{
+  "id": "test-warlock-legacy",
+  "name": "Test Warlock Legacy",
+  "class": "Warlock",
+  "level": 50,
+  "paragonAllocation": {
+    "paragonLevel": 0,
+    "boards": []
+  },
+  "skillSelections": [
+    {
+      "skillId": "warl_molten_bomb",
+      "rank": 5,
+      "slot": "basic"
+    }
+  ],
+  "equippedItems": {},
+  "playstyleConstraints": [],
+  "createdAt": "2026-05-01T00:00:00.000Z",
+  "updatedAt": "2026-05-01T00:00:00.000Z"
+}

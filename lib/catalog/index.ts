@@ -209,6 +209,12 @@ export interface SkillEntry {
   resourceCostPerCast?: number;
   /** v15: Cooldown in seconds (normalized from `fCooldownDuration`). */
   cooldownSeconds?: number;
+  /**
+   * Ids previously used for this entry that the resolver still accepts.
+   * Any saved character data carrying a legacy id is silently resolved to this entry.
+   * Set via curation when an audit-driven label change renames the catalog id.
+   */
+  legacyIds?: string[];
 }
 
 export interface ParagonBoardEntry {
@@ -219,6 +225,12 @@ export interface ParagonBoardEntry {
   bnetId?: number;
   /** Datamine file-name (without `.pbd.json` extension) for this board — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
+  /**
+   * Ids previously used for this entry that the resolver still accepts.
+   * Any saved character data carrying a legacy id is silently resolved to this entry.
+   * Set via curation when an audit-driven label change renames the catalog id.
+   */
+  legacyIds?: string[];
 }
 
 export interface ParagonGlyphEntry {
@@ -228,6 +240,12 @@ export interface ParagonGlyphEntry {
   bnetId?: number;
   /** Datamine file-name (without `.gph.json` extension) for this glyph — sourced from `DiabloTools/d4data`. */
   bnetFileName?: string;
+  /**
+   * Ids previously used for this entry that the resolver still accepts.
+   * Any saved character data carrying a legacy id is silently resolved to this entry.
+   * Set via curation when an audit-driven label change renames the catalog id.
+   */
+  legacyIds?: string[];
 }
 
 // ─── Exported catalog data ─────────────────────────────────────────────────
@@ -294,6 +312,47 @@ export function getParagonCatalogForClass(className: string): {
   glyphs: ParagonGlyphEntry[];
 } {
   return paragonCatalogByClass[className] ?? { boards: [], glyphs: [] };
+}
+
+// ─── Resolver helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Finds a skill for a class by canonical `id` OR any known `legacyIds` value.
+ * Returns the matching entry, or `undefined` on miss.
+ * Use this instead of direct array iteration when looking up a stored skillId.
+ */
+export function findSkillById(className: string, id: string): SkillEntry | undefined {
+  return getSkillsForClass(className).find(
+    (s) => s.id === id || (s.legacyIds?.includes(id) ?? false)
+  );
+}
+
+/**
+ * Finds a paragon board for a class by canonical `id` OR any known `legacyIds` value.
+ * Returns the matching entry, or `undefined` on miss.
+ * Use this instead of direct array iteration when looking up a stored boardId.
+ */
+export function findParagonBoardById(
+  className: string,
+  id: string
+): ParagonBoardEntry | undefined {
+  return getParagonCatalogForClass(className).boards.find(
+    (b) => b.id === id || (b.legacyIds?.includes(id) ?? false)
+  );
+}
+
+/**
+ * Finds a paragon glyph for a class by canonical `id` OR any known `legacyIds` value.
+ * Returns the matching entry, or `undefined` on miss.
+ * Use this instead of direct array iteration when looking up a stored glyphId.
+ */
+export function findParagonGlyphById(
+  className: string,
+  id: string
+): ParagonGlyphEntry | undefined {
+  return getParagonCatalogForClass(className).glyphs.find(
+    (g) => g.id === id || (g.legacyIds?.includes(id) ?? false)
+  );
 }
 
 // ─── Slot helpers ──────────────────────────────────────────────────────────

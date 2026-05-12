@@ -17,6 +17,9 @@ import {
   getSkillPointsAvailable,
   getParagonPointsAvailable,
   verifiedAgainst,
+  findSkillById,
+  findParagonBoardById,
+  findParagonGlyphById,
 } from "../lib/catalog";
 
 describe("verifiedAgainst stamp", () => {
@@ -1055,4 +1058,113 @@ describe("Spiritborn datamine traceability (v9)", () => {
       expect(auditDoc).toContain(`\`${entry.bnetFileName}\``);
     }
   });
+});
+
+// Appended at the end of the file per concurrency-safety convention
+
+describe("findSkillById resolver", () => {
+  it("resolves legacy id warl_molten_bomb to the canonical warl_lava_bomb entry", () => {
+    const entry = findSkillById("Warlock", "warl_molten_bomb");
+    expect(entry).toBeTruthy();
+    expect(entry!.id).toBe("warl_lava_bomb");
+    expect(entry!.label).toBe("Lava Bomb");
+  });
+
+  it("resolves canonical id warl_lava_bomb to the same entry", () => {
+    const entry = findSkillById("Warlock", "warl_lava_bomb");
+    expect(entry).toBeTruthy();
+    expect(entry!.id).toBe("warl_lava_bomb");
+  });
+
+  it("both lookups return the identical entry object", () => {
+    const viaLegacy = findSkillById("Warlock", "warl_molten_bomb");
+    const viaCanonical = findSkillById("Warlock", "warl_lava_bomb");
+    expect(viaLegacy).toBe(viaCanonical);
+  });
+
+  it("returns undefined for an unknown skill id", () => {
+    expect(findSkillById("Warlock", "warl_does_not_exist")).toBeUndefined();
+  });
+
+  it("findParagonBoardById resolves by canonical id for Warlock", () => {
+    const { boards } = getParagonCatalogForClass("Warlock");
+    if (boards.length > 0) {
+      const first = boards[0];
+      const found = findParagonBoardById("Warlock", first.id);
+      expect(found).toBeTruthy();
+      expect(found!.id).toBe(first.id);
+    }
+  });
+
+  it("findParagonGlyphById resolves by canonical id for Warlock", () => {
+    const { glyphs } = getParagonCatalogForClass("Warlock");
+    if (glyphs.length > 0) {
+      const first = glyphs[0];
+      const found = findParagonGlyphById("Warlock", first.id);
+      expect(found).toBeTruthy();
+      expect(found!.id).toBe(first.id);
+    }
+  });
+
+  it("findParagonBoardById returns undefined for an unknown id", () => {
+    expect(findParagonBoardById("Warlock", "board_nonexistent")).toBeUndefined();
+  });
+
+  it("findParagonGlyphById returns undefined for an unknown id", () => {
+    expect(findParagonGlyphById("Warlock", "glyph_nonexistent")).toBeUndefined();
+  });
+});
+
+describe("legacyIds per-class collision guard", () => {
+  const ALL_CLASSES = [
+    "Barbarian",
+    "Druid",
+    "Necromancer",
+    "Paladin",
+    "Rogue",
+    "Sorcerer",
+    "Spiritborn",
+    "Warlock",
+  ];
+
+  for (const className of ALL_CLASSES) {
+    it(`${className}: no legacyIds value shadows a live id in the same skill array`, () => {
+      const skills = getSkillsForClass(className);
+      const liveIds = new Set(skills.map((s) => s.id));
+      for (const skill of skills) {
+        for (const legacyId of skill.legacyIds ?? []) {
+          expect(
+            liveIds.has(legacyId),
+            `${className} skill "${skill.id}" has legacyId "${legacyId}" that collides with a live id`
+          ).toBe(false);
+        }
+      }
+    });
+
+    it(`${className}: no legacyIds value shadows a live id in the same board array`, () => {
+      const { boards } = getParagonCatalogForClass(className);
+      const liveIds = new Set(boards.map((b) => b.id));
+      for (const board of boards) {
+        for (const legacyId of board.legacyIds ?? []) {
+          expect(
+            liveIds.has(legacyId),
+            `${className} board "${board.id}" has legacyId "${legacyId}" that collides with a live id`
+          ).toBe(false);
+        }
+      }
+    });
+
+    it(`${className}: no legacyIds value shadows a live id in the same glyph array`, () => {
+      const { glyphs } = getParagonCatalogForClass(className);
+      const liveIds = new Set(glyphs.map((g) => g.id));
+      for (const glyph of glyphs) {
+        for (const legacyId of glyph.legacyIds ?? []) {
+          expect(
+            liveIds.has(legacyId),
+            `${className} glyph "${glyph.id}" has legacyId "${legacyId}" that collides with a live id`
+          ).toBe(false);
+        }
+      }
+    });
+  }
 });

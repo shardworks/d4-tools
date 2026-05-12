@@ -162,6 +162,7 @@ export function transformSkillsForClass(
       ...(tags !== undefined ? { tags } : {}),
       ...(resourceCostPerCast !== undefined ? { resourceCostPerCast } : {}),
       ...(cooldownSeconds !== undefined ? { cooldownSeconds } : {}),
+      ...(curationRecord?.legacyIds !== undefined ? { legacyIds: curationRecord.legacyIds } : {}),
     };
 
     entries.push(entry);

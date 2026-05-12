@@ -56,6 +56,13 @@ export interface CurationRecord {
    * the attribute name and label heuristics.
    */
   isPercent?: boolean;
+  /**
+   * Ids previously used for this catalog entry (skills, paragon boards, or paragon glyphs).
+   * Threads through the transformer and serializer into the catalog JSON so that
+   * `findById` can still resolve saved character data that carries an old id.
+   * Set when an audit-driven label change renames the catalog id.
+   */
+  legacyIds?: string[];
 }
 
 export interface CurationFile {

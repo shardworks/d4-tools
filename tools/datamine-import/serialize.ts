@@ -87,6 +87,10 @@ export function serializeSkill(entry: SkillEntry): Record<string, unknown> {
   if (entry.tags !== undefined) obj.tags = entry.tags;
   if (entry.resourceCostPerCast !== undefined) obj.resourceCostPerCast = entry.resourceCostPerCast;
   if (entry.cooldownSeconds !== undefined) obj.cooldownSeconds = entry.cooldownSeconds;
+  // legacyIds: omit when absent or empty so non-renamed entries stay clean
+  if (entry.legacyIds !== undefined && entry.legacyIds.length > 0) {
+    obj.legacyIds = entry.legacyIds;
+  }
   return obj;
 }
 
@@ -100,6 +104,10 @@ export function serializeBoard(
   if (entry.isStarterBoard) obj.isStarterBoard = true;
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
+  // legacyIds: omit when absent or empty so non-renamed entries stay clean
+  if (entry.legacyIds !== undefined && entry.legacyIds.length > 0) {
+    obj.legacyIds = entry.legacyIds;
+  }
   return obj;
 }
 
@@ -112,6 +120,10 @@ export function serializeGlyph(
   };
   if (entry.bnetFileName !== undefined) obj.bnetFileName = entry.bnetFileName;
   if (entry.bnetId !== undefined) obj.bnetId = entry.bnetId;
+  // legacyIds: omit when absent or empty so non-renamed entries stay clean
+  if (entry.legacyIds !== undefined && entry.legacyIds.length > 0) {
+    obj.legacyIds = entry.legacyIds;
+  }
   return obj;
 }
 

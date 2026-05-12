@@ -1,7 +1,12 @@
 "use client";
 
 import { useFormContext, useFieldArray } from "react-hook-form";
-import { getSkillsForClass, getSkillPointsAvailable, type SkillEntry } from "@/lib/catalog";
+import {
+  getSkillsForClass,
+  getSkillPointsAvailable,
+  findSkillById,
+  type SkillEntry,
+} from "@/lib/catalog";
 import type { Character } from "@/lib/schema";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -52,23 +57,40 @@ export function SkillTreePicker({ className: charClass, level }: SkillTreePicker
   }, {});
 
   const currentSkillSelections = getValues("skillSelections") ?? [];
-  const totalRanks = currentSkillSelections.reduce((sum, s) => sum + (s.rank ?? 0), 0);
 
-  // Build a map of fieldIndex by skillId for quick lookup
-  const indexBySkillId: Record<string, number> = {};
-  fields.forEach((f, i) => {
-    indexBySkillId[f.skillId] = i;
+  // Resolve each stored skillId to its canonical catalog entry.
+  // Entries whose id is neither canonical nor a known legacy id are warned and skipped.
+  const indexByCanonicalId: Record<string, number> = {};
+  currentSkillSelections.forEach((s, i) => {
+    const entry = findSkillById(charClass, s.skillId);
+    if (!entry) {
+      console.warn(
+        `[SkillTreePicker] unresolvable skillId "${s.skillId}" for class ${charClass} — skipping`
+      );
+      return;
+    }
+    indexByCanonicalId[entry.id] = i;
   });
 
+  // Budget counter only includes resolvable entries (D5).
+  const totalRanks = currentSkillSelections.reduce((sum, s) => {
+    const entry = findSkillById(charClass, s.skillId);
+    return entry ? sum + (s.rank ?? 0) : sum;
+  }, 0);
+
   function getRankForSkill(skillId: string): number {
-    const idx = indexBySkillId[skillId];
+    const idx = indexByCanonicalId[skillId];
     return idx !== undefined ? (currentSkillSelections[idx]?.rank ?? 0) : 0;
   }
 
   function handleRankChange(skill: SkillEntry, value: number) {
     const clamped = Math.max(0, Math.min(skill.maxRank, value));
     const existing = currentSkillSelections.map((s) => ({ ...s }));
-    const idx = existing.findIndex((s) => s.skillId === skill.id);
+    // Resolve legacy ids when searching for the existing entry so edits apply
+    // to the stored entry regardless of whether it uses a legacy or canonical id.
+    const idx = existing.findIndex(
+      (s) => findSkillById(charClass, s.skillId)?.id === skill.id
+    );
     if (idx >= 0) {
       existing[idx].rank = clamped;
     } else {

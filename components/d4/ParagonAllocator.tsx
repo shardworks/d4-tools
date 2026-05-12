@@ -1,7 +1,12 @@
 "use client";
 
 import { useFormContext, useFieldArray, Controller } from "react-hook-form";
-import { getParagonCatalogForClass, getParagonPointsAvailable } from "@/lib/catalog";
+import {
+  getParagonCatalogForClass,
+  getParagonPointsAvailable,
+  findParagonBoardById,
+  findParagonGlyphById,
+} from "@/lib/catalog";
 import type { Character } from "@/lib/schema";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -107,34 +112,45 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
               <Controller
                 control={control}
                 name={`paragonAllocation.boards.${index}.boardId` as never}
-                render={({ field: f }) => (
-                  <Select
-                    value={f.value as string}
-                    onValueChange={(val) => {
-                      f.onChange(val);
-                      const board = catalog.boards.find((b) => b.id === val);
-                      if (board) {
-                        // Also update boardName via separate register binding
-                      }
-                    }}
-                  >
-                    <SelectTrigger className="flex-1 h-8 text-sm">
-                      <SelectValue placeholder="Select board…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {catalog.boards.map((b) => (
-                        <SelectItem key={b.id} value={b.id}>
-                          {b.label}
-                          {b.isStarterBoard && (
-                            <span className="text-stone-500 ml-[6px]">
-                              (starter)
-                            </span>
-                          )}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
+                render={({ field: f }) => {
+                  const rawBoardId = f.value as string;
+                  const resolvedBoard = rawBoardId
+                    ? findParagonBoardById(charClass, rawBoardId)
+                    : undefined;
+                  if (rawBoardId && !resolvedBoard) {
+                    console.warn(
+                      `[ParagonAllocator] unresolvable boardId "${rawBoardId}" for class ${charClass} — reverting to placeholder`
+                    );
+                  }
+                  return (
+                    <Select
+                      value={resolvedBoard?.id ?? ""}
+                      onValueChange={(val) => {
+                        f.onChange(val);
+                        const board = catalog.boards.find((b) => b.id === val);
+                        if (board) {
+                          // Also update boardName via separate register binding
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="flex-1 h-8 text-sm">
+                        <SelectValue placeholder="Select board…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {catalog.boards.map((b) => (
+                          <SelectItem key={b.id} value={b.id}>
+                            {b.label}
+                            {b.isStarterBoard && (
+                              <span className="text-stone-500 ml-[6px]">
+                                (starter)
+                              </span>
+                            )}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  );
+                }}
               />
 
               {/* Spent points */}
@@ -169,24 +185,36 @@ export function ParagonAllocator({ className: charClass }: ParagonAllocatorProps
                 <Controller
                   control={control}
                   name={`paragonAllocation.boards.${index}.glyph.glyphId` as never}
-                  render={({ field: f }) => (
-                    <Select
-                      value={(f.value as string) ?? "__none__"}
-                      onValueChange={(val) => f.onChange(val === "__none__" ? undefined : val)}
-                    >
-                      <SelectTrigger className="flex-1 h-7 text-xs">
-                        <SelectValue placeholder="No glyph" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__none__">No glyph</SelectItem>
-                        {catalog.glyphs.map((g) => (
-                          <SelectItem key={g.id} value={g.id}>
-                            {g.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
+                  render={({ field: f }) => {
+                    const rawGlyphId = f.value as string | undefined;
+                    const hasGlyph = rawGlyphId && rawGlyphId !== "__none__";
+                    const resolvedGlyph = hasGlyph
+                      ? findParagonGlyphById(charClass, rawGlyphId)
+                      : undefined;
+                    if (hasGlyph && !resolvedGlyph) {
+                      console.warn(
+                        `[ParagonAllocator] unresolvable glyphId "${rawGlyphId}" for class ${charClass} — reverting to no glyph`
+                      );
+                    }
+                    return (
+                      <Select
+                        value={resolvedGlyph?.id ?? "__none__"}
+                        onValueChange={(val) => f.onChange(val === "__none__" ? undefined : val)}
+                      >
+                        <SelectTrigger className="flex-1 h-7 text-xs">
+                          <SelectValue placeholder="No glyph" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="__none__">No glyph</SelectItem>
+                          {catalog.glyphs.map((g) => (
+                            <SelectItem key={g.id} value={g.id}>
+                              {g.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    );
+                  }}
                 />
                 <span className="text-xs text-stone-500">Lvl:</span>
                 <Input

@@ -43,6 +43,9 @@ interface SkillEntry {
   tags?: string[];              // e.g. ["Fire", "Projectile"] from arTagsGranted
   resourceCostPerCast?: number; // from fResourceCost
   cooldownSeconds?: number;     // from fCooldownDuration
+
+  // legacyIds: ids previously used for this entry that the resolver still accepts
+  legacyIds?: string[];   // e.g. ["warl_molten_bomb"] on the warl_lava_bomb entry
 }
 
 interface SkillScalingAttribute {
@@ -170,6 +173,29 @@ Both carry optional `bnetId` and `bnetFileName` fields following the same conven
 bnetFileNames follow the pattern `Paragon_{Class}_{NN}` (e.g. `Paragon_Paladin_00`). Glyph
 bnetFileNames follow the pattern `Rare_{NNN}_{StatType}_{Slot}` (e.g. `Rare_001_StatType_Main`).
 
+Both entry types also carry the optional `legacyIds?: string[]` field with the same semantics as
+on `SkillEntry`: ids previously used for this entry that the resolver still accepts. Use
+`findParagonBoardById` / `findParagonGlyphById` when looking up a stored id against the catalog.
+
+```typescript
+interface ParagonBoardEntry {
+  id: string;
+  label: string;
+  isStarterBoard?: boolean;
+  bnetId?: number;
+  bnetFileName?: string;
+  legacyIds?: string[];  // ids previously used for this entry that the resolver still accepts
+}
+
+interface ParagonGlyphEntry {
+  id: string;
+  label: string;
+  bnetId?: number;
+  bnetFileName?: string;
+  legacyIds?: string[];  // ids previously used for this entry that the resolver still accepts
+}
+```
+
 ### `verifiedAgainst` stamp
 
 Every JSON catalog file carries a top-level `verifiedAgainst` block:
@@ -193,10 +219,26 @@ The patch string matches the DiabloTools/d4data build tag used for datamine veri
 
 Returns all skills for a given class. Returns `[]` for unknown class names.
 
+### `findSkillById(className: string, id: string): SkillEntry | undefined`
+
+Looks up a skill by canonical `id` **or** any value in `legacyIds`. Returns `undefined` on miss.
+Use this instead of `getSkillsForClass(...).find(s => s.id === id)` whenever the id being
+looked up was loaded from saved character data (which may carry a pre-rename legacy id).
+
 ### `getParagonCatalogForClass(className: string): { boards: ParagonBoardEntry[]; glyphs: ParagonGlyphEntry[] }`
 
 Returns paragon boards and glyphs for a given class. Returns `{ boards: [], glyphs: [] }` for
 unknown class names.
+
+### `findParagonBoardById(className: string, id: string): ParagonBoardEntry | undefined`
+
+Looks up a paragon board by canonical `id` **or** any `legacyIds` value. Returns `undefined` on
+miss. Use instead of direct `.find` when the id came from saved character data.
+
+### `findParagonGlyphById(className: string, id: string): ParagonGlyphEntry | undefined`
+
+Looks up a paragon glyph by canonical `id` **or** any `legacyIds` value. Returns `undefined` on
+miss. Use instead of direct `.find` when the id came from saved character data.
 
 ### `getSlotsForClass(className: string): SlotEntry[]`
 

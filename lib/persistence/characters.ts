@@ -1,6 +1,7 @@
 import * as fs from "fs/promises";
 import slugify from "slugify";
 import { CharacterSchema, type Character } from "@/lib/schema";
+import { findSkillById, findParagonBoardById, findParagonGlyphById } from "@/lib/catalog";
 import { characterPath, charactersDir, isSafeId } from "./paths";
 import { atomicWriteJson } from "./index";
 
@@ -78,8 +79,52 @@ export async function saveCharacter(
 ): Promise<Character> {
   const id = character.id ?? (await generateCharacterId(character.name));
   const now = new Date().toISOString();
+  const charClass = character.class;
+
+  // Write-time canonicalization (D4): resolve legacy ids → canonical ids so the
+  // on-disk JSON self-heals on first save. Unresolvable ids (removed entries) are
+  // dropped and emit a console.warn naming the unresolvable id.
+  const canonicalSkillSelections = (character.skillSelections ?? []).flatMap((s) => {
+    const entry = findSkillById(charClass, s.skillId);
+    if (!entry) {
+      console.warn(
+        `[saveCharacter] unresolvable skillId "${s.skillId}" for class ${charClass} — dropping`
+      );
+      return [];
+    }
+    return [{ ...s, skillId: entry.id }];
+  });
+
+  const canonicalBoards = (character.paragonAllocation?.boards ?? []).flatMap((board) => {
+    const boardEntry = findParagonBoardById(charClass, board.boardId);
+    if (!boardEntry) {
+      console.warn(
+        `[saveCharacter] unresolvable boardId "${board.boardId}" for class ${charClass} — dropping`
+      );
+      return [];
+    }
+    let resolvedGlyph = board.glyph;
+    if (board.glyph?.glyphId) {
+      const glyphEntry = findParagonGlyphById(charClass, board.glyph.glyphId);
+      if (!glyphEntry) {
+        console.warn(
+          `[saveCharacter] unresolvable glyphId "${board.glyph.glyphId}" for class ${charClass} — dropping glyph`
+        );
+        resolvedGlyph = undefined;
+      } else {
+        resolvedGlyph = { ...board.glyph, glyphId: glyphEntry.id };
+      }
+    }
+    return [{ ...board, boardId: boardEntry.id, glyph: resolvedGlyph }];
+  });
+
   const full: Character = CharacterSchema.parse({
     ...character,
+    skillSelections: canonicalSkillSelections,
+    paragonAllocation: {
+      ...character.paragonAllocation,
+      boards: canonicalBoards,
+    },
     id,
     updatedAt: now,
     createdAt: character.createdAt ?? now,

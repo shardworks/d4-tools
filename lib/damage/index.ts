@@ -56,10 +56,21 @@ export function computeBuildDps(
   catalog: EngineCatalog,
   config: DamageConfig
 ): ReturnType<typeof computeBuildDpsFromParts> {
-  // Build skillId → rank map from character.skillSelections
+  // Build canonical skillId → rank map from character.skillSelections.
+  // Resolve against the catalog.skills passed in (which carries legacyIds on each entry)
+  // so legacy ids map to the canonical entry. Unresolvable ids (removed skills) are skipped.
   const skillRankMap = new Map<string, number>();
   for (const sel of character.skillSelections) {
-    skillRankMap.set(sel.skillId, sel.rank);
+    const entry = catalog.skills.find(
+      (s) => s.id === sel.skillId || (s.legacyIds?.includes(sel.skillId) ?? false)
+    );
+    if (!entry) {
+      console.warn(
+        `[damage] unresolvable skillId "${sel.skillId}" for class ${character.class} — skipping`
+      );
+      continue;
+    }
+    skillRankMap.set(entry.id, sel.rank);
   }
 
   return computeBuildDpsFromParts(

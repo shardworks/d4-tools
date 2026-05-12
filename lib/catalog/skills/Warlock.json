@@ -33,7 +33,8 @@
           "scaleValue": 0.35,
           "rankScale": 0.04
         }
-      ]
+      ],
+      "legacyIds": ["warl_molten_bomb"]
     },
     {
       "id": "warl_doom",

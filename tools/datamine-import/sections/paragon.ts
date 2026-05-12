@@ -79,6 +79,10 @@ export function transformParagonBoards(
       entry.isStarterBoard = true;
     }
 
+    if (curationRecord?.legacyIds !== undefined) {
+      entry.legacyIds = curationRecord.legacyIds;
+    }
+
     entries.push(entry);
   }
 
@@ -153,6 +157,10 @@ export function transformParagonGlyphsForClass(
       bnetId: glyph.__snoID__,
       bnetFileName: fileName,
     };
+
+    if (curationRecord?.legacyIds !== undefined) {
+      entry.legacyIds = curationRecord.legacyIds;
+    }
 
     entries.push(entry);
   }
