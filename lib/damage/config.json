@@ -1455,7 +1455,7 @@
     "Rogue": "Attr_Dexterity_Item"
   },
   "weaponSlotsByClass": {
-    "_comment": "Maps class name to the slot IDs to check for weapon items (in priority order). Engine uses the first equipped slot with an item.",
+    "_comment": "Maps class name to weapon slot IDs in priority order. The first occupied slot is the main-hand — passed to computeEffectiveAps for APS purposes. Composition reads every occupied slot in the list whose item carries an affix_weapon_damage_* implicit and averages their per-weapon damage values. Single-weapon classes naturally collapse to a mean of one.",
     "Barbarian": [
       "barb_2h_bludgeoning",
       "barb_2h_slashing",
@@ -1463,25 +1463,32 @@
       "barb_1h_off"
     ],
     "Druid": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Necromancer": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Rogue": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Sorcerer": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Spiritborn": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Paladin": [
-      "weapon"
+      "weapon",
+      "offHand"
     ],
     "Warlock": [
-      "weapon"
+      "weapon",
+      "offHand"
     ]
   },
   "weaponTypeBySlot": {

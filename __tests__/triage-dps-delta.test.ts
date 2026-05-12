@@ -44,7 +44,9 @@ function makeWeapon(itemPower: number, slot = "weapon"): Item {
     rarity: "rare",
     itemPower,
     isAncestral: false,
-    implicits: [],
+    // Include weapon-damage implicit so the D3 detection rule fires and the weapon
+    // contributes to the composition step. rolledRange midpoint = 1.5 × itemPower.
+    implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [itemPower, itemPower * 2] }],
     explicits: [],
     tempered: [],
     masterworkRank: 0,
@@ -261,17 +263,17 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     expect(sorted[1].skillId).toBe("ice_shards");
   });
 
-  it("delta is proportional to weapon damage increase (linear formula, D26)", () => {
-    // weaponDamage = 100 + 1.5 × itemPower
-    // 600 IP → 1000; 900 IP → 1450; ratio = 1.45
+  it("delta is proportional to weapon damage increase (rolledRange midpoint, D26)", () => {
+    // rolledRange midpoint = 1.5 × itemPower
+    // 600 IP → mid=900; 900 IP → mid=1350; ratio = 1350/900 = 1.5
     const skill = makeSkill("fireball");
     const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter({ weapon: makeWeapon(600) }, [{ skillId: "fireball", rank: 3 }]);
     const current = computeBuildDps(testBuild, character, catalog, baseConfig);
     const deltas = computePerSkillDelta(character, catalog, makeWeapon(900), "weapon");
     const d = deltas[0];
-    expect(d.newDps / d.currentDps).toBeCloseTo(1450 / 1000, 4);
-    expect(d.newDps / current.aggregate).toBeCloseTo(1450 / 1000, 4);
+    expect(d.newDps / d.currentDps).toBeCloseTo(1350 / 900, 4);
+    expect(d.newDps / current.aggregate).toBeCloseTo(1350 / 900, 4);
   });
 
   it("swapping off-hand for Barbarian weapon2 slot yields no delta (primary slot unchanged)", () => {

@@ -51,7 +51,13 @@ function makeNonDamagingSkill(id: string): SkillEntry {
   return { id, label: "Passive", category: "passive", maxRank: 1 };
 }
 
-/** Minimal weapon item with a given itemPower. */
+/**
+ * Minimal weapon item with a given itemPower.
+ * Includes an affix_weapon_damage_1h_sword implicit with a rolledRange whose
+ * midpoint equals 1.5 × itemPower — proportional to itemPower so that higher
+ * IP always produces more DPS. The D3 detection rule requires this implicit for
+ * the weapon to contribute to the weapon-damage composition step.
+ */
 function makeWeapon(itemPower: number, extraAffixes: Array<{ affixId: string; rolledValue: number }> = []): Item {
   return {
     slot: "weapon",
@@ -59,7 +65,7 @@ function makeWeapon(itemPower: number, extraAffixes: Array<{ affixId: string; ro
     rarity: "rare",
     itemPower,
     isAncestral: false,
-    implicits: [],
+    implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [itemPower, itemPower * 2] }],
     explicits: extraAffixes,
     tempered: [],
     masterworkRank: 0,
@@ -94,6 +100,23 @@ function makeBarbarian(
     id: "test-barb",
     name: "Test Barbarian",
     class: "Barbarian",
+    level: 100,
+    paragonAllocation: { paragonLevel: 200, boards: [] },
+    skillSelections,
+    equippedItems,
+    playstyleConstraints: [],
+  };
+}
+
+/** Minimal character for Rogue. */
+function makeRogue(
+  equippedItems: Record<string, Item> = {},
+  skillSelections: Array<{ skillId: string; rank: number }> = []
+): Character {
+  return {
+    id: "test-rogue",
+    name: "Test Rogue",
+    class: "Rogue",
     level: 100,
     paragonAllocation: { paragonLevel: 200, boards: [] },
     skillSelections,
@@ -261,7 +284,7 @@ describe("computeBuildDps — basic single skill", () => {
     expect(result.aggregate).toBe(0);
   });
 
-  it("higher item power → higher DPS (linear weapon damage formula)", () => {
+  it("higher item power → higher DPS (higher rolledRange midpoint)", () => {
     const config = getConfig();
     const skill = makeSkill("fire_bolt");
     const runWith = (ip: number) => computeBuildDps(testBuild, makeSorcerer(
@@ -1031,14 +1054,15 @@ describe("computeBuildDps — weapon damage rolledRange path", () => {
     clearWeaponDamageFallbackWarnings();
   });
 
-  it("uses mean of rolledRange when weapon implicit carries rolledRange", () => {
+  it("uses mean of rolledRange from the weapon-damage implicit", () => {
     const config = getConfig();
     const skill = makeSkill("fire_bolt");
 
-    // Weapon with a rolledRange implicit: mean = (1000 + 1500) / 2 = 1250
-    const weaponWithRange: Item = {
+    // Two weapons with different rolledRanges on the same slot; compare via DPS ratio.
+    // weaponA: rolledRange [1000, 1500] → mid = 1250
+    const weaponA: Item = {
       slot: "weapon",
-      name: "Test Sword",
+      name: "Test Sword A",
       rarity: "rare",
       itemPower: 900,
       isAncestral: false,
@@ -1050,46 +1074,66 @@ describe("computeBuildDps — weapon damage rolledRange path", () => {
       sockets: [],
     };
 
-    const charWithRange = makeSorcerer(
-      { weapon: weaponWithRange },
-      [{ skillId: "fire_bolt", rank: 1 }]
-    );
+    // weaponB: rolledRange [500, 750] → mid = 625
+    const weaponB: Item = {
+      slot: "weapon",
+      name: "Test Sword B",
+      rarity: "rare",
+      itemPower: 900,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [500, 750] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
 
-    // Weapon without implicit (legacy fallback): ip=900 → 100 + 1.5×900 = 1450
-    const charFallback = makeSorcerer(
-      { weapon: makeWeapon(900) },
-      [{ skillId: "fire_bolt", rank: 1 }]
-    );
+    const resultA = computeBuildDps(testBuild, makeSorcerer(
+      { weapon: weaponA }, [{ skillId: "fire_bolt", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
 
-    const resultRange = computeBuildDps(testBuild, charWithRange, {
-      skills: [skill], affixes: [], aspects: [], uniques: [],
-    }, config);
+    const resultB = computeBuildDps(testBuild, makeSorcerer(
+      { weapon: weaponB }, [{ skillId: "fire_bolt", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
 
-    const resultFallback = computeBuildDps(testBuild, charFallback, {
-      skills: [skill], affixes: [], aspects: [], uniques: [],
-    }, config);
-
-    // rolledRange mean is 1250, fallback is 1450 → range gives less DPS
-    // The ratio should match the damage ratio = 1250 / 1450
-    expect(resultRange.aggregate).toBeGreaterThan(0);
-    expect(resultFallback.aggregate).toBeGreaterThan(0);
-    expect(resultRange.aggregate / resultFallback.aggregate).toBeCloseTo(1250 / 1450, 3);
+    expect(resultA.aggregate).toBeGreaterThan(0);
+    expect(resultB.aggregate).toBeGreaterThan(0);
+    // DPS ratio = weaponDamage ratio = 1250 / 625 = 2.0
+    expect(resultA.aggregate / resultB.aggregate).toBeCloseTo(1250 / 625, 3);
   });
 
-  it("falls back to linear formula exactly once per item when implicit is missing, emitting console.warn", () => {
+  it("falls back to linear formula for weapon with damage implicit but no rolledRange, emitting console.warn", () => {
     const config = getConfig();
     const skill = makeSkill("fire_bolt");
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
+    // Weapon that HAS the affix_weapon_damage_* implicit (passes D3 detection) but
+    // with rolledValue instead of rolledRange (stale-data scenario). The fallback
+    // linear formula fires and emits a one-time warn for this item.
+    const staleWeapon: Item = {
+      slot: "weapon",
+      name: "Stale Sword",
+      rarity: "rare",
+      itemPower: 600,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledValue: 95.0 }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
     const character = makeSorcerer(
-      { weapon: makeWeapon(600) },  // no implicits → fallback triggered
+      { weapon: staleWeapon },
       [{ skillId: "fire_bolt", rank: 1 }]
     );
 
-    // First call: should warn once
+    // First call: should warn once (fallback fires for the stale implicit)
     computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy.mock.calls[0][0]).toContain("No weapon-damage implicit");
+    expect(warnSpy.mock.calls[0][0]).toContain("has no rolledRange");
 
     // Second call for the same item: must NOT warn again (deduplication)
     computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
@@ -1196,5 +1240,319 @@ describe("computeBuildDps — aggregate is max(perSkill)", () => {
     expect(result.perSkill.find((s) => s.skillId === "skill_a")!.dps).toBeGreaterThan(
       result.perSkill.find((s) => s.skillId === "skill_b")!.dps
     );
+  });
+});
+
+// ─── Dual-wield composition calibration ──────────────────────────────────────
+//
+// Catalog-derived IP-850 weapon-damage bands (from lib/catalog/affixes.json):
+//   affix_weapon_damage_1h_sword  → min=76.7, max=127.9, midpoint=102.3
+//   affix_weapon_damage_1h_dagger → min=70.3, max=117.3, midpoint=93.8
+//
+// Strategy: compare dual-wield DPS against a single-weapon reference whose
+// rolledRange is the degenerate [mid, mid] so its contribution is exactly `mid`.
+// The ratio DPS_dual/DPS_ref = aggregateMid/mid (everything else cancels).
+
+describe("computeBuildDps — dual-wield composition calibration", () => {
+  beforeEach(() => {
+    clearWeaponDamageFallbackWarnings();
+  });
+
+  it("Barbarian two IP-850 1H swords: aggregate weaponDamage ≈ 102.3 (within 5% of catalog midpoint)", () => {
+    const config = getConfig();
+    const skill = makeSkill("whirlwind");
+
+    // IP-850 1H sword band: min=76.7, max=127.9, midpoint=102.3
+    const swordRange: [number, number] = [76.7, 127.9];
+    const swordMid = (swordRange[0] + swordRange[1]) / 2; // 102.3
+
+    const makeBarbSword = (slot: string): Item => ({
+      slot,
+      name: "Test 1H Sword",
+      rarity: "rare",
+      itemPower: 850,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: swordRange }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    });
+
+    // Dual-wield: barb_1h_main + barb_1h_off, both at IP-850 catalog range
+    const dualBuild = computeBuildDps(testBuild, makeBarbarian(
+      { barb_1h_main: makeBarbSword("barb_1h_main"), barb_1h_off: makeBarbSword("barb_1h_off") },
+      [{ skillId: "whirlwind", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Reference: single barb_1h_main with degenerate rolledRange at exact midpoint (102.3)
+    const refItem: Item = {
+      slot: "barb_1h_main",
+      name: "Reference Sword",
+      rarity: "rare",
+      itemPower: 850,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [swordMid, swordMid] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const singleBuild = computeBuildDps(testBuild, makeBarbarian(
+      { barb_1h_main: refItem },
+      [{ skillId: "whirlwind", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Dual aggregate = mean([102.3, 102.3]) = 102.3 = reference midpoint → ratio ≈ 1.0
+    expect(dualBuild.aggregate).toBeGreaterThan(0);
+    expect(dualBuild.aggregate / singleBuild.aggregate).toBeCloseTo(1.0, 1); // within ~5%
+  });
+
+  it("Rogue two IP-850 1H daggers: aggregate weaponDamage ≈ 93.8 (within 5% of catalog midpoint)", () => {
+    const config = getConfig();
+    const skill = makeSkill("twisting_blades");
+
+    // IP-850 1H dagger band: min=70.3, max=117.3, midpoint=93.8
+    const daggerRange: [number, number] = [70.3, 117.3];
+    const daggerMid = (daggerRange[0] + daggerRange[1]) / 2; // 93.8
+
+    const makeDagger = (slot: string): Item => ({
+      slot,
+      name: "Test 1H Dagger",
+      rarity: "rare",
+      itemPower: 850,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_dagger", rolledRange: daggerRange }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    });
+
+    // Dual-wield: weapon slot + offHand slot, both daggers at IP-850 catalog range
+    const dualBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: makeDagger("weapon"), offHand: makeDagger("offHand") },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Reference: single weapon slot with degenerate rolledRange at exact midpoint (93.8)
+    const refItem: Item = {
+      slot: "weapon",
+      name: "Reference Dagger",
+      rarity: "rare",
+      itemPower: 850,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_dagger", rolledRange: [daggerMid, daggerMid] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const singleBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: refItem },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Dual aggregate = mean([93.8, 93.8]) = 93.8 = reference midpoint → ratio ≈ 1.0
+    expect(dualBuild.aggregate).toBeGreaterThan(0);
+    expect(dualBuild.aggregate / singleBuild.aggregate).toBeCloseTo(1.0, 1); // within ~5%
+  });
+
+  it("mismatched-power dual-wield: aggregate = arithmetic mean of both midpoints (not main-only or max)", () => {
+    const config = getConfig();
+    const skill = makeSkill("twisting_blades");
+
+    // Main-hand: IP-925 sword (uses IP-900 band [94.2, 157]) → mid = 125.6
+    const mainMid = (94.2 + 157) / 2;            // 125.6
+    const mainHand: Item = {
+      slot: "weapon",
+      name: "IP-925 Sword",
+      rarity: "rare",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [94.2, 157] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    // Off-hand: IP-700 dagger (uses IP-665 band [25.1, 41.8]) → mid = 33.45
+    const offMid = (25.1 + 41.8) / 2;            // 33.45
+    const offHand: Item = {
+      slot: "offHand",
+      name: "IP-700 Dagger",
+      rarity: "rare",
+      itemPower: 700,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_dagger", rolledRange: [25.1, 41.8] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    const expectedMid = (mainMid + offMid) / 2;  // 79.525
+
+    const dualBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: mainHand, offHand },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Single main-hand loadout for comparison
+    const singleBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: mainHand },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    expect(dualBuild.aggregate).toBeGreaterThan(0);
+
+    // DPS ratio = weaponDamage ratio = mean(main, off) / main
+    // This is strictly less than 1.0 because the off-hand lowers the average.
+    const expectedRatio = expectedMid / mainMid;
+    expect(dualBuild.aggregate / singleBuild.aggregate).toBeCloseTo(expectedRatio, 2);
+
+    // Demonstrating the behavior change: dual aggregate is LESS than main-only
+    // (old code would have produced ratio=1.0 by reading only the first slot).
+    expect(dualBuild.aggregate).toBeLessThan(singleBuild.aggregate);
+  });
+
+  it("mixed fallback: rolledRange main + stale-implicit off-hand → mean(mid, fallback); one console.warn (D6)", () => {
+    const config = getConfig();
+    const skill = makeSkill("twisting_blades");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    // Main-hand: clean rolledRange implicit → mid = (100 + 200) / 2 = 150
+    const mainHand: Item = {
+      slot: "weapon",
+      name: "Clean Sword",
+      rarity: "rare",
+      itemPower: 900,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [100, 200] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const mainMid = 150;
+
+    // Off-hand: has the affix_weapon_damage_* implicit (passes D3 detection) but carries
+    // rolledValue instead of rolledRange (stale data). The fallback fires:
+    //   100 + 1.5 × 400 = 700. One console.warn emitted, deduped on subsequent calls.
+    const offHand: Item = {
+      slot: "offHand",
+      name: "Stale Off-Hand Dagger",
+      rarity: "rare",
+      itemPower: 400,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_dagger", rolledValue: 95.0 }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const offFallback = 100 + 1.5 * 400;        // 700
+    const expectedMid = (mainMid + offFallback) / 2; // 425
+
+    // Reference: single weapon with degenerate range at exactly expectedMid (425)
+    const refItem: Item = {
+      slot: "weapon",
+      name: "Reference Sword",
+      rarity: "rare",
+      itemPower: 900,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [expectedMid, expectedMid] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    const mixedBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: mainHand, offHand },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    const refBuild = computeBuildDps(testBuild, makeRogue(
+      { weapon: refItem },
+      [{ skillId: "twisting_blades", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // Exactly one console.warn — for the off-hand stale implicit (not the clean main-hand)
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0][0]).toContain("has no rolledRange");
+
+    // Aggregate weaponDamage = mean(150, 700) = 425 → DPS ratio vs reference ≈ 1.0
+    expect(mixedBuild.aggregate).toBeGreaterThan(0);
+    expect(mixedBuild.aggregate / refBuild.aggregate).toBeCloseTo(1.0, 2);
+
+    warnSpy.mockRestore();
+  });
+});
+
+// ─── APS main-hand-only invariance (D7) ──────────────────────────────────────
+
+describe("computeEffectiveAps — off-hand does not affect APS (D7, main-hand-only)", () => {
+  it("Paladin: off-hand with different weapon-speed class does not alter effective APS", () => {
+    const config = getConfig();
+    const skill = makeSkill("holy_strike");
+
+    // Main-hand sword (Fast, base APS = 1.1). Degenerate rolledRange → mid = 150.
+    const mainHandSword: Item = {
+      slot: "weapon",
+      name: "Paladin Sword",
+      rarity: "rare",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [150, 150] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    // Off-hand focus (VeryFast — different base APS than the sword). Same damage mid = 150.
+    // If the engine erroneously used this for APS, DPS would change relative to the
+    // sword-only loadout.
+    const offHandFocus: Item = {
+      slot: "offHand",
+      name: "Paladin Focus",
+      rarity: "rare",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_focus", rolledRange: [150, 150] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    const swordOnly = computeBuildDps(testBuild, makePaladin(
+      { weapon: mainHandSword },
+      [{ skillId: "holy_strike", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    const swordPlusFocus = computeBuildDps(testBuild, makePaladin(
+      { weapon: mainHandSword, offHand: offHandFocus },
+      [{ skillId: "holy_strike", rank: 1 }]
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+
+    // weaponDamage: both loadouts → mean([150,150]) = 150 (same).
+    // APS: sword-only from sword; sword+focus also from sword (main-hand).
+    // → DPS ratio must be exactly 1.0 regardless of the focus's weapon-speed class.
+    expect(swordOnly.aggregate).toBeGreaterThan(0);
+    expect(swordPlusFocus.aggregate / swordOnly.aggregate).toBeCloseTo(1.0, 4);
   });
 });

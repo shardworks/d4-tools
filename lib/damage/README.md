@@ -54,10 +54,15 @@ Final DPS = weaponDamage × skillDamageCoeff × effectiveAPS × hitsPerCast
 ```
 
 Where:
-- **weaponDamage** = mean of the equipped weapon's `rolledRange` implicit (i.e. `(min + max) / 2`).
-  Primary path: reads `AffixInstance.rolledRange` from the `affix_weapon_damage_<type>` implicit.
-  Fallback (D9): when the implicit is absent or has no `rolledRange`, falls back to the inlined
-  linear formula `100 + 1.5 × itemPower` and emits a one-time `console.warn` per item key.
+- **weaponDamage** = arithmetic mean of all damage-contributing weapon slots. Each slot in
+  `config.weaponSlotsByClass[className]` is checked: a slot contributes iff its item carries at
+  least one implicit whose `affixId` starts with `"affix_weapon_damage_"` (D3 detection rule).
+  Per-weapon value: reads `AffixInstance.rolledRange` → `(min + max) / 2`. Fallback: when the
+  implicit has no `rolledRange` (stale data with `rolledValue`), falls back to `100 + 1.5 × itemPower`
+  and emits a one-time `console.warn` per item key. Slots without a weapon-damage implicit (shields,
+  focuses without the affix, off-hands of non-dual-wield builds) are silently skipped. Single-weapon
+  classes naturally collapse to a mean of one. APS always reads from the main-hand (first occupied
+  slot by priority order, regardless of the D3 filter).
   The old `itemPowerFormula` config key has been removed (D10 patron override).
 - **skillDamageCoeff** = `scaleValue + rankScale × (rank − 1)` (from Power file, D5)
 - **effectiveAPS** = 60fps / framesPerAttack (breakpoint table lookup, D34).
@@ -135,7 +140,7 @@ Key config sections:
 | `classPrimaryStats` | Maps class → primary stat attribute name |
 | `primaryStatScalar` | Converts primary-stat total to additive bonus (0.001 per point) |
 | `itemPowerFormula` | `{ type: "linear", slopePerIlvl, baseAtIlvl0 }` |
-| `weaponSlotsByClass` | Priority-ordered weapon slot IDs per class |
+| `weaponSlotsByClass` | Priority-ordered weapon slot IDs per class. The first occupied slot is the main-hand for APS. Composition reads every occupied slot whose item carries an `affix_weapon_damage_*` implicit. |
 | `weaponTypeBySlot` | Maps slot ID → `"1h"` or `"2h"` for breakpoint table key |
 | `baseWeaponAps` | Base weapon speed before any +AS% modifiers (default 1.0) |
 

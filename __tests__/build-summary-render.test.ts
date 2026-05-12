@@ -41,7 +41,9 @@ function makeWeapon(itemPower: number): Item {
     rarity: "rare",
     itemPower,
     isAncestral: false,
-    implicits: [],
+    // Include weapon-damage implicit so the D3 detection rule fires and the weapon
+    // contributes to the composition step. rolledRange midpoint = 1.5 × itemPower.
+    implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [itemPower, itemPower * 2] }],
     explicits: [],
     tempered: [],
     masterworkRank: 0,
@@ -155,8 +157,8 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
     const strongResult = computeBuildDps(testBuild, strongChar, catalog, baseConfig);
 
     expect(strongResult.aggregate).toBeGreaterThan(weakResult.aggregate);
-    // Linear model: weaponDamage = 100 + 1.5 × itemPower; 800 IP → 1300, 400 IP → 700
-    expect(strongResult.aggregate / weakResult.aggregate).toBeCloseTo(1300 / 700, 2);
+    // rolledRange midpoint = 1.5 × itemPower; 800 IP → mid=1200, 400 IP → mid=600; ratio=2.0
+    expect(strongResult.aggregate / weakResult.aggregate).toBeCloseTo(1200 / 600, 2);
   });
 
   it("skill rank increases DPS proportionally to rankScale", () => {

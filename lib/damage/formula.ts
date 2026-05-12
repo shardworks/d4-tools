@@ -8,11 +8,22 @@
  *   Final = Base × AdditiveMult × CritMult × VulnMult × Π(DistinctMults)
  *
  * Where:
- *   Base        = weaponDamage × skillDamageCoeff × effectiveAps × hitsPerCast
+ *   Base         = weaponDamage × skillDamageCoeff × effectiveAps × hitsPerCast
+ *   weaponDamage = arithmetic mean of damage-contributing weapon slots (see below)
  *   AdditiveMult = 1 + (sum of additive bucket with uptime) + primaryStatBonus
- *   CritMult    = 1 + CSC × CSD  (EV form; CSC hard-capped at 100%)
- *   VulnMult    = 1 + vulnUptime × (vulnBaseline + rolledVulnBonus)
+ *   CritMult     = 1 + CSC × CSD  (EV form; CSC hard-capped at 100%)
+ *   VulnMult     = 1 + vulnUptime × (vulnBaseline + rolledVulnBonus)
  *   DistinctMults = per-aspect [×]-tagged sources, each (1 + rolledValue)
+ *
+ * Weapon damage composition:
+ *   All occupied slots in config.weaponSlotsByClass[className] are checked. A slot
+ *   contributes iff its item carries at least one implicit with an affixId starting
+ *   with "affix_weapon_damage_" (D3 detection rule). Each contributing weapon
+ *   resolves its per-weapon value (rolledRange mean, or the legacy linear fallback
+ *   100 + 1.5 × itemPower with a one-time console.warn when rolledRange is absent).
+ *   The arithmetic mean of all contributing per-weapon values is taken. Single-weapon
+ *   classes naturally collapse to a mean of one. APS reads from the first occupied
+ *   slot (main-hand, by priority order) only.
  *
  * Excluded from v1:
  *   - Overpower (D24): OP = 0; requires Life+Fortify state
@@ -43,21 +54,25 @@ import {
 // ─── Weapon helpers ───────────────────────────────────────────────────────────
 
 /**
- * Resolves the weapon slot and item to use for DPS computation.
- * Uses the class's primary weapon slots in priority order (weaponSlotsByClass).
- * Returns the first occupied slot, or undefined if no weapon is equipped.
+ * Resolves all occupied weapon slots for DPS computation, in priority order.
+ *
+ * Iterates config.weaponSlotsByClass[className] and collects every slot that
+ * has an item equipped. The first element of the returned array is the main-hand
+ * weapon used for APS purposes (D7, D10). Returns an empty array when no weapon
+ * slots are occupied.
  */
-function resolveWeaponSlot(
+function resolveWeaponSlots(
   className: string,
   equippedItems: Record<string, Item>,
   config: DamageConfig
-): { slotId: string; item: Item } | undefined {
+): Array<{ slotId: string; item: Item }> {
   const slots = config.weaponSlotsByClass[className] ?? ["weapon"];
+  const result: Array<{ slotId: string; item: Item }> = [];
   for (const slotId of slots) {
     const item = equippedItems[slotId];
-    if (item) return { slotId, item };
+    if (item) result.push({ slotId, item });
   }
-  return undefined;
+  return result;
 }
 
 /**
@@ -86,32 +101,53 @@ export function clearWeaponDamageFallbackWarnings(): void {
 }
 
 /**
- * Computes weapon base damage from the equipped weapon's implicit range affix.
+ * Computes aggregate weapon base damage across all damage-contributing weapon slots.
  *
- * Primary path: reads rolledRange from weapon-damage implicit → returns mean.
- * Fallback (D9/D25): inlined linear formula (100 + 1.5 × itemPower), emits ONE
- * console.warn per item key when the implicit is absent or has no rolledRange.
+ * Detection rule (D3): a slot contributes iff its item has at least one implicit
+ * whose affixId starts with "affix_weapon_damage_". Slots without this implicit
+ * are silently skipped (focus-only loadouts, shields, etc.).
+ *
+ * Per-weapon value resolution (D6):
+ *   - Primary path: reads rolledRange from the weapon-damage implicit → returns mean.
+ *   - Fallback: when the implicit lacks rolledRange (stale data with rolledValue),
+ *     uses the inlined linear formula (100 + 1.5 × itemPower), emitting ONE
+ *     console.warn per item key.
+ *
+ * Aggregate: arithmetic mean of all contributing per-weapon values.
+ * Returns 0 when no slot passes the D3 detection rule (D5).
  */
-function computeWeaponDamage(item: Item, config: DamageConfig): number {
-  const weaponImplicit = findWeaponDamageImplicit(item);
+function computeWeaponDamage(
+  weaponSlots: Array<{ slotId: string; item: Item }>,
+  _config: DamageConfig
+): number {
+  const values: number[] = [];
 
-  if (weaponImplicit?.rolledRange !== undefined) {
-    return (weaponImplicit.rolledRange[0] + weaponImplicit.rolledRange[1]) / 2;
+  for (const { item } of weaponSlots) {
+    const weaponImplicit = findWeaponDamageImplicit(item);
+    if (!weaponImplicit) continue; // D3: no weapon-damage implicit → slot does not compose
+
+    let perWeaponValue: number;
+    if (weaponImplicit.rolledRange !== undefined) {
+      perWeaponValue = (weaponImplicit.rolledRange[0] + weaponImplicit.rolledRange[1]) / 2;
+    } else {
+      // Fallback: inlined linear formula for stale items with rolledValue instead of rolledRange
+      const itemKey = `${item.slot ?? "unknown"}:${item.name ?? "unnamed"}`;
+      if (!warnedItemKeys.has(itemKey)) {
+        warnedItemKeys.add(itemKey);
+        console.warn(
+          `[damage/formula] Weapon-damage implicit on item "${item.name ?? "(unnamed)"}" has no rolledRange. ` +
+            "Falling back to legacy linear formula (100 + 1.5 × itemPower). " +
+            "Update the item's implicit to use rolledRange for accurate DPS calculation."
+        );
+      }
+      const ip = item.itemPower ?? 0;
+      perWeaponValue = 100 + 1.5 * ip;
+    }
+    values.push(perWeaponValue);
   }
 
-  // Fallback: inlined linear formula (D9/D25)
-  const itemKey = `${item.slot ?? "unknown"}:${item.name ?? "unnamed"}`;
-  if (!warnedItemKeys.has(itemKey)) {
-    warnedItemKeys.add(itemKey);
-    console.warn(
-      `[damage/formula] No weapon-damage implicit found on item "${item.name ?? "(unnamed)"}". ` +
-        "Falling back to legacy linear formula (100 + 1.5 × itemPower). " +
-        "Equip a weapon with the Damage per Hit implicit for accurate DPS calculation."
-    );
-  }
-
-  const ip = item.itemPower ?? 0;
-  return 100 + 1.5 * ip;
+  if (values.length === 0) return 0; // D5: no damage-contributing slots → 0
+  return values.reduce((sum, v) => sum + v, 0) / values.length;
 }
 
 // ─── Skill damage coefficient ─────────────────────────────────────────────────
@@ -181,13 +217,24 @@ function computeSkillDps(
   if (damageCoeff <= 0) return null; // non-damaging skill
 
   // ── Weapon damage ──
-  const weaponResult = resolveWeaponSlot(className, equippedItems, config);
-  const weaponDamage = weaponResult
-    ? computeWeaponDamage(weaponResult.item, config)
-    : 0;
+  const weaponSlots = resolveWeaponSlots(className, equippedItems, config);
+
+  // D7: If no weapons are equipped at all, short-circuit before the breakpoint path
+  if (weaponSlots.length === 0) {
+    return {
+      skillId: skill.id,
+      skillLabel: skill.label,
+      rank,
+      dps: 0,
+      bucketContributions: {},
+      conditionalsApplied: [],
+    };
+  }
+
+  const weaponDamage = computeWeaponDamage(weaponSlots, config);
 
   if (weaponDamage <= 0) {
-    // No weapon equipped — base DPS is zero; still report the skill as damaging
+    // D5: Weapons equipped but none carry a weapon-damage implicit → zero DPS
     return {
       skillId: skill.id,
       skillLabel: skill.label,
@@ -199,9 +246,11 @@ function computeSkillDps(
   }
 
   // ── Attack speed ──
+  // APS reads from the main-hand only: the first occupied slot in priority order (D7, D10).
   const asMult = computeAsMultiplier(contributions);
-  const weaponSlot = weaponResult?.slotId ?? "weapon";
-  const effectiveAps = computeEffectiveAps(className, weaponSlot, asMult, config, weaponResult?.item);
+  const mainHandSlotId = weaponSlots[0].slotId;
+  const mainHandItem = weaponSlots[0].item;
+  const effectiveAps = computeEffectiveAps(className, mainHandSlotId, asMult, config, mainHandItem);
 
   // ── Base DPS ──
   // v1: hitsPerCast = 1 (no multi-hit modeling for most skills)
