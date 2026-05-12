@@ -49,7 +49,7 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [builds, setBuilds] = useState<Build[]>([]);
-  const [mode, setMode] = useState<"root" | "nav-char" | "nav-build">("root");
+  const [mode, setMode] = useState<"root" | "nav-char" | "nav-build" | "export-build">("root");
   const router = useRouter();
 
   // Open/close
@@ -244,7 +244,7 @@ export function CommandPalette() {
       description: "Download a build as a JSON file",
       icon: Download,
       group: "File",
-      run: () => setMode("nav-build"),
+      run: () => setMode("export-build"),
     },
   ], [triggerFileInput, handleOpenChange, router, importBuildFromFile]);
 
@@ -348,8 +348,43 @@ export function CommandPalette() {
                           key={build.id}
                           value={build.name + " " + (char?.name ?? "")}
                           onSelect={() => {
-                            // nav-build mode is used by "Export Build…" command —
-                            // selecting a build in this mode triggers the export
+                            handleOpenChange(false);
+                            router.push(`/builds/${build.id}`);
+                          }}
+                        >
+                          <Sword size={16} className="mr-2 shrink-0" />
+                          <div>
+                            <div className="text-sm">{build.name}</div>
+                            {char && (
+                              <div className="text-[11px] text-stone-500">
+                                {char.name} · {char.class}
+                              </div>
+                            )}
+                          </div>
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+              </>
+            )}
+
+            {mode === "export-build" && (
+              <>
+                <CommandInput
+                  placeholder="Search builds…"
+                  autoFocus
+                />
+                <CommandList>
+                  <CommandEmpty>No builds found.</CommandEmpty>
+                  <CommandGroup heading="Builds">
+                    {builds.map((build) => {
+                      const char = characters.find((c) => c.id === build.characterId);
+                      return (
+                        <CommandItem
+                          key={build.id}
+                          value={build.name + " " + (char?.name ?? "")}
+                          onSelect={() => {
                             exportBuild(build.id);
                           }}
                         >

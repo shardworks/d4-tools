@@ -185,14 +185,6 @@ The suite runs correctly with the network unplugged — it never contacts `api.a
 
 ---
 
-## Known Fixmes
-
-**`e2e/navigation.spec.ts` — "Go to Build… navigates to /builds/<id>"**
-
-This test is marked `test.fixme()` (tracked as obs-1). The bug: `CommandPalette.tsx` in `nav-build` mode calls `exportBuild()` instead of `router.push()`. Fix that component, then remove the `fixme` annotation and the TODO comment.
-
----
-
 ## Developing New Specs
 
 1. Create `e2e/<surface>.spec.ts`

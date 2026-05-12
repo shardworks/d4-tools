@@ -12,7 +12,7 @@
  *   - Command palette: Export Build → JSON download with suggestedFilename *.json
  *   - Command palette: Import Build → filechooser event
  *   - Command palette: Create New Character → navigates to /characters/new
- *   - Command palette: Go to Build → navigates to /builds/<id>  [fixme: obs-1]
+ *   - Command palette: Go to Build → navigates to /builds/<id>
  *   - SoftGate overlay dismissed before any interaction
  */
 
@@ -277,11 +277,9 @@ test("command palette: Import Build command triggers filechooser", async ({ page
   await chooser.setFiles([]);
 });
 
-test.fixme(
+test(
   "command palette: 'Go to Build…' navigates to /builds/<id>",
   async ({ page }) => {
-    // TODO(obs-1): CommandPalette.tsx — in nav-build mode, onSelect calls exportBuild()
-    // instead of router.push().  Fix CommandPalette.tsx, then remove this fixme.
     await dismissSoftGate(page);
     await page.goto(url("/builds"));
     await page.waitForLoadState("networkidle");
