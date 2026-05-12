@@ -38,6 +38,42 @@
       "action": "exclude",
       "reason": "WIP test entry — synthetic fixture only, no live game presence"
     },
+    "X2_VeryFast_Weapon_Damage_1HDagger": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_dagger",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "VeryFast",
+      "reason": "1H Dagger implicit weapon damage — formula-driven (GearAffix_VeryFast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_1HSword": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_sword",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "1H Sword implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Normal_Weapon_Damage_2HSword": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_sword",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Normal",
+      "reason": "2H Sword implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage)"
+    },
+    "X2_Slow_Weapon_Damage_2HAxe": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_axe",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Slow",
+      "reason": "2H Axe implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
+    },
     "Affix_Paragon_Unsupported": {
       "action": "exclude",
       "reason": "Test fixture for unsupported DSL function path — excluded from normal pipeline runs; flip to include in the dedicated test case"

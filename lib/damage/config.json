@@ -685,6 +685,12 @@
       "conditional": "unconditional",
       "source": "datamine_d4data",
       "notes": "Gold Find % — no DPS contribution (economy stat)."
+    },
+    "Weapon_Damage_Min": {
+      "bucket": "non_damaging",
+      "conditional": "unconditional",
+      "source": "datamine_d4data",
+      "notes": "Weapon Damage Min implicit — base damage range handled directly by computeWeaponDamage; routed to non_damaging to satisfy bucket-coverage gate (D11)."
     }
   },
 
@@ -884,15 +890,6 @@
     "Rogue": "Attr_Dexterity_Item"
   },
 
-  "itemPowerFormula": {
-    "_comment": "Formula to derive weapon damage from Item.itemPower (D26). v1 uses a linear model. weaponDamage = baseAtIlvl0 + slopePerIlvl * itemPower. At itemPower 925 (max ancestral): ~1488 damage. This is a simplified placeholder — v2 will use proper weapon-damage modeling from equipped weapon stats.",
-    "type": "linear",
-    "slopePerIlvl": 1.5,
-    "baseAtIlvl0": 100,
-    "source": "community_general",
-    "notes": "Approximate linear model. Not validated against actual Season 13 weapon damage tables. Override slopePerIlvl and baseAtIlvl0 via local config if better values are known."
-  },
-
   "weaponSlotsByClass": {
     "_comment": "Maps class name to the slot IDs to check for weapon items (in priority order). Engine uses the first equipped slot with an item.",
     "Barbarian": ["barb_2h_bludgeoning", "barb_2h_slashing", "barb_1h_main", "barb_1h_off"],
@@ -915,5 +912,5 @@
   },
 
   "baseWeaponAps": 1.0,
-  "_baseWeaponAps_notes": "Base weapon attacks-per-second before any AS% affixes. v1 uses 1.0 (normalized). Breakpoints are relative: tiered from 1.0 baseline. v2 will use weapon-type-specific base APS from datamine."
+  "_baseWeaponAps_notes": "Base weapon attacks-per-second — legacy fallback used when the equipped weapon type cannot be derived from the affix id. Weapon-type-specific APS comes from lib/catalog/game-math.json baseApsByWeaponType."
 }

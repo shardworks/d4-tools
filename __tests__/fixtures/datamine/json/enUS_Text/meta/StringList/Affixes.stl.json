@@ -7,6 +7,10 @@
     { "szLabel": "+[{VALUE:1}]% Critical Strike Damage", "hLabel": 100003, "id": "Affix_Multi_CritDamage" },
     { "szLabel": "[WIP] Test Entry", "hLabel": 100004, "id": "Affix_WIP_TestEntry" },
     { "szLabel": "+[{VALUE:1}] All Resistance", "hLabel": 100005, "id": "Affix_AllRes_Amulet" },
-    { "szLabel": "+[{VALUE:1}] Paragon Power (test fixture — unsupported DSL function)", "hLabel": 100099, "id": "Affix_Paragon_Unsupported" }
+    { "szLabel": "+[{VALUE:1}] Paragon Power (test fixture — unsupported DSL function)", "hLabel": 100099, "id": "Affix_Paragon_Unsupported" },
+    { "szLabel": "[{VALUE:1}] Damage per Hit", "hLabel": 200001, "id": "X2_VeryFast_Weapon_Damage_1HDagger" },
+    { "szLabel": "[{VALUE:1}] Damage per Hit", "hLabel": 200002, "id": "X2_Fast_Weapon_Damage_1HSword" },
+    { "szLabel": "[{VALUE:1}] Damage per Hit", "hLabel": 200003, "id": "X2_Normal_Weapon_Damage_2HSword" },
+    { "szLabel": "[{VALUE:1}] Damage per Hit", "hLabel": 200004, "id": "X2_Slow_Weapon_Damage_2HAxe" }
   ]
 }

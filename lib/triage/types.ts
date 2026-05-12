@@ -5,11 +5,19 @@ import { z } from "zod";
 /**
  * A single affix as extracted from a screenshot by the Vision LLM.
  * Uses display labels (e.g. "Maximum Life"), not catalog IDs.
+ * For weapon damage affixes: rolledRange [min, max] is used instead of rolledValue.
+ * Exactly one of rolledValue or rolledRange must be set.
  */
-export const LlmExtractedAffixSchema = z.object({
-  label: z.string(),
-  rolledValue: z.number(),
-});
+export const LlmExtractedAffixSchema = z
+  .object({
+    label: z.string(),
+    rolledValue: z.number().optional(),
+    rolledRange: z.tuple([z.number(), z.number()]).optional(),
+  })
+  .refine(
+    (d) => (d.rolledValue !== undefined) !== (d.rolledRange !== undefined),
+    { message: "Exactly one of rolledValue or rolledRange must be set" }
+  );
 export type LlmExtractedAffix = z.infer<typeof LlmExtractedAffixSchema>;
 
 /**
@@ -96,11 +104,19 @@ export type CacheEntry = z.infer<typeof CacheEntrySchema>;
  * D7: flat reason union — no nested discriminated union.
  */
 export type AffixMatchResult =
-  | { kind: "resolved"; affixId: string; rolledValue: number }
+  | {
+      kind: "resolved";
+      affixId: string;
+      rolledValue: number;
+      /** Present for weapon-damage affixes: the [min, max] range as extracted. */
+      rolledRange?: [number, number];
+    }
   | {
       kind: "uncertain";
       label: string;
       rolledValue: number;
+      /** Present for weapon-damage affixes: the [min, max] range as extracted. */
+      rolledRange?: [number, number];
       reason: "out-of-range" | "no-match";
       affixId?: string; // present when reason is out-of-range (name matched, value didn't)
     }
@@ -108,6 +124,8 @@ export type AffixMatchResult =
       kind: "uncertain";
       label: string;
       rolledValue: number;
+      /** Present for weapon-damage affixes: the [min, max] range as extracted. */
+      rolledRange?: [number, number];
       reason: "ambiguous";
       /** Top candidate affix ids for user disambiguation (D5). */
       candidates: string[];
@@ -116,6 +134,8 @@ export type AffixMatchResult =
       kind: "uncertain";
       label: string;
       rolledValue: number;
+      /** Present for weapon-damage affixes: the [min, max] range as extracted. */
+      rolledRange?: [number, number];
       reason: "value-mismatch";
       /** The matched catalog affix id. */
       affixId: string;

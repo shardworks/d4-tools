@@ -26,7 +26,10 @@ function computeAffixDeltas(
 
   const equippedMap = new Map<string, number>();
   for (const a of equippedAffixes) {
-    equippedMap.set(a.affixId, a.rolledValue);
+    // Use rolledValue for comparisons; skip weapon-damage range-only entries (no scalar to compare)
+    if (a.rolledValue !== undefined) {
+      equippedMap.set(a.affixId, a.rolledValue);
+    }
   }
 
   const parsedIds = new Set<string>();

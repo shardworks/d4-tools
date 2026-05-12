@@ -107,6 +107,15 @@ export interface AffixEntry {
    * Used by the triage resolver to scope candidates by position (implicit vs. explicit).
    */
   isImplicit?: boolean;
+  /**
+   * v19 (D2): Speed class for weapon-damage implicit affixes. Determines the base APS
+   * used by the damage engine for this weapon type. Absent on all non-weapon-damage affixes.
+   * VeryFast: 1HDagger, 1HFlail, 1HFocus, 1HWand
+   * Fast: 1HAxe, 1HMace, 1HScythe, 1HSword, 1HTotem, 2HBow, 2HQuarterstaff
+   * Normal: 2HGlaive, 2HStaff, 2HSword
+   * Slow: 2HAxe, 2HCrossbow, 2HMace, 2HPolearm, 2HScythe
+   */
+  weaponSpeedClass?: "VeryFast" | "Fast" | "Normal" | "Slow";
 }
 
 export interface AspectEntry {

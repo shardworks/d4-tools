@@ -57,12 +57,7 @@ export interface DamageConfig {
   distanceDefault: Record<string, "close" | "distant">;
   primaryStatScalar: number;
   classPrimaryStats: Record<string, string>;
-  itemPowerFormula: {
-    type: "linear";
-    slopePerIlvl: number;
-    baseAtIlvl0: number;
-    [key: string]: unknown;
-  };
+  // itemPowerFormula REMOVED per D10 — weapon damage comes from rolledRange implicit or inlined fallback
   weaponSlotsByClass: Record<string, string[]>;
   weaponTypeBySlot: Record<string, string>;
   baseWeaponAps: number;

@@ -78,6 +78,46 @@
           "szFormula": "Floor(IPower() * 0.5 * AncestralAffixScalarDefense)"
         }
       ]
+    },
+    {
+      "name": "GearAffix_VeryFast_Weapon_Damage",
+      "comment": "Weapon damage formula for VeryFast speed class (1HDagger, 1HFlail, 1HFocus, 1HWand)",
+      "arAffixScalings": [
+        { "nMinItemPower": 0, "szFormula": "RandomInt(50, 100)" },
+        { "nMinItemPower": 725, "szFormula": "RandomInt(500, 800)" },
+        { "nMinItemPower": 825, "szFormula": "RandomInt(700, 1100)" },
+        { "nMinItemPower": 925, "szFormula": "RandomInt(900, 1400)" }
+      ]
+    },
+    {
+      "name": "GearAffix_Fast_Weapon_Damage",
+      "comment": "Weapon damage formula for Fast speed class (1HAxe, 1HMace, 1HScythe, 1HSword, 1HTotem, 2HBow, 2HQuarterstaff)",
+      "arAffixScalings": [
+        { "nMinItemPower": 0, "szFormula": "RandomInt(60, 120)" },
+        { "nMinItemPower": 725, "szFormula": "RandomInt(600, 950)" },
+        { "nMinItemPower": 825, "szFormula": "RandomInt(850, 1350)" },
+        { "nMinItemPower": 925, "szFormula": "RandomInt(1100, 1700)" }
+      ]
+    },
+    {
+      "name": "GearAffix_Normal_Weapon_Damage",
+      "comment": "Weapon damage formula for Normal speed class (2HGlaive, 2HStaff, 2HSword)",
+      "arAffixScalings": [
+        { "nMinItemPower": 0, "szFormula": "RandomInt(80, 150)" },
+        { "nMinItemPower": 725, "szFormula": "RandomInt(800, 1200)" },
+        { "nMinItemPower": 825, "szFormula": "RandomInt(1100, 1700)" },
+        { "nMinItemPower": 925, "szFormula": "RandomInt(1400, 2200)" }
+      ]
+    },
+    {
+      "name": "GearAffix_Slow_Weapon_Damage",
+      "comment": "Weapon damage formula for Slow speed class (2HAxe, 2HCrossbow, 2HMace, 2HPolearm, 2HScythe)",
+      "arAffixScalings": [
+        { "nMinItemPower": 0, "szFormula": "RandomInt(100, 190)" },
+        { "nMinItemPower": 725, "szFormula": "RandomInt(1000, 1500)" },
+        { "nMinItemPower": 825, "szFormula": "RandomInt(1400, 2100)" },
+        { "nMinItemPower": 925, "szFormula": "RandomInt(1800, 2700)" }
+      ]
     }
   ]
 }

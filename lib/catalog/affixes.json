@@ -4536,6 +4536,329 @@
           "max": 8
         }
       ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_dagger",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "VeryFast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 50, "max": 100 },
+        { "minItemPower": 725, "min": 500, "max": 800 },
+        { "minItemPower": 825, "min": 700, "max": 1100 },
+        { "minItemPower": 925, "min": 900, "max": 1400 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_flail",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "VeryFast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 50, "max": 100 },
+        { "minItemPower": 725, "min": 500, "max": 800 },
+        { "minItemPower": 825, "min": 700, "max": 1100 },
+        { "minItemPower": 925, "min": 900, "max": 1400 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_focus",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "VeryFast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 50, "max": 100 },
+        { "minItemPower": 725, "min": 500, "max": 800 },
+        { "minItemPower": 825, "min": 700, "max": 1100 },
+        { "minItemPower": 925, "min": 900, "max": 1400 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_wand",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "VeryFast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 50, "max": 100 },
+        { "minItemPower": 725, "min": 500, "max": 800 },
+        { "minItemPower": 825, "min": 700, "max": 1100 },
+        { "minItemPower": 925, "min": 900, "max": 1400 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_axe",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_mace",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_scythe",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_sword",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_1h_totem",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon", "offHand", "barb_1h_main", "barb_1h_off"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_bow",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_quarterstaff",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Fast",
+      "slotRestrictions": ["weapon"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 60, "max": 120 },
+        { "minItemPower": 725, "min": 600, "max": 950 },
+        { "minItemPower": 825, "min": 850, "max": 1350 },
+        { "minItemPower": 925, "min": 1100, "max": 1700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_glaive",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Normal",
+      "slotRestrictions": ["weapon", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 80, "max": 150 },
+        { "minItemPower": 725, "min": 800, "max": 1200 },
+        { "minItemPower": 825, "min": 1100, "max": 1700 },
+        { "minItemPower": 925, "min": 1400, "max": 2200 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_staff",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Normal",
+      "slotRestrictions": ["weapon"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 80, "max": 150 },
+        { "minItemPower": 725, "min": 800, "max": 1200 },
+        { "minItemPower": 825, "min": 1100, "max": 1700 },
+        { "minItemPower": 925, "min": 1400, "max": 2200 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_sword",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Normal",
+      "slotRestrictions": ["weapon", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 80, "max": 150 },
+        { "minItemPower": 725, "min": 800, "max": 1200 },
+        { "minItemPower": 825, "min": 1100, "max": 1700 },
+        { "minItemPower": 925, "min": 1400, "max": 2200 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_axe",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Slow",
+      "slotRestrictions": ["weapon", "barb_2h_bludgeoning"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 100, "max": 190 },
+        { "minItemPower": 725, "min": 1000, "max": 1500 },
+        { "minItemPower": 825, "min": 1400, "max": 2100 },
+        { "minItemPower": 925, "min": 1800, "max": 2700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_crossbow",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Slow",
+      "slotRestrictions": ["weapon"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 100, "max": 190 },
+        { "minItemPower": 725, "min": 1000, "max": 1500 },
+        { "minItemPower": 825, "min": 1400, "max": 2100 },
+        { "minItemPower": 925, "min": 1800, "max": 2700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_mace",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Slow",
+      "slotRestrictions": ["weapon", "barb_2h_bludgeoning"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 100, "max": 190 },
+        { "minItemPower": 725, "min": 1000, "max": 1500 },
+        { "minItemPower": 825, "min": 1400, "max": 2100 },
+        { "minItemPower": 925, "min": 1800, "max": 2700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_polearm",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Slow",
+      "slotRestrictions": ["weapon", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 100, "max": 190 },
+        { "minItemPower": 725, "min": 1000, "max": 1500 },
+        { "minItemPower": 825, "min": 1400, "max": 2100 },
+        { "minItemPower": 925, "min": 1800, "max": 2700 }
+      ]
+    },
+    {
+      "id": "affix_weapon_damage_2h_scythe",
+      "label": "Damage per Hit",
+      "labelTemplate": "{value} Damage per Hit",
+      "isPercent": false,
+      "isImplicit": true,
+      "weaponSpeedClass": "Slow",
+      "slotRestrictions": ["weapon", "barb_2h_slashing"],
+      "classRestrictions": [],
+      "attribute": { "eAttribute": "Weapon_Damage_Min", "nParam": 0 },
+      "valueRanges": [
+        { "minItemPower": 0, "min": 100, "max": 190 },
+        { "minItemPower": 725, "min": 1000, "max": 1500 },
+        { "minItemPower": 825, "min": 1400, "max": 2100 },
+        { "minItemPower": 925, "min": 1800, "max": 2700 }
+      ]
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "__fileName__": "X2_Slow_Weapon_Damage_2HAxe",
+  "__snoID__": 2000004,
+  "eAffixType": 2,
+  "arAllowedItemLabels": [1],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": {
+        "eAttribute": 99,
+        "__eAttribute_name__": "Weapon_Damage_Min",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_Slow_Weapon_Damage" }
+      }
+    }
+  ]
+}

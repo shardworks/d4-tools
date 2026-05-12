@@ -289,6 +289,10 @@ export function transformAffixes(
       entry.isImplicit = true;
     }
 
+    if (curationRecord?.weaponSpeedClass) {
+      entry.weaponSpeedClass = curationRecord.weaponSpeedClass;
+    }
+
     if (curationRecord?.action === "deprecated") {
       entry.deprecated = true;
     }

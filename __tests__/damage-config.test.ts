@@ -124,11 +124,12 @@ describe("loadDamageConfig — upstream defaults", () => {
     expect(cfg.classPrimaryStats["Druid"]).toBe("Attr_Willpower_Item");
   });
 
-  it("itemPowerFormula has linear type with required fields", () => {
+  it("baseWeaponAps is a positive number (itemPowerFormula removed per D10)", () => {
     const cfg = loadDamageConfig(overridePath);
-    expect(cfg.itemPowerFormula.type).toBe("linear");
-    expect(typeof cfg.itemPowerFormula.slopePerIlvl).toBe("number");
-    expect(typeof cfg.itemPowerFormula.baseAtIlvl0).toBe("number");
+    expect(typeof cfg.baseWeaponAps).toBe("number");
+    expect(cfg.baseWeaponAps).toBeGreaterThan(0);
+    // itemPowerFormula must not exist (removed per D10 patron override)
+    expect((cfg as Record<string, unknown>)["itemPowerFormula"]).toBeUndefined();
   });
 
   it("breakpoints has entries for Barbarian, Sorcerer (no Paladin/Warlock per D34)", () => {

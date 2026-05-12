@@ -21,7 +21,7 @@
  *   - Resource economy (D27): optimistic DPS assumes sustain
  */
 
-import type { Item } from "../schema";
+import type { Item, AffixInstance } from "../schema";
 import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../catalog";
 import type { DamageConfig } from "./config";
 import type { AffixContribution, BuildDpsResult, SkillDpsResult } from "./types";
@@ -61,17 +61,57 @@ function resolveWeaponSlot(
 }
 
 /**
- * Derives weapon DPS from itemPower using the configured formula (D26).
- * v1: linear model — weaponDamage = baseAtIlvl0 + slopePerIlvl × itemPower.
+ * Finds the weapon-damage implicit affix on the item (if any).
+ * Returns the first AffixInstance whose affixId starts with "affix_weapon_damage_".
+ */
+function findWeaponDamageImplicit(item: Item): AffixInstance | undefined {
+  return [...(item.implicits ?? [])].find(
+    (a) => a.affixId.startsWith("affix_weapon_damage_")
+  );
+}
+
+/**
+ * Module-level set tracking which item keys have already emitted the fallback warning.
+ * Prevents repeated warnings for the same item across multiple computations.
+ * Export for test cleanup via clearWeaponDamageFallbackWarnings().
+ */
+const warnedItemKeys = new Set<string>();
+
+/**
+ * Clears the fallback-warning deduplication set. Call in tests before each case.
+ * @internal
+ */
+export function clearWeaponDamageFallbackWarnings(): void {
+  warnedItemKeys.clear();
+}
+
+/**
+ * Computes weapon base damage from the equipped weapon's implicit range affix.
+ *
+ * Primary path: reads rolledRange from weapon-damage implicit → returns mean.
+ * Fallback (D9/D25): inlined linear formula (100 + 1.5 × itemPower), emits ONE
+ * console.warn per item key when the implicit is absent or has no rolledRange.
  */
 function computeWeaponDamage(item: Item, config: DamageConfig): number {
-  const ip = item.itemPower ?? 0;
-  const { type, slopePerIlvl, baseAtIlvl0 } = config.itemPowerFormula;
-  if (type === "linear") {
-    return baseAtIlvl0 + slopePerIlvl * ip;
+  const weaponImplicit = findWeaponDamageImplicit(item);
+
+  if (weaponImplicit?.rolledRange !== undefined) {
+    return (weaponImplicit.rolledRange[0] + weaponImplicit.rolledRange[1]) / 2;
   }
-  // Future formula types would be handled here
-  return baseAtIlvl0 + slopePerIlvl * ip;
+
+  // Fallback: inlined linear formula (D9/D25)
+  const itemKey = `${item.slot ?? "unknown"}:${item.name ?? "unnamed"}`;
+  if (!warnedItemKeys.has(itemKey)) {
+    warnedItemKeys.add(itemKey);
+    console.warn(
+      `[damage/formula] No weapon-damage implicit found on item "${item.name ?? "(unnamed)"}". ` +
+        "Falling back to legacy linear formula (100 + 1.5 × itemPower). " +
+        "Equip a weapon with the Damage per Hit implicit for accurate DPS calculation."
+    );
+  }
+
+  const ip = item.itemPower ?? 0;
+  return 100 + 1.5 * ip;
 }
 
 // ─── Skill damage coefficient ─────────────────────────────────────────────────
@@ -161,7 +201,7 @@ function computeSkillDps(
   // ── Attack speed ──
   const asMult = computeAsMultiplier(contributions);
   const weaponSlot = weaponResult?.slotId ?? "weapon";
-  const effectiveAps = computeEffectiveAps(className, weaponSlot, asMult, config);
+  const effectiveAps = computeEffectiveAps(className, weaponSlot, asMult, config, weaponResult?.item);
 
   // ── Base DPS ──
   // v1: hitsPerCast = 1 (no multi-hit modeling for most skills)

@@ -129,6 +129,67 @@ describe("affixes catalog", () => {
     }
   });
 
+  it("has 19 weapon-damage implicit entries covering all weapon types", () => {
+    // affix_weapon_damage_pct is an explicit (non-implicit) Attr_Weapon_Damage_Percent affix — excluded here.
+    // The 19 per-type implicit range affixes all carry a weaponSpeedClass.
+    const weaponDamageAffixes = affixes.filter((a) => a.weaponSpeedClass !== undefined);
+    expect(weaponDamageAffixes).toHaveLength(19);
+    // All must be isImplicit
+    for (const a of weaponDamageAffixes) {
+      expect(a.isImplicit).toBe(true);
+    }
+    // All must have a valid weaponSpeedClass
+    const validSpeedClasses = new Set(["VeryFast", "Fast", "Normal", "Slow"]);
+    for (const a of weaponDamageAffixes) {
+      expect(validSpeedClasses.has(a.weaponSpeedClass ?? "")).toBe(true);
+    }
+  });
+
+  it("weapon-damage affixes have correct speed-class assignments", () => {
+    const byId = (id: string) => affixes.find((a) => a.id === id);
+
+    // VeryFast: 1HDagger, 1HFlail, 1HFocus, 1HWand
+    expect(byId("affix_weapon_damage_1h_dagger")?.weaponSpeedClass).toBe("VeryFast");
+    expect(byId("affix_weapon_damage_1h_flail")?.weaponSpeedClass).toBe("VeryFast");
+    expect(byId("affix_weapon_damage_1h_focus")?.weaponSpeedClass).toBe("VeryFast");
+    expect(byId("affix_weapon_damage_1h_wand")?.weaponSpeedClass).toBe("VeryFast");
+
+    // Fast: 1HAxe, 1HMace, 1HScythe, 1HSword, 1HTotem, 2HBow, 2HQuarterstaff
+    expect(byId("affix_weapon_damage_1h_axe")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_1h_mace")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_1h_scythe")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_1h_sword")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_1h_totem")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_2h_bow")?.weaponSpeedClass).toBe("Fast");
+    expect(byId("affix_weapon_damage_2h_quarterstaff")?.weaponSpeedClass).toBe("Fast");
+
+    // Normal: 2HGlaive, 2HStaff, 2HSword
+    expect(byId("affix_weapon_damage_2h_glaive")?.weaponSpeedClass).toBe("Normal");
+    expect(byId("affix_weapon_damage_2h_staff")?.weaponSpeedClass).toBe("Normal");
+    expect(byId("affix_weapon_damage_2h_sword")?.weaponSpeedClass).toBe("Normal");
+
+    // Slow: 2HAxe, 2HCrossbow, 2HMace, 2HPolearm, 2HScythe
+    expect(byId("affix_weapon_damage_2h_axe")?.weaponSpeedClass).toBe("Slow");
+    expect(byId("affix_weapon_damage_2h_crossbow")?.weaponSpeedClass).toBe("Slow");
+    expect(byId("affix_weapon_damage_2h_mace")?.weaponSpeedClass).toBe("Slow");
+    expect(byId("affix_weapon_damage_2h_polearm")?.weaponSpeedClass).toBe("Slow");
+    expect(byId("affix_weapon_damage_2h_scythe")?.weaponSpeedClass).toBe("Slow");
+  });
+
+  it("weapon-damage implicit affixes have Weapon_Damage_Min attribute", () => {
+    const weaponDamageAffixes = affixes.filter((a) => a.weaponSpeedClass !== undefined);
+    for (const a of weaponDamageAffixes) {
+      expect(a.attribute?.eAttribute).toBe("Weapon_Damage_Min");
+    }
+  });
+
+  it("weapon-damage implicit affixes have 4-band IP-tiered valueRanges", () => {
+    const weaponDamageAffixes = affixes.filter((a) => a.weaponSpeedClass !== undefined);
+    for (const a of weaponDamageAffixes) {
+      expect(a.valueRanges).toHaveLength(4);
+    }
+  });
+
   it("filters by slot restrictions", () => {
     // crit_chance is restricted to certain slots
     const helmAffixes = getAffixesForSlotAndClass("helm", "Sorcerer");

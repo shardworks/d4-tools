@@ -775,3 +775,74 @@ describe("Case 5: Unsupported DSL function → fail-loud", () => {
     expect(fs.existsSync(path.join(catalogRoot2, "affixes.json"))).toBe(false);
   });
 });
+
+// ─── Case 7: weaponSpeedClass propagation ─────────────────────────────────────
+
+describe("Case 7: weaponSpeedClass propagation", () => {
+  let catalogRoot: string;
+
+  beforeEach(async () => {
+    const curationFile = makeTempCuration({});
+    const result = await runWithTempOutput(curationFile);
+    catalogRoot = result.catalogRoot;
+    expect(result.exitCode).toBe(0);
+  });
+
+  it("VeryFast fixture entry has weaponSpeedClass=VeryFast in output catalog", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const entry = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_weapon_damage_1h_dagger"
+    );
+    expect(entry).toBeTruthy();
+    expect(entry.weaponSpeedClass).toBe("VeryFast");
+    expect(entry.isImplicit).toBe(true);
+  });
+
+  it("Fast fixture entry has weaponSpeedClass=Fast in output catalog", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const entry = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_weapon_damage_1h_sword"
+    );
+    expect(entry).toBeTruthy();
+    expect(entry.weaponSpeedClass).toBe("Fast");
+    expect(entry.isImplicit).toBe(true);
+  });
+
+  it("Normal fixture entry has weaponSpeedClass=Normal in output catalog", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const entry = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_weapon_damage_2h_sword"
+    );
+    expect(entry).toBeTruthy();
+    expect(entry.weaponSpeedClass).toBe("Normal");
+    expect(entry.isImplicit).toBe(true);
+  });
+
+  it("Slow fixture entry has weaponSpeedClass=Slow in output catalog", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const entry = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_weapon_damage_2h_axe"
+    );
+    expect(entry).toBeTruthy();
+    expect(entry.weaponSpeedClass).toBe("Slow");
+    expect(entry.isImplicit).toBe(true);
+  });
+
+  it("weapon-damage entries carry Weapon_Damage_Min attribute in output catalog", () => {
+    const data = JSON.parse(
+      fs.readFileSync(path.join(catalogRoot, "affixes.json"), "utf8")
+    );
+    const entry = data.affixes.find(
+      (a: { id: string }) => a.id === "affix_weapon_damage_1h_dagger"
+    );
+    expect(entry?.attribute?.eAttribute).toBe("Weapon_Damage_Min");
+  });
+});

@@ -13,6 +13,11 @@
 
 import type { DamageConfig, BreakpointTier } from "./config";
 import type { AffixContribution } from "./types";
+import type { Item } from "../schema";
+import gameMath from "../catalog/game-math.json";
+
+// Per-weapon-type APS lookup tables from game-math.json (D12/D14)
+const baseApsByWeaponType = (gameMath as Record<string, unknown>).baseApsByWeaponType as Record<string, number> | undefined;
 
 /** Frame rate used for breakpoint calculations. */
 const FPS = 60;
@@ -33,6 +38,29 @@ const BREAKPOINT_CLASSES = new Set([
  */
 function resolveWeaponTypeKey(weaponSlot: string, config: DamageConfig): string {
   return config.weaponTypeBySlot[weaponSlot] ?? "1h";
+}
+
+/**
+ * Derives the weapon type string (e.g. "1HSword", "2HAxe") from the equipped item's
+ * weapon-damage implicit affix id (e.g. "affix_weapon_damage_1h_sword" → "1HSword").
+ * Returns undefined when no matching implicit is present.
+ */
+function deriveWeaponTypeFromItem(
+  item?: Item
+): string | undefined {
+  if (!item) return undefined;
+  const implicit = (item.implicits ?? []).find(
+    (a) => a.affixId.startsWith("affix_weapon_damage_")
+  );
+  if (!implicit) return undefined;
+  const match = implicit.affixId.match(/^affix_weapon_damage_(.+)$/);
+  if (!match) return undefined;
+  const parts = match[1].split("_");
+  // First part "1h" or "2h" → "1H" or "2H"
+  const handedness = parts[0].toUpperCase();
+  // Remaining parts capitalized: "sword" → "Sword"
+  const typeParts = parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1));
+  return handedness + typeParts.join("");
 }
 
 /**
@@ -70,15 +98,21 @@ export function computeAsMultiplier(contributions: AffixContribution[]): number 
  * @param weaponSlot     - Equipped weapon slot ID used for the skill
  * @param asMult         - Total AS multiplier (1 + sum of all +AS%)
  * @param config         - Resolved damage config
+ * @param equippedWeapon - The equipped weapon item (optional; used to derive per-type base APS per D14)
  * @returns              - Effective attacks per second
  */
 export function computeEffectiveAps(
   className: string,
   weaponSlot: string,
   asMult: number,
-  config: DamageConfig
+  config: DamageConfig,
+  equippedWeapon?: Item
 ): number {
-  const baseAps = config.baseWeaponAps;
+  // Derive per-weapon-type base APS (D14): prefer catalog table, fall back to config scalar
+  const weaponType = deriveWeaponTypeFromItem(equippedWeapon);
+  const typeBaseAps =
+    weaponType && baseApsByWeaponType ? baseApsByWeaponType[weaponType] : undefined;
+  const baseAps = typeBaseAps !== undefined ? typeBaseAps : config.baseWeaponAps;
   const rawAps = baseAps * asMult;
 
   // Paladin and Warlock: linear AS, no frame quantization (D34)

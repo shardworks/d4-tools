@@ -222,11 +222,15 @@ export function resolveAffix(
 
   const scored = scoreEntries(canonical, candidates);
 
+  // Sentinel rolledValue for uncertain/no-match results when only rolledRange is present
+  const sentinelValue = extracted.rolledValue ?? (extracted.rolledRange ? extracted.rolledRange[0] : 0);
+
   if (scored.length === 0) {
     return {
       kind: "uncertain",
       label: extracted.label,
-      rolledValue: extracted.rolledValue,
+      rolledValue: sentinelValue,
+      rolledRange: extracted.rolledRange,
       reason: "no-match",
     };
   }
@@ -236,7 +240,8 @@ export function resolveAffix(
     return {
       kind: "uncertain",
       label: extracted.label,
-      rolledValue: extracted.rolledValue,
+      rolledValue: sentinelValue,
+      rolledRange: extracted.rolledRange,
       reason: "ambiguous",
       candidates: scored.slice(0, MAX_AMBIG_CANDIDATES).map((s) => s.entry.id),
     };
@@ -244,7 +249,31 @@ export function resolveAffix(
 
   const match = scored[0].entry as AffixEntry;
   const { min, max } = getAffixValueRangeAtItemPower(match, itemPower);
-  const { rolledValue } = extracted;
+
+  // ── rolledRange path (weapon-damage implicits) ───────────────────────────────
+  if (extracted.rolledRange !== undefined) {
+    const [lower, upper] = extracted.rolledRange;
+    // Validate: lower within per-IP band [min, max], upper > lower (D7)
+    if (lower < min || lower > max || upper <= lower) {
+      return {
+        kind: "uncertain",
+        label: extracted.label,
+        rolledValue: lower,
+        rolledRange: extracted.rolledRange,
+        reason: "out-of-range",
+        affixId: match.id,
+      };
+    }
+    return {
+      kind: "resolved",
+      affixId: match.id,
+      rolledValue: lower,
+      rolledRange: extracted.rolledRange,
+    };
+  }
+
+  // ── rolledValue path (standard affixes) ─────────────────────────────────────
+  const rolledValue = extracted.rolledValue as number;
 
   // Value-format auto-correct (D4): isPercent + value ∈ (0, 1] → try × 100
   const corrected = tryPercentCorrect(match.isPercent, rolledValue);

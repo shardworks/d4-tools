@@ -33,6 +33,8 @@ export function serializeAffix(entry: AffixEntry): Record<string, unknown> {
   if (entry.attribute !== undefined) obj.attribute = entry.attribute;
   // v18: implicit flag — omit when false/undefined (most affixes are explicit)
   if (entry.isImplicit) obj.isImplicit = true;
+  // v19 (D2): weapon speed class — omit on all non-weapon-damage affixes
+  if (entry.weaponSpeedClass !== undefined) obj.weaponSpeedClass = entry.weaponSpeedClass;
   return obj;
 }
 

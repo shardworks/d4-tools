@@ -20,11 +20,33 @@ function hexToRgba(cssVar: string, opacity: number): string {
   return `color-mix(in srgb, ${cssVar} ${Math.round(opacity * 100)}%, transparent)`;
 }
 
-function AffixRow({ affixId, rolledValue }: { affixId: string; rolledValue: number }) {
+function AffixRow({
+  affixId,
+  rolledValue,
+  rolledRange,
+}: {
+  affixId: string;
+  rolledValue?: number;
+  rolledRange?: [number, number];
+}) {
   const entry = affixCatalog.find((a) => a.id === affixId);
   const label = entry?.label ?? affixId;
+
+  // Weapon-damage implicits supply a min-max range instead of a single value
+  if (rolledRange !== undefined) {
+    return (
+      <div className="flex gap-[6px] items-baseline text-xs">
+        <span className="font-mono tabular-nums shrink-0 text-stone-100">
+          {rolledRange[0]}–{rolledRange[1]}
+        </span>
+        <span className="text-stone-400">Damage per Hit</span>
+      </div>
+    );
+  }
+
+  // Standard single-value affix
   const max = entry ? getAffixValueRangeAtItemPower(entry).max : undefined;
-  const isGreater = max !== undefined && rolledValue >= max;
+  const isGreater = max !== undefined && rolledValue !== undefined && rolledValue >= max;
 
   return (
     <div className="flex gap-[6px] items-baseline text-xs">
@@ -34,7 +56,7 @@ function AffixRow({ affixId, rolledValue }: { affixId: string; rolledValue: numb
           isGreater ? "text-rarity-mythic" : "text-stone-100"
         )}
       >
-        {rolledValue}
+        {rolledValue ?? "—"}
         {entry?.isPercent ? "%" : ""}
         {isGreater && <Sparkles size={11} className="inline ml-0.5 text-rarity-mythic" />}
       </span>
@@ -102,7 +124,12 @@ export function ItemCard({ item }: ItemCardProps) {
       {allAffixes.length > 0 && (
         <div className="flex flex-col gap-[3px]">
           {allAffixes.map((affix, i) => (
-            <AffixRow key={i} affixId={affix.affixId} rolledValue={affix.rolledValue} />
+            <AffixRow
+              key={i}
+              affixId={affix.affixId}
+              rolledValue={affix.rolledValue}
+              rolledRange={affix.rolledRange}
+            />
           ))}
         </div>
       )}

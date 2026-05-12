@@ -63,6 +63,15 @@ export interface CurationRecord {
    * Set when an audit-driven label change renames the catalog id.
    */
   legacyIds?: string[];
+  /**
+   * v19 (D2): For weapon-damage implicit affixes — the speed class of the weapon type.
+   * Determines base APS for the damage engine. Absent on all other affixes.
+   * VeryFast: 1HDagger, 1HFlail, 1HFocus, 1HWand
+   * Fast: 1HAxe, 1HMace, 1HScythe, 1HSword, 1HTotem, 2HBow, 2HQuarterstaff
+   * Normal: 2HGlaive, 2HStaff, 2HSword
+   * Slow: 2HAxe, 2HCrossbow, 2HMace, 2HPolearm, 2HScythe
+   */
+  weaponSpeedClass?: "VeryFast" | "Fast" | "Normal" | "Slow";
 }
 
 export interface CurationFile {

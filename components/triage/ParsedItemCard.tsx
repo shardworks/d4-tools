@@ -20,11 +20,37 @@ function hexToRgba(cssVar: string, opacity: number): string {
   return `color-mix(in srgb, ${cssVar} ${Math.round(opacity * 100)}%, transparent)`;
 }
 
-function AffixResultRow({ result }: { result: AffixMatchResult }) {
+function AffixResultRow({ result, itemPower }: { result: AffixMatchResult; itemPower?: number }) {
   if (result.kind === "resolved") {
     const entry = affixCatalog.find((a) => a.id === result.affixId);
+
+    // Weapon-damage implicits: render as "MIN – MAX Damage per Hit" with ceiling indicator
+    if (result.rolledRange !== undefined) {
+      const [lo, hi] = result.rolledRange;
+      const ceiling = entry ? getAffixValueRangeAtItemPower(entry, itemPower).max : undefined;
+      const isMaxRoll = ceiling !== undefined && hi >= ceiling;
+      return (
+        <div className="flex gap-[6px] items-baseline text-xs">
+          <span
+            className={cn(
+              "font-mono tabular-nums shrink-0",
+              isMaxRoll ? "text-rarity-mythic" : "text-stone-100"
+            )}
+          >
+            {lo}–{hi}
+            {isMaxRoll && <Sparkles size={11} className="inline ml-0.5 text-rarity-mythic" />}
+          </span>
+          <span className="text-stone-400">Damage per Hit</span>
+          {ceiling !== undefined && (
+            <span className="text-stone-600 text-[10px]">/ {ceiling} max</span>
+          )}
+        </div>
+      );
+    }
+
+    // Standard single-value affix
     const label = entry?.label ?? result.affixId;
-    const max = entry ? getAffixValueRangeAtItemPower(entry).max : undefined;
+    const max = entry ? getAffixValueRangeAtItemPower(entry, itemPower).max : undefined;
     const isGreater = max !== undefined && result.rolledValue >= max;
 
     return (
@@ -55,10 +81,16 @@ function AffixResultRow({ result }: { result: AffixMatchResult }) {
           ? "out of range — confirm below"
           : "unresolved — select below";
 
+  // For uncertain weapon-damage range affixes, display the range instead of sentinel value
+  const displayValue =
+    result.rolledRange !== undefined
+      ? `${result.rolledRange[0]}–${result.rolledRange[1]}`
+      : String(result.rolledValue);
+
   return (
     <div className="flex gap-[6px] items-baseline text-xs text-amber-400">
       <AlertTriangle size={11} className="shrink-0 mt-0.5" />
-      <span className="font-mono tabular-nums shrink-0">{result.rolledValue}</span>
+      <span className="font-mono tabular-nums shrink-0">{displayValue}</span>
       <span className="italic">
         {result.label} <span className="text-amber-600">({hintText})</span>
       </span>
@@ -203,7 +235,7 @@ export function ParsedItemCard({
                   />
                 );
               }
-              return <AffixResultRow key={i} result={effective} />;
+              return <AffixResultRow key={i} result={effective} itemPower={resolvedItem.itemPower} />;
             })}
           </div>
         ) : null;

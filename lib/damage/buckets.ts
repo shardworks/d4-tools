@@ -177,6 +177,10 @@ function collectFromItem(
       );
     }
 
+    // Weapon-damage range implicits have no rolledValue (only rolledRange).
+    // They contribute via the damage formula directly, not via bucket.
+    if (affixInstance.rolledValue === undefined) continue;
+
     contributions.push({
       attribute: attrRef.eAttribute,
       rolledValue: affixInstance.rolledValue,

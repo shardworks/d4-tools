@@ -125,10 +125,12 @@ function InlineAffixList({
 
       {fields.map((field, i) => {
         const affixId = (values[i] as AffixInstance | undefined)?.affixId ?? "";
-        const rolledValue = (values[i] as AffixInstance | undefined)?.rolledValue ?? 0;
-        const outOfRange = affixId ? isOutOfRange(affixId, rolledValue) : null;
-        const greater = affixId ? isGreater(affixId, rolledValue) : false;
+        const rolledValue = (values[i] as AffixInstance | undefined)?.rolledValue;
+        const rolledRange = (values[i] as AffixInstance | undefined)?.rolledRange;
+        const outOfRange = (affixId && rolledValue !== undefined) ? isOutOfRange(affixId, rolledValue) : null;
+        const greater = (affixId && rolledValue !== undefined) ? isGreater(affixId, rolledValue) : false;
         const entry = getAffixEntry(affixId);
+        const isWeaponDamage = entry?.weaponSpeedClass !== undefined;
 
         return (
           <div key={field.id} className="flex flex-col gap-[3px]">
@@ -147,43 +149,90 @@ function InlineAffixList({
                         f.onChange(id);
                         const newEntry = getAffixEntry(id);
                         if (newEntry) {
-                          // Set default value to midpoint of last band
-                          const { min: bMin, max: bMax } = getAffixValueRangeAtItemPower(newEntry);
-                          const mid = (bMin + bMax) / 2;
-                          setValue(`${name}.${i}.rolledValue` as never, Math.round(mid * 10) / 10 as never);
+                          if (newEntry.weaponSpeedClass !== undefined) {
+                            // Weapon-damage: default to midpoint range [min, max]
+                            const { min: bMin, max: bMax } = getAffixValueRangeAtItemPower(newEntry);
+                            setValue(`${name}.${i}.rolledRange` as never, [bMin, bMax] as never);
+                            setValue(`${name}.${i}.rolledValue` as never, undefined as never);
+                          } else {
+                            const { min: bMin, max: bMax } = getAffixValueRangeAtItemPower(newEntry);
+                            const mid = (bMin + bMax) / 2;
+                            setValue(`${name}.${i}.rolledValue` as never, Math.round(mid * 10) / 10 as never);
+                            setValue(`${name}.${i}.rolledRange` as never, undefined as never);
+                          }
                         }
                       }}
                     />
                   )}
                 />
               </div>
-              <Controller
-                control={control}
-                name={`${name}.${i}.rolledValue` as never}
-                render={({ field: f }) => (
-                  <Input
-                    type="number"
-                    step="0.1"
-                    value={f.value as number}
-                    onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
-                    className={cn(
-                      "w-[72px] text-xs",
-                      outOfRange && "border-destructive",
-                      greater && "text-rarity-mythic"
+
+              {/* Weapon-damage: two-input min/max row */}
+              {isWeaponDamage ? (
+                <>
+                  <Controller
+                    control={control}
+                    name={`${name}.${i}.rolledRange.0` as never}
+                    render={({ field: f }) => (
+                      <Input
+                        type="number"
+                        step="1"
+                        value={(f.value as number | undefined) ?? (rolledRange?.[0] ?? "")}
+                        onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
+                        className="w-[60px] text-xs"
+                        placeholder="Min"
+                      />
                     )}
                   />
-                )}
-              />
-              {entry && (
-                <span className="text-[10px] text-stone-600 whitespace-nowrap">
-                  {entry.isPercent ? "%" : ""}
-                </span>
+                  <span className="text-stone-600 text-[10px]">–</span>
+                  <Controller
+                    control={control}
+                    name={`${name}.${i}.rolledRange.1` as never}
+                    render={({ field: f }) => (
+                      <Input
+                        type="number"
+                        step="1"
+                        value={(f.value as number | undefined) ?? (rolledRange?.[1] ?? "")}
+                        onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
+                        className="w-[60px] text-xs"
+                        placeholder="Max"
+                      />
+                    )}
+                  />
+                </>
+              ) : (
+                /* Standard single-value input */
+                <>
+                  <Controller
+                    control={control}
+                    name={`${name}.${i}.rolledValue` as never}
+                    render={({ field: f }) => (
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={(f.value as number | undefined) ?? ""}
+                        onChange={(e) => f.onChange(parseFloat(e.target.value) || 0)}
+                        className={cn(
+                          "w-[72px] text-xs",
+                          outOfRange && "border-destructive",
+                          greater && "text-rarity-mythic"
+                        )}
+                      />
+                    )}
+                  />
+                  {entry && (
+                    <span className="text-[10px] text-stone-600 whitespace-nowrap">
+                      {entry.isPercent ? "%" : ""}
+                    </span>
+                  )}
+                  {greater && (
+                    <Badge className="text-[9px] px-1 py-0 text-rarity-mythic border-rarity-mythic/40 bg-rarity-mythic/15">
+                      GA
+                    </Badge>
+                  )}
+                </>
               )}
-              {greater && (
-                <Badge className="text-[9px] px-1 py-0 text-rarity-mythic border-rarity-mythic/40 bg-rarity-mythic/15">
-                  GA
-                </Badge>
-              )}
+
               <button
                 type="button"
                 onClick={() => remove(i)}

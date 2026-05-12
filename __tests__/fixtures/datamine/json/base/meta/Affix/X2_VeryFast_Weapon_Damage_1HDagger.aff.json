@@ -1,0 +1,18 @@
+{
+  "__fileName__": "X2_VeryFast_Weapon_Damage_1HDagger",
+  "__snoID__": 2000001,
+  "eAffixType": 2,
+  "arAllowedItemLabels": [6],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": {
+        "eAttribute": 99,
+        "__eAttribute_name__": "Weapon_Damage_Min",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_VeryFast_Weapon_Damage" }
+      }
+    }
+  ]
+}

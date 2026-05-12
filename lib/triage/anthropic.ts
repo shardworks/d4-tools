@@ -79,6 +79,9 @@ function buildCatalogVocabulary(): string {
     "3. Rarity values: common, magic, rare, legendary, unique, mythic (output lowercase).",
     "4. If no item tooltip is visible, call the tool with an empty items array.",
     "5. For aspects/legendary powers, record the full display name.",
+    "6. For weapon items, the 'Damage Per Hit: X – Y' line is one implicit affix.",
+    "   Emit it as a single implicits[] entry with rolledRange: [X, Y] (not rolledValue).",
+    "   Strip commas from large numbers (e.g. '1,234 – 5,678' → rolledRange: [1234, 5678]).",
     "",
     `KNOWN AFFIX LABELS (${affixLabels.length} entries — use these exact names when matching):`,
     affixLabels.map((l) => `  ${l}`).join("\n"),
@@ -144,9 +147,16 @@ const EXTRACTED_ITEMS_TOOL = {
                 type: "object",
                 properties: {
                   label: { type: "string", description: "Affix stat name exactly as shown" },
-                  rolledValue: { type: "number", description: "Numeric rolled value" },
+                  rolledValue: { type: "number", description: "Numeric rolled value (for single-number affixes)" },
+                  rolledRange: {
+                    type: "array",
+                    items: { type: "number" },
+                    minItems: 2,
+                    maxItems: 2,
+                    description: "For weapon damage: the [min, max] damage range as shown in the tooltip (e.g. '1234 – 5678' → [1234, 5678])",
+                  },
                 },
-                required: ["label", "rolledValue"],
+                required: ["label"],
               },
             },
             explicits: {
@@ -156,9 +166,16 @@ const EXTRACTED_ITEMS_TOOL = {
                 type: "object",
                 properties: {
                   label: { type: "string", description: "Affix stat name exactly as shown" },
-                  rolledValue: { type: "number", description: "Numeric rolled value" },
+                  rolledValue: { type: "number", description: "Numeric rolled value (for single-number affixes)" },
+                  rolledRange: {
+                    type: "array",
+                    items: { type: "number" },
+                    minItems: 2,
+                    maxItems: 2,
+                    description: "For weapon damage: the [min, max] damage range as shown in the tooltip",
+                  },
                 },
-                required: ["label", "rolledValue"],
+                required: ["label"],
               },
             },
             tempered: {
@@ -168,9 +185,16 @@ const EXTRACTED_ITEMS_TOOL = {
                 type: "object",
                 properties: {
                   label: { type: "string", description: "Affix stat name exactly as shown" },
-                  rolledValue: { type: "number", description: "Numeric rolled value" },
+                  rolledValue: { type: "number", description: "Numeric rolled value (for single-number affixes)" },
+                  rolledRange: {
+                    type: "array",
+                    items: { type: "number" },
+                    minItems: 2,
+                    maxItems: 2,
+                    description: "For weapon damage: the [min, max] damage range as shown in the tooltip",
+                  },
                 },
-                required: ["label", "rolledValue"],
+                required: ["label"],
               },
             },
             aspect: {
@@ -340,14 +364,35 @@ export async function extractItemsFromImage(
   };
 }
 
-function normalizeAffixes(raw: unknown): Array<{ label: string; rolledValue: number }> {
+type NormalizedAffix = { label: string; rolledValue?: number; rolledRange?: [number, number] };
+
+function normalizeAffixes(raw: unknown): NormalizedAffix[] {
   if (!Array.isArray(raw)) return [];
-  return raw.flatMap((a: unknown) => {
-    if (typeof a !== "object" || a === null) return [];
+  const result: NormalizedAffix[] = [];
+  for (const a of raw as unknown[]) {
+    if (typeof a !== "object" || a === null) continue;
     const affix = a as Record<string, unknown>;
-    if (typeof affix.label !== "string" || typeof affix.rolledValue !== "number") return [];
-    return [{ label: affix.label, rolledValue: affix.rolledValue }];
-  });
+    if (typeof affix.label !== "string") continue;
+
+    // rolledRange path: weapon-damage implicits emit [min, max]
+    if (
+      Array.isArray(affix.rolledRange) &&
+      affix.rolledRange.length === 2 &&
+      typeof affix.rolledRange[0] === "number" &&
+      typeof affix.rolledRange[1] === "number"
+    ) {
+      result.push({
+        label: affix.label,
+        rolledRange: [affix.rolledRange[0], affix.rolledRange[1]] as [number, number],
+      });
+      continue;
+    }
+
+    // rolledValue path: standard single-number affixes
+    if (typeof affix.rolledValue !== "number") continue;
+    result.push({ label: affix.label, rolledValue: affix.rolledValue });
+  }
+  return result;
 }
 
 function normalizeAspect(raw: unknown): { label: string; rolledValue: number } | undefined {

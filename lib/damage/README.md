@@ -54,9 +54,16 @@ Final DPS = weaponDamage × skillDamageCoeff × effectiveAPS × hitsPerCast
 ```
 
 Where:
-- **weaponDamage** = `baseAtIlvl0 + slopePerIlvl × itemPower` (linear model, D26)
+- **weaponDamage** = mean of the equipped weapon's `rolledRange` implicit (i.e. `(min + max) / 2`).
+  Primary path: reads `AffixInstance.rolledRange` from the `affix_weapon_damage_<type>` implicit.
+  Fallback (D9): when the implicit is absent or has no `rolledRange`, falls back to the inlined
+  linear formula `100 + 1.5 × itemPower` and emits a one-time `console.warn` per item key.
+  The old `itemPowerFormula` config key has been removed (D10 patron override).
 - **skillDamageCoeff** = `scaleValue + rankScale × (rank − 1)` (from Power file, D5)
-- **effectiveAPS** = 60fps / framesPerAttack (breakpoint table lookup, D34)
+- **effectiveAPS** = 60fps / framesPerAttack (breakpoint table lookup, D34).
+  Per-weapon-type base APS is resolved from `lib/catalog/game-math.json#baseApsByWeaponType`
+  using the weapon type string derived from the item's `affix_weapon_damage_<type>` implicit id
+  (D14). Falls back to `config.baseWeaponAps` when no matching implicit is found.
 - **CSC** = `critBaseChance + Σcrit_chance bucket` (hard-capped at 100%)
 - **CSD** = `csBaseline + Σcrit_damage bucket`
 
