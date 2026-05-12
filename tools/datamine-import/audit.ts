@@ -20,6 +20,23 @@ import { GLYPH_CLASS_ORDER } from "./mappings";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+/** A single attribute that appeared in the affix/aspect catalog but has no bucket mapping. */
+export interface UnmappedAttributeEntry {
+  /** The eAttribute string from the datamine. */
+  attribute: string;
+  /** Catalog IDs (affix or aspect) that reference this attribute. */
+  catalogIds: string[];
+}
+
+/**
+ * Result of the import-time bucket-coverage gate.
+ * Aggregates all eAttribute values from affixes and aspects that lack a
+ * `lib/damage/config.json → attributeToBucket` entry.
+ */
+export interface BucketCoverageResult {
+  unmappedAttributes: UnmappedAttributeEntry[];
+}
+
 export interface AuditParams {
   build: string;
   accessedDate: string;
@@ -30,6 +47,8 @@ export interface AuditParams {
   paragonBoardsByClass: Record<string, TransformerSummary<ParagonBoardEntry>>;
   glyphPool: TransformerSummary<ParagonGlyphPoolEntry>;
   paragonGlyphConflicts: Array<{ catalogId: string; reason: string }>;
+  /** Result of the import-time bucket-coverage gate (D7, D8, D10). */
+  bucketCoverage: BucketCoverageResult;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -115,6 +134,7 @@ export function generateAuditDoc(params: AuditParams): string {
     paragonBoardsByClass,
     glyphPool,
     paragonGlyphConflicts,
+    bucketCoverage,
   } = params;
 
   const timestamp = new Date().toISOString();
@@ -177,6 +197,30 @@ export function generateAuditDoc(params: AuditParams): string {
     lines.push("### Needs Curation");
     lines.push("");
     lines.push(needsCurationTable(aspects.needsCuration));
+  }
+  lines.push("");
+  lines.push("---");
+  lines.push("");
+  lines.push("## Bucket Coverage");
+  lines.push("");
+  lines.push(
+    "Import-time check: every `eAttribute` on affix and aspect entries must appear in " +
+    "`lib/damage/config.json → attributeToBucket`. Deprecated entries are included (D10). " +
+    "Unmapped attributes trigger exit code 1 and skip catalog writes."
+  );
+  lines.push("");
+  if (bucketCoverage.unmappedAttributes.length === 0) {
+    lines.push("_All attributes mapped._");
+  } else {
+    const header =
+      "| Attribute | Source Catalog IDs | Resolution Hint |\n|---|---|---|";
+    const rows = bucketCoverage.unmappedAttributes
+      .map(
+        (u) =>
+          `| \`${u.attribute}\` | ${u.catalogIds.map((id) => `\`${id}\``).join(", ")} | Add a bucket entry to \`lib/damage/config.json\` |`
+      )
+      .join("\n");
+    lines.push(`${header}\n${rows}`);
   }
   lines.push("");
   lines.push("---");

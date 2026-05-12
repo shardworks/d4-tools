@@ -1,0 +1,18 @@
+{
+  "__fileName__": "Affix_Unmapped_Bucket_Test",
+  "__snoID__": 9999997,
+  "eAffixType": 2,
+  "arAllowedItemLabels": [],
+  "fAllowedForPlayerClass": [],
+  "arAffixSkillTagRequirements": [],
+  "ptItemAffixAttributes": [
+    {
+      "tAttribute": {
+        "eAttribute": 0,
+        "__eAttribute_name__": "Attr_Bucket_Test_Unmapped_XYZ",
+        "nParam": 0,
+        "gbidFormula": { "name": "GearAffix_Life" }
+      }
+    }
+  ]
+}

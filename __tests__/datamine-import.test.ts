@@ -610,6 +610,111 @@ describe("Case 4: Schema compliance", () => {
   });
 });
 
+// ─── Case 6: Bucket-coverage gate ────────────────────────────────────────────
+//
+// Affix_Unmapped_Bucket_Test.aff.json carries eAttribute "Attr_Bucket_Test_Unmapped_XYZ"
+// which is absent from lib/damage/config.json attributeToBucket. Excluded by default in
+// curation.json — test cases flip the action to exercise the gate.
+
+describe("Case 6A: Bucket-coverage gate — baseline (all attributes mapped)", () => {
+  it("exits 0 and audit doc contains ## Bucket Coverage section with no unmapped entries", async () => {
+    const curationFile = makeTempCuration({});
+    const result = await runWithTempOutput(curationFile);
+
+    expect(result.exitCode).toBe(0);
+
+    const auditPath = path.join(result.docsDir, "datamine-import-3.0.0.test.md");
+    expect(fs.existsSync(auditPath)).toBe(true);
+    const auditDoc = fs.readFileSync(auditPath, "utf8");
+    expect(auditDoc).toContain("## Bucket Coverage");
+    expect(auditDoc).toContain("_All attributes mapped._");
+  });
+});
+
+describe("Case 6B: Bucket-coverage gate — unmapped active affix (exit code 1, no catalog writes)", () => {
+  it("exits 1 when an active affix carries an unmapped eAttribute", async () => {
+    // Flip Affix_Unmapped_Bucket_Test from exclude → include so the gate sees it
+    const curationFile = makeTempCuration({
+      affixes: {
+        Affix_Unmapped_Bucket_Test: {
+          action: "include",
+          catalogId: "affix_unmapped_bucket_test",
+          label: "Test Unmapped Bucket",
+          reason: "Test: enabled to verify bucket-coverage fail-loud path (Case 6B)",
+        },
+      },
+    });
+
+    const catalogRoot = makeTempDir();
+    const docsDir = makeTempDir();
+    const result = await runImport({
+      build: "3.0.0.test",
+      accessedDate: "2026-05-09",
+      datamineRoot: FIXTURE_DATAMINE,
+      dryRun: false,
+      catalogRoot,
+      docsDir,
+      curationFile,
+    });
+
+    // Gate must abort with exit code 1
+    expect(result.exitCode).toBe(1);
+
+    // Audit doc is always written
+    const auditPath = path.join(docsDir, "datamine-import-3.0.0.test.md");
+    expect(fs.existsSync(auditPath)).toBe(true);
+    const auditDoc = fs.readFileSync(auditPath, "utf8");
+
+    // Unmapped attribute and its catalog ID must appear in the Bucket Coverage section
+    expect(auditDoc).toContain("## Bucket Coverage");
+    expect(auditDoc).toContain("Attr_Bucket_Test_Unmapped_XYZ");
+    expect(auditDoc).toContain("affix_unmapped_bucket_test");
+
+    // Catalog files must NOT be written on exit 1
+    expect(fs.existsSync(path.join(catalogRoot, "affixes.json"))).toBe(false);
+  });
+});
+
+describe("Case 6C: Bucket-coverage gate — deprecated affix with unmapped attribute (D10)", () => {
+  it("exits 1 and includes the deprecated entry's unmapped attribute in the audit doc", async () => {
+    // D10: deprecated affixes still need bucket entries — they throw at runtime
+    // if equipped on a saved character. Flip Affix_Unmapped_Bucket_Test to deprecated.
+    const curationFile = makeTempCuration({
+      affixes: {
+        Affix_Unmapped_Bucket_Test: {
+          action: "deprecated",
+          catalogId: "affix_unmapped_bucket_test_deprecated",
+          label: "Test Unmapped Deprecated",
+          reason: "Test: deprecated action to verify D10 deprecated-inclusion in gate (Case 6C)",
+        },
+      },
+    });
+
+    const catalogRoot = makeTempDir();
+    const docsDir = makeTempDir();
+    const result = await runImport({
+      build: "3.0.0.test",
+      accessedDate: "2026-05-09",
+      datamineRoot: FIXTURE_DATAMINE,
+      dryRun: false,
+      catalogRoot,
+      docsDir,
+      curationFile,
+    });
+
+    // Gate still fires for deprecated entries (D10)
+    expect(result.exitCode).toBe(1);
+
+    const auditPath = path.join(docsDir, "datamine-import-3.0.0.test.md");
+    const auditDoc = fs.readFileSync(auditPath, "utf8");
+
+    // Deprecated entry's attribute must appear in the Bucket Coverage section
+    expect(auditDoc).toContain("## Bucket Coverage");
+    expect(auditDoc).toContain("Attr_Bucket_Test_Unmapped_XYZ");
+    expect(auditDoc).toContain("affix_unmapped_bucket_test_deprecated");
+  });
+});
+
 // ─── Case 5: Unsupported DSL function → fail-loud (exit code 1) ──────────────
 
 describe("Case 5: Unsupported DSL function → fail-loud", () => {

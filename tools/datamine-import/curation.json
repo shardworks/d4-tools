@@ -5,20 +5,20 @@
       "catalogId": "affix_max_life_pct",
       "label": "Maximum Life %",
       "isPercent": true,
-      "reason": "Hand-seed entry: affix_max_life_pct \u2014 value range now formula-driven (GearAffix_LifePercent)"
+      "reason": "Hand-seed entry: affix_max_life_pct — value range now formula-driven (GearAffix_LifePercent)"
     },
     "Affix_Str_MaxLife": {
       "action": "include",
       "catalogId": "affix_max_life",
       "label": "Maximum Life",
-      "reason": "Hand-seed entry: affix_max_life \u2014 value range now formula-driven (GearAffix_Life)"
+      "reason": "Hand-seed entry: affix_max_life — value range now formula-driven (GearAffix_Life)"
     },
     "Affix_Multi_CritDamage": {
       "action": "include",
       "catalogId": "affix_crit_damage",
       "label": "Critical Strike Damage",
       "isPercent": true,
-      "reason": "Multi-attribute: using first attribute only per D18 \u2014 value range formula-driven (GearAffix_CritDamage)"
+      "reason": "Multi-attribute: using first attribute only per D18 — value range formula-driven (GearAffix_CritDamage)"
     },
     "Affix_AllRes_Amulet": {
       "action": "include",
@@ -32,15 +32,19 @@
           "max": 25
         }
       ],
-      "reason": "Implicit jewelry resistance \u2014 formula yields zero; D11 manualValueRanges fallback"
+      "reason": "Implicit jewelry resistance — formula yields zero; D11 manualValueRanges fallback"
     },
     "Affix_WIP_TestEntry": {
       "action": "exclude",
-      "reason": "WIP test entry \u2014 synthetic fixture only, no live game presence"
+      "reason": "WIP test entry — synthetic fixture only, no live game presence"
     },
     "Affix_Paragon_Unsupported": {
       "action": "exclude",
       "reason": "Test fixture for unsupported DSL function path — excluded from normal pipeline runs; flip to include in the dedicated test case"
+    },
+    "Affix_Unmapped_Bucket_Test": {
+      "action": "exclude",
+      "reason": "Test fixture for bucket-coverage gate — eAttribute Attr_Bucket_Test_Unmapped_XYZ is not in lib/damage/config.json; excluded from normal runs; flip to include or deprecated in bucket-coverage test cases"
     },
     "Resistance_Jewelry_All": {
       "action": "include",
@@ -49,7 +53,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 6, "max": 20 }
+        {
+          "minItemPower": 0,
+          "min": 6,
+          "max": 20
+        }
       ],
       "reason": "Amulet implicit all-resist — formula yields zero; manualValueRanges fallback. Real-datamine record (distinct from fixture-scoped Affix_AllRes_Amulet per D7)"
     },
@@ -60,7 +68,11 @@
       "isImplicit": true,
       "isPercent": false,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 700, "max": 3000 }
+        {
+          "minItemPower": 0,
+          "min": 700,
+          "max": 3000
+        }
       ],
       "reason": "Helm implicit armor — formula yields zero for implicit slots; manualValueRanges fallback"
     },
@@ -71,7 +83,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 5, "max": 15 }
+        {
+          "minItemPower": 0,
+          "min": 5,
+          "max": 15
+        }
       ],
       "reason": "Off-hand implicit barrier generation — formula yields zero for implicit slots; manualValueRanges fallback"
     },
@@ -82,7 +98,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 3, "max": 8 }
+        {
+          "minItemPower": 0,
+          "min": 3,
+          "max": 8
+        }
       ],
       "reason": "Amulet implicit crit chance — formula yields zero for implicit slots; manualValueRanges fallback"
     },
@@ -93,7 +113,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 10, "max": 25 }
+        {
+          "minItemPower": 0,
+          "min": 10,
+          "max": 25
+        }
       ],
       "reason": "Weapon implicit core skill damage — formula yields zero for implicit slots; manualValueRanges fallback. D12: canonical label is Core Skill Damage (labelTemplate + attribute agree)"
     },
@@ -104,7 +128,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 3, "max": 8 }
+        {
+          "minItemPower": 0,
+          "min": 3,
+          "max": 8
+        }
       ],
       "reason": "Chest implicit damage reduction — formula yields zero for implicit slots; manualValueRanges fallback"
     },
@@ -115,7 +143,11 @@
       "isImplicit": true,
       "isPercent": true,
       "manualValueRanges": [
-        { "minItemPower": 0, "min": 3, "max": 7 }
+        {
+          "minItemPower": 0,
+          "min": 3,
+          "max": 7
+        }
       ],
       "reason": "Ring implicit lucky hit chance — formula yields zero for implicit slots; manualValueRanges fallback. D13: canonical label is Lucky Hit Chance (aligns with sibling explicit family)"
     }
@@ -138,133 +170,133 @@
       "catalogId": "aspect_of_might",
       "label": "Aspect of Might",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Conceited": {
       "action": "include",
       "catalogId": "conceited_aspect",
       "label": "Conceited Aspect",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Eluding": {
       "action": "include",
       "catalogId": "eluding_aspect",
       "label": "Eluding Aspect",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Elements": {
       "action": "include",
       "catalogId": "aspect_of_elements",
       "label": "Aspect of the Elements",
       "source": "codex",
-      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect; source override preserves classification across reruns. bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_FrozenOrbit": {
       "action": "include",
       "catalogId": "aspect_of_frozen_orbit",
       "label": "Aspect of Frozen Orbit",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Snowguard": {
       "action": "include",
       "catalogId": "snowguards_aspect",
       "label": "Snowguard's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Prodigy": {
       "action": "include",
       "catalogId": "prodigys_aspect",
       "label": "Prodigy's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_PiercingCold": {
       "action": "include",
       "catalogId": "aspect_of_piercing_cold",
       "label": "Aspect of Piercing Cold",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Flamethrower": {
       "action": "include",
       "catalogId": "flamethrower_aspect",
       "label": "Flamethrower Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_BerserkRipping": {
       "action": "include",
       "catalogId": "aspect_of_berserk_ripping",
       "label": "Aspect of Berserk Ripping",
       "source": "codex",
-      "reason": "Codex aspect (Barbarian). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Barbarian). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Anemia": {
       "action": "include",
       "catalogId": "aspect_of_anemia",
       "label": "Aspect of Anemia",
       "source": "codex",
-      "reason": "Codex aspect (Barbarian). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Barbarian). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_GraspingVeins": {
       "action": "include",
       "catalogId": "aspect_of_grasping_veins",
       "label": "Aspect of Grasping Veins",
       "source": "codex",
-      "reason": "Codex aspect (Necromancer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Necromancer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_BloodSeeker": {
       "action": "include",
       "catalogId": "blood_seekers_aspect",
       "label": "Blood Seeker's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Necromancer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Necromancer). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_ExplosiveVerve": {
       "action": "include",
       "catalogId": "aspect_of_explosive_verve",
       "label": "Aspect of Explosive Verve",
       "source": "codex",
-      "reason": "Codex aspect (Rogue). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Rogue). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Rapid": {
       "action": "include",
       "catalogId": "rapid_aspect",
       "label": "Rapid Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Rogue). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Rogue). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Unsatiated": {
       "action": "include",
       "catalogId": "aspect_of_the_unsatiated",
       "label": "Aspect of the Unsatiated",
       "source": "codex",
-      "reason": "Codex aspect (Druid). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Druid). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_Stormshifter": {
       "action": "include",
       "catalogId": "stormshifters_aspect",
       "label": "Stormshifter's Aspect",
       "source": "codex",
-      "reason": "Codex aspect (Druid). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Druid). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_CalmBreeze": {
       "action": "include",
       "catalogId": "aspect_of_the_calm_breeze",
       "label": "Aspect of the Calm Breeze",
       "source": "codex",
-      "reason": "Codex aspect (Spiritborn). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Spiritborn). bnetFileName inferred — verify on first datamine run."
     },
     "Aspect_OverflowingEnergy": {
       "action": "include",
       "catalogId": "aspect_of_the_overflowing_energy",
       "label": "Aspect of the Overflowing Energy",
       "source": "codex",
-      "reason": "Codex aspect (Sorcerer). bnetFileName inferred \u2014 verify on first datamine run."
+      "reason": "Codex aspect (Sorcerer). bnetFileName inferred — verify on first datamine run."
     }
   },
   "skills": {
@@ -1730,7 +1762,9 @@
       "label": "Lava Bomb",
       "category": "basic",
       "maxRank": 9,
-      "legacyIds": ["warl_molten_bomb"],
+      "legacyIds": [
+        "warl_molten_bomb"
+      ],
       "reason": "Internal name BrimstoneOrb; displays as Lava Bomb; tree-allocation cap 9 per D4Builds.gg S13 (https://d4builds.gg), 2026-05-11"
     },
     "Warlock_HexCast": {
@@ -1915,8 +1949,7 @@
       "action": "include",
       "catalogId": "barb_starter",
       "label": "Starter Board",
-      "reason": "Barbarian starter paragon board",
-      "isStarterBoard": true
+      "reason": "Barbarian starter paragon board"
     },
     "Paragon_Barb_01": {
       "action": "include",
@@ -1976,8 +2009,7 @@
       "action": "include",
       "catalogId": "druid_starter",
       "label": "Starter Board",
-      "reason": "Druid starter paragon board",
-      "isStarterBoard": true
+      "reason": "Druid starter paragon board"
     },
     "Paragon_Druid_01": {
       "action": "include",
@@ -2037,8 +2069,7 @@
       "action": "include",
       "catalogId": "necro_starter",
       "label": "Starter Board",
-      "reason": "Necromancer starter paragon board",
-      "isStarterBoard": true
+      "reason": "Necromancer starter paragon board"
     },
     "Paragon_Necro_01": {
       "action": "include",
@@ -2080,8 +2111,7 @@
       "action": "include",
       "catalogId": "pal_starter",
       "label": "Starter Board",
-      "reason": "Paladin starter paragon board",
-      "isStarterBoard": true
+      "reason": "Paladin starter paragon board"
     },
     "Paragon_Paladin_01": {
       "action": "include",
@@ -2141,8 +2171,7 @@
       "action": "include",
       "catalogId": "rogue_starter",
       "label": "Starter Board",
-      "reason": "Rogue starter paragon board",
-      "isStarterBoard": true
+      "reason": "Rogue starter paragon board"
     },
     "Paragon_Rogue_01": {
       "action": "include",
@@ -2178,8 +2207,7 @@
       "action": "include",
       "catalogId": "sorc_starter",
       "label": "Starter Board",
-      "reason": "Sorcerer starter paragon board",
-      "isStarterBoard": true
+      "reason": "Sorcerer starter paragon board"
     },
     "Paragon_Sorc_01": {
       "action": "include",
@@ -2239,8 +2267,7 @@
       "action": "include",
       "catalogId": "sb_starter",
       "label": "Starter Board",
-      "reason": "Spiritborn starter paragon board",
-      "isStarterBoard": true
+      "reason": "Spiritborn starter paragon board"
     },
     "Paragon_Spirit_01": {
       "action": "include",
@@ -2294,8 +2321,7 @@
       "action": "include",
       "catalogId": "warl_starter",
       "label": "Starter Board",
-      "reason": "Warlock starter paragon board",
-      "isStarterBoard": true
+      "reason": "Warlock starter paragon board"
     },
     "Paragon_Warlock_01": {
       "action": "include",
@@ -2447,7 +2473,7 @@
       "action": "include",
       "catalogId": "glyph_revenge",
       "label": "Revenge",
-      "reason": "Barbarian Revenge \u2014 shares catalogId glyph_revenge with Paladin Rare_033_Intelligence_Side per D8; multi-class affinity via fUsableByClass[2]=1"
+      "reason": "Barbarian Revenge — shares catalogId glyph_revenge with Paladin Rare_033_Intelligence_Side per D8; multi-class affinity via fUsableByClass[2]=1"
     },
     "Rare_034_Willpower_Side": {
       "action": "include",
@@ -2951,43 +2977,43 @@
       "action": "include",
       "catalogId": "glyph_revenge",
       "label": "Revenge",
-      "reason": "Paladin Revenge \u2014 shares catalogId with Barbarian Rare_033_Willpower_Side per D8; multi-class affinity via fUsableByClass[6]=1"
+      "reason": "Paladin Revenge — shares catalogId with Barbarian Rare_033_Willpower_Side per D8; multi-class affinity via fUsableByClass[6]=1"
     },
     "Rare_063_Intelligence_Side": {
       "action": "include",
       "catalogId": "glyph_canny",
       "label": "Canny",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_105_Strength_Main": {
       "action": "include",
       "catalogId": "glyph_law",
       "label": "Law",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_106_Strength_Main": {
       "action": "include",
       "catalogId": "glyph_retribution",
       "label": "Retribution",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_106_Willpower_Side": {
       "action": "include",
       "catalogId": "glyph_arbiter",
       "label": "Arbiter",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_108_Intelligence_Side": {
       "action": "include",
       "catalogId": "glyph_judicator",
       "label": "Judicator",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_110_Strength_Main": {
       "action": "include",
       "catalogId": "glyph_apostle",
       "label": "Apostle",
-      "reason": "Paladin-usable glyph backfill \u2014 fUsableByClass[6]=1; deferred from \u00a77 of datamine-verification-2026-05-08.md"
+      "reason": "Paladin-usable glyph backfill — fUsableByClass[6]=1; deferred from §7 of datamine-verification-2026-05-08.md"
     },
     "Rare_AllZero": {
       "action": "exclude",
@@ -2999,7 +3025,7 @@
       "action": "include",
       "catalogId": "unique_sword_test",
       "label": "Test Sword",
-      "reason": "Test fixture unique item \u2014 synthetic datamine fixture"
+      "reason": "Test fixture unique item — synthetic datamine fixture"
     }
   }
 }

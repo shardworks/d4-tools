@@ -8,6 +8,8 @@
 import * as path from "node:path";
 import * as fs from "node:fs";
 import { loadCuration } from "./curation";
+// D11: read bundled baseline directly — do NOT use loadDamageConfig() which merges local overrides.
+import bundledDamageConfig from "../../lib/damage/config.json";
 import {
   loadAffixes,
   loadAspects,
@@ -16,16 +18,18 @@ import {
   loadParagonBoards,
   loadParagonGlyphs,
   loadStringTable,
-  loadAllPowers,
   loadAttributeFormulas,
   loadGlobals,
 } from "./reader";
 import { transformAffixes } from "./sections/affixes";
+import type { AffixTransformerSummary } from "./sections/affixes";
+import type { TransformerSummary } from "./sections/types";
 import { transformAspects } from "./sections/aspects";
 import { transformUniques } from "./sections/uniques";
 import { transformAllSkills } from "./sections/skills";
 import { transformParagonBoardsForClass, transformParagonGlyphs } from "./sections/paragon";
 import { generateAuditDoc, writeAuditDoc } from "./audit";
+import type { BucketCoverageResult } from "./audit";
 import {
   writeAffixes,
   writeAspects,
@@ -104,22 +108,10 @@ export async function runImport(
     const formulaTable = loadAttributeFormulas(datamineRoot);
     const globals = loadGlobals(datamineRoot);
 
-    // v15 (D5): load all powers (not just legendary aspects) for skill Power-file dereferencing.
-    // Index by __fileName__ for O(1) lookup in the skills transformer.
-    const allPowersList = loadAllPowers(datamineRoot);
-    const powersMap = new Map<string, unknown>();
-    for (const p of allPowersList) {
-      const rec = p as Record<string, unknown>;
-      if (typeof rec["__fileName__"] === "string") {
-        powersMap.set(rec["__fileName__"] as string, p);
-      }
-    }
-
     console.log(
       `Loaded: ${rawAffixes.length} affixes, ${rawPowers.length} aspects, ` +
       `${rawItems.length} items, ${skillKits.size} skill kits, ` +
-      `${rawBoards.length} boards, ${rawGlyphs.length} glyphs, ` +
-      `${powersMap.size} powers (all types for skill dereferencing)`
+      `${rawBoards.length} boards, ${rawGlyphs.length} glyphs`
     );
 
     // 3. Run transformers
@@ -128,9 +120,10 @@ export async function runImport(
     const aspectSummary = transformAspects(rawPowers, stringTable, curation);
     const uniqueSummary = transformUniques(rawItems, stringTable, curation);
 
-    // v15 (D5): pass powersMap to skills transformer for Power-file dereferencing
+    // v15 (D5): pass datamineRoot to skills transformer; getPowerByFileName in reader.ts
+    // handles the Power-file directory walk and per-root caching (D1/D2/D3).
     const skillsByClass: ReturnType<typeof transformAllSkills> =
-      transformAllSkills(skillKits, stringTable, curation, powersMap);
+      transformAllSkills(skillKits, stringTable, curation, datamineRoot);
 
     // Paragon boards: per-class transformation (unchanged)
     const paragonBoardsByClass: Record<string, ReturnType<typeof transformParagonBoardsForClass>> = {};
@@ -206,6 +199,20 @@ export async function runImport(
       exitCode = Math.max(exitCode, 1);
     }
 
+    // 5c. Bucket-coverage gate (D7, D8, D10, D11).
+    // Check that every eAttribute value on affix and aspect entries (including
+    // deprecated) maps to an entry in the bundled lib/damage/config.json.
+    // Reads the bundled JSON directly — not via loadDamageConfig() — so the
+    // per-deployment local override cannot mask a missing baseline entry (D11).
+    const bucketCoverage = validateBucketCoverage(affixSummary, aspectSummary);
+    if (bucketCoverage.unmappedAttributes.length > 0) {
+      console.warn(
+        `[bucket-coverage] ${bucketCoverage.unmappedAttributes.length} unmapped attribute(s) — ` +
+        `see audit doc ## Bucket Coverage section for details.`
+      );
+      exitCode = Math.max(exitCode, 1);
+    }
+
     // 6. Generate audit doc (always, even on non-zero exit, so the user can
     // see which entries need decisions without re-running the tool).
     const verifiedAgainst: VerifiedAgainst = {
@@ -225,6 +232,7 @@ export async function runImport(
       paragonBoardsByClass,
       glyphPool,
       paragonGlyphConflicts,
+      bucketCoverage,
     });
 
     writeAuditDoc(auditDoc, build, docsDir, dryRun);
@@ -342,6 +350,59 @@ function collectDisappearedEntries(
   }
 
   return { warnings, deprecatedAffixes, deprecatedAspects };
+}
+
+// ─── Bucket-coverage gate (D7, D8, D10, D11) ─────────────────────────────────
+
+/**
+ * Validates that every `eAttribute` appearing on affix and aspect catalog
+ * entries has a corresponding entry in the bundled `lib/damage/config.json`
+ * `attributeToBucket` map.
+ *
+ * Reads the bundled config JSON directly — NOT via `loadDamageConfig()` — so
+ * per-deployment local overrides cannot mask a missing baseline entry (D11).
+ *
+ * Deprecated entries are included in the check (D10): a deprecated affix still
+ * throws at `lib/damage/buckets.ts:65-71` when equipped on a saved character.
+ *
+ * Only affixes and aspects are checked (D8). Uniques and skills feed different
+ * engine paths and do not go through `attributeToBucket`.
+ */
+function validateBucketCoverage(
+  affixSummary: AffixTransformerSummary,
+  aspectSummary: TransformerSummary<AspectEntry>
+): BucketCoverageResult {
+  // Keys starting with "_" are comments in the JSON, not attribute names.
+  const rawConfig = bundledDamageConfig as { attributeToBucket: Record<string, unknown> };
+  const mappedAttributes = new Set(
+    Object.keys(rawConfig.attributeToBucket).filter((k) => !k.startsWith("_"))
+  );
+
+  const attributeToCatalogIds = new Map<string, string[]>();
+
+  for (const entry of affixSummary.entries) {
+    const attr = entry.attribute?.eAttribute;
+    if (attr && !mappedAttributes.has(attr)) {
+      const list = attributeToCatalogIds.get(attr) ?? [];
+      list.push(entry.id);
+      attributeToCatalogIds.set(attr, list);
+    }
+  }
+
+  for (const entry of aspectSummary.entries) {
+    const attr = entry.attribute?.eAttribute;
+    if (attr && !mappedAttributes.has(attr)) {
+      const list = attributeToCatalogIds.get(attr) ?? [];
+      list.push(entry.id);
+      attributeToCatalogIds.set(attr, list);
+    }
+  }
+
+  const unmappedAttributes = Array.from(attributeToCatalogIds.entries()).map(
+    ([attribute, catalogIds]) => ({ attribute, catalogIds })
+  );
+
+  return { unmappedAttributes };
 }
 
 function findBnetFileNameForId(

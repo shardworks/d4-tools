@@ -9,6 +9,7 @@
 import type { SkillEntry, SkillScalingAttribute } from "../../../lib/catalog/index";
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
+import { getPowerByFileName } from "../reader";
 import type { TransformerSummary } from "./types";
 
 // ─── Raw datamine shapes ──────────────────────────────────────────────────────
@@ -53,15 +54,16 @@ interface RawPower {
  * Transforms skills for a single class from its SkillKit entry.
  * Returns a TransformerSummary<SkillEntry> for the given class.
  *
- * v15: Accepts `powersMap` to dereference tPower.__fileName__ → Power JSON
- * and extract scaling attributes, tags, resource cost, and cooldown (D5).
+ * v15: Uses `getPowerByFileName(datamineRoot, fileName)` (cached helper in reader.ts)
+ * to dereference tPower.__fileName__ → Power JSON and extract scaling attributes,
+ * tags, resource cost, and cooldown (D5).
  * Hungarian-prefixed datamine names are normalized to clean identifiers on extraction.
  */
 export function transformSkillsForClass(
   skillKit: unknown,
   stringTable: Map<string, string>,
   curation: CurationFile,
-  powersMap?: Map<string, unknown>
+  datamineRoot: string
 ): TransformerSummary<SkillEntry> {
   const entries: SkillEntry[] = [];
   const needsCuration: Array<{ bnetFileName: string; reason: string }> = [];
@@ -121,7 +123,8 @@ export function transformSkillsForClass(
     const label = curationRecord?.label ?? szLabel;
 
     // v15 (D5): dereference Power file for scaling attributes, tags, resource cost, cooldown.
-    // Hungarian-prefixed datamine field names are normalized on extraction:
+    // The cached getPowerByFileName helper (reader.ts, D1/D2/D3) handles directory-walk
+    // and per-root memoisation. Hungarian-prefixed datamine field names are normalized:
     //   fScaleValue → scaleValue, nRankScale → rankScale, fResourceCost → resourceCostPerCast,
     //   fCooldownDuration → cooldownSeconds
     let scalingAttributes: SkillScalingAttribute[] | undefined;
@@ -129,25 +132,23 @@ export function transformSkillsForClass(
     let resourceCostPerCast: number | undefined;
     let cooldownSeconds: number | undefined;
 
-    if (powersMap) {
-      const rawPower = powersMap.get(fileName) as RawPower | undefined;
-      if (rawPower) {
-        if (rawPower.arScalingAttributes && rawPower.arScalingAttributes.length > 0) {
-          scalingAttributes = rawPower.arScalingAttributes.map((sa) => ({
-            attribute: sa.eAttribute,
-            scaleValue: sa.fScaleValue,
-            rankScale: sa.nRankScale,
-          }));
-        }
-        if (rawPower.arTagsGranted && rawPower.arTagsGranted.length > 0) {
-          tags = rawPower.arTagsGranted;
-        }
-        if (rawPower.fResourceCost !== undefined) {
-          resourceCostPerCast = rawPower.fResourceCost;
-        }
-        if (rawPower.fCooldownDuration !== undefined) {
-          cooldownSeconds = rawPower.fCooldownDuration;
-        }
+    const rawPower = getPowerByFileName(datamineRoot, fileName) as RawPower | undefined;
+    if (rawPower) {
+      if (rawPower.arScalingAttributes && rawPower.arScalingAttributes.length > 0) {
+        scalingAttributes = rawPower.arScalingAttributes.map((sa) => ({
+          attribute: sa.eAttribute,
+          scaleValue: sa.fScaleValue,
+          rankScale: sa.nRankScale,
+        }));
+      }
+      if (rawPower.arTagsGranted && rawPower.arTagsGranted.length > 0) {
+        tags = rawPower.arTagsGranted;
+      }
+      if (rawPower.fResourceCost !== undefined) {
+        resourceCostPerCast = rawPower.fResourceCost;
+      }
+      if (rawPower.fCooldownDuration !== undefined) {
+        cooldownSeconds = rawPower.fCooldownDuration;
       }
     }
 
@@ -175,18 +176,20 @@ export function transformSkillsForClass(
  * Transforms skills for all classes from their SkillKit entries.
  * Returns a map of className → TransformerSummary<SkillEntry>.
  *
- * v15: Accepts optional `powersMap` (indexed by __fileName__) for D5 Power-file dereferencing.
+ * v15: Uses `getPowerByFileName(datamineRoot, fileName)` (cached helper, reader.ts)
+ * for D5 Power-file dereferencing. The root is forwarded to each per-class call so
+ * the cache is keyed consistently (D3).
  */
 export function transformAllSkills(
   skillKits: Map<string, unknown>,
   stringTable: Map<string, string>,
   curation: CurationFile,
-  powersMap?: Map<string, unknown>
+  datamineRoot: string
 ): Record<string, TransformerSummary<SkillEntry>> {
   const result: Record<string, TransformerSummary<SkillEntry>> = {};
 
   for (const [className, kit] of skillKits) {
-    result[className] = transformSkillsForClass(kit, stringTable, curation, powersMap);
+    result[className] = transformSkillsForClass(kit, stringTable, curation, datamineRoot);
   }
 
   return result;

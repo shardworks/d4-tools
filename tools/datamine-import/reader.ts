@@ -68,9 +68,45 @@ export function loadAspects(datamineRoot: string): unknown[] {
   );
 }
 
-/** Reads all power definitions from json/base/meta/Power/ (unfiltered) */
-export function loadAllPowers(datamineRoot: string): unknown[] {
+/** Reads all power definitions from json/base/meta/Power/ (unfiltered). Internal use only. */
+function loadAllPowers(datamineRoot: string): unknown[] {
   return readJsonDir(metaDir(datamineRoot, "Power"));
+}
+
+// ─── Power-file helper ────────────────────────────────────────────────────────
+
+/**
+ * Module-level cache: datamineRoot → (fileName → power record).
+ * Keyed by root so multi-root invocations (e.g. test suites running against
+ * both the fixture and a real datamine in the same process) do not pollute
+ * each other's caches (D3).
+ */
+const _powersCacheByRoot = new Map<string, Map<string, unknown>>();
+
+/**
+ * Returns the Power record whose `__fileName__` matches `fileName`, or
+ * `undefined` if no such record exists in the datamine.
+ *
+ * Results are cached per `datamineRoot` on first call (D3). Callers in
+ * `sections/skills.ts` should call this directly rather than building their
+ * own powers map (D1, D2).
+ */
+export function getPowerByFileName(
+  datamineRoot: string,
+  fileName: string
+): unknown | undefined {
+  let byName = _powersCacheByRoot.get(datamineRoot);
+  if (!byName) {
+    byName = new Map<string, unknown>();
+    for (const p of loadAllPowers(datamineRoot)) {
+      const rec = p as Record<string, unknown>;
+      if (typeof rec["__fileName__"] === "string") {
+        byName.set(rec["__fileName__"] as string, p);
+      }
+    }
+    _powersCacheByRoot.set(datamineRoot, byName);
+  }
+  return byName.get(fileName);
 }
 
 /** Reads SkillKit entries from json/base/meta/SkillKit/, returns map of filename→entries */

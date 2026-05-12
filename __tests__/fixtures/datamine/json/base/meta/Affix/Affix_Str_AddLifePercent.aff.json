@@ -9,7 +9,7 @@
     {
       "tAttribute": {
         "eAttribute": 0,
-        "__eAttribute_name__": "Attr_Max_Life_Percent",
+        "__eAttribute_name__": "Attr_Life_Percent_Bonus",
         "nParam": 0,
         "gbidFormula": { "name": "GearAffix_LifePercent" }
       }

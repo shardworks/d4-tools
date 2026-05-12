@@ -9,7 +9,7 @@
     {
       "tAttribute": {
         "eAttribute": 2,
-        "__eAttribute_name__": "Attr_Resistance_All",
+        "__eAttribute_name__": "Attr_All_Resistances",
         "nParam": 0,
         "gbidFormula": { "name": "GearAffix_AllRes_Jewelry" }
       }
