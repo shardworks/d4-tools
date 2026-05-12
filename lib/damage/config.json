@@ -1,6 +1,5 @@
 {
   "_comment": "Theorycraft config for the D4 sustained boss-DPS engine (v15). Every entry cites its source, season, and access date. Override individual entries via data/damage-config.local.json (deep-merged at engine-call time per D4).",
-
   "_sources": {
     "maxroll_damage_s9": "Maxroll In-Depth Damage Guide, Season 9 (June 29, 2025). Not yet updated for Season 13. URL: https://maxroll.gg/d4/resources/damage-explained. Accessed: 2026-05-08.",
     "maxroll_as_s11": "Maxroll Attack Speed Mechanics, Season 11 (January 7, 2026). Breakpoint tables do not yet include Paladin/Warlock. URL: https://maxroll.gg/d4/resources/attack-speed-explained. Accessed: 2026-05-08.",
@@ -9,10 +8,8 @@
     "community_general": "Community general knowledge, widely cited, multiple sources.",
     "datamine_d4data": "DiabloTools/d4data, patch 3.0.1.71747, accessed 2026-05-08."
   },
-
   "attributeToBucket": {
     "_comment": "Maps eAttribute names (from datamine) to engine buckets. 'conditional' field drives uptime weighting under boss-DPS framing. Position A (D9, Maxroll S9): Core Skill Damage and Skill-Specific Damage share the same additive bucket.",
-
     "Attr_Skill_Damage_Percent": {
       "bucket": "additive",
       "conditional": "unconditional",
@@ -169,7 +166,6 @@
       "source": "community_general",
       "notes": "Centipede Spirit damage (Spiritborn) — additive bucket."
     },
-
     "Attr_Close_Damage_Percent_Bonus": {
       "bucket": "additive",
       "conditional": "distance-close",
@@ -182,7 +178,6 @@
       "source": "maxroll_damage_s9",
       "notes": "Damage to Distant enemies. Applied if class default distance is 'distant' (D12)."
     },
-
     "Attr_Damage_Percent_Bonus_With_Crowd_Control": {
       "bucket": "additive",
       "conditional": "cc",
@@ -219,7 +214,6 @@
       "source": "maxroll_damage_s9",
       "notes": "Damage to Poisoned enemies. Zeroed under boss-DPS framing."
     },
-
     "Attr_Elite_Damage_Percent_Bonus": {
       "bucket": "additive",
       "conditional": "elite",
@@ -232,7 +226,6 @@
       "source": "maxroll_damage_s9",
       "notes": "Damage to Elites — full uptime vs boss."
     },
-
     "Attr_Vuln_Damage_Percent": {
       "bucket": "vulnerable",
       "conditional": "vulnerable",
@@ -245,7 +238,6 @@
       "source": "maxroll_damage_s9",
       "notes": "Vulnerable Damage bonus (alt attribute name). Same treatment as Attr_Vuln_Damage_Percent."
     },
-
     "Attr_Crit_Strike_Chance_Percent": {
       "bucket": "crit_chance",
       "conditional": "unconditional",
@@ -270,7 +262,6 @@
       "source": "maxroll_damage_s9",
       "notes": "Critical Strike Damage bonus (alt attribute name). Same treatment as Attr_Crit_Damage_Percent."
     },
-
     "Attr_Attacks_Per_Second_Percent_Bonus": {
       "bucket": "attack_speed",
       "conditional": "unconditional",
@@ -283,14 +274,12 @@
       "source": "maxroll_as_s11",
       "notes": "Attack Speed bonus from item (treated same as Attr_Attacks_Per_Second_Percent_Bonus)."
     },
-
     "Attr_Cooldown_Reduction_Percent": {
       "bucket": "cdr",
       "conditional": "unconditional",
       "source": "maxroll_damage_s9",
       "notes": "Cooldown Reduction. Hyperbolic formula: Effective CDR = CDR/(CDR+1.0) (D14, Position A). Reduces cooldown for cooldown-gated skills."
     },
-
     "Attr_Strength_Item": {
       "bucket": "primary_stat",
       "conditional": "unconditional",
@@ -321,7 +310,6 @@
       "source": "datamine_d4data",
       "notes": "All Stats affix — contributes to the class's primary stat. Engine adds full value to primary stat pool."
     },
-
     "Attr_Max_Life": {
       "bucket": "non_damaging",
       "conditional": "unconditional",
@@ -400,9 +388,7 @@
       "source": "datamine_d4data",
       "notes": "Overpower Damage — excluded from v1 engine (D24). OP requires Life+Fortify state not on schema."
     },
-
     "_comment_v17": "v17 entries added 2026-05-10 for expanded affix/aspect catalog (D8 of v17 commission).",
-
     "Attr_Damage_Percent_Bonus": {
       "bucket": "additive",
       "conditional": "unconditional",
@@ -535,7 +521,6 @@
       "source": "community_general",
       "notes": "Damage to Staggered enemies — treated as cc-conditional (uptime 0.0 under boss-DPS framing). Bosses do have stagger phases, but duration is episodic and not modeled in v1."
     },
-
     "Attr_Fury_Regen_Per_Second": {
       "bucket": "non_damaging",
       "conditional": "unconditional",
@@ -691,9 +676,860 @@
       "conditional": "unconditional",
       "source": "datamine_d4data",
       "notes": "Weapon Damage Min implicit — base damage range handled directly by computeWeaponDamage; routed to non_damaging to satisfy bucket-coverage gate (D11)."
+    },
+    "_comment_v20": "v20 (2026-05-12): added real-d4data attribute names (Strength, Crit_Percent_Bonus, Attack_Speed_Percent_Bonus, etc.) alongside the existing `Attr_*` fixture-shape names. The map now covers both the legacy committed catalog AND any catalog regenerated from real d4data. The `Attr_*` entries can be removed once the catalog is regenerated and no downstream consumer references them. See the datamine-import substrate-repair commits (c62b98e, 9262619) for context.",
+    "Affix_Value_1": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Affix-internal value indirection, not a damage attribute.",
+      "conditional": "unconditional"
+    },
+    "Attack_Speed_Bonus_On_Dodge": {
+      "bucket": "attack_speed",
+      "conditional": "on-dodge",
+      "source": "d4data",
+      "notes": "Conditional AS after dodge; engine treats as additive with uptime."
+    },
+    "Attack_Speed_Percent_Bonus": {
+      "bucket": "attack_speed",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Attack_Speed_Percent_Bonus_For_Power": {
+      "bucket": "attack_speed",
+      "conditional": "skill-tag-scoped",
+      "source": "d4data"
+    },
+    "Attack_Speed_Percent_Bonus_Per_Skill_Tag": {
+      "bucket": "attack_speed",
+      "conditional": "skill-tag-scoped",
+      "source": "d4data",
+      "notes": "Skill-tagged AS — additive into AS bucket; effective uptime depends on tag."
+    },
+    "Barrier_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Barrier_When_Struck_Percent_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Block_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Blood_Orb_Pickup_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "blood-orb-pickup",
+      "source": "d4data",
+      "notes": "Necromancer Blood Orb pickup buff."
+    },
+    "Blood_Orb_Pickup_Healing_Percent_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Bonus_Healing_Received_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Bucketed_Multiplicative_Crit_Damage": {
+      "bucket": "crit_damage",
+      "source": "d4data",
+      "notes": "Bucketed multiplicative crit damage; routed to crit_damage bucket v1.",
+      "conditional": "unconditional"
+    },
+    "Bucketed_Multiplicative_Damage": {
+      "bucket": "additive",
+      "source": "d4data",
+      "notes": "Bucketed multiplicative (real game model); collapsed into additive v1.",
+      "conditional": "unconditional"
+    },
+    "Bucketed_Multiplicative_Damage_Type": {
+      "bucket": "additive",
+      "source": "d4data",
+      "notes": "Bucketed multiplicative damage-type variant; additive v1.",
+      "conditional": "unconditional"
+    },
+    "Bucketed_Multiplicative_DoT_Damage": {
+      "bucket": "additive",
+      "source": "d4data",
+      "notes": "Bucketed multiplicative DoT damage; additive v1.",
+      "conditional": "unconditional"
+    },
+    "Bucketed_Multiplicative_Vulnerable_Health_Damage": {
+      "bucket": "vulnerable",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "CC_Duration_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Crowd-control duration on enemy — defensive utility.",
+      "conditional": "unconditional"
+    },
+    "CC_Duration_Bonus_Percent_Per_Type": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "CC_Duration_Reduction": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Player CC duration reduction — defensive.",
+      "conditional": "unconditional"
+    },
+    "CC_Duration_Reduction_Per_Type": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Combat_Effect_Chance_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Combat_Effect_Chance_Bonus_Barrier_Active": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Combat_Effect_Chance_Bonus_Per_Damage_Type": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Crit_Damage_Percent": {
+      "bucket": "crit_damage",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Crit_Damage_Percent_Per_Skill_Tag": {
+      "bucket": "crit_damage",
+      "conditional": "skill-tag-scoped",
+      "source": "d4data"
+    },
+    "Crit_Percent_Bonus": {
+      "bucket": "crit_chance",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Crit_Percent_Bonus_To_Low_Health": {
+      "bucket": "crit_chance",
+      "conditional": "low-health",
+      "source": "d4data"
+    },
+    "DOT_DPS_Bonus_Percent": {
+      "bucket": "additive",
+      "conditional": "dot-skill",
+      "source": "d4data"
+    },
+    "DOT_DPS_Bonus_Percent_Per_Damage_Type": {
+      "bucket": "additive",
+      "conditional": "dot-damage-type",
+      "source": "d4data"
+    },
+    "Damage_Bonus_At_High_Health": {
+      "bucket": "additive",
+      "conditional": "player-high-health",
+      "source": "d4data"
+    },
+    "Damage_Bonus_On_Elite_Kill": {
+      "bucket": "additive",
+      "conditional": "after-elite-kill",
+      "source": "d4data"
+    },
+    "Damage_Bonus_Percent_On_Dodge": {
+      "bucket": "additive",
+      "conditional": "after-dodge",
+      "source": "d4data"
+    },
+    "Damage_Bonus_To_Far": {
+      "bucket": "additive",
+      "conditional": "far-target",
+      "source": "d4data"
+    },
+    "Damage_Bonus_To_High_Health": {
+      "bucket": "additive",
+      "conditional": "target-high-health",
+      "source": "d4data"
+    },
+    "Damage_Bonus_To_Low_Health": {
+      "bucket": "additive",
+      "conditional": "target-low-health",
+      "source": "d4data"
+    },
+    "Damage_Bonus_To_Near": {
+      "bucket": "additive",
+      "conditional": "close-target",
+      "source": "d4data"
+    },
+    "Damage_Percent_All_From_Skills": {
+      "bucket": "additive",
+      "source": "d4data",
+      "notes": "General all-skill damage bonus (e.g. weapon damage % on weapons).",
+      "conditional": "unconditional"
+    },
+    "Damage_Percent_Bonus_Against_Dot_Type": {
+      "bucket": "additive",
+      "conditional": "dot-target",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Per_Shapeshift_Form": {
+      "bucket": "additive",
+      "conditional": "shapeshifted",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Per_Skill_Tag": {
+      "bucket": "additive",
+      "conditional": "skill-tag-scoped",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Per_Weapon_Requirement": {
+      "bucket": "additive",
+      "conditional": "weapon-type-equipped",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_To_Targets_Affected_By_Skill_Tag": {
+      "bucket": "additive",
+      "conditional": "target-affected",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Vs_CC_All": {
+      "bucket": "additive",
+      "conditional": "cc-target",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Vs_CC_Target": {
+      "bucket": "additive",
+      "conditional": "cc-target",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_Vs_Elites": {
+      "bucket": "additive",
+      "conditional": "elite",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_When_Weapon_Swapping": {
+      "bucket": "additive",
+      "conditional": "weapon-swap",
+      "source": "d4data"
+    },
+    "Damage_Percent_Bonus_While_Affected_By_Power": {
+      "bucket": "additive",
+      "conditional": "buff-active",
+      "source": "d4data",
+      "notes": "E.g. while Berserking — conditional damage."
+    },
+    "Damage_Percent_Bonus_While_Shapeshifted": {
+      "bucket": "additive",
+      "conditional": "shapeshifted",
+      "source": "d4data"
+    },
+    "Damage_Percent_Reduction_From_Dotted_Enemy": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Defensive — DR from DoT-applying enemies.",
+      "conditional": "unconditional"
+    },
+    "Damage_Percent_Reduction_From_Elites": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Damage_Reduction": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Damage_Reduction_At_Low_Health": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Damage_Reduction_From_Far": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Damage_Reduction_From_Near": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Damage_Type_Crit_Damage_Percent_Bonus": {
+      "bucket": "crit_damage",
+      "conditional": "damage-type-scoped",
+      "source": "d4data"
+    },
+    "Damage_Type_Crit_Percent_Bonus_Vs_Elites": {
+      "bucket": "crit_chance",
+      "conditional": "elite-and-damage-type",
+      "source": "d4data"
+    },
+    "Damage_Type_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "damage-type-scoped",
+      "source": "d4data"
+    },
+    "Dexterity": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Dexterity_Percent_Bonus": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Dodge_Chance_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Dodge_Chance_Bonus_Additive": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Dodge_Chance_Bonus_Melee": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Dodge_Chance_Bonus_Ranged": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Evade_Max_Charges": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Evade_Movement_Speed": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Evade_Reduce_Cooldown_On_Attack": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Flat_Hitpoints_Max_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Flat_Hitpoints_Max_Bonus_Unscaled_By_Player_Health": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Flat_Hitpoints_On_Hit_Unscaled_By_Player_Health": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Flat_Hitpoints_On_Kill": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Flat_Hitpoints_On_Kill_Unscaled_By_Player_Health": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Fortified_Health_Application_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Fortified_When_Struck_Percent_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Gem_Attributes_Multiplier": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Multiplier on gem stats — out of scope for engine v1.",
+      "conditional": "unconditional"
+    },
+    "Hitpoints_Max_Percent_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Imbued_Skill_Crit_Damage_Percent_Bonus": {
+      "bucket": "crit_damage",
+      "conditional": "skill-tag-imbued",
+      "source": "d4data"
+    },
+    "Imbued_Skill_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "imbued-skill",
+      "source": "d4data"
+    },
+    "Intelligence": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Intelligence_Percent_Bonus": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Item_Refinement_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Movement_Bonus_On_Elite_Kill": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Movement_Bonus_Run_Speed": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "NecroArmy_All_Pet_Types_Inherit_Thorns_Bonus_Pct": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "NecroArmy_Pet_Type_Inherit_Thorns_Bonus_Pct": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "No_Damage_Taken_Flat_Hitpoints_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "No_Damage_Taken_Flat_Hitpoints_Regen_Per_Second_Unscaled_By_Player_Health": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "NonPhysical_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "On_Crit_CC_Proc_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "On_Hit_CC_Proc_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "On_Hit_Execute_Low_Health_Non_Elite_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "On_Hit_Vulnerable_Proc_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Triggers vulnerable on hit — engine models vulnerable uptime via config.",
+      "conditional": "unconditional"
+    },
+    "Overpower_Chance_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Overpower chance — separate from overpower damage. Engine v1 does not model overpower uptime.",
+      "conditional": "unconditional"
+    },
+    "Overpower_Crit_Damage_Bonus_Percent": {
+      "bucket": "crit_damage",
+      "conditional": "overpower-crit",
+      "source": "d4data",
+      "notes": "Overpower-tagged crit damage; engine treats as additive into crit_damage bucket."
+    },
+    "Pet_Attack_Speed_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Pet stats; player DPS is unchanged.",
+      "conditional": "unconditional"
+    },
+    "Pet_Health_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Pet_Move_Speed_Bonus_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Plus_All_Stats": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "notes": "All-stats — counts for whichever stat is the class primary.",
+      "conditional": "unconditional"
+    },
+    "Potion_Charge_Generation_Bonus_Pct": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Potion_Max_Doses_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Power_Cooldown_Reduction_Percent_All": {
+      "bucket": "cdr",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Power_Damage_Percent_Bonus": {
+      "bucket": "additive",
+      "conditional": "power-tagged",
+      "source": "d4data",
+      "notes": "Power-specific damage (e.g. Crackling Energy generators)."
+    },
+    "Power_Duration_Bonus_Pct": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Buff/power duration bonus (e.g. Berserking duration). Engine v1 does not model buff uptime via this attribute.",
+      "conditional": "unconditional"
+    },
+    "Proc_Flat_Hitpoints_On_Hit": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Proc_Resource_On_Hit_Flat_All_Primary": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Proc_Resource_On_Hit_Percent_All_Primary": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resistance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resistance_All": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resistance_All_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_All_Primary_Max_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_Cost_Reduction_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_Cost_Reduction_Percent_All": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_Gain_And_Regen_Bonus_Percent_All_Primary": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_Max_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_On_Kill": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_On_Kill_Warlock": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Resource_Regen_Per_Second": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_Bite": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_Bloodsplosion": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_Chains": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_CooldownReset": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_Demons": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_Evade": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_NextCastDamage": {
+      "bucket": "additive",
+      "conditional": "next-cast-after-feast",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Feast_Rampage": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Feast_RestoreResource": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_BasicSkill": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_CooldownUsed": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_FeastItems": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_Gold": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_HungerItems": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_KillstreakRep": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_KillstreakXP": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_LuckyHit": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_OnKIll": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Datamine typo (OnKIll) preserved as-is.",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_RampageItems": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_ResourceSpent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_Runes": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Hunger_Salvage": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_AttackSpeed": {
+      "bucket": "attack_speed",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_CooldownReduction": {
+      "bucket": "cdr",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_CriticalStrikeChance": {
+      "bucket": "crit_chance",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_DexterityPercent": {
+      "bucket": "primary_stat",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_IntelligencePercent": {
+      "bucket": "primary_stat",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_Lifesteal": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_LuckyHitChance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_MaxLife": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_MovementSpeed": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_ResourceCostReduction": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "S12_KillStreak_Massacre_StrengthPercent": {
+      "bucket": "primary_stat",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "S12_KillStreak_Massacre_WillpowerPercent": {
+      "bucket": "primary_stat",
+      "conditional": "massacre-killstreak-active",
+      "source": "d4data"
+    },
+    "Shrine_Elixir_Duration_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Skill_Rank_All_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "+all skills applied via skill scaling, not bucket math.",
+      "conditional": "unconditional"
+    },
+    "Skill_Rank_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "+rank applied via skill scaling, not bucket math.",
+      "conditional": "unconditional"
+    },
+    "Skill_Rank_Skill_Tag_Bonus": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "+skill-tag rank applied via skill scaling, not bucket math.",
+      "conditional": "unconditional"
+    },
+    "Skill_Tag_Cooldown_Reduction_Percent": {
+      "bucket": "cdr",
+      "conditional": "skill-tag-scoped",
+      "source": "d4data"
+    },
+    "Strength": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Strength_Percent_Bonus": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Thorns_Flat": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Trap_Arm_Time_Reduction_Seconds": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Vulnerable_Health_Damage_Bonus": {
+      "bucket": "vulnerable",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Weapon_On_Hit_Percent_Bleed_Proc_Chance": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Werebear_Armor_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "notes": "Defensive — Werebear form armor.",
+      "conditional": "unconditional"
+    },
+    "Werewolf_Armor_Percent": {
+      "bucket": "non_damaging",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Willpower": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
+    },
+    "Willpower_Percent_Bonus": {
+      "bucket": "primary_stat",
+      "source": "d4data",
+      "conditional": "unconditional"
     }
   },
-
   "buckets": {
     "_comment": "Defines the type and description for each bucket referenced in attributeToBucket.",
     "additive": {
@@ -733,136 +1569,299 @@
       "description": "Non-damaging stat — no DPS contribution in the engine."
     }
   },
-
   "constants": {
     "_comment": "Formula constants. All values verified against cited sources; patch-staleness flagged where known.",
-    "csBaseline": 0.50,
+    "csBaseline": 0.5,
     "_csBaseline_notes": "Base Critical Strike Damage: 50% bonus when critting. Source: maxroll_damage_s9. Widely verified; believed stable across seasons.",
-    "vulnerableBaseline": 0.20,
+    "vulnerableBaseline": 0.2,
     "_vulnerableBaseline_notes": "Vulnerable damage multiplier bonus: +20% (total ×1.20). Source: maxroll_damage_s9 (Season 9). PATCH-STALE WARNING: Season 13 changes unverified. Override via data/damage-config.local.json when confirmed. Decision D13.",
     "critBaseChance": 0.05,
     "_critBaseChance_notes": "Base Critical Strike Chance before any affixes: 5%. Source: community_general. Stable across seasons.",
-    "enemyDefenseMultiplier": 1.0,
+    "enemyDefenseMultiplier": 1,
     "_enemyDefenseMultiplier_notes": "Enemy defense/armor/resistance reduction factor (placeholder 1.0 = no reduction for v1). TODO: populate with boss-level DR formula when datamine source confirmed. Source: not yet implemented."
   },
-
   "breakpoints": {
     "_comment": "Attack speed breakpoint tables per class and weapon type. Source: maxroll_as_s11 (Season 11). Tables are approximate and may need updating for Season 13. Paladin and Warlock are OMITTED per D34 — those classes use linear AS without frame quantization. Each tier: { minMultiplier, framesPerAttack } where minMultiplier is the minimum (1 + total AS%) to reach this tier. 60 fps base rate. Effective APS = 60 / framesPerAttack.",
     "_paladin_warlock_note": "Paladin and Warlock breakpoint tables intentionally omitted (D34). Their frame-timing mechanics are unverified in Season 13. The engine falls back to linear AS for these classes: effectiveAps = baseAps × asMult.",
     "Barbarian": {
       "_note": "Barbarian has 4 weapon slots. Engine uses the highest-itemPower weapon. Breakpoints approximate from maxroll_as_s11.",
       "1h": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 15 },
-        { "minMultiplier": 1.053, "framesPerAttack": 14 },
-        { "minMultiplier": 1.154, "framesPerAttack": 13 },
-        { "minMultiplier": 1.250, "framesPerAttack": 12 },
-        { "minMultiplier": 1.364, "framesPerAttack": 11 },
-        { "minMultiplier": 1.500, "framesPerAttack": 10 },
-        { "minMultiplier": 1.667, "framesPerAttack":  9 },
-        { "minMultiplier": 1.875, "framesPerAttack":  8 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.053,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.154,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.25,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.364,
+          "framesPerAttack": 11
+        },
+        {
+          "minMultiplier": 1.5,
+          "framesPerAttack": 10
+        },
+        {
+          "minMultiplier": 1.667,
+          "framesPerAttack": 9
+        },
+        {
+          "minMultiplier": 1.875,
+          "framesPerAttack": 8
+        }
       ],
       "2h": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 20 },
-        { "minMultiplier": 1.053, "framesPerAttack": 19 },
-        { "minMultiplier": 1.111, "framesPerAttack": 18 },
-        { "minMultiplier": 1.176, "framesPerAttack": 17 },
-        { "minMultiplier": 1.250, "framesPerAttack": 16 },
-        { "minMultiplier": 1.333, "framesPerAttack": 15 },
-        { "minMultiplier": 1.429, "framesPerAttack": 14 },
-        { "minMultiplier": 1.538, "framesPerAttack": 13 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 20
+        },
+        {
+          "minMultiplier": 1.053,
+          "framesPerAttack": 19
+        },
+        {
+          "minMultiplier": 1.111,
+          "framesPerAttack": 18
+        },
+        {
+          "minMultiplier": 1.176,
+          "framesPerAttack": 17
+        },
+        {
+          "minMultiplier": 1.25,
+          "framesPerAttack": 16
+        },
+        {
+          "minMultiplier": 1.333,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.429,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.538,
+          "framesPerAttack": 13
+        }
       ]
     },
     "Druid": {
       "_note": "Druid uses staff or 1h+offhand. Breakpoints approximate from maxroll_as_s11.",
       "default": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 18 },
-        { "minMultiplier": 1.059, "framesPerAttack": 17 },
-        { "minMultiplier": 1.125, "framesPerAttack": 16 },
-        { "minMultiplier": 1.200, "framesPerAttack": 15 },
-        { "minMultiplier": 1.286, "framesPerAttack": 14 },
-        { "minMultiplier": 1.385, "framesPerAttack": 13 },
-        { "minMultiplier": 1.500, "framesPerAttack": 12 },
-        { "minMultiplier": 1.636, "framesPerAttack": 11 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 18
+        },
+        {
+          "minMultiplier": 1.059,
+          "framesPerAttack": 17
+        },
+        {
+          "minMultiplier": 1.125,
+          "framesPerAttack": 16
+        },
+        {
+          "minMultiplier": 1.2,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.286,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.385,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.5,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.636,
+          "framesPerAttack": 11
+        }
       ]
     },
     "Necromancer": {
       "_note": "Necromancer uses scythes/swords/wands. Breakpoints approximate from maxroll_as_s11.",
       "default": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 16 },
-        { "minMultiplier": 1.067, "framesPerAttack": 15 },
-        { "minMultiplier": 1.143, "framesPerAttack": 14 },
-        { "minMultiplier": 1.231, "framesPerAttack": 13 },
-        { "minMultiplier": 1.333, "framesPerAttack": 12 },
-        { "minMultiplier": 1.455, "framesPerAttack": 11 },
-        { "minMultiplier": 1.600, "framesPerAttack": 10 },
-        { "minMultiplier": 1.778, "framesPerAttack":  9 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 16
+        },
+        {
+          "minMultiplier": 1.067,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.143,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.231,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.333,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.455,
+          "framesPerAttack": 11
+        },
+        {
+          "minMultiplier": 1.6,
+          "framesPerAttack": 10
+        },
+        {
+          "minMultiplier": 1.778,
+          "framesPerAttack": 9
+        }
       ]
     },
     "Rogue": {
       "_note": "Rogue uses daggers/bows/crossbows. Breakpoints approximate from maxroll_as_s11.",
       "default": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 14 },
-        { "minMultiplier": 1.077, "framesPerAttack": 13 },
-        { "minMultiplier": 1.167, "framesPerAttack": 12 },
-        { "minMultiplier": 1.273, "framesPerAttack": 11 },
-        { "minMultiplier": 1.400, "framesPerAttack": 10 },
-        { "minMultiplier": 1.556, "framesPerAttack":  9 },
-        { "minMultiplier": 1.750, "framesPerAttack":  8 },
-        { "minMultiplier": 2.000, "framesPerAttack":  7 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.077,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.167,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.273,
+          "framesPerAttack": 11
+        },
+        {
+          "minMultiplier": 1.4,
+          "framesPerAttack": 10
+        },
+        {
+          "minMultiplier": 1.556,
+          "framesPerAttack": 9
+        },
+        {
+          "minMultiplier": 1.75,
+          "framesPerAttack": 8
+        },
+        {
+          "minMultiplier": 2,
+          "framesPerAttack": 7
+        }
       ]
     },
     "Sorcerer": {
       "_note": "Sorcerer uses staves/wands. Breakpoints approximate from maxroll_as_s11.",
       "default": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 17 },
-        { "minMultiplier": 1.063, "framesPerAttack": 16 },
-        { "minMultiplier": 1.133, "framesPerAttack": 15 },
-        { "minMultiplier": 1.214, "framesPerAttack": 14 },
-        { "minMultiplier": 1.308, "framesPerAttack": 13 },
-        { "minMultiplier": 1.417, "framesPerAttack": 12 },
-        { "minMultiplier": 1.545, "framesPerAttack": 11 },
-        { "minMultiplier": 1.700, "framesPerAttack": 10 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 17
+        },
+        {
+          "minMultiplier": 1.063,
+          "framesPerAttack": 16
+        },
+        {
+          "minMultiplier": 1.133,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.214,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.308,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.417,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.545,
+          "framesPerAttack": 11
+        },
+        {
+          "minMultiplier": 1.7,
+          "framesPerAttack": 10
+        }
       ]
     },
     "Spiritborn": {
       "_note": "Spiritborn uses polearms/staves. Breakpoints approximate from maxroll_as_s11.",
       "default": [
-        { "minMultiplier": 0.0,   "framesPerAttack": 18 },
-        { "minMultiplier": 1.059, "framesPerAttack": 17 },
-        { "minMultiplier": 1.125, "framesPerAttack": 16 },
-        { "minMultiplier": 1.200, "framesPerAttack": 15 },
-        { "minMultiplier": 1.286, "framesPerAttack": 14 },
-        { "minMultiplier": 1.385, "framesPerAttack": 13 },
-        { "minMultiplier": 1.500, "framesPerAttack": 12 },
-        { "minMultiplier": 1.636, "framesPerAttack": 11 }
+        {
+          "minMultiplier": 0,
+          "framesPerAttack": 18
+        },
+        {
+          "minMultiplier": 1.059,
+          "framesPerAttack": 17
+        },
+        {
+          "minMultiplier": 1.125,
+          "framesPerAttack": 16
+        },
+        {
+          "minMultiplier": 1.2,
+          "framesPerAttack": 15
+        },
+        {
+          "minMultiplier": 1.286,
+          "framesPerAttack": 14
+        },
+        {
+          "minMultiplier": 1.385,
+          "framesPerAttack": 13
+        },
+        {
+          "minMultiplier": 1.5,
+          "framesPerAttack": 12
+        },
+        {
+          "minMultiplier": 1.636,
+          "framesPerAttack": 11
+        }
       ]
     }
   },
-
   "drCoefficients": {
     "_comment": "Diminishing returns coefficients for non-linear stats.",
     "cdr": {
       "formula": "hyperbolic",
-      "denominator": 1.0,
+      "denominator": 1,
       "source": "maxroll_damage_s9",
       "notes": "CDR formula (Position A, D14): Effective CDR = CDR_stat / (CDR_stat + 1.0). E.g. 50% CDR stat → 33.3% effective reduction; 100% → 50%. Position B (some sources): different parameters post-VoH. Verify for Season 13."
     }
   },
-
   "uptimes": {
     "_comment": "Default uptime weights per conditional type under boss-DPS framing.",
-    "vulnerable": 0.90,
+    "vulnerable": 0.9,
     "_vulnerable_notes": "90% vulnerable uptime — middle of community 0.80–1.00 range (D10). Override to 1.0 for max-case or 0.0 to disable.",
-    "elite": 1.0,
+    "elite": 1,
     "_elite_notes": "100% elite-damage uptime vs boss (boss is an elite). Elite-conditional affixes apply fully.",
-    "cc": 0.0,
+    "cc": 0,
     "_cc_notes": "0% CC-conditional uptime vs boss. Bosses are immune to CC in D4 (D15). CC-conditional affixes contribute zero DPS.",
-    "distance-close": 1.0,
+    "distance-close": 1,
     "_distance-close_notes": "Placeholder — actual application determined by distanceDefault per class. Engine zeroes this if class is 'distant'.",
-    "distance-distant": 1.0,
+    "distance-distant": 1,
     "_distance-distant_notes": "Placeholder — actual application determined by distanceDefault per class. Engine zeroes this if class is 'close'."
   },
-
   "distanceDefault": {
     "_comment": "Per-class distance-conditional default for boss-DPS framing (D12). 'close' = always in melee range; 'distant' = always at range. Override per character via local config.",
     "Barbarian": "close",
@@ -874,10 +1873,8 @@
     "Paladin": "close",
     "Warlock": "distant"
   },
-
   "primaryStatScalar": 0.001,
   "_primaryStatScalar_notes": "Damage bonus per primary stat point: +0.1% per point. Source: docs/data-sources/02-stats.md. Only the class's primary stat is counted (Barbarian/Paladin=Strength, Sorcerer/Necromancer/Warlock=Intelligence, Druid/Spiritborn=Willpower, Rogue=Dexterity). Base stat (from level) is not included in v1 — only item-granted stat is summed (D33).",
-
   "classPrimaryStats": {
     "_comment": "Maps class name to its primary stat attribute name (D33). Used by engine to filter primary stat contributions.",
     "Barbarian": "Attr_Strength_Item",
@@ -889,19 +1886,36 @@
     "Spiritborn": "Attr_Willpower_Item",
     "Rogue": "Attr_Dexterity_Item"
   },
-
   "weaponSlotsByClass": {
     "_comment": "Maps class name to the slot IDs to check for weapon items (in priority order). Engine uses the first equipped slot with an item.",
-    "Barbarian": ["barb_2h_bludgeoning", "barb_2h_slashing", "barb_1h_main", "barb_1h_off"],
-    "Druid": ["weapon"],
-    "Necromancer": ["weapon"],
-    "Rogue": ["weapon"],
-    "Sorcerer": ["weapon"],
-    "Spiritborn": ["weapon"],
-    "Paladin": ["weapon"],
-    "Warlock": ["weapon"]
+    "Barbarian": [
+      "barb_2h_bludgeoning",
+      "barb_2h_slashing",
+      "barb_1h_main",
+      "barb_1h_off"
+    ],
+    "Druid": [
+      "weapon"
+    ],
+    "Necromancer": [
+      "weapon"
+    ],
+    "Rogue": [
+      "weapon"
+    ],
+    "Sorcerer": [
+      "weapon"
+    ],
+    "Spiritborn": [
+      "weapon"
+    ],
+    "Paladin": [
+      "weapon"
+    ],
+    "Warlock": [
+      "weapon"
+    ]
   },
-
   "weaponTypeBySlot": {
     "_comment": "Maps slot ID to 1h or 2h category for breakpoint table lookup. Barbarian slots are explicit; non-Barbarian 'weapon' defaults to '1h' for breakpoint purposes.",
     "weapon": "1h",
@@ -910,7 +1924,6 @@
     "barb_2h_bludgeoning": "2h",
     "barb_2h_slashing": "2h"
   },
-
-  "baseWeaponAps": 1.0,
+  "baseWeaponAps": 1,
   "_baseWeaponAps_notes": "Base weapon attacks-per-second — legacy fallback used when the equipped weapon type cannot be derived from the affix id. Weapon-type-specific APS comes from lib/catalog/game-math.json baseApsByWeaponType."
 }

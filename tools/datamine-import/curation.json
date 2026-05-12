@@ -88,6 +88,15 @@
       "weaponSpeedClass": "Fast",
       "reason": "1H Sword implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
     },
+    "X2_Weapon_Damage_2HSword": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_sword",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Normal",
+      "reason": "2H Sword implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage). Real d4data drops the `Normal_` speed-class prefix on the filename, unlike Fast / Slow / VeryFast which keep it. The fixture-form key below preserves backwards compatibility for the legacy fixture file `X2_Normal_Weapon_Damage_2HSword.aff.json`."
+    },
     "X2_Normal_Weapon_Damage_2HSword": {
       "action": "include",
       "catalogId": "affix_weapon_damage_2h_sword",
@@ -95,7 +104,7 @@
       "isImplicit": true,
       "isPercent": false,
       "weaponSpeedClass": "Normal",
-      "reason": "2H Sword implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage)"
+      "reason": "Legacy fixture-form key — real d4data file is named without the `Normal_` speed-class prefix; see sibling entry above."
     },
     "X2_Slow_Weapon_Damage_2HAxe": {
       "action": "include",
@@ -187,7 +196,7 @@
       "weaponSpeedClass": "Fast",
       "reason": "2H Quarterstaff implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
     },
-    "X2_Normal_Weapon_Damage_2HGlaive": {
+    "X2_Weapon_Damage_2HGlaive": {
       "action": "include",
       "catalogId": "affix_weapon_damage_2h_glaive",
       "label": "Damage per Hit",
@@ -196,7 +205,7 @@
       "weaponSpeedClass": "Normal",
       "reason": "2H Glaive implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage)"
     },
-    "X2_Normal_Weapon_Damage_2HStaff": {
+    "X2_Weapon_Damage_2HStaff": {
       "action": "include",
       "catalogId": "affix_weapon_damage_2h_staff",
       "label": "Damage per Hit",

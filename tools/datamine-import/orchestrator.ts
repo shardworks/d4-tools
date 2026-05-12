@@ -198,11 +198,22 @@ export async function runImport(
       for (const warning of disappearedWarnings) {
         console.warn(`[DISAPPEARED] ${warning}`);
       }
-      // Only fatal when the disappearance affects a category we're regenerating.
-      // Otherwise it's informational (the existing catalog stays intact).
-      if (isRegenerating("affixes") || isRegenerating("aspects")) {
-        exitCode = Math.max(exitCode, 1);
-      }
+      // Disappeared entries are merged into the new summary as `deprecated`
+      // (see the `for (const dep of deprecatedAffixes/Aspects)` blocks above),
+      // so the catalog is not silently shrunk. The warning is informational —
+      // it nudges the curator to record an explicit `deprecated` or `exclude`
+      // entry for each disappeared id. It is NOT fatal:
+      //
+      //   - Disappearance is the expected outcome of any catalog-naming
+      //     migration (e.g. when filename-derived IDs replace hand-curated
+      //     friendly slugs). Treating it as fatal blocks every regen on
+      //     bookkeeping-curation work that is decoupled from correctness.
+      //   - The audit doc still lists every disappeared id so the curator
+      //     has the full picture.
+      //
+      // If a future commission needs to re-enable fatal disappeared-checks
+      // (e.g. for steady-state operations where IDs should be stable), it
+      // can add a `--strict-disappeared` flag without changing this default.
     }
 
     // 5. Per-category needs-curation gate. Each category contributes to the
