@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as fs from "fs/promises";
 import * as path from "path";
 import * as os from "os";
@@ -175,5 +175,114 @@ describe("persistence integration (DATA_DIR-dependent)", () => {
     const dir = await fs.readdir(tmpDir);
     const tmpFiles = dir.filter((f) => f.includes(".tmp."));
     expect(tmpFiles).toHaveLength(0);
+  });
+});
+
+describe("active-build pointer self-heals stale referents", () => {
+  let tmpDir: string;
+  const origDataDir = process.env.DATA_DIR;
+
+  beforeEach(async () => {
+    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "d4-test-active-build-"));
+    process.env.DATA_DIR = tmpDir;
+  });
+
+  afterEach(async () => {
+    process.env.DATA_DIR = origDataDir;
+    await fs.rm(tmpDir, { recursive: true, force: true });
+    vi.restoreAllMocks();
+  });
+
+  /** Write the active-build pointer file directly to disk. */
+  async function writePointer(buildId: string): Promise<void> {
+    await fs.writeFile(
+      path.join(tmpDir, "active-build.json"),
+      JSON.stringify({ buildId, updatedAt: new Date().toISOString() }),
+      "utf-8"
+    );
+  }
+
+  /** Write a minimal file at the build path so fs.access considers it present. */
+  async function writeBuildFile(buildId: string): Promise<void> {
+    const dir = path.join(tmpDir, "builds");
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, `${buildId}.json`), JSON.stringify({ id: buildId }), "utf-8");
+  }
+
+  it("returns buildId unchanged and leaves pointer in place when build file exists", async () => {
+    await writePointer("existing-build");
+    await writeBuildFile("existing-build");
+
+    const { getActiveBuildId } = await import("../lib/persistence/active-build");
+    const result = await getActiveBuildId();
+    expect(result).toBe("existing-build");
+
+    // Pointer file must still be present — no self-heal occurred.
+    const stat = await fs.stat(path.join(tmpDir, "active-build.json"));
+    expect(stat.isFile()).toBe(true);
+  });
+
+  it("returns null and removes pointer when build file is missing", async () => {
+    await writePointer("deleted-build");
+    // Intentionally do NOT create the build file — this is the stale case.
+
+    const { getActiveBuildId } = await import("../lib/persistence/active-build");
+    const result = await getActiveBuildId();
+    expect(result).toBeNull();
+
+    // Pointer file must have been unlinked by the self-heal.
+    await expect(fs.access(path.join(tmpDir, "active-build.json"))).rejects.toMatchObject({
+      code: "ENOENT",
+    });
+  });
+
+  it("returns null without error when no pointer file is present", async () => {
+    // No pointer file at all — exercises the ENOENT-on-read branch.
+    const { getActiveBuildId } = await import("../lib/persistence/active-build");
+    const result = await getActiveBuildId();
+    expect(result).toBeNull();
+    // No side effects: builds dir should not have been created.
+    await expect(fs.access(path.join(tmpDir, "active-build.json"))).rejects.toMatchObject({
+      code: "ENOENT",
+    });
+  });
+
+  it("tolerates ENOENT on unlink (race with concurrent writer/clearer) and returns null", async () => {
+    await writePointer("race-build");
+    // Stale — build file does NOT exist, so fs.access will throw ENOENT.
+
+    // Simulate the race: a concurrent process removes the pointer file in the window
+    // between getActiveBuildId detecting a stale referent (fs.access ENOENT) and its
+    // own fs.unlink call.  We use vi.doMock (non-hoisted; supports closures) to inject
+    // an fs.access that physically deletes the pointer file as a side effect and then
+    // throws ENOENT.  The subsequent real fs.unlink call finds the file already gone and
+    // throws ENOENT — which the code must tolerate (D5b).
+    //
+    // vi.spyOn cannot be used here because Node built-in module namespace objects are
+    // non-configurable in ESM.  vi.doMock + vi.resetModules is the Vitest-recommended
+    // alternative for this case.
+    vi.resetModules();
+    const capturedTmpDir = tmpDir; // capture before async gap
+    vi.doMock("fs/promises", () => ({
+      // Spread the real module (statically imported at the top of this file) so all
+      // other fs functions remain unaffected.
+      ...fs,
+      access: vi.fn(async () => {
+        // Remove the pointer file — simulates a concurrent writer beating us.
+        await fs.rm(path.join(capturedTmpDir, "active-build.json"), { force: true });
+        // Then throw ENOENT, which is what a missing build file would produce.
+        const err = new Error("ENOENT: no such file or directory") as NodeJS.ErrnoException;
+        err.code = "ENOENT";
+        throw err;
+      }),
+    }));
+
+    // Re-import after mock setup so active-build.ts picks up the mocked fs.
+    const { getActiveBuildId } = await import("../lib/persistence/active-build");
+    // Must not throw; must return null even though unlink found the file already gone.
+    await expect(getActiveBuildId()).resolves.toBeNull();
+
+    vi.doUnmock("fs/promises");
+    vi.resetModules();
   });
 });
