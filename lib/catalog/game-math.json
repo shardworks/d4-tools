@@ -53,27 +53,5 @@
     "2HMace": 0.75,
     "2HPolearm": 0.8,
     "2HScythe": 0.9
-  },
-  "innateSpeedByWeaponType": {
-    "_notes": "Innate speed modifier per weapon type, hand-curated from arInnateStatList in ItemType/<WeaponType>.itt.json. Source: see docs/aps-audit.md",
-    "1HDagger": 0.0,
-    "1HFlail": 0.0,
-    "1HFocus": 0.0,
-    "1HWand": 0.0,
-    "1HAxe": 0.0,
-    "1HMace": 0.0,
-    "1HScythe": 0.0,
-    "1HSword": 0.0,
-    "1HTotem": 0.0,
-    "2HBow": 0.0,
-    "2HQuarterstaff": 0.0,
-    "2HGlaive": 0.0,
-    "2HStaff": 0.0,
-    "2HSword": 0.0,
-    "2HAxe": 0.0,
-    "2HCrossbow": 0.0,
-    "2HMace": 0.0,
-    "2HPolearm": 0.0,
-    "2HScythe": 0.0
   }
 }

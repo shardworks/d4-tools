@@ -13,9 +13,37 @@ import type { AffixMatchResult, AspectMatchResult } from "../lib/triage/types";
 import type { UniqueEntry } from "../lib/catalog";
 
 describe("AffixInstanceSchema", () => {
-  it("accepts valid affix instance", () => {
+  it("accepts valid affix instance with rolledValue", () => {
     const result = AffixInstanceSchema.safeParse({ affixId: "affix_max_life", rolledValue: 2000 });
     expect(result.success).toBe(true);
+  });
+
+  it("accepts weapon-damage implicit with rolledRange only", () => {
+    const result = AffixInstanceSchema.safeParse({
+      affixId: "affix_weapon_damage_1h_sword",
+      rolledRange: [900, 1400],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects when both rolledValue and rolledRange are set (XOR violation)", () => {
+    const result = AffixInstanceSchema.safeParse({
+      affixId: "affix_weapon_damage_1h_sword",
+      rolledValue: 900,
+      rolledRange: [900, 1400],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.some((i) => i.message.includes("Exactly one"))).toBe(true);
+    }
+  });
+
+  it("rejects when neither rolledValue nor rolledRange is set (XOR violation)", () => {
+    const result = AffixInstanceSchema.safeParse({ affixId: "affix_weapon_damage_1h_sword" });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.some((i) => i.message.includes("Exactly one"))).toBe(true);
+    }
   });
 
   it("rejects missing affixId", () => {

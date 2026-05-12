@@ -32,12 +32,16 @@ the weapon tooltip's native APS value before any +Attack Speed affixes are appli
 | 2HPolearm       | 0.80     | Slow        |
 | 2HScythe        | 0.90     | Slow        |
 
-## innateSpeedByWeaponType
+## Innate speed note
 
-Values in `lib/catalog/game-math.json#innateSpeedByWeaponType` are the innate speed modifier
-per weapon type from `arInnateStatList` in the game's `ItemType/<WeaponType>.itt.json` files.
-All entries are 0.0 as of Season 13 — the base APS already incorporates the weapon's inherent
-speed. Re-verify on each patch by checking `tAttackSpeedModifier.fValue` in the relevant `.itt.json`.
+The `arInnateStatList` field in each `ItemType/<WeaponType>.itt.json` carries a weapon-type
+innate speed modifier. As of Season 13 all values are 0.0, meaning the game's observed base APS
+already incorporates any innate speed bonus. A separate `innateSpeedByWeaponType` table was
+originally planned but removed because it was structurally dead (all zeros, unread by the engine).
+
+If a future patch adds nonzero innate modifiers, add a `(1 + innate) × (1 + rolledAS)` factor
+inside `breakpoints.ts#computeEffectiveAps`. Re-verify by checking `tAttackSpeedModifier.fValue`
+in the relevant `.itt.json` files each season.
 
 ## Speed class → weaponSpeedClass mapping
 

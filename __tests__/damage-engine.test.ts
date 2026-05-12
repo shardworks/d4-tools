@@ -15,7 +15,7 @@
  * Per D32: flat file under __tests/ (not subdir'd).
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { computeBuildDps, isSkillDamaging } from "../lib/damage/index";
 import { collectAllAffixContributions, getDistinctMultiplierContributions } from "../lib/damage/buckets";
 import { loadDamageConfig } from "../lib/damage/config";
@@ -23,6 +23,8 @@ import type { DamageConfig } from "../lib/damage/config";
 import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../lib/catalog";
 import { uniques, aspects } from "../lib/catalog";
 import type { Character, Build, Item } from "../lib/schema";
+import { clearWeaponDamageFallbackWarnings } from "../lib/damage/formula";
+import { computeEffectiveAps } from "../lib/damage/breakpoints";
 
 // ─── Shared fixtures ──────────────────────────────────────────────────────────
 
@@ -1017,6 +1019,153 @@ describe("computeBuildDps — Tibault's Will distinct-mult (Acceptance Signal 2)
 
     // Distinct-mult factor: 1 + 0.30 = 1.30 → ratio ≈ 1.30
     expect(tibResult.aggregate / bareResult.aggregate).toBeCloseTo(1.30, 2);
+  });
+});
+
+// ─── Aggregate = max(perSkill) (D18) ─────────────────────────────────────────
+
+// ─── Weapon damage: rolledRange path (D4) ────────────────────────────────────
+
+describe("computeBuildDps — weapon damage rolledRange path", () => {
+  beforeEach(() => {
+    clearWeaponDamageFallbackWarnings();
+  });
+
+  it("uses mean of rolledRange when weapon implicit carries rolledRange", () => {
+    const config = getConfig();
+    const skill = makeSkill("fire_bolt");
+
+    // Weapon with a rolledRange implicit: mean = (1000 + 1500) / 2 = 1250
+    const weaponWithRange: Item = {
+      slot: "weapon",
+      name: "Test Sword",
+      rarity: "rare",
+      itemPower: 900,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [1000, 1500] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    const charWithRange = makeSorcerer(
+      { weapon: weaponWithRange },
+      [{ skillId: "fire_bolt", rank: 1 }]
+    );
+
+    // Weapon without implicit (legacy fallback): ip=900 → 100 + 1.5×900 = 1450
+    const charFallback = makeSorcerer(
+      { weapon: makeWeapon(900) },
+      [{ skillId: "fire_bolt", rank: 1 }]
+    );
+
+    const resultRange = computeBuildDps(testBuild, charWithRange, {
+      skills: [skill], affixes: [], aspects: [], uniques: [],
+    }, config);
+
+    const resultFallback = computeBuildDps(testBuild, charFallback, {
+      skills: [skill], affixes: [], aspects: [], uniques: [],
+    }, config);
+
+    // rolledRange mean is 1250, fallback is 1450 → range gives less DPS
+    // The ratio should match the damage ratio = 1250 / 1450
+    expect(resultRange.aggregate).toBeGreaterThan(0);
+    expect(resultFallback.aggregate).toBeGreaterThan(0);
+    expect(resultRange.aggregate / resultFallback.aggregate).toBeCloseTo(1250 / 1450, 3);
+  });
+
+  it("falls back to linear formula exactly once per item when implicit is missing, emitting console.warn", () => {
+    const config = getConfig();
+    const skill = makeSkill("fire_bolt");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const character = makeSorcerer(
+      { weapon: makeWeapon(600) },  // no implicits → fallback triggered
+      [{ skillId: "fire_bolt", rank: 1 }]
+    );
+
+    // First call: should warn once
+    computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0][0]).toContain("No weapon-damage implicit");
+
+    // Second call for the same item: must NOT warn again (deduplication)
+    computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+
+    warnSpy.mockRestore();
+  });
+});
+
+// ─── computeEffectiveAps: per-weapon-type base APS (D14) ─────────────────────
+
+describe("computeEffectiveAps — per-weapon-type base APS from game-math.json", () => {
+  it("2H axe (Slow) resolves base APS = 0.75 from catalog, not the legacy baseWeaponAps", () => {
+    const config = getConfig();
+
+    const slowWeapon: Item = {
+      slot: "weapon",
+      name: "Test 2H Axe",
+      rarity: "rare",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_2h_axe", rolledRange: [1800, 2700] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    // AS multiplier = 1.0 (no +AS affixes)
+    // For Sorcerer with breakpoints: base 0.75 × 1.0 = 0.75 → quantized to breakpoint table
+    // For Paladin (linear, no breakpoints): exactly 0.75
+    const aps = computeEffectiveAps("Paladin", "weapon", 1.0, config, slowWeapon);
+    expect(aps).toBeCloseTo(0.75, 4);
+  });
+
+  it("1H sword (Fast) resolves base APS = 1.1 from catalog", () => {
+    const config = getConfig();
+
+    const fastWeapon: Item = {
+      slot: "weapon",
+      name: "Test 1H Sword",
+      rarity: "rare",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [{ affixId: "affix_weapon_damage_1h_sword", rolledRange: [1100, 1700] }],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    // Paladin (linear): base 1.1 × 1.0 = 1.1
+    const aps = computeEffectiveAps("Paladin", "weapon", 1.0, config, fastWeapon);
+    expect(aps).toBeCloseTo(1.1, 4);
+  });
+
+  it("weapon without a damage implicit falls back to config.baseWeaponAps", () => {
+    const config = getConfig();
+    const noImplicitWeapon: Item = {
+      slot: "weapon",
+      name: "Legacy Weapon",
+      rarity: "rare",
+      itemPower: 700,
+      isAncestral: false,
+      implicits: [],  // no damage implicit
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    // Paladin (linear): should fall back to config.baseWeaponAps
+    const aps = computeEffectiveAps("Paladin", "weapon", 1.0, config, noImplicitWeapon);
+    expect(aps).toBeCloseTo(config.baseWeaponAps, 4);
   });
 });
 

@@ -577,6 +577,75 @@ describe("resolveItem — unique short-circuit (D16)", () => {
   });
 });
 
+// ─── v19: rolledRange weapon-damage implicit resolution ───────────────────────
+
+describe("resolveAffix — rolledRange weapon-damage implicits", () => {
+  it("1H sword (Fast): rolledRange within IP≥825 band resolves successfully", () => {
+    // affix_weapon_damage_1h_sword has slotRestrictions incl. "weapon", isImplicit:true
+    // IP-825 band: min 850, max 1350 — rolledRange [900, 1400] has lo=900 within [850,1350]
+    const result = resolveAffix(
+      { label: "Damage per Hit", rolledRange: [900, 1400] },
+      "weapon",
+      "Sorcerer",
+      "implicit",
+      900
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toMatch(/^affix_weapon_damage_/);
+      expect(result.rolledRange).toEqual([900, 1400]);
+    }
+  });
+
+  it("2H axe (Slow): rolledRange within IP≥925 band resolves for Barbarian barb_2h_bludgeoning slot", () => {
+    // affix_weapon_damage_2h_axe has slotRestrictions incl. "barb_2h_bludgeoning", isImplicit:true
+    // IP-925 band: min 1800, max 2700 — rolledRange [1900, 2500] is valid
+    const result = resolveAffix(
+      { label: "Damage per Hit", rolledRange: [1900, 2500] },
+      "barb_2h_bludgeoning",
+      "Barbarian",
+      "implicit",
+      950
+    );
+    expect(result.kind).toBe("resolved");
+    if (result.kind === "resolved") {
+      expect(result.affixId).toMatch(/^affix_weapon_damage_2h_/);
+      expect(result.rolledRange).toEqual([1900, 2500]);
+    }
+  });
+
+  it("rolledRange lower endpoint below band min → out-of-range", () => {
+    // For IP=900 (825 band applies): min=850 for 1H sword. lo=500 < 850 → out-of-range
+    const result = resolveAffix(
+      { label: "Damage per Hit", rolledRange: [500, 800] },
+      "weapon",
+      "Sorcerer",
+      "implicit",
+      900
+    );
+    expect(result.kind).toBe("uncertain");
+    if (result.kind === "uncertain") {
+      expect(result.reason).toBe("out-of-range");
+      expect(result.rolledRange).toEqual([500, 800]);
+    }
+  });
+
+  it("rolledRange where upper <= lower → out-of-range", () => {
+    // Invalid range: upper must be > lower
+    const result = resolveAffix(
+      { label: "Damage per Hit", rolledRange: [900, 900] },
+      "weapon",
+      "Sorcerer",
+      "implicit",
+      900
+    );
+    expect(result.kind).toBe("uncertain");
+    if (result.kind === "uncertain") {
+      expect(result.reason).toBe("out-of-range");
+    }
+  });
+});
+
 // ─── v18 hygiene: canonicalized implicit labels (2026-05-12) ──────────────────
 
 describe("resolveAffix — canonicalized implicit labels (2026-05-12 sweep)", () => {

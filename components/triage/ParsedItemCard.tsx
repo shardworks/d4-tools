@@ -28,7 +28,9 @@ function AffixResultRow({ result, itemPower }: { result: AffixMatchResult; itemP
     if (result.rolledRange !== undefined) {
       const [lo, hi] = result.rolledRange;
       const ceiling = entry ? getAffixValueRangeAtItemPower(entry, itemPower).max : undefined;
-      const isMaxRoll = ceiling !== undefined && hi >= ceiling;
+      // Decision 6: ceiling is the formula-derived max for Weapon_Damage_Min (the lower
+      // endpoint of the displayed range). Compare lo against ceiling, not hi.
+      const isMaxRoll = ceiling !== undefined && lo >= ceiling;
       return (
         <div className="flex gap-[6px] items-baseline text-xs">
           <span
@@ -42,7 +44,7 @@ function AffixResultRow({ result, itemPower }: { result: AffixMatchResult; itemP
           </span>
           <span className="text-stone-400">Damage per Hit</span>
           {ceiling !== undefined && (
-            <span className="text-stone-600 text-[10px]">/ {ceiling} max</span>
+            <span className="text-stone-600 text-[10px]">/ {ceiling} min-ceil</span>
           )}
         </div>
       );

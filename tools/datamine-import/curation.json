@@ -74,6 +74,141 @@
       "weaponSpeedClass": "Slow",
       "reason": "2H Axe implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
     },
+    "X2_VeryFast_Weapon_Damage_1HFlail": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_flail",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "VeryFast",
+      "reason": "1H Flail implicit weapon damage — formula-driven (GearAffix_VeryFast_Weapon_Damage)"
+    },
+    "X2_VeryFast_Weapon_Damage_1HFocus": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_focus",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "VeryFast",
+      "reason": "1H Focus implicit weapon damage — formula-driven (GearAffix_VeryFast_Weapon_Damage)"
+    },
+    "X2_VeryFast_Weapon_Damage_1HWand": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_wand",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "VeryFast",
+      "reason": "1H Wand implicit weapon damage — formula-driven (GearAffix_VeryFast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_1HAxe": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_axe",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "1H Axe implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_1HMace": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_mace",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "1H Mace implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_1HScythe": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_scythe",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "1H Scythe implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_1HTotem": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_1h_totem",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "1H Totem implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_2HBow": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_bow",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "2H Bow implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Fast_Weapon_Damage_2HQuarterstaff": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_quarterstaff",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Fast",
+      "reason": "2H Quarterstaff implicit weapon damage — formula-driven (GearAffix_Fast_Weapon_Damage)"
+    },
+    "X2_Normal_Weapon_Damage_2HGlaive": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_glaive",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Normal",
+      "reason": "2H Glaive implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage)"
+    },
+    "X2_Normal_Weapon_Damage_2HStaff": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_staff",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Normal",
+      "reason": "2H Staff implicit weapon damage — formula-driven (GearAffix_Normal_Weapon_Damage)"
+    },
+    "X2_Slow_Weapon_Damage_2HCrossbow": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_crossbow",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Slow",
+      "reason": "2H Crossbow implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
+    },
+    "X2_Slow_Weapon_Damage_2HMace": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_mace",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Slow",
+      "reason": "2H Mace implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
+    },
+    "X2_Slow_Weapon_Damage_2HPolearm": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_polearm",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Slow",
+      "reason": "2H Polearm implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
+    },
+    "X2_Slow_Weapon_Damage_2HScythe": {
+      "action": "include",
+      "catalogId": "affix_weapon_damage_2h_scythe",
+      "label": "Damage per Hit",
+      "isImplicit": true,
+      "isPercent": false,
+      "weaponSpeedClass": "Slow",
+      "reason": "2H Scythe implicit weapon damage — formula-driven (GearAffix_Slow_Weapon_Damage)"
+    },
     "Affix_Paragon_Unsupported": {
       "action": "exclude",
       "reason": "Test fixture for unsupported DSL function path — excluded from normal pipeline runs; flip to include in the dedicated test case"
