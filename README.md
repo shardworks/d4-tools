@@ -46,16 +46,15 @@ In production, `DATA_DIR` must be set or the app will throw at startup. `SCREENS
 ```bash
 # Unit + integration tests (fast inner loop — no Next.js server)
 pnpm test
-
-# HTTP-server acceptance tests (boots a real Next.js server per test file)
-pnpm test:acceptance
 ```
 
-`pnpm test:acceptance` chains `next build` (catches build-time errors) then runs the acceptance suite under `vitest.acceptance.config.ts`. It is intentionally **not** part of `pnpm test` — the `next build` cost should not land on the inner loop.
+### ⛔ HTTP-server acceptance tests are DISABLED — do not reintroduce
 
-The acceptance suite lives under `__tests__/acceptance/` and exercises every `app/api/**/route.ts` route via real `fetch()` calls against an in-process server. Each test file boots its own server on an OS-assigned port with an isolated temp directory for `DATA_DIR`/`SCREENSHOT_DIR`. `ANTHROPIC_API_KEY` is never set; routes are kept off the LLM path by pre-seeding filesystem cache entries.
+The `pnpm test:acceptance` script and `vitest.acceptance.config.ts` have been **removed**. Do not add them back, and do not author new tests under `__tests__/acceptance/`.
 
-See [`docs/testing-acceptance.md`](docs/testing-acceptance.md) for a full description of the suite architecture, harness contract, and mock/seeding strategy.
+**Why:** the suite's `next build` precondition (Next.js + Tailwind v4 / PostCSS) consumed >15 GB of RAM in an autonomous agent session and brought the host machine down. Until the agent runtime has per-session resource ceilings (cgroup memory caps, watchdog kills, etc.), running `next build` inside an agent session is unsafe and **will crash the server**.
+
+The existing test files under `__tests__/acceptance/` are retained as reference material only; they are excluded from `pnpm test` by `vitest.config.ts` and have no launcher. **Do not run them**, **do not wire up a replacement launcher**, and **do not add `next build` to any new test script**. If acceptance coverage is needed, raise it with the patron — it requires infrastructure work first, not a workaround.
 
 ## Foundational Docs
 
@@ -84,32 +83,13 @@ See `tools/datamine-import/README.md` for the full patch-update workflow, curati
 
 > **Note:** The per-class skill and paragon catalog entries were previously verified by manual audit across v6–v9 (`docs/datamine-verification-*.md`). That manual audit pattern is now subsumed by the import tool, which regenerates skills and paragon alongside affixes, aspects, and uniques in a single idempotent pass.
 
-## Testing
+### ⛔ Playwright end-to-end suite is DISABLED — do not reintroduce
 
-### Unit / Integration Tests (vitest)
+The `pnpm test:e2e` and `pnpm e2e:ui` scripts have been **removed**, along with `playwright.config.ts`, `Dockerfile.e2e`, `docker-compose.e2e.yml`, and `.env.e2e.example`. Do not add them back, and do not author new specs under `e2e/`.
 
-```bash
-pnpm test
-```
+**Why:** the Playwright suite spawns `next dev` per-spec at 2 workers, each running Tailwind v4 / PostCSS compilation. This has the same memory-blowout failure mode as the vitest acceptance suite — it can consume tens of GB and crash the host. Until the agent runtime has per-session resource ceilings, running `next dev` or `next build` inside an agent session is unsafe and **will crash the server**.
 
-Runs the 18-file vitest suite covering persistence, triage extraction, resolver, damage engine, and schema validation. Test files live under `__tests__/` and match `*.test.ts`.
-
-### End-to-End Tests (Playwright)
-
-```bash
-# One-time browser install
-pnpm exec playwright install chromium
-
-# Run full suite headlessly
-pnpm test:e2e
-
-# Remote-monitor UI via Docker (opens browser on port 9323)
-pnpm e2e:ui
-```
-
-The e2e suite (`e2e/*.spec.ts`) drives every UI-facing feature in a real Chromium browser — Radix dialogs, react-hook-form state, optimistic-update patterns, and the triage parse → resolve → wear → delete funnel. It runs offline-safe against a local Anthropic API mock; no real API key is needed for testing.
-
-See [`docs/e2e-testing.md`](docs/e2e-testing.md) for the full guide: run modes, port configuration, the per-spec isolation model, the Anthropic mock, and known failing tests.
+The existing spec files under `e2e/` are retained as reference material only — they have no launcher (no `playwright.config.ts`) and cannot be invoked via pnpm. **Do not run them**, **do not wire up a replacement launcher**, **do not install `@playwright/test`**, and **do not spawn `next dev`/`next build` from any test script**. If browser-level coverage is needed, raise it with the patron — it requires infrastructure work first, not a workaround.
 
 ## For Downstream Agents
 

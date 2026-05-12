@@ -1,5 +1,34 @@
 # E2E Testing Guide
 
+> ## ⛔ DISABLED — DO NOT RUN, DO NOT EXTEND
+>
+> The Playwright end-to-end suite is **disabled**. The `pnpm test:e2e` and
+> `pnpm e2e:ui` scripts have been **removed** from `package.json`, along
+> with `playwright.config.ts`, `Dockerfile.e2e`, `docker-compose.e2e.yml`,
+> and `.env.e2e.example`.
+>
+> **Reason:** Playwright spawns `next dev` per-spec at 2 workers, each
+> running Tailwind v4 / PostCSS compilation. This carries the same memory
+> blowout failure mode as the vitest acceptance suite — tens of GB of RAM,
+> host crash. Until the agent runtime enforces per-session memory ceilings,
+> any invocation of `next dev` or `next build` inside an agent session is
+> unsafe and **will crash the server**.
+>
+> **Rules for agents:**
+> - Do **not** add `test:e2e`, `e2e:ui`, or any Playwright launcher back
+>   to `package.json`.
+> - Do **not** recreate `playwright.config.ts`, `Dockerfile.e2e`, or
+>   `docker-compose.e2e.yml`.
+> - Do **not** install `@playwright/test` or related packages.
+> - Do **not** author new specs under `e2e/`.
+> - Do **not** spawn `next dev` or `next build` from any test script.
+> - The existing files in `e2e/` are retained as historical reference only.
+>
+> The remainder of this document is preserved unchanged for archival
+> reference. **None of the commands below should be executed.**
+
+---
+
 This document covers the Playwright-based end-to-end test suite for d4-tools.
 
 The suite runs Chromium against every UI-facing feature — Radix dialogs, react-hook-form state, optimistic-update patterns, the triage funnel — in an offline-safe environment backed by a local Anthropic API mock. The same spec files run in three modes: local development, CI, and a remote-monitored Docker UI.

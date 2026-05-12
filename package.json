@@ -12,9 +12,6 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:acceptance": "next build && vitest run -c vitest.acceptance.config.ts",
-    "test:e2e": "playwright test",
-    "e2e:ui": "docker compose -f docker-compose.e2e.yml up",
     "import:datamine": "tsx tools/datamine-import/index.ts"
   },
   "dependencies": {

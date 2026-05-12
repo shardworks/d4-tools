@@ -1,5 +1,32 @@
 # Acceptance Test Suite
 
+> ## ⛔ DISABLED — DO NOT RUN, DO NOT EXTEND
+>
+> The acceptance suite is **disabled**. The `pnpm test:acceptance` script and
+> `vitest.acceptance.config.ts` config have been **removed** from this repo.
+>
+> **Reason:** the suite's `next build` precondition (Next.js 16 + Tailwind v4 /
+> PostCSS) consumed >15 GB of RAM in an autonomous agent session and crashed
+> the host. Until the agent runtime enforces per-session memory ceilings, any
+> invocation of `next build` inside an agent session is unsafe and **will
+> crash the server**.
+>
+> **Rules for agents:**
+> - Do **not** add `test:acceptance` (or any equivalent launcher) back to
+>   `package.json`.
+> - Do **not** recreate `vitest.acceptance.config.ts` or wire up an alternate
+>   runner for `__tests__/acceptance/`.
+> - Do **not** author new tests under `__tests__/acceptance/`.
+> - Do **not** invoke `next build` inside an agent session for any reason —
+>   not for tests, not for verification, not "just to check."
+> - The existing files in `__tests__/acceptance/` are retained as historical
+>   reference only.
+>
+> The remainder of this document is preserved unchanged for archival
+> reference. **None of the commands below should be executed.**
+
+---
+
 ## Purpose
 
 The acceptance suite exercises every `app/api/**/route.ts` route through a real, in-process Next.js server bound to an OS-assigned port. Tests issue `fetch()` calls against `http://localhost:<port>` and assert on HTTP status codes, response bodies, and filesystem side-effects. This gives high confidence that the entire stack — routing, middleware, persistence, and the triage pipeline — behaves correctly end-to-end.
