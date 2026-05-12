@@ -294,37 +294,63 @@ describe("Sacred/Ancestral scalar constants", () => {
   });
 });
 
-// ─── Error paths ──────────────────────────────────────────────────────────────
+// ─── Catalog-time identity defaults for build-/runtime accessors ────────────
+//
+// Functions that depend on per-character / per-build state (masterwork tier,
+// glyph level, paragon power budget, etc.) are evaluated at their catalog-
+// time identity defaults so the formula evaluator can process the full real
+// d4data formula table. The substrate-repair commit moved these out of the
+// UnsupportedFunctionError set; they now return documented identity values.
+
+describe("Build-time/runtime accessor identity defaults", () => {
+  it("ParagonPowerBudgetMultiplier* returns 1 (no-bonus identity)", () => {
+    expect(evaluate("ParagonPowerBudgetMultiplierNodeMagicOffensive()", ctx(100))).toBe(1);
+    expect(evaluate("ParagonPowerBudgetMultiplierGlyphStatBonusRare()", ctx(100))).toBe(1);
+  });
+
+  it("ParagonGetGlyphLevel returns 1 at position=min, 15 at position=max", () => {
+    expect(evaluate("ParagonGetGlyphLevel()", ctx(100, "min"))).toBe(1);
+    expect(evaluate("ParagonGetGlyphLevel()", ctx(100, "max"))).toBe(15);
+  });
+
+  it("GetTotalAffixBonus returns 1 (no-bonus identity)", () => {
+    expect(evaluate("GetTotalAffixBonus()", ctx(100))).toBe(1);
+  });
+
+  it("SharedRandomFloat behaves like RandomInt for position-aware range pick", () => {
+    expect(evaluate("SharedRandomFloat(2, 8)", ctx(100, "min"))).toBe(2);
+    expect(evaluate("SharedRandomFloat(2, 8)", ctx(100, "max"))).toBe(8);
+  });
+
+  it("FloatRandomRangeWithIntervalUniqueAffixPityBonus is a (step, min, max) variant of FloatRandomRangeWithInterval", () => {
+    // signature: (step, min, max); position picks endpoint same as base function
+    expect(evaluate("FloatRandomRangeWithIntervalUniqueAffixPityBonus(1, 5, 9)", ctx(100, "min"))).toBe(5);
+    expect(evaluate("FloatRandomRangeWithIntervalUniqueAffixPityBonus(1, 5, 9)", ctx(100, "max"))).toBe(9);
+  });
+
+  it("real-world formula combining GetTotalAffixBonus and FloatRandomRangeWithInterval evaluates", () => {
+    // ROUND(FloatRandomRangeWithInterval(1, 1, 2) * GetTotalAffixBonus()) — actual
+    // GearAffix_SkillRankBonus formula at IP 0 from d4data. min=1, max=2.
+    expect(evaluate("Round(FloatRandomRangeWithInterval(1, 1, 2) * GetTotalAffixBonus())", ctx(0, "min"))).toBe(1);
+    expect(evaluate("Round(FloatRandomRangeWithInterval(1, 1, 2) * GetTotalAffixBonus())", ctx(0, "max"))).toBe(2);
+  });
+});
 
 describe("UnsupportedFunctionError (D5)", () => {
-  it("throws for ParagonPowerBudgetMultiplier*", () => {
-    expect(() => evaluate("ParagonPowerBudgetMultiplierSomething(1)", ctx(100)))
-      .toThrow(UnsupportedFunctionError);
+  it("throws for genuinely unknown identifiers", () => {
+    expect(() => evaluate("ThisIsNotARealFunction()", ctx(100)))
+      .toThrow();
   });
 
-  it("throws for ParagonGetGlyphLevel", () => {
-    expect(() => evaluate("ParagonGetGlyphLevel()", ctx(100)))
-      .toThrow(UnsupportedFunctionError);
-  });
-
-  it("throws for GetTotalAffixBonus", () => {
-    expect(() => evaluate("GetTotalAffixBonus(1, 2)", ctx(100)))
-      .toThrow(UnsupportedFunctionError);
-  });
-
-  it("throws for SharedRandomFloat", () => {
-    expect(() => evaluate("SharedRandomFloat(1, 2)", ctx(100)))
-      .toThrow(UnsupportedFunctionError);
-  });
-
-  it("UnsupportedFunctionError carries the function name", () => {
-    try {
-      evaluate("SharedRandomFloat(1, 2)", ctx(100));
-      expect.fail("Should have thrown");
-    } catch (e) {
-      expect(e).toBeInstanceOf(UnsupportedFunctionError);
-      expect((e as UnsupportedFunctionError).fnName).toBe("SharedRandomFloat");
-    }
+  it("UnsupportedFunctionError type remains exported for callers that need to differentiate (e.g. needs-curation routing)", () => {
+    // The type is preserved as a public API even though the empty
+    // UNSUPPORTED_PREFIXES list means it isn't currently thrown by the
+    // evaluator. Future formula additions may re-introduce truly
+    // unsupportable functions and re-route through this error.
+    expect(typeof UnsupportedFunctionError).toBe("function");
+    const err = new UnsupportedFunctionError("ExampleFn");
+    expect(err.fnName).toBe("ExampleFn");
+    expect(err.name).toBe("UnsupportedFunctionError");
   });
 });
 
