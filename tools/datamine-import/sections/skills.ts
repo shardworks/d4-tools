@@ -10,6 +10,7 @@ import type { SkillEntry, SkillScalingAttribute } from "../../../lib/catalog/ind
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { getPowerByFileName } from "../reader";
+import { toBnetFileName } from "../file-name";
 import type { TransformerSummary } from "./types";
 
 // ─── Raw datamine shapes ──────────────────────────────────────────────────────
@@ -77,8 +78,12 @@ export function transformSkillsForClass(
     const power = skillEntry.tPower;
     if (!power) continue;
 
-    const fileName = power.__fileName__;
-    const szLabel = stringTable.get(fileName) ?? "";
+    // Real d4data emits `__fileName__` as a full path with extension. Keep the
+    // raw form for stringTable + getPowerByFileName (both keyed by full path)
+    // and the normalized basename for curation lookups + the output bnetFileName.
+    const rawFileName = power.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
+    const szLabel = stringTable.get(rawFileName) ?? "";
 
     // Strict heuristics
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
@@ -132,7 +137,7 @@ export function transformSkillsForClass(
     let resourceCostPerCast: number | undefined;
     let cooldownSeconds: number | undefined;
 
-    const rawPower = getPowerByFileName(datamineRoot, fileName) as RawPower | undefined;
+    const rawPower = getPowerByFileName(datamineRoot, rawFileName) as RawPower | undefined;
     if (rawPower) {
       if (rawPower.arScalingAttributes && rawPower.arScalingAttributes.length > 0) {
         scalingAttributes = rawPower.arScalingAttributes.map((sa) => ({

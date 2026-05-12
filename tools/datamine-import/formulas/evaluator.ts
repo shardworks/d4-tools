@@ -272,13 +272,16 @@ type ParseNode =
 
 // ─── Evaluator ────────────────────────────────────────────────────────────────
 
-/** Names that are unsupported — checked before the allow-list (D5 / D6). */
-const UNSUPPORTED_PREFIXES = [
-  "ParagonPowerBudgetMultiplier",
-  "ParagonGetGlyphLevel",
-  "GetTotalAffixBonus",
-  "SharedRandomFloat",
-];
+/** Names that are unsupported — checked before the allow-list (D5 / D6).
+ *
+ * Functions previously on this list have been implemented with catalog-time
+ * identity / default-value semantics — see the build-time/runtime accessors
+ * group in `evalCall`. New unsupported functions discovered during datamine
+ * runs should be added here only when no reasonable catalog-time default
+ * exists; preferring a documented identity default keeps the formula
+ * evaluator usable against the full d4data formula table.
+ */
+const UNSUPPORTED_PREFIXES: string[] = [];
 
 function evalNode(node: ParseNode, ctx: EvalContext): number {
   switch (node.type) {
@@ -424,6 +427,69 @@ function evalCall(name: string, argNodes: ParseNode[], ctx: EvalContext): number
     case "Abs":
       if (argNodes.length !== 1) throw new FormulaParseError("Abs(x) requires 1 arg");
       return Math.abs(evalArg(0));
+
+    // ── Build-time/runtime bonus accessors — catalog-time identity defaults ──
+    //
+    // These functions return values that the live game engine computes from
+    // per-item, per-character, or per-build state (masterwork tier, greater
+    // affix count, glyph level, paragon node tier, etc.). For the catalog's
+    // baseline value-range derivation we substitute the no-bonus identity
+    // (`1` for multiplier-style accessors, sensible defaults for level-style
+    // accessors). The catalog stores the *rolled* range; downstream consumers
+    // that need actual in-game values apply per-character multipliers.
+    //
+    // If a future commission models per-character/per-build catalog tiers,
+    // these defaults are the right place to thread real values through (via
+    // additional EvalContext fields).
+
+    case "GetTotalAffixBonus":
+      // Multiplier composed of masterwork tier, greater affix bonus, etc.
+      // Catalog-time identity: 1.0 (no bonus applied).
+      return 1;
+
+    case "ParagonGetGlyphLevel":
+      // Glyph level for paragon-glyph formulas. Catalog-time default: 1
+      // (baseline socketed glyph). Min-position uses 1; max-position uses 15
+      // (max glyph level) so paragon-glyph value ranges in the catalog cover
+      // the levelled range, not just the baseline.
+      return ctx.position === "max" ? 15 : 1;
+
+    case "ParagonPowerBudgetMultiplierGlyphStatBonusRare":
+    case "ParagonPowerBudgetMultiplierNodeMagicDefensive":
+    case "ParagonPowerBudgetMultiplierNodeMagicOffensive":
+    case "ParagonPowerBudgetMultiplierNodeRareMajorDefensive":
+    case "ParagonPowerBudgetMultiplierNodeRareMajorOffensive":
+    case "ParagonPowerBudgetMultiplierNodeRareMinorDefensive":
+    case "ParagonPowerBudgetMultiplierNodeRareMinorOffensive":
+      // Paragon power-budget multipliers — engine-side scalings. Identity 1.0
+      // for catalog baseline. Position-aware variants can replace these later.
+      return 1;
+
+    case "FloatRandomRangeWithIntervalUniqueAffixPityBonus": {
+      // Unique-affix pity-bonus variant of FloatRandomRangeWithInterval.
+      // Same `(step, min, max)` arg order. Catalog-time identity behaves like
+      // the base function — the pity bonus is a runtime-only enhancement.
+      if (argNodes.length !== 3) {
+        throw new FormulaParseError(
+          "FloatRandomRangeWithIntervalUniqueAffixPityBonus(step, min, max) requires 3 args"
+        );
+      }
+      const lo = evalArg(1);
+      const hi = evalArg(2);
+      return pickByPosition(lo, hi, ctx.position);
+    }
+
+    case "SharedRandomFloat": {
+      // SharedRandomFloat(min, max) — random float in [min, max], shared across
+      // entries within the same atom (used for synchronized rolls). For catalog
+      // baseline we pick the position endpoint, same as RandomInt.
+      if (argNodes.length !== 2) {
+        throw new FormulaParseError("SharedRandomFloat(min, max) requires 2 args");
+      }
+      const lo = evalArg(0);
+      const hi = evalArg(1);
+      return pickByPosition(lo, hi, ctx.position);
+    }
 
     default:
       throw new UnsupportedFunctionError(name);

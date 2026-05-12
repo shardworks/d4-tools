@@ -46,6 +46,17 @@ import type {
 
 // ─── Options ──────────────────────────────────────────────────────────────────
 
+/** The set of catalog categories the import can regenerate. */
+export type CatalogCategory = "affixes" | "aspects" | "uniques" | "skills" | "paragon";
+
+export const ALL_CATEGORIES: readonly CatalogCategory[] = [
+  "affixes",
+  "aspects",
+  "uniques",
+  "skills",
+  "paragon",
+];
+
 export interface ImportOptions {
   build: string;
   accessedDate: string;
@@ -54,6 +65,17 @@ export interface ImportOptions {
   catalogRoot: string;
   docsDir: string;
   curationFile: string;
+  /**
+   * Which catalog categories to regenerate this run. When omitted, all
+   * categories are regenerated (legacy default). When a subset is provided,
+   * categories not in the subset are still loaded and transformed (so the
+   * audit doc and bucket-coverage report stay complete), but their needs-
+   * curation entries do not block the import exit code, their files are not
+   * rewritten, and their disappeared-warnings are emitted at info level
+   * rather than as warnings. Use this to land partial repairs (e.g. fix the
+   * affix substrate while aspect curation work continues separately).
+   */
+  only?: CatalogCategory[];
 }
 
 // ─── Classes to process ───────────────────────────────────────────────────────
@@ -82,7 +104,11 @@ export async function runImport(
     catalogRoot,
     docsDir,
     curationFile,
+    only,
   } = options;
+
+  const regenerated = new Set<CatalogCategory>(only ?? ALL_CATEGORIES);
+  const isRegenerating = (cat: CatalogCategory): boolean => regenerated.has(cat);
 
   let exitCode = 0;
 
@@ -158,37 +184,56 @@ export async function runImport(
       );
 
     // Merge deprecated-disappeared entries into the live summaries so they
-    // appear in catalog output and in the audit document.
-    for (const dep of deprecatedAffixes) affixSummary.entries.push(dep);
-    for (const dep of deprecatedAspects) aspectSummary.entries.push(dep);
+    // appear in catalog output and in the audit document. Only relevant when
+    // the category is being regenerated (otherwise we preserve the existing
+    // catalog wholesale).
+    if (isRegenerating("affixes")) {
+      for (const dep of deprecatedAffixes) affixSummary.entries.push(dep);
+    }
+    if (isRegenerating("aspects")) {
+      for (const dep of deprecatedAspects) aspectSummary.entries.push(dep);
+    }
 
     if (disappearedWarnings.length > 0) {
       for (const warning of disappearedWarnings) {
         console.warn(`[DISAPPEARED] ${warning}`);
       }
-      exitCode = Math.max(exitCode, 1);
+      // Only fatal when the disappearance affects a category we're regenerating.
+      // Otherwise it's informational (the existing catalog stays intact).
+      if (isRegenerating("affixes") || isRegenerating("aspects")) {
+        exitCode = Math.max(exitCode, 1);
+      }
     }
 
-    // 5. Check needs-curation exit code BEFORE generating audit doc or writing.
-    // Writing partial catalog output when entries are unresolved would silently
-    // shrink the catalog on reruns. Instead, abort writes and require the user
-    // to update curation.json first.
-    const anyNeedsCuration =
-      affixSummary.needsCuration.length > 0 ||
-      aspectSummary.needsCuration.length > 0 ||
-      uniqueSummary.needsCuration.length > 0 ||
-      Object.values(skillsByClass).some((s) => s.needsCuration.length > 0) ||
-      Object.values(paragonBoardsByClass).some((p) => p.needsCuration.length > 0) ||
-      glyphPool.needsCuration.length > 0;
+    // 5. Per-category needs-curation gate. Each category contributes to the
+    // exit code only if it's being regenerated this run. Categories NOT being
+    // regenerated still emit their needs-curation list to the audit doc but
+    // their entries don't block the write of the categories we are repairing.
+    const affixNeeds = affixSummary.needsCuration.length > 0;
+    const aspectNeeds = aspectSummary.needsCuration.length > 0;
+    const uniqueNeeds = uniqueSummary.needsCuration.length > 0;
+    const skillsNeeds = Object.values(skillsByClass).some((s) => s.needsCuration.length > 0);
+    const paragonBoardsNeeds = Object.values(paragonBoardsByClass).some((p) => p.needsCuration.length > 0);
+    const glyphsNeeds = glyphPool.needsCuration.length > 0;
 
-    if (anyNeedsCuration) {
+    const blockingNeeds =
+      (isRegenerating("affixes") && affixNeeds) ||
+      (isRegenerating("aspects") && aspectNeeds) ||
+      (isRegenerating("uniques") && uniqueNeeds) ||
+      (isRegenerating("skills") && skillsNeeds) ||
+      (isRegenerating("paragon") && (paragonBoardsNeeds || glyphsNeeds));
+
+    const anyNeedsAtAll =
+      affixNeeds || aspectNeeds || uniqueNeeds || skillsNeeds || paragonBoardsNeeds || glyphsNeeds;
+
+    if (anyNeedsAtAll) {
       console.warn("Some entries need curation. See audit doc for details.");
+    }
+    if (blockingNeeds) {
       exitCode = Math.max(exitCode, 1);
     }
 
     // 5b. Check paragon glyph conflicts (D12).
-    // Unresolvable dedup conflicts (same catalogId, same class, different data)
-    // set exit code 1 and skip writes, mirroring the anyNeedsCuration gate.
     if (paragonGlyphConflicts.length > 0) {
       console.warn(
         `[paragon-glyph-conflicts] ${paragonGlyphConflicts.length} conflict(s) detected — see audit doc.`
@@ -196,21 +241,23 @@ export async function runImport(
       for (const c of paragonGlyphConflicts) {
         console.warn(`  [conflict] ${c.catalogId}: ${c.reason}`);
       }
-      exitCode = Math.max(exitCode, 1);
+      if (isRegenerating("paragon")) {
+        exitCode = Math.max(exitCode, 1);
+      }
     }
 
-    // 5c. Bucket-coverage gate (D7, D8, D10, D11).
-    // Check that every eAttribute value on affix and aspect entries (including
-    // deprecated) maps to an entry in the bundled lib/damage/config.json.
-    // Reads the bundled JSON directly — not via loadDamageConfig() — so the
-    // per-deployment local override cannot mask a missing baseline entry (D11).
+    // 5c. Bucket-coverage gate (D7, D8, D10, D11). Always emitted for
+    // visibility; only fatal when regenerating affixes or aspects (the
+    // categories whose attribute references the gate covers).
     const bucketCoverage = validateBucketCoverage(affixSummary, aspectSummary);
     if (bucketCoverage.unmappedAttributes.length > 0) {
       console.warn(
         `[bucket-coverage] ${bucketCoverage.unmappedAttributes.length} unmapped attribute(s) — ` +
         `see audit doc ## Bucket Coverage section for details.`
       );
-      exitCode = Math.max(exitCode, 1);
+      if (isRegenerating("affixes") || isRegenerating("aspects")) {
+        exitCode = Math.max(exitCode, 1);
+      }
     }
 
     // 6. Generate audit doc (always, even on non-zero exit, so the user can
@@ -249,11 +296,31 @@ export async function runImport(
     }
 
     console.log(dryRun ? "[dry-run] Skipping file writes." : "Writing catalog files...");
-    writeAffixes(affixSummary, verifiedAgainst, catalogRoot, dryRun);
-    writeAspects(aspectSummary, verifiedAgainst, catalogRoot, dryRun);
-    writeUniques(uniqueSummary, verifiedAgainst, catalogRoot, dryRun);
-    writeSkills(skillsByClass, verifiedAgainst, catalogRoot, dryRun);
-    writeParagon(paragonBoardsByClass, glyphPool, verifiedAgainst, catalogRoot, dryRun);
+    if (isRegenerating("affixes")) {
+      writeAffixes(affixSummary, verifiedAgainst, catalogRoot, dryRun);
+    } else {
+      console.log("[only] Skipping affixes write — category not in --only set.");
+    }
+    if (isRegenerating("aspects")) {
+      writeAspects(aspectSummary, verifiedAgainst, catalogRoot, dryRun);
+    } else {
+      console.log("[only] Skipping aspects write — category not in --only set.");
+    }
+    if (isRegenerating("uniques")) {
+      writeUniques(uniqueSummary, verifiedAgainst, catalogRoot, dryRun);
+    } else {
+      console.log("[only] Skipping uniques write — category not in --only set.");
+    }
+    if (isRegenerating("skills")) {
+      writeSkills(skillsByClass, verifiedAgainst, catalogRoot, dryRun);
+    } else {
+      console.log("[only] Skipping skills write — category not in --only set.");
+    }
+    if (isRegenerating("paragon")) {
+      writeParagon(paragonBoardsByClass, glyphPool, verifiedAgainst, catalogRoot, dryRun);
+    } else {
+      console.log("[only] Skipping paragon write — category not in --only set.");
+    }
 
     // Print summary
     printSummary(affixSummary, aspectSummary, uniqueSummary, skillsByClass, paragonBoardsByClass, glyphPool);

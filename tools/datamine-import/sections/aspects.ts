@@ -18,6 +18,7 @@ import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { LABEL_TO_SLOTS, AFFIX_CLASS_ORDER } from "../mappings";
 import { parseTemplate } from "../template";
 import { detectIsPercent } from "../percent";
+import { toBnetFileName } from "../file-name";
 import type { TransformerSummary } from "./types";
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -96,21 +97,29 @@ export function transformAspects(
 
   for (const raw of rawAffixes) {
     const affix = raw as RawLegendaryAffix;
-    const fileName = affix.__fileName__;
+    // Real d4data emits `__fileName__` as a full path with extension. The
+    // catalog's `bnetFileName`, every curation key, and every downstream
+    // consumer use the basename only. Keep the raw form for stringTable
+    // lookups (which are keyed by full path) and the normalized form for
+    // curation lookups, filename-pattern matching, and the output bnetFileName.
+    const rawFileName = affix.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
 
     // Filter to legendary aspects only (eAffixType === 1)
     if (affix.eAffixType !== 1) continue;
 
-    // Filter by filename pattern — skip unique powers, tempered, charm affixes
+    // Filter by filename pattern — skip unique powers, tempered, charm affixes.
+    // The pattern matcher already strips leading path components but is robust
+    // against either form; pass the normalized basename for clarity.
     if (!isLegendaryAspectFileName(fileName)) continue;
 
     // Get description from per-file string table.
     // Prefer "Desc" key; fall back to "CodexDesc".
-    const desc = stringTable.get(`${fileName}::Desc`)
-      ?? stringTable.get(`${fileName}::CodexDesc`)
+    const desc = stringTable.get(`${rawFileName}::Desc`)
+      ?? stringTable.get(`${rawFileName}::CodexDesc`)
       ?? "";
     // Name is "of [Something]" — strip "of " prefix to get the aspect name.
-    const nameRaw = stringTable.get(`${fileName}::Name`) ?? "";
+    const nameRaw = stringTable.get(`${rawFileName}::Name`) ?? "";
     const szLabel = desc;
 
     // Strict heuristics — use the desc as szLabel for WIP detection

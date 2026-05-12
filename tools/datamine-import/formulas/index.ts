@@ -81,7 +81,62 @@ export function loadFormulas(datamineRoot: string): Map<string, FormulaRecord> {
   const raw = fs.readFileSync(formulasPath, "utf8");
   const data = JSON.parse(raw) as Record<string, unknown>;
 
-  // The file may have a top-level `arFormulas` array (wrapped object) OR be a plain array
+  // The file shape is one of:
+  //
+  //   1. Real d4data (DiabloTools/d4data, current at patch 3.0.1.71747+):
+  //      { ptData: [ { tEntries: [ { tHeader: { szName }, arRanges: [
+  //          { nItemPowerRangeStart, tFormula: { value } }, ... ] } ] } ] }
+  //
+  //   2. Legacy / test-fixture shape:
+  //      { arFormulas: [ { name, arAffixScalings: [
+  //          { nMinItemPower, szFormula }, ... ] } ] }
+  //
+  //   3. Plain array of legacy records (no wrapper).
+  //
+  // The real-d4data shape is the one the import must support to function in
+  // production. The legacy shape is kept so existing fixture tests do not have
+  // to migrate in the same change. Each shape normalizes to a FormulaRecord.
+  const map = new Map<string, FormulaRecord>();
+
+  // ── Shape 1: real d4data (ptData → tEntries → arRanges) ────────────────────
+  if (Array.isArray(data["ptData"])) {
+    for (const block of data["ptData"] as unknown[]) {
+      const blockRec = block as Record<string, unknown>;
+      const tEntries = blockRec["tEntries"];
+      if (!Array.isArray(tEntries)) continue;
+
+      for (const entry of tEntries) {
+        const entryRec = entry as Record<string, unknown>;
+        const header = entryRec["tHeader"] as Record<string, unknown> | undefined;
+        const name = typeof header?.["szName"] === "string" ? (header["szName"] as string) : undefined;
+        if (!name) continue;
+
+        const arRanges = entryRec["arRanges"];
+        if (!Array.isArray(arRanges)) continue;
+
+        const arAffixScalings: FormulaScaling[] = arRanges
+          .map((r) => {
+            const rr = r as Record<string, unknown>;
+            const nMin = typeof rr["nItemPowerRangeStart"] === "number"
+              ? (rr["nItemPowerRangeStart"] as number)
+              : 0;
+            const tFormula = rr["tFormula"] as Record<string, unknown> | undefined;
+            const szF = typeof tFormula?.["value"] === "string" ? (tFormula["value"] as string) : "0";
+            return { nMinItemPower: nMin, szFormula: szF };
+          })
+          .filter((s) => s.szFormula !== "0" && s.szFormula !== "")
+          .sort((a, b) => a.nMinItemPower - b.nMinItemPower);
+
+        if (arAffixScalings.length > 0) {
+          map.set(name, { name, arAffixScalings });
+        }
+      }
+    }
+
+    return map;
+  }
+
+  // ── Shape 2/3: legacy arFormulas (plain or wrapped) ────────────────────────
   let formulaList: unknown[];
   if (Array.isArray(data)) {
     formulaList = data;
@@ -91,7 +146,6 @@ export function loadFormulas(datamineRoot: string): Map<string, FormulaRecord> {
     return new Map();
   }
 
-  const map = new Map<string, FormulaRecord>();
   for (const item of formulaList) {
     const rec = item as Record<string, unknown>;
     const name = typeof rec["name"] === "string" ? rec["name"] : undefined;

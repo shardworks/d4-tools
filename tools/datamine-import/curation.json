@@ -1,5 +1,37 @@
 {
   "affixes": {
+    "Damage_to_Knockdown": {
+      "action": "exclude",
+      "reason": "Orphan affix — no string-table label, attribute targets a removed mechanic. Not player-facing in current patch."
+    },
+    "Indestructible": {
+      "action": "exclude",
+      "reason": "Vestigial — references Ignore_Durability_Loss attribute; durability loss was removed from D4 prior to current patch."
+    },
+    "Lucky_Hit_Fear": {
+      "action": "exclude",
+      "reason": "Orphan affix — no string-table label, the production lucky-hit-fear roll uses a different affix path."
+    },
+    "S04_OverpowerDamage": {
+      "action": "exclude",
+      "reason": "No formula link, no string label — superseded by other overpower-damage variants."
+    },
+    "S04_SkillRankBonus_Necro_Core_BloodLance": {
+      "action": "exclude",
+      "reason": "Orphan skill-rank-bonus entry — no stl file; the live affix for Blood Lance ranks uses a different filename."
+    },
+    "SkillRankBonus_Sorc_Unique_Teleport": {
+      "action": "exclude",
+      "reason": "Unique-bound skill-rank affix without stl file — handled via the unique catalog's intrinsics, not the rollable affix pool."
+    },
+    "UtilityFind": {
+      "action": "exclude",
+      "reason": "Orphan affix — no string-table label, attribute references a removed mechanic."
+    },
+    "X2_SkillRankBonus_Paladin_Core_SpearOfTheHeavens": {
+      "action": "exclude",
+      "reason": "Filename categorizes the skill under Core; the live stl file uses the Justice category. The affix file is the legacy variant kept in the datamine for reference."
+    },
     "Affix_Str_AddLifePercent": {
       "action": "include",
       "catalogId": "affix_max_life_pct",

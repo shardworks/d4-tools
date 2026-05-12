@@ -16,12 +16,22 @@ function parseArgs(argv: string[]): {
   datamine: string | undefined;
   accessedDate: string;
   dryRun: boolean;
+  only: import("./orchestrator").CatalogCategory[] | undefined;
 } {
   const args = argv.slice(2);
   let build: string | undefined;
   let datamine: string | undefined;
   let accessedDate: string = new Date().toISOString().slice(0, 10);
   let dryRun = false;
+  let only: import("./orchestrator").CatalogCategory[] | undefined;
+
+  const VALID_CATEGORIES = new Set([
+    "affixes",
+    "aspects",
+    "uniques",
+    "skills",
+    "paragon",
+  ]);
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--build" && args[i + 1]) {
@@ -32,16 +42,31 @@ function parseArgs(argv: string[]): {
       accessedDate = args[++i];
     } else if (args[i] === "--dry-run") {
       dryRun = true;
+    } else if (args[i] === "--only" && args[i + 1]) {
+      const raw = args[++i];
+      const parts = raw.split(",").map((s) => s.trim()).filter((s) => s.length > 0);
+      const valid: import("./orchestrator").CatalogCategory[] = [];
+      for (const p of parts) {
+        if (!VALID_CATEGORIES.has(p)) {
+          console.error(
+            `Error: --only "${p}" is not a valid category. ` +
+            `Allowed values: ${[...VALID_CATEGORIES].join(", ")}`
+          );
+          process.exit(2);
+        }
+        valid.push(p as import("./orchestrator").CatalogCategory);
+      }
+      only = valid;
     }
   }
 
-  return { build, datamine, accessedDate, dryRun };
+  return { build, datamine, accessedDate, dryRun, only };
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
-  const { build, datamine, accessedDate, dryRun } = parseArgs(process.argv);
+  const { build, datamine, accessedDate, dryRun, only } = parseArgs(process.argv);
 
   if (!build) {
     console.error("Error: missing --build <version> argument");
@@ -73,6 +98,7 @@ async function main(): Promise<void> {
     catalogRoot: path.join(projectRoot, "lib/catalog"),
     docsDir: path.join(projectRoot, "docs"),
     curationFile: path.join(__dirname, "curation.json"),
+    only,
   });
 
   process.exit(exitCode);

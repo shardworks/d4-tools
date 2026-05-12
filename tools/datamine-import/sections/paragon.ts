@@ -13,6 +13,7 @@ import type { ParagonBoardEntry } from "../../../lib/catalog/index";
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { GLYPH_CLASS_ORDER } from "../mappings";
+import { toBnetFileName } from "../file-name";
 import type { TransformerSummary } from "./types";
 
 // ─── Raw datamine shapes ──────────────────────────────────────────────────────
@@ -53,8 +54,10 @@ export function transformParagonBoards(
 
   for (const raw of rawBoards) {
     const board = raw as RawParagonBoard;
-    const fileName = board.__fileName__;
-    const szLabel = stringTable.get(fileName) ?? "";
+    // See `toBnetFileName` docstring — raw is full path, fileName is basename.
+    const rawFileName = board.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
+    const szLabel = stringTable.get(rawFileName) ?? "";
 
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
     const curationRecord = getCurationRecord(curation, "paragonBoards", fileName);
@@ -161,7 +164,9 @@ export function transformParagonGlyphs(
 
   for (const raw of rawGlyphs) {
     const glyph = raw as RawParagonGlyph;
-    const fileName = glyph.__fileName__;
+    // See `toBnetFileName` docstring — raw is full path, fileName is basename.
+    const rawFileName = glyph.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
     const usableByClass = glyph.fUsableByClass ?? [];
 
     // Derive classAffinity from fUsableByClass bitmap
@@ -176,7 +181,7 @@ export function transformParagonGlyphs(
     const allZero =
       usableByClass.length > 0 && usableByClass.every((v) => !v);
 
-    const szLabel = stringTable.get(fileName) ?? "";
+    const szLabel = stringTable.get(rawFileName) ?? "";
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
     const curationRecord = getCurationRecord(curation, "paragonGlyphs", fileName);
 

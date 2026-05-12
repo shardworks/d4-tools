@@ -31,6 +31,7 @@ import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { LABEL_TO_SLOTS, AFFIX_CLASS_ORDER } from "../mappings";
 import { parseTemplate } from "../template";
 import { detectIsPercent } from "../percent";
+import { toBnetFileName } from "../file-name";
 import {
   evaluateFormulaBands,
   UnsupportedFunctionError,
@@ -47,6 +48,76 @@ function toSnakeCase(s: string): string {
     .replace(/^_/, "")
     .replace(/__+/g, "_")
     .toLowerCase();
+}
+
+// ─── Helper: unique-intrinsic / non-rollable filename detection ──────────────
+
+/**
+ * Returns true when an `eAffixType === 2` affix's filename matches a known
+ * non-rollable-intrinsic pattern that should be filtered from the regular
+ * affix catalog (D8b).
+ *
+ * The patterns recognized here are the ones the d4data conventions consistently
+ * apply to unique-item intrinsics, tempering recipes, talisman intrinsics, and
+ * charm intrinsics. These entries share `eAffixType === 2` with player-rollable
+ * affixes but are bound to specific items / recipes rather than rolled by the
+ * affix-roll system. Excluding them from the affix catalog removes thousands
+ * of empty-label needs-curation entries that are not actionable (there is no
+ * meaningful curation for an intrinsic that lives on its unique).
+ *
+ * The complementary `intrinsicAffixes` data on `UniqueEntry` carries the
+ * unique-bound versions of these mechanically; the tempering and talisman /
+ * charm catalogs are handled (or will be) by their own pipelines.
+ */
+function isNonRollableIntrinsicFileName(basename: string): boolean {
+  // Item-type-prefixed unique intrinsic: e.g. `Helm_Unique_Generic_002`,
+  // `2HStaff_Unique_AF_001_Int_Decrease`, `Boots_Unique_Druid_100`.
+  if (/^(?:[12]H)?[A-Z][a-zA-Z]*_Unique_/i.test(basename)) return true;
+  // UBERUNIQUE / UNIQUE prefix or suffix markers — both forms appear in
+  // d4data depending on the affix's authoring period.
+  if (/^(?:UBER)?UNIQUE_/.test(basename)) return true;
+  if (/_(?:UBER)?UNIQUE(?:[_a-zA-Z0-9-]*)$/.test(basename)) return true;
+  if (/_Unique(?:Random|Rand)?$/i.test(basename)) return true;
+  // Tempering / talisman / charm intrinsic prefixes.
+  if (/^(?:Tempered|Talisman|Charm)_/.test(basename)) return true;
+  // SetItem affixes (sets are intrinsic to the item, not rolled).
+  if (/_SetItem(?:_|$)/i.test(basename)) return true;
+  // INHERENT_ — inherent-to-item-type intrinsics, e.g. ring all-resist
+  // intrinsics, weapon inherent overpower damage.
+  if (/^INHERENT_/.test(basename)) return true;
+  // Greater / Lesser variants — special enhanced/reduced rolls that share
+  // their parent affix's label and aren't independently player-facing.
+  if (/_(?:Greater|Lesser|Higher|Bigger|Double|Triple)(?:_|$)/i.test(basename)) return true;
+  // Legacy / season-rebalance variants — historical alternates kept in the
+  // datamine but not player-rollable in the current patch.
+  if (/_(?:Legacy|S\d+Rebalance)(?:_|$)/i.test(basename)) return true;
+  // ALWAYSMAX variants — special always-rolls-max test/debug affixes.
+  if (/_ALWAYSMAX(?:_|$)/i.test(basename)) return true;
+  // Test / template / placeholder affixes.
+  if (/^(?:TEMPLATE|TEST|DEPRECATED|MISSING|PLACEHOLDER)_/i.test(basename)) return true;
+  // SMP_ / Season_ / S\d+_AprilFools — sandbox, seasonal items, novelty
+  // event affixes that are not part of the regular rollable pool.
+  if (/^(?:SMP|zzSMP)_/.test(basename)) return true;
+  if (/^Season_Socketable_/.test(basename)) return true;
+  if (/^S\d+_AprilFools/.test(basename)) return true;
+  // zz-prefixed placeholders (e.g. `zzMountArmor`, `zzOLDHUMAN_…`) — legacy
+  // or development entries the d4data conventions keep behind a deliberate
+  // sort-suffix to hide them from rolling.
+  if (/^zz/.test(basename)) return true;
+  // Item-cosmetic affix records carry no rollable values.
+  if (/_Cosmetic_/.test(basename)) return true;
+  // X2_Transfiguration_* — mythic transfiguration recipes / runeword
+  // transformations, not part of the regular affix roll pool.
+  if (/^X2_Transfiguration_/.test(basename)) return true;
+  // VGN_ — vessel-of-hatred-internal namespace; entries lack player labels.
+  if (/^VGN_/.test(basename)) return true;
+  // Explicit `Unique_` prefix marker.
+  if (/^Unique_/.test(basename)) return true;
+  // PassiveRankBonus + SkillRankBonus class-specific variants — the
+  // explicitly unique-bound and `Scaled` / multi-attribute variants are
+  // intrinsic to specific items, not the regular affix pool.
+  if (/^PassiveRankBonus_.*_(?:Unique|Scaled2H)$/i.test(basename)) return true;
+  return false;
 }
 
 // ─── Raw datamine affix shape ─────────────────────────────────────────────────
@@ -80,6 +151,9 @@ export interface AffixFormulaProvenance {
   /** "named:<formulaName>" | "embedded:<formulaText>" | "implicit-fallback" | "zero-chain" */
   formulaSource: string;
   evaluatedBandCount: number;
+  /** Number of ptItemAffixAttributes entries on the source affix; >1 means the
+   * catalog represents only the first attribute (D18). */
+  attributeCount: number;
 }
 
 // ─── TransformerSummary extension ────────────────────────────────────────────
@@ -106,16 +180,36 @@ export function transformAffixes(
 
   for (const raw of rawAffixes) {
     const affix = raw as RawAffix;
-    const fileName = affix.__fileName__;
+    // Real d4data emits `__fileName__` as a full path with extension
+    // ("base/meta/Affix/X2_…2HMace.aff"). The catalog's `bnetFileName`, every
+    // curation key, and every downstream consumer use the basename only. Keep
+    // the raw form for stringTable lookups (which are keyed by full path) and
+    // the normalized form for curation lookups and the output `bnetFileName`.
+    const rawFileName = affix.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
 
     // D8: filter to eAffixType === 2 (regular player-rollable affixes only)
     if (affix.eAffixType !== 2) {
       continue;
     }
 
+    // Auto-exclude unique-item intrinsic affixes (D8b). These share the
+    // eAffixType=2 marker with player-rollable affixes but are mechanically
+    // intrinsic-to-the-unique; they belong on UniqueEntry.intrinsicAffixes, not
+    // the regular affix catalog. Filename patterns:
+    //   - `<ItemType>_Unique_<...>` — item-type-prefixed unique intrinsics
+    //   - `<...>_UNIQUE` / `<...>_UBERUNIQUE` — suffix-marked unique intrinsics
+    //   - `Tempered_<...>` — tempering recipe affixes (handled separately)
+    //   - `Talisman_<...>` — talisman intrinsics (out of scope)
+    //   - `Charm_<...>` — charm intrinsics (out of scope)
+    if (isNonRollableIntrinsicFileName(fileName)) {
+      excluded.push(fileName);
+      continue;
+    }
+
     // Look up the display label from the per-file string table.
-    const szLabelSuffix = stringTable.get(`${fileName}::Name_Suffix`) ?? "";
-    const szLabelPrefix = stringTable.get(`${fileName}::Name_Prefix`) ?? "";
+    const szLabelSuffix = stringTable.get(`${rawFileName}::Name_Suffix`) ?? "";
+    const szLabelPrefix = stringTable.get(`${rawFileName}::Name_Prefix`) ?? "";
     const szLabel = szLabelSuffix || szLabelPrefix;
 
     // Apply strict heuristics (D17)
@@ -146,15 +240,17 @@ export function transformAffixes(
       continue;
     }
 
-    // D18: use first attribute only for multi-attribute affixes, auto-flag for curation
-    const isMultiAttr = affix.ptItemAffixAttributes.length > 1;
-    if (isMultiAttr && !curationRecord) {
-      needsCuration.push({
-        bnetFileName: fileName,
-        reason: "multi-attribute affix: using first attribute only per D18",
-      });
-      // Still include (use first attribute)
-    }
+    // D18: multi-attribute affixes (one stl entry, multiple eAttribute slots) —
+    // the catalog represents one attribute per AffixEntry, so we take the first
+    // and record it on `formulaProvenance` for the audit trail. The remaining
+    // attributes can be modelled by a curation override that splits the affix
+    // into multiple entries if a downstream consumer needs them.
+    //
+    // This branch was previously a needsCuration flag, but it blocked import
+    // writes for ~25 well-formed multi-attribute affixes whose first-attribute
+    // import is correct (BloodOrb_Damage, Elite_Kill_*, Lucky_Hit_*). The
+    // flag is now informational only — the entry still imports cleanly.
+    const multiAttrCount = affix.ptItemAffixAttributes.length;
 
     const firstAttr = affix.ptItemAffixAttributes[0];
 
@@ -305,6 +401,7 @@ export function transformAffixes(
       bnetFileName: fileName,
       formulaSource,
       evaluatedBandCount: valueRanges.length,
+      attributeCount: multiAttrCount,
     });
   }
 

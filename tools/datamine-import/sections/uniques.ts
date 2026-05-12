@@ -14,6 +14,7 @@ import type { UniqueEntry } from "../../../lib/catalog/index";
 import type { CurationFile } from "../curation";
 import { getCurationRecord, applyStrictHeuristics } from "../curation";
 import { AFFIX_CLASS_ORDER } from "../mappings";
+import { toBnetFileName } from "../file-name";
 import type { TransformerSummary } from "./types";
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -105,7 +106,9 @@ export function transformUniques(
 
   for (const raw of rawItems) {
     const item = raw as RawItem;
-    const fileName = item.__fileName__;
+    // See `toBnetFileName` docstring — raw is full path, fileName is basename.
+    const rawFileName = item.__fileName__;
+    const fileName = toBnetFileName(rawFileName);
 
     // Filter to unique quality items: eMagicType === 2
     if (item.eMagicType !== 2) {
@@ -113,7 +116,7 @@ export function transformUniques(
     }
 
     // Get name from per-file string table using "Name" szLabel
-    const szLabel = stringTable.get(`${fileName}::Name`) ?? "";
+    const szLabel = stringTable.get(`${rawFileName}::Name`) ?? "";
 
     // Strict heuristics
     const heuristic = applyStrictHeuristics({ fileName, szLabel });
