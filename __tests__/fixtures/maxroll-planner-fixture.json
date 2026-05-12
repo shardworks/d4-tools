@@ -1,0 +1,50 @@
+{
+  "version": "3.0.1.71747",
+  "id": "fixtureplannerid",
+  "d4t": [
+    {
+      "name": "Ice Shards Sorcerer",
+      "class": "sorcerer",
+      "level": 100,
+      "paragonLevel": 200,
+      "equipped": {
+        "helm": {
+          "name": "Glacial Helm",
+          "power": 925,
+          "ancestral": false,
+          "rarity": "Legendary",
+          "affixes": [
+            { "nid": 1, "values": [4.5] },
+            { "nid": 2, "values": [2800] },
+            { "nid": 3, "values": [15.0], "tempered": false },
+            { "nid": 999, "values": [9.9] }
+          ],
+          "aspect": 100,
+          "aspectValues": [22.5]
+        },
+        "chest": {
+          "name": "Iron Chest",
+          "power": 910,
+          "ancestral": false,
+          "rarity": "Rare",
+          "affixes": [
+            { "nid": 1, "values": [3.0] },
+            { "nid": 2, "values": [1200] }
+          ]
+        }
+      },
+      "skills": [
+        { "id": 500, "points": 5 }
+      ],
+      "paragon": [
+        {
+          "id": 939773,
+          "name": "Starter Board",
+          "glyph": 1023192,
+          "glyphLevel": 15,
+          "nodes": [100, 101, 102]
+        }
+      ]
+    }
+  ]
+}

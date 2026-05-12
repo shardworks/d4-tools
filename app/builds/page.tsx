@@ -3,7 +3,7 @@ import { listBuilds } from "@/lib/persistence/builds";
 import { listCharacters } from "@/lib/persistence/characters";
 import type { Build, Character } from "@/lib/schema";
 import { Button } from "@/components/ui/button";
-import { Plus, PenSquare } from "lucide-react";
+import { Plus, PenSquare, Download } from "lucide-react";
 
 export const metadata = { title: "Builds — D4 Tools" };
 
@@ -28,6 +28,12 @@ export default async function BuildsListPage() {
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-[20px] font-bold text-stone-100 m-0">Builds</h1>
         <div className="flex gap-2">
+          <Link href="/import/maxroll">
+            <Button variant="outline" className="gap-[6px]">
+              <Download size={14} />
+              Import from Maxroll
+            </Button>
+          </Link>
           <Link href="/characters/new">
             <Button className="gap-[6px]">
               <Plus size={14} />
@@ -48,12 +54,20 @@ export default async function BuildsListPage() {
       {!error && builds.length === 0 && (
         <div className="text-center py-12 px-6 text-stone-500 text-base">
           <p>No builds yet.</p>
-          <Link href="/characters/new">
-            <Button variant="outline" className="mt-3 gap-[6px]">
-              <Plus size={14} />
-              Create your first character
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-3">
+            <Link href="/characters/new">
+              <Button variant="outline" className="gap-[6px]">
+                <Plus size={14} />
+                Create your first character
+              </Button>
+            </Link>
+            <Link href="/import/maxroll">
+              <Button variant="outline" className="gap-[6px]">
+                <Download size={14} />
+                Import from Maxroll
+              </Button>
+            </Link>
+          </div>
         </div>
       )}
 

@@ -254,15 +254,29 @@ Maxroll's D4 planner at `https://maxroll.gg/d4/planner/` provides build sharing 
 - provenance: `planner`
 - verification: `verified working` (HTTP 200 confirmed at access date)
 
-**Battle.net import:** Not confirmed in research. Maxroll's planner is primarily a manual
-build-entry tool for sharing builds; direct character import is not a known feature.
+**What it imports:** A *build* — a planned or shared configuration authored by a user in the
+Maxroll planner. This is distinct from "your actual current equipped character": the data
+represents what a planner user entered, not a live Blizzard API mirror.
 
-**API:** No public API. Internal API endpoints are observable via browser devtools but use of
-those undocumented endpoints violates Maxroll's ToS.
+**Shipped importer:** d4-tools ships a Maxroll planner importer (`lib/import/maxroll/`). It
+resolves planner IDs, planner URLs, and build-guide URLs to canonical `Character + Build + Items`
+via two undocumented Maxroll endpoints:
 
-**ToS:** Maxroll's Terms of Service explicitly prohibit scraping. For a personal build tool
-analyzing your own character, the sanctioned path would be Blizzard's Game Data API (§1.2) — but
-as noted, those endpoints do not currently exist.
+| Purpose | Endpoint |
+|---|---|
+| Planner profile (build data) | `GET planners.maxroll.gg/profiles/load?profile=<id>` |
+| Game data (affix/aspect/skill/glyph metadata) | `GET assets-ng.maxroll.gg/d4/data.min.json` |
+
+The importer joins Maxroll's numeric stat/aspect/skill/glyph IDs to catalog entries using the
+`bnetFileName` field as the only join key (no label-matching or attribute-ID fallbacks).
+The `data.min.json` file (~11 MB) is disk-cached keyed by catalog patch version; no sliding TTL.
+
+**ToS posture:** Maxroll's Terms of Service prohibit automated scraping. Single user-pasted
+planner URL fetched for personal build analysis is a much grayer area than bulk automated
+extraction. This is the same posture adopted by the community tools documented in
+`docs/future-import-paths.md` Path A (D4Builds, Mobalytics). The importer is designed for
+personal use against a URL the user manually provides — it does not crawl or bulk-collect
+planner data.
 
 ---
 

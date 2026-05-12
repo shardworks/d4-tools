@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { listCharacters, saveCharacter, saveBuild, deleteCharacter } from "@/lib/persistence";
-import { CharacterSchema, type Character } from "@/lib/schema";
+import { CharacterSchema, BuildImportedFromSchema, type Character } from "@/lib/schema";
 import { characterPath } from "@/lib/persistence/paths";
 
 /** GET /api/characters — list all characters */
@@ -44,12 +44,35 @@ export async function POST(request: Request) {
   // ── Composite path — character + default build, atomic rollback ───────────
 
   // Step 1: Parse and validate the character body
+  //   Optional top-level `importedFrom` field is forwarded to the build (D19).
   let body: unknown;
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
+
+  // Extract optional importedFrom before passing to CharacterSchema (which doesn't have it)
+  let importedFromData: unknown;
+  if (typeof body === "object" && body !== null && "importedFrom" in body) {
+    importedFromData = (body as Record<string, unknown>).importedFrom;
+    // Remove it from the body before character schema parsing
+    const { importedFrom: _dropped, ...charBody } = body as Record<string, unknown>;
+    body = charBody;
+    void _dropped;
+  }
+
+  // Validate optional importedFrom
+  const importedFrom = importedFromData !== undefined
+    ? BuildImportedFromSchema.safeParse(importedFromData)
+    : undefined;
+  if (importedFrom && !importedFrom.success) {
+    return NextResponse.json(
+      { error: `Invalid importedFrom: ${importedFrom.error.message}` },
+      { status: 400 }
+    );
+  }
+
   const parseResult = CharacterSchema.omit({ id: true }).safeParse(body);
   if (!parseResult.success) {
     return NextResponse.json({ error: parseResult.error.message }, { status: 400 });
@@ -66,12 +89,14 @@ export async function POST(request: Request) {
   }
 
   // Step 3: Save the default build with server-derived defaults (D4)
+  //   Forward importedFrom provenance when present (D19).
   try {
     const build = await saveBuild({
       characterId: character.id,
       name: character.name,
       notes: "",
       targetItems: {},
+      ...(importedFrom?.success ? { importedFrom: importedFrom.data } : {}),
     });
     return NextResponse.json({ character, build }, { status: 201 });
   } catch (buildErr) {

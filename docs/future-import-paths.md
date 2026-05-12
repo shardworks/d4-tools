@@ -41,7 +41,7 @@ feature against unverified endpoints.
 Three real, working approaches exist for getting D4 character data into
 external tools — none of them through an HTTP API.
 
-### Path A — Build-URL imports
+### Path A — Build-URL imports  ✅ Partially Shipped (Maxroll — current commission)
 
 Community build-planner sites (D4Builds.gg, Maxroll.gg, Mobalytics.gg)
 expose user-created builds via shareable URLs. The HTML at those URLs
@@ -66,6 +66,16 @@ incident, but it is not unambiguously sanctioned.
 **Implementation cost:** Modest. One HTML fetch + a parser per source
 site, plus mapping to the canonical schema. Per-site parsers must be
 maintained as the source HTML evolves.
+
+**Per-source status:**
+
+- ✅ **Maxroll.gg** — Shipped. `lib/import/maxroll/` imports planner profiles via
+  `planners.maxroll.gg/profiles/load` and joins to catalog entries via `bnetFileName`.
+  Entry points: cmd-K → "Import Build from Maxroll planner…", `/builds` page button,
+  `/characters/new` affordance. UI at `/import/maxroll`. See `docs/data-sources/01-armory.md` §2.2.
+- 🔲 **D4Builds.gg** — Open commission idea. Same planner-URL import pattern;
+  D4Builds uses Battle.net OAuth for live character import (see §2.1), not just build sharing.
+- 🔲 **Mobalytics.gg** — Open commission idea. Planner-URL import pattern; per-site parser needed.
 
 ### Path B — Screenshot OCR  ✅ Shipped (v11 + v12)
 
@@ -211,9 +221,10 @@ backlog:
   `POST /api/triage/upload` receives, saves, and parses synchronously via
   the Anthropic Vision API; `/triage` gallery displays results. The
   dedicated-OCR variant was superseded by the vision-LLM approach.
-- **`vN: Build-URL parser`** — paste a D4Builds.gg / Maxroll / Mobalytics
-  URL, fetch and parse to v2 schema. Per-source parsers; ToS gray-area
-  acknowledged.
+- ~~**`vN: Build-URL parser (Maxroll)`**~~ **✅ Shipped (current commission).**
+  `lib/import/maxroll/` implements the Maxroll importer. See Path A above.
+- **`vN: Build-URL parser (D4Builds.gg)`** — paste a D4Builds URL, fetch and parse to v2 schema.
+- **`vN: Build-URL parser (Mobalytics)`** — paste a Mobalytics URL, fetch and parse to v2 schema.
 - **`vN: TTS-accessibility companion`** — Windows DLL intercepts D4's TTS
   stream, exposes a local socket, web app subscribes for real-time item
   events. Supports real-time loot triage. Substantial multi-component

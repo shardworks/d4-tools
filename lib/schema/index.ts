@@ -42,5 +42,5 @@ export {
 } from "./character";
 export type { Character, CharacterFormInput, CharacterFormOutput, D4Class } from "./character";
 
-export { BuildSchema } from "./build";
-export type { Build } from "./build";
+export { BuildSchema, BuildImportedFromSchema } from "./build";
+export type { Build, BuildImportedFrom } from "./build";

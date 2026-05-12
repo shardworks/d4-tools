@@ -1,0 +1,18 @@
+{
+  "version": "3.0.1.71747",
+  "stats": {
+    "1": { "bnetFileName": "AttackSpeed", "name": "Attack Speed" },
+    "2": { "bnetFileName": "AttackSpeed_Basics", "name": "Basic Attack Speed" },
+    "3": { "bnetFileName": "Barrier_Strength_Percent", "name": "Barrier Strength", "isImplicit": true },
+    "999": { "bnetFileName": "UnknownStatNotInCatalog", "name": "Unknown Stat" }
+  },
+  "aspects": {
+    "100": { "bnetFileName": "legendary_generic_027", "name": "Conceited Aspect" }
+  },
+  "glyphs": {
+    "1023192": { "bnetFileName": "Rare_009_Willpower_Side", "name": "Cryopathy" }
+  },
+  "skills": {
+    "500": { "bnetFileName": "Sorcerer_ArcLash", "name": "Arc Lash" }
+  }
+}

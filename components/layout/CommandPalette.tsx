@@ -232,11 +232,22 @@ export function CommandPalette() {
     },
     {
       id: "import-build",
-      label: "Import Build…",
+      label: "Import Build from JSON file…",
       description: "Load a build from a JSON file",
       icon: Upload,
       group: "File",
       run: () => triggerFileInput(importBuildFromFile),
+    },
+    {
+      id: "import-build-maxroll",
+      label: "Import Build from Maxroll planner…",
+      description: "Import a build from a Maxroll planner URL or ID",
+      icon: Upload,
+      group: "File",
+      run: () => {
+        handleOpenChange(false);
+        router.push("/import/maxroll");
+      },
     },
     {
       id: "export-build",
