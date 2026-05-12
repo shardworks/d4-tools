@@ -36,7 +36,7 @@ pnpm import:datamine \
 | Code | Meaning |
 |------|---------|
 | 0 | Success — all entries curated, catalog regenerated |
-| 1 | Needs curation — one or more entries need editorial decisions in `curation.json` |
+| 1 | Needs curation **or** bucket-coverage failure — one or more entries need editorial decisions in `curation.json`, or one or more `eAttribute` values on active/deprecated affix or aspect entries are unmapped in `lib/damage/config.json` |
 | 2 | Parse error / malformed input or missing required flags |
 
 ### Catalog writes on exit code 1
@@ -55,7 +55,7 @@ This file lists every imported entry, excluded entries, and needs-curation entri
 1. **Clone/fetch** the latest datamine: `git pull` in your d4data clone
 2. **Pin the build** — check the latest commit or `patch` field in a known JSON file
 3. **Dry run**: `pnpm import:datamine --build <new-ver> --datamine <path> --dry-run`
-4. **Triage curation**: open `tools/datamine-import/curation.json` and add decisions for any needs-curation entries shown in the audit doc
+4. **Triage curation**: open `tools/datamine-import/curation.json` and add decisions for any needs-curation entries shown in the audit doc. If the exit code is 1 and the "Needs Curation" section is empty, check the audit doc's **`## Bucket Coverage`** section — an unmapped `eAttribute` on an active or deprecated affix/aspect entry also blocks writes and must be resolved by adding the attribute to `lib/damage/config.json → attributeToBucket` (or by excluding/removing the offending entry from curation).
 5. **Real run**: `pnpm import:datamine --build <new-ver> --datamine <path>`
 6. **Verify**: `pnpm test` and `pnpm typecheck` pass; `git diff lib/catalog/skills/ lib/catalog/paragon/` is empty (unless skills/paragon changed upstream)
 7. **Commit**: stage all changes to `lib/catalog/`, `docs/datamine-import-*.md`, and `tools/datamine-import/curation.json`
@@ -185,9 +185,9 @@ The skill transformer (`sections/skills.ts`) dereferences each skill's Power fil
 - `fResourceCost` → `resourceCostPerCast`
 - `fCooldownDuration` → `cooldownSeconds`
 
-The Power file is looked up by `tPower.__fileName__` in the powers map built from all
-`Power/*.pow.json` files in the datamine. Skills whose Power file cannot be found emit a warning
-and continue with no scaling attributes.
+The Power file is looked up by `tPower.__fileName__` via the `getPowerByFileName` helper in
+`reader.ts`, which maintains a per-datamine-root in-memory cache over all `Power/*.pow.json` files.
+Skills whose Power file cannot be found emit a warning and continue with no scaling attributes.
 
 ---
 
@@ -220,3 +220,7 @@ The `source` field in a curation record overrides the default aspect source (`"l
 ```
 
 **Aspect curation keys are Affix `__fileName__` values** (e.g. `legendary_disobedience`, `legendary_barb_001`). Aspects live in `Affix/*.aff.json` files where `eAffixType === 1` and the filename matches `legendary_*` or `S\d+_legendary_*`. On the first real datamine run, surface the actual file base names from the audit doc and use those as keys in `curation.json`.
+
+## Contributor Notes
+
+When writing a new transformer section that needs to dereference Power files, use `getPowerByFileName(datamineRoot: string, fileName: string)` exported from `reader.ts` — it returns the cached record (or `undefined` if not found) and avoids re-reading the Power directory on every call. Do not export or call `loadAllPowers` directly; it is an internal implementation detail of the cache.
