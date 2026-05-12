@@ -17,7 +17,7 @@
  */
 
 import type { Character, Build } from "../schema";
-import type { SkillEntry, AffixEntry, AspectEntry } from "../catalog";
+import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../catalog";
 import type { DamageConfig } from "./config";
 import { computeBuildDpsFromParts, isSkillDamaging } from "./formula";
 
@@ -36,6 +36,8 @@ export interface EngineCatalog {
   affixes: AffixEntry[];
   /** All aspect entries (for attribute routing + distinct-multiplier flag) */
   aspects: AspectEntry[];
+  /** All unique item entries (for intrinsic-affix and intrinsic-aspect routing) */
+  uniques: UniqueEntry[];
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
@@ -80,6 +82,7 @@ export function computeBuildDps(
     character.equippedItems,
     catalog.affixes,
     catalog.aspects,
+    catalog.uniques,
     config
   );
 }

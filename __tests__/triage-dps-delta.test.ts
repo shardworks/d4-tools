@@ -19,7 +19,8 @@
 import { describe, it, expect } from "vitest";
 import { computeBuildDps } from "../lib/damage/index";
 import { baseConfig } from "../lib/damage/client-config";
-import type { SkillEntry, AffixEntry, AspectEntry } from "../lib/catalog";
+import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../lib/catalog";
+import { uniques, aspects } from "../lib/catalog";
 import type { Character, Build, Item, D4Class } from "../lib/schema";
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -82,7 +83,7 @@ const testBuild: Build = {
 /** Helper: compute current and new DPS results for per-skill delta analysis. */
 function computePerSkillDelta(
   character: Character,
-  catalog: { skills: SkillEntry[]; affixes: AffixEntry[]; aspects: AspectEntry[] },
+  catalog: { skills: SkillEntry[]; affixes: AffixEntry[]; aspects: AspectEntry[]; uniques: UniqueEntry[] },
   newItem: Item,
   slotId: string
 ): Array<{ skillId: string; diff: number; currentDps: number; newDps: number }> {
@@ -119,7 +120,7 @@ function computePerSkillDelta(
 
 describe("Triage DPS delta — D37 aggregate computation", () => {
   const skill = makeSkill("fireball");
-  const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+  const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
 
   it("returns positive aggregate delta when upgrading to a better weapon", () => {
     const character = makeCharacter({ weapon: makeWeapon(600) }, [{ skillId: "fireball", rank: 3 }]);
@@ -149,7 +150,7 @@ describe("Triage DPS delta — D37 aggregate computation", () => {
   });
 
   it("returns zero aggregate delta when there are no damaging skills (D28 null state)", () => {
-    const noSkillCatalog = { skills: [] as SkillEntry[], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const noSkillCatalog = { skills: [] as SkillEntry[], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter({ weapon: makeWeapon(800) }, []);
     const newWeapon = makeWeapon(900);
     const current = computeBuildDps(testBuild, character, noSkillCatalog, baseConfig).aggregate;
@@ -175,7 +176,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     const catalog = {
       skills: [skill1, skill2],
       affixes: [] as AffixEntry[],
-      aspects: [] as AspectEntry[],
+      aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[],
     };
     const character = makeCharacter(
       { weapon: makeWeapon(600) },
@@ -199,7 +200,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     const catalog = {
       skills: [skill1, skill2],
       affixes: [] as AffixEntry[],
-      aspects: [] as AspectEntry[],
+      aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[],
     };
     const character = makeCharacter(
       { weapon: makeWeapon(600) },
@@ -217,7 +218,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
 
   it("first-equip: currentDps is 0 and newDps is positive", () => {
     const skill = makeSkill("fireball");
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter({}, [{ skillId: "fireball", rank: 3 }]);
 
     const deltas = computePerSkillDelta(character, catalog, makeWeapon(800), "weapon");
@@ -229,7 +230,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
 
   it("negative delta is visible when swapping to a worse weapon", () => {
     const skill = makeSkill("fireball");
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter({ weapon: makeWeapon(900) }, [{ skillId: "fireball", rank: 3 }]);
 
     const deltas = computePerSkillDelta(character, catalog, makeWeapon(600), "weapon");
@@ -243,7 +244,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     const catalog = {
       skills: [skill1, skill2],
       affixes: [] as AffixEntry[],
-      aspects: [] as AspectEntry[],
+      aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[],
     };
     const character = makeCharacter(
       { weapon: makeWeapon(600) },
@@ -264,7 +265,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     // weaponDamage = 100 + 1.5 × itemPower
     // 600 IP → 1000; 900 IP → 1450; ratio = 1.45
     const skill = makeSkill("fireball");
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter({ weapon: makeWeapon(600) }, [{ skillId: "fireball", rank: 3 }]);
     const current = computeBuildDps(testBuild, character, catalog, baseConfig);
     const deltas = computePerSkillDelta(character, catalog, makeWeapon(900), "weapon");
@@ -283,7 +284,7 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
         { attribute: "Attr_Skill_Damage_Percent", scaleValue: 0.50, rankScale: 0.05 },
       ],
     };
-    const barbCatalog = { skills: [barbSkill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const barbCatalog = { skills: [barbSkill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const barbCharacter = makeCharacter(
       { weapon: makeWeapon(800, "weapon") },
       [{ skillId: "bash", rank: 3 }],
@@ -298,5 +299,42 @@ describe("Triage DPS delta — D37 per-skill computation", () => {
     };
     const next = computeBuildDps(testBuild, updatedBarb, barbCatalog, baseConfig).aggregate;
     expect(next).toBeCloseTo(current, 4);
+  });
+});
+
+// ─── Unique intrinsics DPS delta (Acceptance Signal 2) ───────────────────────
+
+describe("Triage DPS delta — unique intrinsic distinct-mult jump", () => {
+  it("equipping Tibault's Will shows ×1.30 DPS jump from distinct-mult intrinsic", () => {
+    const skill = makeSkill("fireball");
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects, uniques };
+
+    const bareChar = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const tibaultsWill: Item = {
+      slot: "pants",
+      name: "Tibault's Will",
+      rarity: "unique",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const tibaultChar = makeCharacter(
+      { weapon: makeWeapon(800), pants: tibaultsWill },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+
+    const current = computeBuildDps(testBuild, bareChar, catalog, baseConfig).aggregate;
+    const next = computeBuildDps(testBuild, tibaultChar, catalog, baseConfig).aggregate;
+
+    // Tibault's Will adds a ×1.30 distinct multiplier (30/100 = 0.30 → 1 + 0.30 = 1.30)
+    expect(next / current).toBeCloseTo(1.30, 2);
   });
 });

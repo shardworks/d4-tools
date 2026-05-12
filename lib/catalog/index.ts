@@ -398,6 +398,51 @@ export function findParagonGlyphById(
   );
 }
 
+// ─── Label normalization ────────────────────────────────────────────────────
+
+/**
+ * Normalizes a string for catalog matching: lowercase, strip non-alphanumerics,
+ * collapse whitespace.
+ *
+ * Shared primitive used by lib/catalog helpers and re-exported for lib/triage
+ * (which owns the fuzzy-matching layer on top of this).
+ *
+ * Example: "Maximum Life %" → "maximum life"
+ */
+export function normalizeLabel(label: string): string {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Finds a unique item entry by name using two-tier exact matching.
+ *
+ * - Tier 1: normalized id-with-underscores-as-spaces match
+ *   (e.g. "harlequin crest" matches id "harlequin_crest")
+ * - Tier 2: normalized label match
+ *
+ * Returns `undefined` on miss. Fuzzy fallback is triage's private concern (D11).
+ *
+ * Used by lib/damage to route intrinsic powers and by lib/triage as the first
+ * step of unique resolution before falling back to Jaro-Winkler matching.
+ */
+export function findUniqueByName(name: string): UniqueEntry | undefined {
+  const normalizedName = normalizeLabel(name);
+  if (!normalizedName) return undefined;
+
+  // Tier 1: normalized id-with-underscores-as-spaces match
+  const byId = uniques.find(
+    (u) => normalizeLabel(u.id.replace(/_/g, " ")) === normalizedName
+  );
+  if (byId) return byId;
+
+  // Tier 2: normalized label match
+  return uniques.find((u) => normalizeLabel(u.label) === normalizedName);
+}
+
 // ─── Slot helpers ──────────────────────────────────────────────────────────
 
 /**

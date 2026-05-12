@@ -17,9 +17,11 @@
 
 import { describe, it, expect } from "vitest";
 import { computeBuildDps, isSkillDamaging } from "../lib/damage/index";
+import { collectAllAffixContributions, getDistinctMultiplierContributions } from "../lib/damage/buckets";
 import { loadDamageConfig } from "../lib/damage/config";
 import type { DamageConfig } from "../lib/damage/config";
-import type { SkillEntry, AffixEntry, AspectEntry } from "../lib/catalog";
+import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../lib/catalog";
+import { uniques, aspects } from "../lib/catalog";
 import type { Character, Build, Item } from "../lib/schema";
 
 // ─── Shared fixtures ──────────────────────────────────────────────────────────
@@ -157,7 +159,7 @@ function makeNonDamagingAffixEntry(id: string): AffixEntry {
 const EMPTY_CATALOG = {
   skills: [] as SkillEntry[],
   affixes: [] as AffixEntry[],
-  aspects: [] as AspectEntry[],
+  aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[],
 };
 
 // ─── isSkillDamaging (D17) ────────────────────────────────────────────────────
@@ -212,7 +214,7 @@ describe("computeBuildDps — empty / no damaging skills", () => {
     const result = computeBuildDps(testBuild, character, {
       skills: [skill],
       affixes: [],
-      aspects: [],
+      aspects: [], uniques: [],
     }, config);
     expect(result.perSkill).toHaveLength(0);
     expect(result.aggregate).toBe(0);
@@ -232,7 +234,7 @@ describe("computeBuildDps — basic single skill", () => {
     const result = computeBuildDps(testBuild, character, {
       skills: [skill],
       affixes: [],
-      aspects: [],
+      aspects: [], uniques: [],
     }, config);
     expect(result.perSkill).toHaveLength(1);
     expect(result.perSkill[0].skillId).toBe("fire_bolt");
@@ -251,7 +253,7 @@ describe("computeBuildDps — basic single skill", () => {
     const result = computeBuildDps(testBuild, character, {
       skills: [skill],
       affixes: [],
-      aspects: [],
+      aspects: [], uniques: [],
     }, config);
     expect(result.perSkill[0].dps).toBe(0);
     expect(result.aggregate).toBe(0);
@@ -263,7 +265,7 @@ describe("computeBuildDps — basic single skill", () => {
     const runWith = (ip: number) => computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(ip) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [], aspects: [] }, config);
+    ), { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
 
     const low = runWith(100);
     const high = runWith(900);
@@ -276,7 +278,7 @@ describe("computeBuildDps — basic single skill", () => {
     const charAtRank = (rank: number) => computeBuildDps(
       testBuild,
       makeSorcerer({ weapon: makeWeapon(700) }, [{ skillId: "fire_bolt", rank }]),
-      { skills: [skill], affixes: [], aspects: [] },
+      { skills: [skill], affixes: [], aspects: [], uniques: [] },
       config
     );
     expect(charAtRank(5).aggregate).toBeGreaterThan(charAtRank(1).aggregate);
@@ -294,7 +296,7 @@ describe("computeBuildDps — additive bucket", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [coreSkillAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [coreSkillAffix], aspects: [], uniques: [] }, config);
 
     const withAffix = computeBuildDps(testBuild, makeSorcerer(
       {
@@ -308,7 +310,7 @@ describe("computeBuildDps — additive bucket", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [coreSkillAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [coreSkillAffix], aspects: [], uniques: [] }, config);
 
     expect(withAffix.aggregate).toBeGreaterThan(base.aggregate);
     // +25% core skill damage → additive mult increases by 0.25 → dps ×(1.25/1.0)
@@ -324,7 +326,7 @@ describe("computeBuildDps — additive bucket", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [affixA, affixB], aspects: [] }, config);
+    ), { skills: [skill], affixes: [affixA, affixB], aspects: [], uniques: [] }, config);
 
     const withBoth = computeBuildDps(testBuild, makeSorcerer(
       {
@@ -341,7 +343,7 @@ describe("computeBuildDps — additive bucket", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [affixA, affixB], aspects: [] }, config);
+    ), { skills: [skill], affixes: [affixA, affixB], aspects: [], uniques: [] }, config);
 
     // Sum = 0.20 + 0.30 = 0.50 → mult = 1.50 → ratio = 1.50
     expect(withBoth.aggregate / base.aggregate).toBeCloseTo(1.50, 2);
@@ -359,7 +361,7 @@ describe("computeBuildDps — CC-conditional zeroed under boss-DPS", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [ccAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [ccAffix], aspects: [], uniques: [] }, config);
 
     const withCC = computeBuildDps(testBuild, makeSorcerer(
       {
@@ -373,7 +375,7 @@ describe("computeBuildDps — CC-conditional zeroed under boss-DPS", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [ccAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [ccAffix], aspects: [], uniques: [] }, config);
 
     // CC uptime = 0.0 → zero contribution → same DPS as base
     expect(withCC.aggregate).toBeCloseTo(base.aggregate, 5);
@@ -392,7 +394,7 @@ describe("computeBuildDps — vulnerable uptime", () => {
     );
 
     const result = computeBuildDps(testBuild, character, {
-      skills: [skill], affixes: [], aspects: [],
+      skills: [skill], affixes: [], aspects: [], uniques: [],
     }, config);
 
     // Extract expected breakdown: vulnMult should be ≈ 1.18
@@ -408,7 +410,7 @@ describe("computeBuildDps — vulnerable uptime", () => {
     const config = getConfig();
     const skill = makeSkill("fire_bolt");
     const character = makeSorcerer({ weapon: makeWeapon(700) }, [{ skillId: "fire_bolt", rank: 1 }]);
-    const result = computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [] }, config);
+    const result = computeBuildDps(testBuild, character, { skills: [skill], affixes: [], aspects: [], uniques: [] }, config);
 
     // vulnMult = 1 + 0.90 × 0.20 = 1.18 → present in bucketContributions
     expect(result.perSkill[0].bucketContributions["vulnerable"]).toBeGreaterThan(1.0);
@@ -427,7 +429,7 @@ describe("computeBuildDps — crit EV", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [cscAffix, csdAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [cscAffix, csdAffix], aspects: [], uniques: [] }, config);
 
     const withCrit = computeBuildDps(testBuild, makeSorcerer(
       {
@@ -444,7 +446,7 @@ describe("computeBuildDps — crit EV", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [cscAffix, csdAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [cscAffix, csdAffix], aspects: [], uniques: [] }, config);
 
     expect(withCrit.aggregate).toBeGreaterThan(base.aggregate);
   });
@@ -467,7 +469,7 @@ describe("computeBuildDps — crit EV", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [cscAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [cscAffix], aspects: [], uniques: [] }, config);
 
     // CritMult = 1 + 1.0 × csBaseline(0.5) = 1.5 — same as with exactly 100% CSC
     expect(withCapped.perSkill[0].bucketContributions["crit"]).toBeCloseTo(1.5, 2);
@@ -485,7 +487,7 @@ describe("computeBuildDps — Position A vs B config override", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [coreAffix], aspects: [] }, configA);
+    ), { skills: [skill], affixes: [coreAffix], aspects: [], uniques: [] }, configA);
 
     const withAffix = computeBuildDps(testBuild, makeSorcerer(
       {
@@ -499,7 +501,7 @@ describe("computeBuildDps — Position A vs B config override", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [coreAffix], aspects: [] }, configA);
+    ), { skills: [skill], affixes: [coreAffix], aspects: [], uniques: [] }, configA);
 
     // Position A: +30% core → 30% increase
     expect(withAffix.aggregate / base.aggregate).toBeCloseTo(1.30, 2);
@@ -545,12 +547,12 @@ describe("computeBuildDps — Position A vs B config override", () => {
 
     // With +30% in additive (Position A): additiveMult = 1.30 → ratio 1.30/1.0 = 1.30
     const resultA = computeBuildDps(testBuild, character, {
-      skills: [skill], affixes: [coreAffix], aspects: [],
+      skills: [skill], affixes: [coreAffix], aspects: [], uniques: [],
     }, configA);
 
     // With +30% as distinct mult (Position B): distinctMult = 1.30 → different multiplier interaction
     const resultB = computeBuildDps(testBuild, character, {
-      skills: [skill], affixes: [coreAffix], aspects: [],
+      skills: [skill], affixes: [coreAffix], aspects: [], uniques: [],
     }, configB);
 
     // Results should differ between positions
@@ -570,7 +572,7 @@ describe("computeBuildDps — attack speed breakpoints", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // Add tiny AS (below next breakpoint at 1.063 → need 6.3%+)
     const withSmallAS = computeBuildDps(testBuild, makeSorcerer(
@@ -584,7 +586,7 @@ describe("computeBuildDps — attack speed breakpoints", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // 3% AS does not cross the 6.3% breakpoint → same frame count → same APS → same DPS
     expect(withSmallAS.aggregate).toBeCloseTo(base.aggregate, 3);
@@ -599,7 +601,7 @@ describe("computeBuildDps — attack speed breakpoints", () => {
     const base = computeBuildDps(testBuild, makeSorcerer(
       { weapon: makeWeapon(700) },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // Add enough AS to cross from 17→16 frames (need 1.063 multiplier → 6.3%+ AS)
     const withBreakpointAS = computeBuildDps(testBuild, makeSorcerer(
@@ -613,7 +615,7 @@ describe("computeBuildDps — attack speed breakpoints", () => {
         } as Item,
       },
       [{ skillId: "fire_bolt", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // Crossed from 17→16 frames: APS went from 3.529 to 3.75 → DPS should increase
     expect(withBreakpointAS.aggregate).toBeGreaterThan(base.aggregate);
@@ -634,7 +636,7 @@ describe("computeBuildDps — Paladin/Warlock linear AS (D34)", () => {
     const base = computeBuildDps(testBuild, makePaladin(
       { weapon: makeWeapon(700) },
       [{ skillId: "holy_strike", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     const withAS = computeBuildDps(testBuild, makePaladin(
       {
@@ -647,7 +649,7 @@ describe("computeBuildDps — Paladin/Warlock linear AS (D34)", () => {
         } as Item,
       },
       [{ skillId: "holy_strike", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // Paladin uses linear AS: +10% AS → DPS increases by exactly 10%
     expect(withAS.aggregate / base.aggregate).toBeCloseTo(1.10, 3);
@@ -661,7 +663,7 @@ describe("computeBuildDps — Paladin/Warlock linear AS (D34)", () => {
     const base = computeBuildDps(testBuild, makePaladin(
       { weapon: makeWeapon(700) },
       [{ skillId: "holy_strike", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     const with3AS = computeBuildDps(testBuild, makePaladin(
       {
@@ -674,7 +676,7 @@ describe("computeBuildDps — Paladin/Warlock linear AS (D34)", () => {
         } as Item,
       },
       [{ skillId: "holy_strike", rank: 1 }]
-    ), { skills: [skill], affixes: [asAffix], aspects: [] }, config);
+    ), { skills: [skill], affixes: [asAffix], aspects: [], uniques: [] }, config);
 
     // Paladin: +3% AS → 3% DPS increase (unlike Sorcerer which needs breakpoint)
     expect(with3AS.aggregate / base.aggregate).toBeCloseTo(1.03, 3);
@@ -717,7 +719,7 @@ describe("computeBuildDps — fail-loud on unmapped attribute", () => {
       computeBuildDps(testBuild, character, {
         skills: [skill],
         affixes: [unknownAffix],
-        aspects: [],
+        aspects: [], uniques: [],
       }, config)
     ).toThrow("Attr_Some_Unknown_Attribute_That_Does_Not_Exist");
   });
@@ -756,9 +758,265 @@ describe("computeBuildDps — fail-loud on unmapped attribute", () => {
       computeBuildDps(testBuild, character, {
         skills: [skill],
         affixes: [lifeAffix],
-        aspects: [],
+        aspects: [], uniques: [],
       }, config)
     ).not.toThrow();
+  });
+});
+
+// ─── Unique intrinsic routing ─────────────────────────────────────────────────
+
+/** Minimal unique item fixture. */
+function makeUniqueItem(name: string, slot: string, itemPower = 925): Item {
+  return {
+    slot,
+    name,
+    rarity: "unique",
+    itemPower,
+    isAncestral: false,
+    implicits: [],
+    explicits: [],
+    tempered: [],
+    masterworkRank: 0,
+    runes: [],
+    sockets: [],
+  };
+}
+
+describe("collectAllAffixContributions — unique intrinsics (S1 acceptance signals)", () => {
+  it("Harlequin Crest intrinsicAffix contributes 0.20 to additive bucket via Attr_Skill_Damage_Percent", () => {
+    const config = getConfig();
+    const helm = makeUniqueItem("Harlequin Crest", "helm");
+
+    const contributions = collectAllAffixContributions(
+      { helm },
+      [],       // no affix catalog needed
+      aspects,
+      uniques,
+      config
+    );
+
+    const intrinsicContrib = contributions.find(
+      (c) => c.attribute === "Attr_Skill_Damage_Percent" && c.rolledValue === 0.20
+    );
+    expect(intrinsicContrib).toBeDefined();
+    expect(intrinsicContrib!.bucket).toBe("additive");
+    expect(intrinsicContrib!.conditional).toBe("unconditional");
+  });
+
+  it("Tibault's Will intrinsicAspect (no-aspectId distinct-mult path) contributes 0.30 rolledValue as distinct multiplier", () => {
+    const config = getConfig();
+    const pants = makeUniqueItem("Tibault's Will", "pants");
+
+    const contributions = collectAllAffixContributions(
+      { pants },
+      [],
+      aspects,
+      uniques,
+      config
+    );
+
+    const distinctContribs = getDistinctMultiplierContributions(contributions);
+    expect(distinctContribs).toHaveLength(1);
+    expect(distinctContribs[0].rolledValue).toBeCloseTo(0.30, 6); // 30/100 = 0.30 → factor 1.30
+    expect(distinctContribs[0].isDistinctMultiplier).toBe(true);
+  });
+
+  it("Ring of Starless Skies contributes NO distinct-mult factor after isDistinctMultiplier correction (D13)", () => {
+    const config = getConfig();
+    const ring = makeUniqueItem("Ring of Starless Skies", "ring1");
+
+    const contributions = collectAllAffixContributions(
+      { ring1: ring },
+      [],
+      aspects,
+      uniques,
+      config
+    );
+
+    const distinctContribs = getDistinctMultiplierContributions(contributions);
+    expect(distinctContribs).toHaveLength(0); // no phantom ×1.12
+  });
+
+  it("fails loud (D7) when intrinsicAspect.aspectId references a nonexistent aspect", () => {
+    const config = getConfig();
+    const fixtureUnique: UniqueEntry = {
+      id: "test_bad_aspect_ref",
+      label: "Test Bad Aspect Ref",
+      slot: "helm",
+      classRestrictions: [],
+      intrinsicAspects: [
+        {
+          aspectId: "nonexistent_aspect_xyz_12345",
+          label: "Bad aspect",
+          valueRange: [10, 20],
+          isPercent: true,
+        }
+      ],
+    };
+
+    const item = makeUniqueItem("Test Bad Aspect Ref", "helm");
+
+    expect(() =>
+      collectAllAffixContributions(
+        { helm: item },
+        [],
+        aspects, // real aspect catalog — won't contain the nonexistent id
+        [fixtureUnique],
+        config
+      )
+    ).toThrow("[damage/buckets]");
+
+    expect(() =>
+      collectAllAffixContributions(
+        { helm: item },
+        [],
+        aspects,
+        [fixtureUnique],
+        config
+      )
+    ).toThrow("nonexistent_aspect_xyz_12345");
+  });
+
+  it("silently skips (D6) intrinsicAspect when referenced AspectEntry has no attribute", () => {
+    const config = getConfig();
+    const attrlessAspect: AspectEntry = {
+      id: "aspect_no_attribute_xyz",
+      label: "Aspect Without Attribute",
+      labelTemplate: "No attribute",
+      valueRange: [10, 20],
+      isPercent: false,
+      slotRestrictions: [],
+      classRestrictions: [],
+      source: "legendary",
+      // attribute intentionally absent
+    };
+
+    const fixtureUnique: UniqueEntry = {
+      id: "test_attrless_aspect_unique",
+      label: "Test Attrless Aspect Unique",
+      slot: "helm",
+      classRestrictions: [],
+      intrinsicAspects: [
+        {
+          aspectId: "aspect_no_attribute_xyz",
+          label: "Attrless",
+          valueRange: [10, 20],
+          isPercent: false,
+        }
+      ],
+    };
+
+    const item = makeUniqueItem("Test Attrless Aspect Unique", "helm");
+
+    const contributions = collectAllAffixContributions(
+      { helm: item },
+      [],
+      [attrlessAspect],
+      [fixtureUnique],
+      config
+    );
+
+    // No throw, no contribution pushed
+    expect(contributions).toHaveLength(0);
+  });
+
+  it("silently skips (D16) when item rarity is unique but name is empty", () => {
+    const config = getConfig();
+    const emptyNameItem: Item = {
+      slot: "helm",
+      name: "",
+      rarity: "unique",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+
+    expect(() =>
+      collectAllAffixContributions(
+        { helm: emptyNameItem },
+        [],
+        aspects,
+        uniques,
+        config
+      )
+    ).not.toThrow();
+
+    const contributions = collectAllAffixContributions(
+      { helm: emptyNameItem },
+      [],
+      aspects,
+      uniques,
+      config
+    );
+    expect(contributions).toHaveLength(0);
+  });
+
+  it("silently skips (D16) when item name does not match any catalog unique", () => {
+    const config = getConfig();
+    const unknownUniqueItem = makeUniqueItem("Nonexistent Unique Item XYZ", "helm");
+
+    const contributions = collectAllAffixContributions(
+      { helm: unknownUniqueItem },
+      [],
+      aspects,
+      uniques,
+      config
+    );
+
+    expect(contributions).toHaveLength(0);
+  });
+});
+
+describe("computeBuildDps — Harlequin Crest DPS injection (Acceptance Signal 1)", () => {
+  it("equipping Harlequin Crest raises DPS by intrinsic +20% skill damage", () => {
+    const config = getConfig();
+    const skill = makeSkill("fireball");
+    const catalog = { skills: [skill], affixes: [], aspects, uniques };
+
+    const bareChar = makeSorcerer(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const harlequinChar = makeSorcerer(
+      { weapon: makeWeapon(800), helm: makeUniqueItem("Harlequin Crest", "helm") },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+
+    const bareResult = computeBuildDps(testBuild, bareChar, catalog, config);
+    const harlResult = computeBuildDps(testBuild, harlequinChar, catalog, config);
+
+    // Additive mult goes from 1.0 to 1.20 (ceteris paribus) → ratio = 1.20
+    expect(harlResult.aggregate).toBeGreaterThan(bareResult.aggregate);
+    expect(harlResult.aggregate / bareResult.aggregate).toBeCloseTo(1.20, 2);
+  });
+});
+
+describe("computeBuildDps — Tibault's Will distinct-mult (Acceptance Signal 2)", () => {
+  it("equipping Tibault's Will multiplies DPS by ×1.30", () => {
+    const config = getConfig();
+    const skill = makeSkill("fireball");
+    const catalog = { skills: [skill], affixes: [], aspects, uniques };
+
+    const bareChar = makeSorcerer(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const tibaultChar = makeSorcerer(
+      { weapon: makeWeapon(800), pants: makeUniqueItem("Tibault's Will", "pants") },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+
+    const bareResult = computeBuildDps(testBuild, bareChar, catalog, config);
+    const tibResult = computeBuildDps(testBuild, tibaultChar, catalog, config);
+
+    // Distinct-mult factor: 1 + 0.30 = 1.30 → ratio ≈ 1.30
+    expect(tibResult.aggregate / bareResult.aggregate).toBeCloseTo(1.30, 2);
   });
 });
 
@@ -781,7 +1039,7 @@ describe("computeBuildDps — aggregate is max(perSkill)", () => {
       [{ skillId: "skill_a", rank: 1 }, { skillId: "skill_b", rank: 1 }]
     );
     const result = computeBuildDps(testBuild, character, {
-      skills: [skillA, skillB], affixes: [], aspects: [],
+      skills: [skillA, skillB], affixes: [], aspects: [], uniques: [],
     }, config);
     expect(result.perSkill).toHaveLength(2);
     const maxDps = Math.max(...result.perSkill.map((s) => s.dps));

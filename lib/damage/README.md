@@ -13,13 +13,14 @@ Top-level entry point. Computes sustained boss DPS for every damaging skill sele
 
 ```typescript
 import { computeBuildDps, loadDamageConfig } from "@/lib/damage";
-import { getSkillsForClass, affixes, aspects } from "@/lib/catalog";
+import { getSkillsForClass, affixes, aspects, uniques } from "@/lib/catalog";
 
 const config = loadDamageConfig(); // server-side only (uses fs)
 const catalog = {
   skills: getSkillsForClass(character.class),
   affixes,
   aspects,
+  uniques, // drives intrinsic-affix and intrinsic-aspect routing for equipped uniques
 };
 const result = computeBuildDps(build, character, catalog, config);
 // result.aggregate — max per-skill DPS (the headline number)
@@ -58,6 +59,12 @@ Where:
 - **effectiveAPS** = 60fps / framesPerAttack (breakpoint table lookup, D34)
 - **CSC** = `critBaseChance + Σcrit_chance bucket` (hard-capped at 100%)
 - **CSD** = `csBaseline + Σcrit_damage bucket`
+
+**Unique intrinsic contributions:** When a unique or mythic item is equipped, the engine resolves
+its `UniqueEntry` from the `catalog.uniques` array and contributes its `intrinsicAffixes` to the
+additive bucket (and other buckets per `attributeToBucket`) at catalog-max value. `intrinsicAspects`
+entries flagged `isDistinctMultiplier: true` (either via their referenced `AspectEntry` or directly)
+are folded into the distinct-mult product. Label-only entries with no routing flag are silently skipped.
 
 ### Uptime model (boss-DPS framing, D15)
 
@@ -131,9 +138,9 @@ Key config sections:
 
 | File | Responsibility |
 |------|----------------|
-| `index.ts` | Public API (`computeBuildDps`, `isSkillDamaging`, re-exports) |
+| `index.ts` | Public API (`computeBuildDps`, `isSkillDamaging`, `EngineCatalog` shape including `uniques`, re-exports) |
 | `formula.ts` | Core DPS math (`computeBuildDpsFromParts`, `computeSkillDps`) |
-| `buckets.ts` | Affix contribution collection and routing |
+| `buckets.ts` | Affix contribution collection and routing; `collectIntrinsicsFromUnique` collects unique intrinsic powers |
 | `breakpoints.ts` | Attack speed quantization (`computeEffectiveAps`) |
 | `conditionals.ts` | Uptime resolution (`resolveUptime`, `sumBucketWithUptime`) |
 | `types.ts` | Result types (`BuildDpsResult`, `SkillDpsResult`, etc.) |

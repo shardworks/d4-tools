@@ -432,7 +432,7 @@
             12
           ],
           "isPercent": true,
-          "isDistinctMultiplier": true
+          "isDistinctMultiplier": false
         }
       ]
     },

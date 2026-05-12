@@ -6,7 +6,7 @@ import type { Character, Build, Item } from "@/lib/schema";
 import type { DamageConfig } from "@/lib/damage";
 import { computeBuildDps } from "@/lib/damage";
 import { baseConfig } from "@/lib/damage/client-config";
-import { getSkillsForClass, affixes, aspects } from "@/lib/catalog";
+import { getSkillsForClass, affixes, aspects, uniques } from "@/lib/catalog";
 import { formatDps } from "@/components/d4/SkillDpsSection";
 
 interface DpsDeltaSectionProps {
@@ -64,6 +64,7 @@ export function DpsDeltaSection({
       skills: getSkillsForClass(character.class),
       affixes,
       aspects,
+      uniques,
     };
 
     try {

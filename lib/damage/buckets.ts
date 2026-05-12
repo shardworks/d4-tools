@@ -10,7 +10,8 @@
  */
 
 import type { Character, Item } from "../schema";
-import type { AffixEntry, AspectEntry } from "../catalog";
+import type { AffixEntry, AspectEntry, UniqueEntry } from "../catalog";
+import { normalizeLabel } from "../catalog";
 import type { DamageConfig } from "./config";
 import type { AffixContribution } from "./types";
 
@@ -32,6 +33,111 @@ function findAspect(
   return aspectCatalog.find((a) => a.id === aspectId);
 }
 
+// ─── Unique intrinsic contribution collector ──────────────────────────────────
+
+/**
+ * Collects intrinsic-affix and routable intrinsic-aspect contributions from the
+ * UniqueEntry that matches the equipped item's name.
+ *
+ * Gate: only fires when item.rarity ∈ {"unique", "mythic"} AND item.name is non-empty.
+ * Silent-skip when the name does not resolve to a UniqueEntry (D16).
+ *
+ * intrinsicAffixes:  push valueRange[1] as-is (decimal form per catalog convention).
+ * intrinsicAspects:
+ *   - aspectId present → route via AspectEntry (D3); fail-loud on unknown aspectId (D7);
+ *     silent-skip when AspectEntry has no attribute (D6).
+ *   - aspectId absent + isDistinctMultiplier === true → push D4 sentinel row with
+ *     rolledValue = isPercent ? valueRange[1] / 100 : valueRange[1] (D5 conversion).
+ *   - all other cases (label-only, no routing flag) → silent-skip.
+ */
+function collectIntrinsicsFromUnique(
+  item: Item,
+  slotId: string,
+  uniqueCatalog: UniqueEntry[],
+  aspectCatalog: AspectEntry[],
+  config: DamageConfig,
+  contributions: AffixContribution[]
+): void {
+  // Gate: unique/mythic rarity only, non-empty name
+  if (item.rarity !== "unique" && item.rarity !== "mythic") return;
+  if (!item.name) return;
+
+  // Resolve unique entry against the passed-in catalog (exact match — same two-tier
+  // logic as lib/catalog's findUniqueByName, applied locally so the engine uses the
+  // catalog instance the caller provides rather than the module-level singleton).
+  const normalizedName = normalizeLabel(item.name);
+  if (!normalizedName) return;
+  const uniqueEntry =
+    uniqueCatalog.find((u) => normalizeLabel(u.id.replace(/_/g, " ")) === normalizedName) ??
+    uniqueCatalog.find((u) => normalizeLabel(u.label) === normalizedName);
+  if (!uniqueEntry) return;
+
+  // ── intrinsicAffixes path ──
+  for (const ia of uniqueEntry.intrinsicAffixes ?? []) {
+    const eAttr = ia.attribute.eAttribute;
+    const bucketEntry = config.attributeToBucket[eAttr];
+    if (!bucketEntry) {
+      throw new Error(
+        `[damage/buckets] Equipped unique '${uniqueEntry.id}' has intrinsicAffix referencing attribute '${eAttr}' which is not mapped in attributeToBucket. ` +
+        `Add an entry to lib/damage/config.json or data/damage-config.local.json to resolve.`
+      );
+    }
+    contributions.push({
+      attribute: eAttr,
+      rolledValue: ia.valueRange[1], // catalog-max, decimal form (D5)
+      bucket: bucketEntry.bucket,
+      conditional: bucketEntry.conditional,
+      slotId,
+    });
+  }
+
+  // ── intrinsicAspects path ──
+  for (const ia of uniqueEntry.intrinsicAspects ?? []) {
+    if (ia.aspectId) {
+      // D3: route through AspectEntry
+      const aspectEntry = findAspect(ia.aspectId, aspectCatalog);
+      if (!aspectEntry) {
+        // D7: fail-loud on missing AspectEntry
+        throw new Error(
+          `[damage/buckets] Equipped unique '${uniqueEntry.id}' has intrinsicAspect referencing aspect id '${ia.aspectId}' which does not exist in the aspect catalog.`
+        );
+      }
+      if (!aspectEntry.attribute) {
+        // D6: silent-skip when AspectEntry has no attribute
+        continue;
+      }
+      const eAttr = aspectEntry.attribute.eAttribute;
+      const bucketEntry = config.attributeToBucket[eAttr];
+      if (!bucketEntry) {
+        throw new Error(
+          `[damage/buckets] Equipped unique '${uniqueEntry.id}' has intrinsicAspect (aspect id '${ia.aspectId}') referencing attribute '${eAttr}' which is not mapped in attributeToBucket. ` +
+          `Add an entry to lib/damage/config.json or data/damage-config.local.json to resolve.`
+        );
+      }
+      contributions.push({
+        attribute: eAttr,
+        rolledValue: ia.isPercent ? ia.valueRange[1] / 100 : ia.valueRange[1],
+        bucket: bucketEntry.bucket,
+        conditional: bucketEntry.conditional,
+        isDistinctMultiplier: aspectEntry.isDistinctMultiplier ?? false,
+        slotId,
+      });
+    } else if (ia.isDistinctMultiplier === true) {
+      // D4: no-aspectId distinct-mult path (Tibault's Will)
+      const rolledValue = ia.isPercent ? ia.valueRange[1] / 100 : ia.valueRange[1];
+      contributions.push({
+        attribute: `unique_intrinsic:${uniqueEntry.id}`,
+        rolledValue,
+        bucket: "distinct_mult",
+        conditional: "unconditional",
+        isDistinctMultiplier: true,
+        slotId,
+      });
+    }
+    // else: label-only, no routing flag → silent-skip (out of scope per brief)
+  }
+}
+
 // ─── Single-item contribution collector ───────────────────────────────────────
 
 /**
@@ -43,6 +149,7 @@ function collectFromItem(
   slotId: string,
   affixCatalog: AffixEntry[],
   aspectCatalog: AspectEntry[],
+  uniqueCatalog: UniqueEntry[],
   config: DamageConfig,
   contributions: AffixContribution[]
 ): void {
@@ -101,6 +208,9 @@ function collectFromItem(
       });
     }
   }
+
+  // Unique intrinsic contributions (intrinsicAffixes + routable intrinsicAspects)
+  collectIntrinsicsFromUnique(item, slotId, uniqueCatalog, aspectCatalog, config, contributions);
 }
 
 // ─── Full-character collector ─────────────────────────────────────────────────
@@ -119,12 +229,13 @@ export function collectAllAffixContributions(
   equippedItems: Record<string, Item>,
   affixCatalog: AffixEntry[],
   aspectCatalog: AspectEntry[],
+  uniqueCatalog: UniqueEntry[],
   config: DamageConfig
 ): AffixContribution[] {
   const contributions: AffixContribution[] = [];
 
   for (const [slotId, item] of Object.entries(equippedItems)) {
-    collectFromItem(item, slotId, affixCatalog, aspectCatalog, config, contributions);
+    collectFromItem(item, slotId, affixCatalog, aspectCatalog, uniqueCatalog, config, contributions);
   }
 
   return contributions;
@@ -138,12 +249,14 @@ export function collectCharacterContributions(
   character: Character,
   affixCatalog: AffixEntry[],
   aspectCatalog: AspectEntry[],
+  uniqueCatalog: UniqueEntry[],
   config: DamageConfig
 ): AffixContribution[] {
   return collectAllAffixContributions(
     character.equippedItems,
     affixCatalog,
     aspectCatalog,
+    uniqueCatalog,
     config
   );
 }

@@ -22,7 +22,7 @@
  */
 
 import type { Item } from "../schema";
-import type { SkillEntry, AffixEntry, AspectEntry } from "../catalog";
+import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../catalog";
 import type { DamageConfig } from "./config";
 import type { AffixContribution, BuildDpsResult, SkillDpsResult } from "./types";
 import {
@@ -274,6 +274,7 @@ export function computeBuildDpsFromParts(
   equippedItems: Record<string, Item>,
   affixCatalog: AffixEntry[],
   aspectCatalog: AspectEntry[],
+  uniqueCatalog: UniqueEntry[],
   config: DamageConfig
 ): BuildDpsResult {
   // Collect all affix contributions once (shared across skills)
@@ -281,6 +282,7 @@ export function computeBuildDpsFromParts(
     equippedItems,
     affixCatalog,
     aspectCatalog,
+    uniqueCatalog,
     config
   );
 

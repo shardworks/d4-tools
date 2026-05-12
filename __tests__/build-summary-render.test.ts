@@ -16,7 +16,8 @@ import { describe, it, expect } from "vitest";
 import { computeBuildDps } from "../lib/damage/index";
 import { baseConfig } from "../lib/damage/client-config";
 import { formatDps } from "../components/d4/SkillDpsSection";
-import type { SkillEntry, AffixEntry, AspectEntry } from "../lib/catalog";
+import type { SkillEntry, AffixEntry, AspectEntry, UniqueEntry } from "../lib/catalog";
+import { uniques, aspects } from "../lib/catalog";
 import type { Character, Build, Item } from "../lib/schema";
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -78,7 +79,7 @@ const testBuild: Build = {
 const EMPTY_CATALOG = {
   skills: [] as SkillEntry[],
   affixes: [] as AffixEntry[],
-  aspects: [] as AspectEntry[],
+  aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[],
 };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -97,7 +98,7 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
       {}, // no weapon
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [], aspects: [] };
+    const catalog = { skills: [skill], affixes: [], aspects: [], uniques: [] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     // Engine returns the skill result but with dps=0 (no weapon)
     expect(result.aggregate).toBe(0);
@@ -112,7 +113,7 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
       { weapon: makeWeapon(800) },
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [], aspects: [] };
+    const catalog = { skills: [skill], affixes: [], aspects: [], uniques: [] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.aggregate).toBeGreaterThan(0);
     expect(result.perSkill).toHaveLength(1);
@@ -129,7 +130,7 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
         { skillId: "icebolt", rank: 5 },
       ]
     );
-    const catalog = { skills: [skill1, skill2], affixes: [], aspects: [] };
+    const catalog = { skills: [skill1, skill2], affixes: [], aspects: [], uniques: [] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.perSkill).toHaveLength(2);
     // Aggregate = max(per-skill DPS) per D18
@@ -139,7 +140,7 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
 
   it("equipping a better weapon increases the aggregate DPS (reactivity)", () => {
     const skill = makeSkill("fireball");
-    const catalog = { skills: [skill], affixes: [], aspects: [] };
+    const catalog = { skills: [skill], affixes: [], aspects: [], uniques: [] };
 
     const weakChar = makeCharacter(
       { weapon: makeWeapon(400) },
@@ -160,7 +161,7 @@ describe("BuildSummaryView data layer — computeBuildDps with baseConfig", () =
 
   it("skill rank increases DPS proportionally to rankScale", () => {
     const skill = makeSkill("fireball");
-    const catalog = { skills: [skill], affixes: [], aspects: [] };
+    const catalog = { skills: [skill], affixes: [], aspects: [], uniques: [] };
 
     const rank1Char = makeCharacter(
       { weapon: makeWeapon(800) },
@@ -187,7 +188,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       { weapon: makeWeapon(800) },
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.perSkill).toHaveLength(1);
     const { bucketContributions } = result.perSkill[0];
@@ -203,7 +204,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       { weapon: makeWeapon(800) },
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.perSkill[0].bucketContributions.crit).toBeCloseTo(1.025, 4);
   });
@@ -213,7 +214,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       { weapon: makeWeapon(800) },
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.perSkill[0].bucketContributions.vulnerable).toBeCloseTo(1.18, 4);
   });
@@ -242,7 +243,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       runes: [],
       sockets: [],
     };
-    const catalog = { skills: [skill], affixes: [coreSkillAffix], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [coreSkillAffix], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter(
       { weapon: makeWeapon(800), chest },
       [{ skillId: "fireball", rank: 3 }]
@@ -257,7 +258,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       { weapon: makeWeapon(800) },
       [{ skillId: "fireball", rank: 3 }]
     );
-    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const result = computeBuildDps(testBuild, character, catalog, baseConfig);
     expect(result.perSkill[0].conditionalsApplied).toHaveLength(0);
   });
@@ -286,7 +287,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       runes: [],
       sockets: [],
     };
-    const catalog = { skills: [skill], affixes: [eliteAffix], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [eliteAffix], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter(
       { weapon: makeWeapon(800), chest },
       [{ skillId: "fireball", rank: 3 }]
@@ -323,7 +324,7 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       runes: [],
       sockets: [],
     };
-    const catalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[] };
+    const catalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const character = makeCharacter(
       { weapon: makeWeapon(800), chest },
       [{ skillId: "fireball", rank: 3 }]
@@ -360,8 +361,8 @@ describe("BuildSummaryView data layer — bucket contributions and conditionals 
       runes: [],
       sockets: [],
     };
-    const bareCatalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[] };
-    const ccCatalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[] };
+    const bareCatalog = { skills: [skill], affixes: [] as AffixEntry[], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
+    const ccCatalog = { skills: [skill], affixes: [ccAffix], aspects: [] as AspectEntry[], uniques: [] as UniqueEntry[] };
     const bareChar = makeCharacter({ weapon: makeWeapon(800) }, [{ skillId: "fireball", rank: 3 }]);
     const ccChar = makeCharacter({ weapon: makeWeapon(800), chest }, [{ skillId: "fireball", rank: 3 }]);
     const bareResult = computeBuildDps(testBuild, bareChar, bareCatalog, baseConfig);
@@ -387,5 +388,43 @@ describe("formatDps utility (D36)", () => {
 
   it("formats zero as '0'", () => {
     expect(formatDps(0)).toBe("0");
+  });
+});
+
+// ─── Unique intrinsics integration (Acceptance Signal 1) ─────────────────────
+
+describe("BuildSummaryView data layer — unique intrinsic DPS integration", () => {
+  it("equipping Harlequin Crest shows a higher DPS chip than bare-helm baseline (intrinsic +20% skill damage)", () => {
+    const skill = makeSkill("fireball");
+    const catalog = { skills: [skill], affixes: [] as AffixEntry[], aspects, uniques };
+
+    const bareChar = makeCharacter(
+      { weapon: makeWeapon(800) },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+    const harlequinHelm: Item = {
+      slot: "helm",
+      name: "Harlequin Crest",
+      rarity: "unique",
+      itemPower: 925,
+      isAncestral: false,
+      implicits: [],
+      explicits: [],
+      tempered: [],
+      masterworkRank: 0,
+      runes: [],
+      sockets: [],
+    };
+    const harlequinChar = makeCharacter(
+      { weapon: makeWeapon(800), helm: harlequinHelm },
+      [{ skillId: "fireball", rank: 3 }]
+    );
+
+    const bareResult = computeBuildDps(testBuild, bareChar, catalog, baseConfig);
+    const harlResult = computeBuildDps(testBuild, harlequinChar, catalog, baseConfig);
+
+    // Intrinsic +20% skill damage elevates additive mult from 1.0 to 1.20 → ratio ≈ 1.20
+    expect(harlResult.aggregate).toBeGreaterThan(bareResult.aggregate);
+    expect(harlResult.aggregate / bareResult.aggregate).toBeCloseTo(1.20, 2);
   });
 });

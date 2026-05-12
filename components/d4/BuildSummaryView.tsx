@@ -9,7 +9,7 @@ import { StatBlock } from "./StatBlock";
 import { SkillDpsSection, formatDps } from "./SkillDpsSection";
 import { computeBuildDps } from "@/lib/damage";
 import { baseConfig } from "@/lib/damage/client-config";
-import { getSkillsForClass, affixes, aspects } from "@/lib/catalog";
+import { getSkillsForClass, affixes, aspects, uniques } from "@/lib/catalog";
 
 interface BuildSummaryViewProps {
   character: Character;
@@ -50,6 +50,7 @@ export function BuildSummaryView({
       skills: getSkillsForClass(character.class),
       affixes,
       aspects,
+      uniques,
     };
     try {
       return { result: computeBuildDps(build, character, catalog, config), error: null };

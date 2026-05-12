@@ -30,8 +30,13 @@ import {
   getSlotsForClass,
   uniques,
   getAffixValueRangeAtItemPower,
+  normalizeLabel,
+  findUniqueByName,
 } from "@/lib/catalog";
 import type { AffixEntry, AspectEntry, UniqueEntry } from "@/lib/catalog";
+
+// Re-export normalizeLabel so existing callers of this module continue to work.
+export { normalizeLabel };
 import itemTypeMappings from "./item-types.json";
 import synonymsData from "./synonyms.json";
 import type {
@@ -136,20 +141,6 @@ export function jaroWinkler(s1: string, s2: string, p = 0.1): number {
     else break;
   }
   return jaroScore + prefixLen * p * (1 - jaroScore);
-}
-
-// ─── Normalization ─────────────────────────────────────────────────────────
-
-/**
- * Normalize a string for comparison: lowercase, strip non-alphanumerics, collapse whitespace.
- * Example: "Maximum Life %" → "maximum life"
- */
-export function normalizeLabel(label: string): string {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 // ─── Synonym expansion ─────────────────────────────────────────────────────
@@ -398,22 +389,20 @@ export function resolveSlot(itemType: string, className: string): SlotMatchResul
 /**
  * Attempts to find a UniqueEntry matching the extracted item's name.
  * Returns the matched entry or null.
+ *
+ * Delegates to lib/catalog's findUniqueByName for the two exact-match tiers
+ * (normalized id match, normalized label match), then falls back to triage-private
+ * Jaro-Winkler fuzzy matching to tolerate LLM/OCR extraction noise (D11).
  */
 function findUniqueEntry(name: string): UniqueEntry | null {
+  // Tiers 1 & 2: exact matches via catalog helper
+  const exactMatch = findUniqueByName(name);
+  if (exactMatch) return exactMatch;
+
+  // Tier 3 (triage-private): fuzzy Jaro-Winkler ≥ NEAR_PERFECT_THRESHOLD
   const normalizedName = normalizeLabel(name);
   if (!normalizedName) return null;
 
-  // Try exact normalized id match first (catalog ids use underscores, not spaces)
-  const byId = uniques.find(
-    (u) => normalizeLabel(u.id.replace(/_/g, " ")) === normalizedName
-  );
-  if (byId) return byId;
-
-  // Try normalized label match
-  const byLabel = uniques.find((u) => normalizeLabel(u.label) === normalizedName);
-  if (byLabel) return byLabel;
-
-  // Fuzzy label match with high threshold
   const scored = uniques
     .map((u) => ({ entry: u, score: jaroWinkler(normalizedName, normalizeLabel(u.label)) }))
     .filter((s) => s.score >= NEAR_PERFECT_THRESHOLD)
